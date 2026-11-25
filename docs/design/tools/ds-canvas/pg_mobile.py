@@ -148,9 +148,9 @@ def home_bottom():
     return phone(inner, 0)
 
 def browse():
-    grid = "".join(card(*c) for c in [("a-loop", "루프 디버거", "픽셀상점", "ㅍ", "jjok", "퍼즐 5분"), ("a-tess", "테셀레이트", "노을공방", "ㄴ", "haneul", "퍼즐 10분"), ("a-paper", "종이 배", "청록상회", "ㅊ", "cheongnok", "탐험 20분"), ("a-tilt", "틸트 이론", "기울기연구소", "ㄱ", "hwang", "퍼즐 8분")])
+    grid = "".join(card(*c) for c in [("a-loop", "루프 디버거", "픽셀상점", "ㅍ", "jjok", "퍼즐 5분"), ("a-grid", "그리드 러너", "보라네", "ㅂ", "bora", "액션 3분", False), ("a-tess", "테셀레이트", "노을공방", "ㄴ", "haneul", "퍼즐 10분"), ("a-null", "널 포인터", "레몬게임즈", "ㄹ", "olive", "퍼즐 15분", False)])
     inner = f'''<div class="mtop"><span style="font-size:19px;font-weight:800">게임</span><span class="sp">{mg.THEME_BTN}<button class="icon-btn" aria-label="검색">{ic("search","ic ic20")}</button></span></div>
-<div class="devtoggle">{ic("phone","ic ic16")}<span><b>이 휴대폰에서 되는 게임만</b><span class="m" style="display:block">끄면 PC 전용 게임도 보여요 · 링크를 PC 로 보낼 수 있어요</span></span><span class="switch on"></span></div>
+<div class="devtoggle">{ic("phone","ic ic16")}<span><b>이 휴대폰에서 되는 게임만 보기</b><span class="m" style="display:block">지금은 전부 보여요 · ‘PC 에서’ 게임은 링크를 PC 로 보낼 수 있어요</span></span><span class="switch"></span></div>
 <div class="msec" style="margin-top:4px"><div class="mchips2"><button class="chip" aria-pressed="true">필터 2</button><button class="chip">퍼즐</button><button class="chip">15분 이하</button><button class="chip">추천순</button></div><div class="m2">{grid}</div></div>'''
     sheet = f'''<div class="dimmer"></div><div class="sheet"><div class="grab"></div><h3>필터</h3>
 <div class="grp"><b>장르</b><div class="chips"><button class="chip" aria-pressed="true">퍼즐</button><button class="chip">액션</button><button class="chip">탐험</button><button class="chip">전략</button></div></div>
@@ -201,7 +201,7 @@ def page(title, cols, memo, height):
 def page_home():
     cols = [("홈 · 위", "배너(4:3, 아래 가림막 위 글자 — 아트를 가리지 않음) → 이어하기(진행 + 버튼) → 이번 주 PICK 가로 넘김", home_top(), False),
             ("홈 · 아래", "랭킹은 옅은 쪽빛 상자 안 4줄 · 시간 칩 + 2열 카드(PC 전용은 ‘PC 에서’ 표시) · 게스트 로그인 띠", home_bottom(), False),
-            ("게임 탐색 + 필터 시트", "기본 ‘이 휴대폰에서 되는 게임만’ 켜짐. 필터는 아래에서 올라오는 시트", browse(), False)]
+            ("게임 탐색 + 필터 시트", "PC 전용 게임도 기본으로 보이고 ‘PC 에서’ 표시만(PM2). ‘이 휴대폰에서 되는 게임만 보기’ 는 켤 수 있음. 필터는 아래에서 올라오는 시트", browse(), False)]
     memo = "PlayGround 모바일 · 홈과 탐색. 탭바 = 홈 · 게임 · 라이브러리 · 알림 · 나(MakersGround 와 같은 자리 규칙). 상단: 로고 · 테마 · 검색 · 알림. v10 의 순서(배너 → 이어하기 → PICK → 랭킹 → 시간 → 로그인 띠 → 전체)를 한 열로."
     return page("PlayGround 모바일 · 홈", cols, memo, 1000)
 
@@ -211,7 +211,7 @@ def page_game():
             ("라이브러리", "이어하기 · 저장함 · 설치형 · 기록. 휴대폰에서 못 하는 건 ‘PC 로’", library(), False),
             ("세로로 들고 있을 때", "가로 게임은 돌려 달라고 안내(세로로 그냥 하기 선택 가능)", rotate_prompt(), False),
             ("플레이 · 가로 터치", "플랫폼 UI 는 반투명 버튼 두 개(일시정지 · 나가기)뿐. 처음 4초 조작 안내. 가상 패드는 게임이 SDK 로 요청할 때만", play_land(), True)]
-    memo = "PlayGround 모바일 · 게임. 핵심은 ‘이 휴대폰에서 되나’를 숨기지 않는 것 — 탐색 기본 필터, 카드의 ‘PC 에서’ 표시, 상세의 비취/쪽빛 칩, 불가 시 ‘PC 로 링크 보내기’. 플레이는 전체 화면 · 가로 우선."
+    memo = "PlayGround 모바일 · 게임. 핵심은 ‘이 휴대폰에서 되나’를 숨기지 않는 것 — PC 전용도 보이되 카드에 ‘PC 에서’ 표시(PM2), 원하면 ‘되는 게임만 보기’, 상세의 비취/쪽빛 칩, 불가 시 ‘PC 로 링크 보내기’. 플레이는 전체 화면 · 가로 우선."
     return page("PlayGround 모바일 · 게임", cols, memo, 1900)
 
 if __name__ == "__main__":
