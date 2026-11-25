@@ -34,9 +34,11 @@
 
 ## 다음 할 일
 
-1. **사용자 검토** — `feedback-queue.md` 순서대로 결정·피드백 → 시안 확정본을 고르고 문서·캔버스에 반영.
-2. 확정된 시안에서 나온 새 컴포넌트(StatusChip · StageSteps · TodoRow · MakerGameRow · LogCard · QuestionRow · MobileTabBar · LibraryRow 등)를 `docs/design/system/03-components.md` 에 정식 추가.
-3. 남은 페이지 시안: 카탈로그(게임 적을 때 레이아웃) · 알림 · 설정 · 컬렉션/지난 PICK · 개발일지 글/쓰기 · 잼 · 모바일 PlayGround(별도) → 이후 개발 환경 마무리(컨벤션·브랜치 전략) · PRD 확정 · 이슈/마일스톤.
+진행 방식 결정(2026-11-26): **핵심 흐름 확정 → 개발 환경 + 디자인 시스템 코드화 → 디자인이 한 묶음 앞서 가며 구현.** 순서표: [`docs/design/12-confirm-order.md`](design/12-confirm-order.md)
+
+1. **사용자: 1묶음 화면 확정** — 디자인 시스템 3페이지 · PlayGround v10(재확인) · 게임 상세 A · 플레이 화면/종료 · 로그인·얼굴 만들기 · 전체 게임 · 내 라이브러리. Claude 는 피드백을 받는 대로 고쳐 다시 올림
+2. 1묶음 확정 후: 개발 환경 마무리(컨벤션 · 브랜치 · 이슈/마일스톤) → `tokens.css` · 공통 컴포넌트 SvelteKit 구현 → 1묶음 페이지 구현
+3. 그동안 2묶음(PlayGround 완성) 확정
 
 ## 열린 질문 (A등급 — `feedback-queue.md` §1)
 
