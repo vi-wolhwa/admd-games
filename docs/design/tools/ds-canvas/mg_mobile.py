@@ -150,6 +150,8 @@ def page_m():
     return html.replace("</style>", M_CSS + "\n</style>", 1)
 
 if __name__ == "__main__":
+    # M3 결정 이후 모바일 페이지는 mg_c.py 가 만든다. 이 파일은 헬퍼·CSS 제공용
+    raise SystemExit("MakersGround 모바일은 mg_c.py 로 생성하세요")
     html = page_m()
     open(os.path.join(OUT, "MakersGround 모바일.dc.html"), "w", encoding="utf-8").write(html)
     print("MakersGround 모바일.dc.html", len(html))
