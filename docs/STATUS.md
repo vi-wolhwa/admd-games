@@ -1,30 +1,38 @@
 # STATUS
 
 - 마지막 업데이트: 2026-11-26 (Asia/Seoul)
-- 현재 Phase: **4. 저장소·개발 환경** 완료 → 다음은 **1. 기획(PRD)**
+- 현재 Phase: **2. 디자인** (PRD 는 디자인과 병행 — 킥오프·시나리오 완료, 확정은 디자인 후)
+- 작업 브랜치: `design/redesign`
+- 디자인 캔버스: https://claude.ai/code/artifact/57ed3789-695b-4f2c-8ae6-b210fafc167d (페이지 소스는 캔버스가 원본, 편집 전 항상 다시 읽기)
 
 ## 완료
 
-- 기술 스택 결정과 ADR 0001~0005 (Cloudflare Workers · SvelteKit 3 · D1+Drizzle(포트/어댑터) · better-auth · 저장소 규칙)
-- 모노레포 스캐폴드(`apps/web`), 로컬 D1 에뮬레이션, `/api/health` 로 포트→어댑터→D1 연결 확인
-- `npm run verify`(lint·check·test·build) 통과, GitHub Actions CI, PR·이슈 템플릿
-- 연속성 문서: CLAUDE.md, STATUS.md, docs/decisions/
+- 개발 환경 셋업(Phase 4 선행): SvelteKit 3 + Cloudflare Workers/D1, ADR 0001~0005, CI
+- 킥오프 인터뷰 → `docs/product/kickoff.md`, 시나리오 23개·요구사항 → `docs/product/scenarios.md`, 페이지 44개 → `docs/design/pages.md`
+- 디자인 리서치 3종 → `docs/design/research/`
+- 콘셉트: 기존 Ground 콘셉트 계승·발전 확정 → `docs/design/02-concept-ground.md`
+  - PC 홈 기준 레이아웃 확정(v6 → v7 → **v8**): 사이드바 없는 한 열, 배너 캐러셀, 레일, 탭 랭킹, 촘촘한 그리드
+  - 브랜드: 고양이 DmD(귀 + 이마 윤곽, D 회전 표정), 자모 얼굴 아바타, 쪽빛(Play)/인주(Make) 각인
+- 게임 카드 컴포넌트 7종 → `docs/design/03-game-cards.md`, 캔버스 `게임 카드 컴포넌트`, 홈 v8 에 적용
 
 ## 진행 중
 
-- 없음
+- 없음 (사용자 피드백 대기: 홈 v8)
 
 ## 다음 할 일
 
-1. **Phase 0~1 킥오프 인터뷰 → `docs/PRD.md`**: 문제 정의, 타깃, MVP 기능(PlayGround), 성공 기준, 하지 않을 것
-2. PRD 기반 GitHub Milestone/Issue 등록
-3. **Phase 2 디자인**: 사용자 플로우 → IA → 시각 방향 시안 2~3개 → 디자인 토큰·컴포넌트 목록(`docs/design/`)
+1. **디자인 시스템 정의** — 토큰(색·글자·간격·반경·그림자·모션), 고양이 표정 규칙, 헤더·배너·레일·랭킹·카드·배지·칩·말풍선 컴포넌트, 그라운드 색 각인 규칙 → `docs/design/system/`
+2. **MakersGround 홈** — PC + 모바일(모바일 1급), 인주색 정체성
+3. **나머지 페이지** — 게임 상세 → 플레이 화면 → 다운로드·보안 검사 → 라이브러리 → … (`pages.md` 순서)
 
-## 열린 질문
+## 열린 질문 (A등급)
 
-- MVP 에 넣을 첫 게임(직접 만들 게임 1~2개)은 무엇인가?
-- 게임 실행 방식(별도 출처 iframe) 세부 — 게임 SDK 마일스톤에서 ADR
+- 호버 미리보기 영상 도입 여부(추천: MVP 는 스크린샷 순환, 영상은 저장 비용 검토 후)
+- "친구가 함" 공개 기본값(추천: 기본 비공개)
+- 다크 모드 기본값
+- 무료 바이러스 검사 방식, 설치 파일 저장소(R2 결제수단 요구 여부)
+- 자모 얼굴 다양성 개선(후속)
 
 ## 블로커
 
-- 없음 (배포 단계에서 Cloudflare 무료 계정·API 토큰이 필요 — 사용자 작업)
+- 없음
