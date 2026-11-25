@@ -1,0 +1,336 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>PlayGround v4 홈</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Gasoek+One&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'Pretendard';src:url('fonts/PretendardVariable.woff2') format('woff2');font-weight:45 920;font-display:swap}
+:root{
+--canvas:#F3F4F6;--surface:#FFFFFF;--sunken:#EBEDF0;--line:#DDE0E3;
+--ink-1:#151A20;--ink-2:#4F5359;--ink-3:#65696F;--ink-4:#9B9FA3;
+--accent:#046DCE;--accent-strong:#0159AA;--accent-tint:#ECF4FE;
+--make:#D22C02;--make-strong:#AD2201;
+--ok:#047F3F;
+--lift:0 0 16px 0 rgb(21 26 32 / .16);
+--ease:cubic-bezier(.2,.7,.2,1);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--canvas);color:var(--ink-1);font-family:'Pretendard',system-ui,sans-serif;font-size:15px;line-height:1.6;word-break:keep-all;overflow-wrap:anywhere;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{max-width:1280px;margin:0 auto;padding:0 32px}
+.num{font-variant-numeric:tabular-nums}
+.disp{font-family:'Gasoek One','Pretendard',sans-serif;font-weight:400;letter-spacing:-.01em}
+.meta{font-size:13px;line-height:1.5;color:var(--ink-3)}
+/* brand face */
+.face{display:inline-flex;align-items:center;gap:1px;font-weight:800;line-height:1;letter-spacing:-.02em}
+.face .e{display:inline-block;transform:rotate(90deg);transition:transform 240ms var(--ease)}
+.face .m{font-size:.74em}
+.face .m2{display:none}
+body:has([data-play]:hover) .logo .e{transform:rotate(-90deg)}
+body:has([data-play]:hover) .logo .m1{display:none}
+body:has([data-play]:hover) .logo .m2{display:inline}
+/* jamo face avatar */
+.jf{display:inline-flex;align-items:center;justify-content:center;flex:none;border-radius:6px;color:#FFFFFF;font-weight:800;letter-spacing:-.06em;line-height:1;white-space:nowrap}
+.jf i{font-style:normal;font-size:.78em;margin:0 .02em;position:relative;top:.06em}
+/* header */
+.hdr{position:sticky;top:0;z-index:10;background:rgb(255 255 255 / .96);border-bottom:1px solid var(--line)}
+.hdr-in{height:64px;display:flex;align-items:center;gap:24px}
+.ground{display:flex;padding:3px;background:var(--sunken);border-radius:999px;font-size:13px;font-weight:700}
+.ground a{padding:5px 12px;border-radius:999px;color:var(--ink-2)}
+.ground a[aria-current]{background:var(--accent);color:#FFFFFF}
+.nav{display:flex;gap:4px;font-size:15px;font-weight:600}
+.nav a{padding:8px 12px;border-radius:8px;color:var(--ink-2)}
+.nav a[aria-current]{color:var(--ink-1)}
+.nav a:hover{background:var(--sunken)}
+.search{flex:1;max-width:380px;margin-left:auto;display:flex;align-items:center;gap:10px;height:40px;padding:0 14px;background:var(--sunken);border-radius:999px;color:var(--ink-3);font-size:14px}
+.search input{flex:1;min-width:0;border:0;background:transparent;outline:0;font:inherit;color:var(--ink-1)}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 22px;border:0;border-radius:10px;font-size:16px;font-weight:700;cursor:pointer;transition:background 160ms var(--ease),transform 120ms var(--ease)}
+.btn:active{transform:translateY(1px)}
+.btn-white{background:#FFFFFF;color:var(--ink-1)}
+.btn-white:hover{background:#E9EDF2}
+.btn-ghost-w{background:transparent;color:#FFFFFF;box-shadow:inset 0 0 0 1.5px rgb(255 255 255 / .4)}
+.btn-ghost-w:hover{box-shadow:inset 0 0 0 1.5px #FFFFFF}
+.btn-quiet{background:transparent;color:var(--ink-1);height:40px;font-size:14px;border-radius:8px;padding:0 14px}
+.btn-quiet:hover{background:var(--sunken)}
+.icon-btn{display:grid;place-items:center;width:40px;height:40px;border:0;border-radius:999px;background:transparent;cursor:pointer}
+.icon-btn:hover{background:var(--sunken)}
+/* hero field */
+.field{position:relative;margin-top:32px;border-radius:16px;color:#FFFFFF;padding:48px 48px 0;display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:40px}
+.field h1{margin:14px 0 0;font-size:56px;line-height:1.14;text-wrap:balance}
+.field p{margin:18px 0 0;font-size:17px;line-height:1.7;color:rgb(255 255 255 / .82);max-width:460px}
+.facts{display:flex;flex-wrap:wrap;gap:8px;margin-top:22px}
+.facts span{height:30px;padding:0 12px;display:inline-flex;align-items:center;border-radius:999px;background:rgb(255 255 255 / .12);font-size:13px;font-weight:600}
+.field .art{align-self:end;aspect-ratio:16/9;border-radius:10px;margin-bottom:-40px;box-shadow:0 24px 48px -24px rgb(0 0 0 / .5)}
+.slides{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;margin-top:64px}
+.slides a{display:flex;align-items:center;gap:12px;padding:12px;border-radius:10px;background:var(--surface);transition:box-shadow 200ms var(--ease)}
+.slides a:hover{box-shadow:var(--lift)}
+.slides a[aria-current]{box-shadow:inset 0 0 0 2px var(--ink-1)}
+.slides .sw{width:44px;height:44px;border-radius:8px;flex:none}
+/* sections */
+.sec{padding-top:88px}
+.sec-head{display:flex;align-items:flex-end;gap:16px;flex-wrap:wrap;margin-bottom:24px}
+.sec-head h2{margin:0;font-size:32px;line-height:1.25;font-weight:800;letter-spacing:-.03em}
+.more{margin-left:auto;font-size:14px;font-weight:700;color:var(--accent-strong)}
+/* picks */
+.picks{display:grid;grid-template-columns:minmax(0,1.3fr) repeat(2,minmax(0,1fr));gap:16px}
+.pick{position:relative;display:flex;flex-direction:column;border-radius:12px;overflow:hidden;background:var(--surface);transition:box-shadow 200ms var(--ease),transform 200ms var(--ease)}
+.pick:hover{box-shadow:var(--lift);transform:translateY(-2px)}
+.pick.lead{grid-row:span 2;color:#FFFFFF}
+.pick .word{font-size:34px;line-height:1;padding:20px 20px 0}
+.pick.lead .word{font-size:72px;padding:28px 28px 0}
+.pick .body{padding:12px 20px 20px;display:flex;flex-direction:column;gap:6px;flex:1}
+.pick.lead .body{padding:16px 28px 28px}
+.pick h3{margin:0;font-size:18px;line-height:1.4;font-weight:800}
+.pick.lead h3{font-size:24px}
+.pick .why{margin:0;font-size:14px;line-height:1.6;color:var(--ink-2)}
+.pick.lead .why{color:rgb(255 255 255 / .82);font-size:16px}
+.ev{margin-top:auto;padding-top:12px;display:flex;flex-wrap:wrap;gap:6px 18px;font-size:13px;color:var(--ink-3)}
+.pick.lead .ev{color:rgb(255 255 255 / .7)}
+.ev b{font-size:16px;color:var(--ink-1);margin-right:4px}
+.pick.lead .ev b{color:#FFFFFF;font-size:20px}
+.pick .art{aspect-ratio:16/8;margin:0 20px;border-radius:8px}
+.pick.lead .art{margin:20px 28px 0;aspect-ratio:16/9}
+/* time ruler band */
+.band{margin-top:96px;background:var(--ink-1);color:#FFFFFF;padding:72px 0 64px}
+.ruler{position:relative;height:330px;margin-top:40px}
+.axis{position:absolute;left:0;right:0;bottom:44px;height:2px;background:rgb(255 255 255 / .5)}
+.tick{position:absolute;bottom:0;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px}
+.tick::before{content:"";width:2px;height:14px;background:rgb(255 255 255 / .5);margin-bottom:-6px}
+.tick span{font-size:18px}
+.pin{position:absolute;bottom:46px;display:flex;flex-direction:column;align-items:flex-start}
+.pin .stem{position:absolute;left:0;bottom:0;width:1.5px;background:rgb(255 255 255 / .35)}
+.pin a{position:absolute;z-index:1;left:-6px;display:flex;align-items:center;gap:10px;padding:6px 12px 6px 6px;border-radius:10px;background:#262B32;white-space:nowrap;transition:background 160ms var(--ease)}
+.pin a:hover{background:#343A43;z-index:2}
+.pin.r a{left:auto;right:-6px}
+.pin .th{width:36px;height:36px;border-radius:6px;flex:none}
+.pin b{display:block;font-size:14px;line-height:1.3}
+.pin small{font-size:12px;color:rgb(255 255 255 / .7)}
+.pin.mine a{background:var(--accent)}
+/* makers */
+.logs{display:grid;grid-template-columns:minmax(0,1.4fr) minmax(0,1fr);gap:16px}
+.quote{display:flex;flex-direction:column;gap:24px;padding:36px;border-radius:12px;background:var(--surface);transition:box-shadow 200ms var(--ease)}
+.quote:hover,.log:hover{box-shadow:var(--lift)}
+.quote blockquote{margin:0;font-size:28px;line-height:1.5;font-weight:700;letter-spacing:-.02em;text-wrap:pretty}
+.log{display:flex;gap:16px;padding:20px;border-radius:12px;background:var(--surface);transition:box-shadow 200ms var(--ease)}
+.log h3{margin:0 0 6px;font-size:16px;line-height:1.5;font-weight:700}
+/* game cards */
+.tool{display:flex;flex-wrap:wrap;gap:8px;align-items:center;margin-bottom:24px}
+.chip{display:inline-flex;align-items:center;height:36px;padding:0 14px;border:0;border-radius:999px;background:var(--surface);font-size:14px;font-weight:600;color:var(--ink-2);cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink-1);color:#FFFFFF}
+.grid{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:28px 16px}
+.card{display:flex;flex-direction:column;gap:10px}
+.card .art{border-radius:8px;aspect-ratio:16/9;transition:box-shadow 200ms var(--ease)}
+.card .zoom{position:absolute;inset:0;transition:transform 320ms var(--ease)}
+.card:hover .art{box-shadow:var(--lift)}
+.card:hover .zoom{transform:scale(1.04)}
+.card h3{margin:0;font-size:16px;line-height:1.4;font-weight:700}
+.card:hover h3{color:var(--accent-strong)}
+.by{display:flex;align-items:center;gap:8px;font-size:14px;color:var(--ink-2)}
+.flag{position:absolute;left:8px;top:8px;z-index:2;display:inline-flex;align-items:center;height:24px;padding:0 8px;border-radius:6px;font-size:12px;font-weight:700;background:rgb(21 26 32 / .82);color:#FFFFFF}
+.prog{position:absolute;left:0;right:0;bottom:0;height:4px;z-index:2;background:rgb(21 26 32 / .35)}
+.prog i{display:block;height:100%;background:var(--accent)}
+.cont{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px}
+.cont a{display:grid;grid-template-columns:104px 1fr;gap:14px;align-items:center;padding:12px;background:var(--surface);border-radius:12px;transition:box-shadow 200ms var(--ease)}
+.cont a:hover{box-shadow:var(--lift)}
+.bar{height:4px;background:var(--sunken);border-radius:999px;overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent)}
+footer{margin-top:120px;padding:56px 0 64px;background:var(--surface)}
+/* art placeholders */
+.art{position:relative;overflow:hidden;background:var(--sunken)}
+.a-loop{background:radial-gradient(circle at 70% 50%,transparent 0 17%,#7CE0B8 17.5% 19%,transparent 19.5%),repeating-linear-gradient(90deg,#FFFFFF10 0 1px,transparent 1px 28px),repeating-linear-gradient(0deg,#FFFFFF10 0 1px,transparent 1px 28px),#173250}
+.a-ash{background:radial-gradient(circle at 20% 30%,#FF8A3D 0 1%,transparent 1.5%),radial-gradient(circle at 45% 18%,#FFB36B 0 .8%,transparent 1.3%),radial-gradient(circle at 75% 26%,#FF8A3D 0 1.2%,transparent 1.7%),linear-gradient(0deg,#2A2523 0 34%,transparent 34%),linear-gradient(90deg,transparent 0 10%,#3B3431 10% 18%,transparent 18% 30%,#3B3431 30% 36%,transparent 36% 52%,#3B3431 52% 64%,transparent 64% 80%,#3B3431 80% 86%,transparent 86%) 0 100%/100% 62% no-repeat,linear-gradient(#6B4A3A,#C46A3A)}
+.a-tess{background:conic-gradient(from 210deg at 60% 60%,#E9F2FF 0 25%,#9CC3F5 25% 50%,#3C78D8 50% 75%,#1A3F8A 75%)}
+.a-refac{background:linear-gradient(#F2C14E 0 0) 20% 78%/24% 14% no-repeat,linear-gradient(#E4572E 0 0) 46% 64%/28% 14% no-repeat,linear-gradient(#17BEBB 0 0) 30% 50%/22% 14% no-repeat,linear-gradient(#FFFFFF 0 0) 58% 36%/18% 14% no-repeat,#1E2A33}
+.a-tilt{background:radial-gradient(circle at 58% 40%,#FFFFFF 0 5%,transparent 5.5%),linear-gradient(-12deg,transparent 0 52%,#C9B79C 52% 58%,transparent 58%),#EDE6DA}
+.a-bazaar{background:repeating-linear-gradient(90deg,#D94F30 0 10%,#F6EAD4 10% 20%) 0 0/100% 30% no-repeat,linear-gradient(0deg,#4A3B2C 0 40%,transparent 40%),#F6EAD4}
+.a-paper{background:linear-gradient(150deg,transparent 46%,#FFFFFF 46% 50%,transparent 50%) 30% 40%/34% 34% no-repeat,linear-gradient(30deg,transparent 46%,#FFE07A 46% 50%,transparent 50%) 70% 60%/30% 30% no-repeat,#167A78}
+.a-grid{background:linear-gradient(#FFFFFF 0 0) 35% 35%/14% 24% no-repeat,linear-gradient(#FFCF33 0 0) 52% 35%/14% 24% no-repeat,linear-gradient(#FFFFFF 0 0) 52% 65%/14% 24% no-repeat,repeating-linear-gradient(90deg,#FFFFFF14 0 2px,transparent 2px 14.28%),#2D3142}
+.a-demon{background:radial-gradient(circle at 62% 44%,#E8434F 0 6%,transparent 6.5%),radial-gradient(ellipse 40% 20% at 50% 100%,#2E5E3A 0 100%,transparent 100%),linear-gradient(#B9D7A8,#7FAF6C)}
+.a-halcyon{background:radial-gradient(circle at 30% 70%,#FFFFFF55 0 2%,transparent 2.5%),radial-gradient(circle at 38% 58%,#FFFFFF44 0 1.4%,transparent 1.9%),linear-gradient(#0E5A8A,#06243D)}
+.a-null{background:linear-gradient(45deg,transparent 46%,#7CFF6B 46% 54%,transparent 54%) 50% 50%/18% 18% no-repeat,repeating-linear-gradient(0deg,#FFFFFF08 0 2px,transparent 2px 6px),#0B0D10}
+.a-solvent{background:radial-gradient(ellipse 14% 20% at 50% 54%,#5FD0E8 0 100%,transparent 100%),linear-gradient(0deg,#5FD0E8 0 18%,transparent 18%),#E7F4F6}
+@media (max-width:1100px){.picks{grid-template-columns:repeat(2,minmax(0,1fr))}.pick.lead{grid-column:span 2;grid-row:auto}.grid{grid-template-columns:repeat(3,minmax(0,1fr))}.field{grid-template-columns:1fr}.field .art{margin-bottom:-32px}}
+@media (max-width:820px){.nav{display:none}.field{padding:28px 24px 0}.field h1{font-size:36px}.slides,.cont,.logs{grid-template-columns:1fr}.grid{grid-template-columns:repeat(2,minmax(0,1fr))}.wrap{padding:0 20px}.ruler{height:auto;display:flex;flex-direction:column;gap:8px}.ruler .axis,.ruler .tick,.ruler .stem{display:none}.pin{position:static}.pin a{position:static}}
+@media (max-width:520px){.picks{grid-template-columns:1fr}.pick.lead{grid-column:auto}.search{display:none}.quote blockquote{font-size:22px}}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</helmet>
+
+<div>
+<header class="hdr">
+<div class="wrap hdr-in">
+<a href="#" class="face logo" style="font-size:24px" aria-label="aDmD Games 홈"><span>a</span><span class="e">D</span><span class="m m1">m</span><span class="m m2">w</span><span class="e">D</span></a>
+<nav class="ground" aria-label="그라운드 전환"><a href="#" aria-current="page">플레이</a><a href="#">메이커스</a></nav>
+<nav class="nav" aria-label="주요 메뉴"><a href="#" aria-current="page">홈</a><a href="#">전체 게임</a><a href="#">메이커</a><sc-if value="{{ signedIn }}" hint-placeholder-val="{{ false }}"><a href="#">라이브러리</a></sc-if></nav>
+<label class="search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="7" cy="7" r="5"></circle><path d="M11 11l3.2 3.2"></path></svg><input type="search" aria-label="게임, 메이커, 태그 검색" placeholder="게임, 메이커, 태그"></label>
+<sc-if value="{{ guest }}" hint-placeholder-val="{{ true }}"><button type="button" class="btn btn-quiet" onClick="{{ toggle }}">로그인</button></sc-if>
+<sc-if value="{{ signedIn }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:4px">
+<button type="button" class="icon-btn" aria-label="알림 2개"><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#151A20" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8a5 5 0 0 1 10 0v4l1.5 2.5h-13L5 12z"></path><path d="M8.5 17a1.6 1.6 0 0 0 3 0"></path></svg></button>
+<button type="button" class="icon-btn" aria-label="진수의 메뉴" onClick="{{ toggle }}"><span class="jf" style="width:34px;height:34px;font-size:13px;background:#151A20;border-radius:999px">ㅈ<i>ㅅ</i>ㅈ</span></button>
+</div>
+</sc-if>
+</div>
+</header>
+
+<main>
+<div class="wrap">
+<section class="field" style="background:#173250" aria-labelledby="hero-title">
+<div style="padding-bottom:56px">
+<div style="display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700"><span>에디터 추천</span><span style="opacity:.5">·</span><span class="num" style="opacity:.7">01 / 03</span></div>
+<h1 id="hero-title" class="disp">루프를 벗어나려면, 코드를 고쳐라.</h1>
+<p>모든 방이 하나의 함수인 프로그래밍 퍼즐. 손으로 설계한 스테이지 40개, 진행 상황은 브라우저에 저장됩니다.</p>
+<div class="facts"><span>브라우저에서 바로</span><span>한 판 15분</span><span>키보드 · 마우스</span></div>
+<div style="display:flex;align-items:center;gap:12px;margin-top:28px">
+<a href="#" class="btn btn-white" data-play style="min-width:140px">플레이</a>
+<a href="#" class="btn btn-ghost-w">자세히 보기</a>
+</div>
+<a href="#" style="display:flex;align-items:center;gap:12px;margin-top:32px">
+<span class="jf" style="width:44px;height:44px;font-size:16px;background:#7CE0B8;color:#173250">ㅍ<i>ㅅ</i>ㅍ</span>
+<span style="line-height:1.4"><b>픽셀상점</b><br><span style="font-size:13px;opacity:.75">세 명이 Unity로 · 오늘 v1.4 업데이트</span></span>
+</a>
+</div>
+<a href="#" class="art a-loop" aria-label="루프 컴파일러 자세히 보기"><span class="flag" style="left:12px;top:12px">아트 자리 1920×1080</span></a>
+</section>
+<nav class="slides" aria-label="에디터 추천 넘기기">
+<a href="#" aria-current="true"><span class="sw" style="background:#173250"></span><span style="min-width:0"><span class="meta num">01</span><b style="display:block;font-size:14px;line-height:1.4">루프를 벗어나려면, 코드를 고쳐라.</b></span></a>
+<a href="#"><span class="sw art a-ash"></span><span style="min-width:0"><span class="meta num">02 · 스태프 추천</span><b style="display:block;font-size:14px;line-height:1.4">재를 앞질러라. 단 90초.</b></span></a>
+<a href="#"><span class="sw art a-tess"></span><span style="min-width:0"><span class="meta num">03 · 이번 주 신작</span><b style="display:block;font-size:14px;line-height:1.4">4차원을 가로지르는 레이싱 라인.</b></span></a>
+</nav>
+
+<sc-if value="{{ signedIn }}" hint-placeholder-val="{{ false }}">
+<section class="sec" style="padding-top:56px" aria-labelledby="cont-title">
+<div class="sec-head"><h2 id="cont-title" style="font-size:22px">이어하기</h2><a href="#" class="more">라이브러리</a></div>
+<div class="cont">
+<a href="#"><span class="art a-grid" style="aspect-ratio:16/9;border-radius:6px"></span><span style="display:flex;flex-direction:column;gap:6px;min-width:0"><b style="font-size:15px">그리드락</b><span class="bar"><i style="width:88%"></i></span><span class="meta num">88% · 어제 · 도전과제 7/8</span></span></a>
+<a href="#"><span class="art a-loop" style="aspect-ratio:16/9;border-radius:6px"></span><span style="display:flex;flex-direction:column;gap:6px;min-width:0"><b style="font-size:15px">루프 컴파일러</b><span class="bar"><i style="width:62%"></i></span><span class="meta num">62% · 새 스테이지 8개</span></span></a>
+<a href="#"><span class="art a-solvent" style="aspect-ratio:16/9;border-radius:6px"></span><span style="display:flex;flex-direction:column;gap:6px;min-width:0"><b style="font-size:15px">솔벤트</b><span class="bar"><i style="width:45%"></i></span><span class="meta num">45% · 3일 전</span></span></a>
+</div>
+</section>
+</sc-if>
+
+<section class="sec" aria-labelledby="picks-title">
+<div class="sec-head">
+<div style="display:flex;align-items:center;gap:14px">
+<span class="jf" style="width:52px;height:52px;font-size:19px;background:var(--accent)">ㅇ<i>ㅅ</i>ㅇ</span>
+<div><h2 id="picks-title">이번 주 고른 게임</h2><div class="meta">월화가 골랐어요 · 11월 넷째 주 · "비 와서 짧고 굵은 걸로 모았어요"</div></div>
+</div>
+</div>
+<div class="picks">
+<a href="#" class="pick lead" style="background:#3A2A24"><span class="word disp">왕좌</span><span class="art a-ash"></span><span class="body"><h3>애쉬폴 러너</h3><span class="by" style="color:rgb(255 255 255 / .82)"><span class="jf" style="width:24px;height:24px;font-size:10px;background:#C46A3A">ㅈ<i>ㅅ</i>ㅈ</span>잿빛토끼</span><p class="why">무너지는 도시를 한 버튼으로 질주하는 6분짜리 스피드런. 이번 주 플레이 수와 완주율 모두 1위예요.</p><span class="ev num"><span><b>1위</b>주간 플레이</span><span><b>38%</b>완주율</span><span><b>6분</b>한 판</span></span></span></a>
+<a href="#" class="pick"><span class="word disp">신작</span><span class="art a-refac" style="margin-top:16px"></span><span class="body"><h3>리팩터 러시</h3><p class="why">쌓이는 코드 더미를 3분 안에 정리하는 아케이드.</p><span class="ev num"><span><b>3시간</b>전 공개</span><span><b>3분</b>한 판</span></span></span></a>
+<a href="#" class="pick"><span class="word disp">숨은 보석</span><span class="art a-tilt" style="margin-top:16px"></span><span class="body"><h3>틸트 이론</h3><p class="why">플레이 수는 40위 밖인데 평가는 전체 1위인 조용한 퍼즐.</p><span class="ev num"><span><b>97%</b>추천</span><span><b>Windows</b>다운로드</span></span></span></a>
+<a href="#" class="pick"><span class="word disp">순삭</span><span class="art a-bazaar" style="margin-top:16px"></span><span class="body"><h3>바이트 바자</h3><p class="why">부품을 사고팔아 주문을 맞추는 경영 퍼즐. 한 판만 하고 나가기 좋아요.</p><span class="ev num"><span><b>4분</b>평균 한 판</span></span></span></a>
+<a href="#" class="pick"><span class="word disp">같이</span><span class="art a-paper" style="margin-top:16px"></span><span class="body"><h3>페이퍼 벡터</h3><p class="why">링크만 보내면 바로 붙는 2~4인 대전.</p><span class="ev num"><span><b>18명</b>대기 중</span><span><b>12초</b>매칭</span></span></span></a>
+</div>
+</section>
+</div>
+
+<section class="band" aria-labelledby="time-title">
+<div class="wrap">
+<div style="display:flex;align-items:flex-end;gap:24px;flex-wrap:wrap">
+<h2 id="time-title" class="disp" style="margin:0;font-size:56px;line-height:1.1">몇 분 있어요?</h2>
+<p style="margin:0 0 8px;font-size:16px;color:rgb(255 255 255 / .75)">한 판 길이로 줄 세웠어요. 점심시간엔 왼쪽, 퇴근 후엔 오른쪽.</p>
+</div>
+<div class="ruler" role="list" aria-label="한 판 시간별 게임">
+<div class="axis" aria-hidden="true"></div>
+<div class="tick" style="left:0%" aria-hidden="true"><span class="disp">0</span></div>
+<div class="tick" style="left:14%" aria-hidden="true"><span class="disp">5분</span></div>
+<div class="tick" style="left:28%" aria-hidden="true"><span class="disp">10</span></div>
+<div class="tick" style="left:42%" aria-hidden="true"><span class="disp">15</span></div>
+<div class="tick" style="left:56%" aria-hidden="true"><span class="disp">20</span></div>
+<div class="tick" style="left:70%" aria-hidden="true"><span class="disp">30</span></div>
+<div class="tick" style="left:84%" aria-hidden="true"><span class="disp">45</span></div>
+<div class="tick" style="left:98%" aria-hidden="true"><span class="disp">저녁</span></div>
+
+<div class="pin" role="listitem" style="left:8.4%"><span class="stem" style="height:22px"></span><a href="#" style="bottom:22px"><span class="th art a-refac"></span><span><b>리팩터 러시</b><small>3분</small></span></a></div>
+<div class="pin" role="listitem" style="left:11.2%"><span class="stem" style="height:82px"></span><a href="#" style="bottom:82px"><span class="th art a-bazaar"></span><span><b>바이트 바자</b><small>4분</small></span></a></div>
+<div class="pin" role="listitem" style="left:14%"><span class="stem" style="height:142px"></span><a href="#" style="bottom:142px"><span class="th art a-paper"></span><span><b>페이퍼 벡터</b><small>5분 · 2~4인</small></span></a></div>
+<div class="pin" role="listitem" style="left:16.8%"><span class="stem" style="height:202px"></span><a href="#" style="bottom:202px"><span class="th art a-ash"></span><span><b>애쉬폴 러너</b><small>6분</small></span></a></div>
+<div class="pin" role="listitem" style="left:22.4%"><span class="stem" style="height:22px"></span><a href="#" style="bottom:22px"><span class="th art a-tess"></span><span><b>테서랙트 드리프트</b><small>8분</small></span></a></div>
+<div class="pin" role="listitem" style="left:28%"><span class="stem" style="height:82px"></span><a href="#" style="bottom:82px"><span class="th art a-grid"></span><span><b>그리드락</b><small>10분 · 이어하기 88%</small></span></a></div>
+<div class="pin mine" role="listitem" style="left:42%"><span class="stem" style="height:142px"></span><a href="#" style="bottom:142px"><span class="th art a-loop"></span><span><b>루프 컴파일러</b><small style="color:#FFFFFF">15분 · 이번 주 추천</small></span></a></div>
+<div class="pin" role="listitem" style="left:56%"><span class="stem" style="height:22px"></span><a href="#" style="bottom:22px"><span class="th art a-solvent"></span><span><b>솔벤트</b><small>20분</small></span></a></div>
+<div class="pin" role="listitem" style="left:70%"><span class="stem" style="height:82px"></span><a href="#" style="bottom:82px"><span class="th art a-halcyon"></span><span><b>할시온 뎁스</b><small>30분</small></span></a></div>
+<div class="pin" role="listitem" style="left:79.3%"><span class="stem" style="height:202px"></span><a href="#" style="bottom:202px"><span class="th art a-tilt"></span><span><b>틸트 이론</b><small>40분 · Windows</small></span></a></div>
+<div class="pin r" role="listitem" style="left:90%"><span class="stem" style="height:142px"></span><a href="#" style="bottom:142px"><span class="th art a-demon"></span><span><b>데몬 가든</b><small>저녁 하나</small></span></a></div>
+<div class="pin r" role="listitem" style="left:97%"><span class="stem" style="height:22px"></span><a href="#" style="bottom:22px"><span class="th art a-null"></span><span><b>널 포인터</b><small>저녁 하나 · Windows</small></span></a></div>
+</div>
+</div>
+</section>
+
+<div class="wrap">
+<section class="sec" aria-labelledby="makers-title">
+<div class="sec-head"><h2 id="makers-title">만드는 사람들</h2><span class="meta" style="margin-bottom:4px">게임 뒤의 사람과 과정 · 메이커스 일지에서</span><a href="#" class="more" style="color:var(--make-strong)">메이커스 일지 전체</a></div>
+<div class="logs">
+<a href="#" class="quote">
+<span class="jf" style="width:72px;height:72px;font-size:26px;background:#173250">ㅍ<i>ㅅ</i>ㅍ</span>
+<blockquote>"반복되는 방 구조를 손으로 그리다 지쳐서, 결국 에디터부터 만들었습니다. 덕분에 스테이지 8개가 하루 만에 나왔어요."</blockquote>
+<span style="display:flex;align-items:center;gap:10px;margin-top:auto"><b>픽셀상점</b><span class="meta">루프 컴파일러 v1.4 일지 · 오늘</span><span style="margin-left:auto;font-size:14px;font-weight:700;color:var(--make-strong)">일지 읽기</span></span>
+</a>
+<div style="display:flex;flex-direction:column;gap:16px">
+<a href="#" class="log"><span class="jf" style="width:44px;height:44px;font-size:16px;background:#2D3142">ㅅ<i>ㅅ</i>ㅅ</span><span><h3>주간 12위에서 4위까지, 첫 스테이지만 고쳤어요</h3><span class="meta">세모난고양이 · 그리드락 · 어제</span></span></a>
+<a href="#" class="log"><span class="jf" style="width:44px;height:44px;font-size:16px;background:#4E8A3E">ㅈ<i>ㅅ</i>ㅈ</span><span><h3>악마에게 물 주는 게임의 빗소리를 현관 앞에서 녹음했습니다</h3><span class="meta">정원사K · 데몬 가든 · 3일 전</span></span></a>
+<a href="#" class="log"><span class="jf" style="width:44px;height:44px;font-size:16px;background:#1E2A33">ㄹ<i>ㅅ</i>ㄹ</span><span><h3>잼 48시간 안에 만든 게임을 정식으로 다듬는 중</h3><span class="meta">리팩터클럽 · 리팩터 러시 · 5일 전</span></span></a>
+</div>
+</div>
+</section>
+
+<section class="sec" aria-labelledby="all-title">
+<div class="sec-head"><h2 id="all-title">전체 게임</h2><span class="meta num" style="margin-bottom:6px">12개 · 모두 광고 없이 무료</span></div>
+<div class="tool" role="group" aria-label="정렬과 빠른 필터">
+<button type="button" class="chip" aria-pressed="true">많이 하는</button><button type="button" class="chip" aria-pressed="false">새로 나온</button><button type="button" class="chip" aria-pressed="false">평가 좋은</button>
+<span style="width:1px;height:20px;background:var(--line);margin:0 4px" aria-hidden="true"></span>
+<button type="button" class="chip" aria-pressed="false">브라우저에서 바로</button><button type="button" class="chip" aria-pressed="false">같이 하기</button><button type="button" class="chip" aria-pressed="false">휴대폰 OK</button>
+<a href="#" class="chip" style="margin-left:auto">필터 더보기</a>
+</div>
+<div class="grid">
+<a href="#" class="card"><span class="art"><span class="zoom a-ash"></span></span><h3>애쉬폴 러너</h3><span class="by"><span class="jf" style="width:22px;height:22px;font-size:9px;background:#C46A3A">ㅈ<i>ㅅ</i>ㅈ</span>잿빛토끼</span><span class="meta">스피드런 · 한 판 6분 · 브라우저</span></a>
+<a href="#" class="card"><span class="art"><span class="zoom a-paper"></span></span><h3>페이퍼 벡터</h3><span class="by"><span class="jf" style="width:22px;height:22px;font-size:9px;background:#167A78">ㅂ<i>ㅅ</i>ㅂ</span>벡터공방</span><span class="meta">대전 2~4인 · 한 판 5분 · 브라우저</span></a>
+<a href="#" class="card"><span class="art"><span class="zoom a-loop"></span><span class="prog"><i style="width:62%"></i></span></span><h3>루프 컴파일러</h3><span class="by"><span class="jf" style="width:22px;height:22px;font-size:9px;background:#173250">ㅍ<i>ㅅ</i>ㅍ</span>픽셀상점</span><span class="meta">퍼즐 · 한 판 15분 · 브라우저</span></a>
+<a href="#" class="card"><span class="art"><span class="zoom a-halcyon"></span></span><h3>할시온 뎁스</h3><span class="by"><span class="jf" style="width:22px;height:22px;font-size:9px;background:#0E5A8A">ㅅ<i>ㅅ</i>ㅅ</span>심해상회</span><span class="meta">탐험 · 한 판 30분 · 브라우저 · Windows</span></a>
+<a href="#" class="card"><span class="art"><span class="zoom a-tess"></span><span class="flag">이번 주 신작</span></span><h3>테서랙트 드리프트</h3><span class="by"><span class="jf" style="width:22px;height:22px;font-size:9px;background:#3C78D8">ㅁ<i>ㅅ</i>ㅁ</span>무중력스튜디오</span><span class="meta">레이싱 · 한 판 8분 · 브라우저 · 패드</span></a>
+<a href="#" class="card"><span class="art"><span class="zoom a-demon"></span></span><h3>데몬 가든</h3><span class="by"><span class="jf" style="width:22px;height:22px;font-size:9px;background:#4E8A3E">ㅈ<i>ㅅ</i>ㅈ</span>정원사K</span><span class="meta">이야기 · 저녁 하나 · 브라우저</span></a>
+<a href="#" class="card"><span class="art"><span class="zoom a-grid"></span></span><h3>그리드락</h3><span class="by"><span class="jf" style="width:22px;height:22px;font-size:9px;background:#2D3142">ㅅ<i>ㅅ</i>ㅅ</span>세모난고양이</span><span class="meta">퍼즐 · 한 판 10분 · 브라우저</span></a>
+<a href="#" class="card"><span class="art"><span class="zoom a-null"></span><span class="flag" style="background:var(--ok)">보안 검사 통과</span></span><h3>널 포인터</h3><span class="by"><span class="jf" style="width:22px;height:22px;font-size:9px;background:#2B6B24">ㄹ<i>ㅅ</i>ㄹ</span>라온게임즈</span><span class="meta">로그라이크 · 저녁 하나 · Windows 다운로드</span></a>
+</div>
+<div style="display:flex;justify-content:center;margin-top:36px"><a href="#" class="btn" style="background:var(--surface);height:44px;font-size:15px">게임 12개 모두 보기</a></div>
+</section>
+</div>
+</main>
+
+<footer>
+<div class="wrap" style="display:grid;grid-template-columns:minmax(0,1.2fr) repeat(3,minmax(0,1fr));gap:32px">
+<div style="display:flex;flex-direction:column;gap:14px">
+<span class="face disp" style="font-size:72px;color:var(--ink-1)"><span>a</span><span class="e">D</span><span class="m">m</span><span class="e">D</span></span>
+<span style="font-size:15px;color:var(--ink-2);max-width:320px">사람이 만든 작은 게임을, 사람이 골라, 같이 노는 곳. 광고 없이 무료예요.</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:8px;font-size:14px"><b>게임을 만드나요?</b><a href="#" style="color:var(--make-strong);font-weight:700">메이커스에서 게임 올리기</a><a href="#" class="meta">업로드 규칙과 심사</a></div>
+<div style="display:flex;flex-direction:column;gap:8px;font-size:14px"><b>도움</b><a href="#" class="meta">고객센터</a><a href="#" class="meta">공지사항</a><a href="#" class="meta">신고 안내</a></div>
+<div style="display:flex;flex-direction:column;gap:8px;font-size:14px"><b>정책</b><a href="#" class="meta">이용약관</a><a href="#" class="meta">개인정보처리방침</a><a href="#" class="meta">운영정책</a></div>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":3300},"startSignedIn":{"editor":"boolean","default":false,"tsType":"boolean"}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const signed = this.state.signed ?? (this.props.startSignedIn ?? false);
+    return {
+      signedIn: signed,
+      guest: !signed,
+      toggle: () => this.setState({ signed: !signed })
+    };
+  }
+}
+</script>
+</body>
+</html>

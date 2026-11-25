@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+.nlScroll{scrollbar-width:none;-ms-overflow-style:none;overscroll-behavior:contain}
+.nlScroll::-webkit-scrollbar{width:0;height:0}
+.nlTextBtn{color:#94A3B8;transition:color 120ms cubic-bezier(.2,.7,.2,1)}
+.nlTextBtn:hover{color:#2563EB}
+.nlBtn:hover .nlText{text-decoration:underline;text-decoration-thickness:1px;text-underline-offset:2px}
+.nlLink span{transition:color 120ms cubic-bezier(.2,.7,.2,1)}
+.nlLink:hover span{color:#2563EB!important}
+.nlX{color:transparent;transition:color 120ms cubic-bezier(.2,.7,.2,1)}
+.nlRow:hover .nlX{color:#CBD5E1}
+.nlX:hover{color:#E11D48}
+</style>
+</helmet>
+
+<div style="position:absolute;inset:0;display:flex;flex-direction:column">
+<div style="display:flex;align-items:baseline;gap:8px">
+<dc-import name="Body" as="span" size="xs" weight="bold" hint-size="120px,18px">{{ feedTitle }}</dc-import>
+<button style="margin-left:auto;border:0;background:transparent;padding:0" type="button" onClick="{{ markAllRead }}" class="nlTextBtn"><dc-import name="Body" as="span" size="xs" weight="semibold" hint-size="120px,18px">모두 읽음</dc-import></button>
+</div>
+
+<div style="position:relative;flex:1;min-height:0;margin-top:6px">
+<div class="nlScroll" style="position:absolute;inset:0;overflow-y:auto;padding-bottom:46px">
+<sc-for list="{{ items }}" as="n" hint-placeholder-count="4">
+<div class="nlRow" style="display:grid;grid-template-columns:5px minmax(0,1fr) 38px;gap:9px;align-items:start;padding:9px 0;border-bottom:1px solid #E9ECF1">
+<span style="width:5px;height:5px;margin-top:5px;border-radius:999px;background:{{ n.dot }};transition:background 120ms cubic-bezier(.2,.7,.2,1)"></span>
+<button type="button" onClick="{{ n.open }}" class="nlBtn" style="min-width:0;display:block;text-align:left;border:0;background:transparent;padding:0">
+<span style="display:block;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color 200ms cubic-bezier(.2,.7,.2,1)" class="nlText"><dc-import name="Body" as="span" size="xs" hint-size="120px,18px">{{ n.title }}</dc-import></span>
+<span style="display:block;margin-top:3px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color 200ms cubic-bezier(.2,.7,.2,1)" class="nlText"><dc-import name="Body" as="span" size="xs" hint-size="120px,18px">{{ n.meta }}</dc-import></span>
+</button>
+<div style="display:flex;flex-direction:column;align-items:flex-end;gap:4px">
+<dc-import name="Body" as="span" size="xs" sx="margin-top:1px;white-space:nowrap;color:{{ n.whenColor }}" hint-size="120px,18px">{{ n.when }}</dc-import>
+<button style="width:14px;height:14px;display:grid;place-items:center;border:0;background:transparent;padding:0" type="button" onClick="{{ n.remove }}" aria-label="알림 삭제" class="nlX"><dc-import name="Body" as="span" size="xs" hint-size="120px,18px">&#10005;</dc-import></button>
+</div>
+</div>
+</sc-for>
+</div>
+<div style="position:absolute;left:0;right:0;bottom:0;height:58px;display:flex;align-items:flex-end;justify-content:center;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,0),#FFFFFF 55%)">
+<sc-if value="{{ hasLink }}" hint-placeholder-val="{{ true }}">
+<a class="nlLink" style="pointer-events:auto;padding:4px 2px"><dc-import name="Body" as="span" size="xs" weight="semibold" hint-size="120px,18px">{{ linkLabel }}</dc-import></a>
+</sc-if>
+</div>
+</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:330,&quot;height&quot;:260},&quot;feedTitle&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;내 글/답변&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;items&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Notif[]&quot;},&quot;markAllRead&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;},&quot;hasLink&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;linkLabel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;알림 전체 보기&quot;,&quot;tsType&quot;:&quot;string&quot;}}"></script>
+</body>
+</html>

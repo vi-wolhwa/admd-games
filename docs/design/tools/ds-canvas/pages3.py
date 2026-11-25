@@ -232,7 +232,7 @@ def search_page():
     return html.replace("</style>", CSS + "\n</style>", 1)
 
 if __name__ == "__main__":
-    for name, fn in [("로그인 · 내 얼굴 만들기.dc.html", login_page), ("업로드 마법사.dc.html", upload_page), ("검색 결과.dc.html", search_page)]:
+    for name, fn in [("SH01-login.dc.html", login_page), ("MG04-upload.dc.html", upload_page), ("PG04-search.dc.html", search_page)]:
         html = fn()
         open(os.path.join(OUT, name), "w", encoding="utf-8").write(html)
         print(name, len(html))

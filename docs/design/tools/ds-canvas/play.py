@@ -144,7 +144,7 @@ def end_page():
     return html.replace("</style>", CSS + "\n</style>", 1)
 
 if __name__ == "__main__":
-    for name, fn in [("플레이 화면.dc.html", play_page), ("플레이 종료.dc.html", end_page)]:
+    for name, fn in [("PG06-play.dc.html", play_page), ("PG07-play-end.dc.html", end_page)]:
         html = fn()
         open(os.path.join(OUT, name), "w", encoding="utf-8").write(html)
         print(name, len(html))

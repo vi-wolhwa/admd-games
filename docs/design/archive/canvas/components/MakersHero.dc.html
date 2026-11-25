@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@keyframes mhRise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes mgHeroA{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes mgHeroB{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes mgHeroC{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes mgBar0{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes mgBar1{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes mgBar2{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+</style>
+</helmet>
+
+<section style="position:relative;width:100%;min-width:1280px;height:560px;overflow:hidden;background:#F6F7F9;border-bottom:1px solid #E2E8F0">
+<sc-for list="{{ slides }}" as="h" hint-placeholder-count="1">
+<div style="position:absolute;inset:0;transition:opacity 480ms cubic-bezier(.2,.7,.2,1);opacity:{{ h.op }};z-index:{{ h.z }}">
+<image-slot id="{{ h.slot }}" shape="rect" placeholder="{{ h.slotHint }}"></image-slot>
+<div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(90deg,rgba(255,255,255,.94) 0%,rgba(255,255,255,.94) 34%,rgba(255,255,255,.55) 56%,rgba(255,255,255,.14) 78%)"></div>
+</div>
+</sc-for>
+
+<div style="position:absolute;inset:0;z-index:3">
+<div style="width:1280px;height:100%;margin:0 auto;display:grid;grid-template-columns:minmax(0,1fr) 396px;gap:56px;align-items:center">
+
+<div style="animation:mhRise 480ms cubic-bezier(.2,.7,.2,1) both">
+<div style="display:flex;align-items:center;gap:8px">
+<span style="width:7px;height:7px;background:#EA580C;transform:rotate(45deg)"></span>
+<dc-import name="Body" as="span" size="xs" weight="bold" sx="letter-spacing:.06em;color:#C2410C" hint-size="120px,18px">aDmD 메이커스 그라운드</dc-import>
+</div>
+<dc-import name="Headline" as="h1" size="lg" sx="margin:16px 0 0;text-wrap:balance" hint-size="260px,47px">게임을 만드는 사람들의 작업실</dc-import>
+<dc-import name="Body" as="p" size="md" color="secondary" sx="margin:20px 0 0;max-width:520px;text-wrap:pretty" hint-size="160px,24px">유니티, 언리얼, 고도, 웹 빌드까지 — 올리면 오늘 만든 게임이 오늘 플레이됩니다. 피드백, 잼과 지원사업, 팀원 모집까지 한곳에서.</dc-import>
+<div style="display:flex;align-items:center;gap:11px;margin:30px 0 0">
+<button style="height:48px;padding:0 26px;background:#EA580C;border:0;transition:background 200ms cubic-bezier(.2,.7,.2,1),box-shadow 200ms cubic-bezier(.2,.7,.2,1)" type="button" style-hover="background:#C2410C;box-shadow:0 0 16px 0 rgba(0,0,0,.16)"><dc-import name="Body" as="span" weight="bold" size="md" color="inverse" hint-size="160px,24px">빌드 올리기</dc-import></button>
+<button style="height:48px;padding:0 18px;background:transparent;border:0;transition:color 200ms cubic-bezier(.2,.7,.2,1),background 200ms cubic-bezier(.2,.7,.2,1),box-shadow 200ms cubic-bezier(.2,.7,.2,1)" type="button" style-hover="color:#0F172A;background:#FFFFFF;box-shadow:0 0 16px 0 rgba(0,0,0,.16)"><dc-import name="Body" as="span" size="md" weight="semibold" color="secondary" hint-size="160px,24px">커뮤니티 둘러보기</dc-import></button>
+</div>
+<div style="display:flex;align-items:baseline;gap:8px;margin:22px 0 0">
+<dc-import name="Body" as="span" size="xs" weight="bold" sx="flex:none;color:#C2410C" hint-size="120px,18px">지원</dc-import>
+<dc-import name="Body" as="span" size="xs" color="tertiary" hint-size="120px,18px">브라우저 즉시 실행 · Windows · macOS · 모바일 APK — Unity · Unreal · Godot · 웹 엔진</dc-import>
+</div>
+<div style="display:flex;flex-wrap:wrap;gap:8px;margin:18px 0 0">
+<sc-for list="{{ pulse }}" as="p" hint-placeholder-count="4">
+<span style="display:inline-flex;align-items:center;gap:7px;height:32px;padding:0 12px;background:#FFFFFF">
+<dc-import name="Body" as="span" size="xs" color="secondary" hint-size="120px,18px">{{ p.name }}</dc-import>
+<dc-import name="Body" as="span" size="sm" weight="bold" tabular="{{ true }}" sx="color:{{ p.color }}" hint-size="140px,21px">{{ p.value }}</dc-import>
+</span>
+</sc-for>
+</div>
+</div>
+
+<div style="position:relative;background:#FFFFFF;animation:mhRise 480ms cubic-bezier(.2,.7,.2,1) both">
+<div style="padding:22px 24px 24px">
+<div style="display:flex;align-items:center;gap:9px">
+<dc-import name="Body" as="span" size="xs" weight="bold" color="inverse" sx="padding:4px 9px;background:{{ card.accent }}" hint-size="120px,18px">{{ card.eyebrow }}</dc-import>
+<dc-import name="Body" as="span" size="xs" weight="semibold" color="tertiary" hint-size="120px,18px">{{ card.source }} · {{ card.date }}</dc-import>
+</div>
+<dc-import name="Headline" as="h2" size="sm" sx="margin-top:14px;text-wrap:pretty;animation:{{ cardAnim }}" hint-size="220px,31px">{{ card.title }}</dc-import>
+<dc-import name="Body" as="p" size="xs" color="secondary" sx="margin:12px 0 0;text-wrap:pretty" hint-size="120px,18px">{{ card.desc }}</dc-import>
+<div style="display:flex;align-items:center;gap:9px;margin:16px 0 0">
+<dc-import name="Body" as="span" size="xs" weight="bold" color="inverse" sx="padding:3px 8px;background:{{ card.accent }}" hint-size="120px,18px">{{ card.dday }}</dc-import>
+<dc-import name="Body" as="span" size="xs" color="tertiary" hint-size="120px,18px">{{ card.meta }}</dc-import>
+</div>
+<a style="display:inline-block;margin-top:18px"><dc-import name="Body" as="span" size="xs" weight="bold" hint-size="120px,18px">{{ card.cta }} &#8594;</dc-import></a>
+</div>
+<div style="padding:0 24px 18px;display:flex;align-items:center;justify-content:space-between;gap:12px">
+<div style="display:flex;align-items:center;gap:10px">
+<div style="display:flex;align-items:center;gap:5px">
+<sc-for list="{{ dots }}" as="d" hint-placeholder-count="3">
+<button type="button" onClick="{{ d.go }}" aria-label="슬라이드" style="border:0;padding:0;height:4px;transition:width 320ms cubic-bezier(.2,.7,.2,1),background 320ms cubic-bezier(.2,.7,.2,1);width:{{ d.w }};background:{{ d.bg }}"></button>
+</sc-for>
+</div>
+<dc-import name="Body" as="span" size="xs" weight="semibold" color="tertiary" tabular="{{ true }}" sx="letter-spacing:.06em" hint-size="120px,18px">{{ counter }}</dc-import>
+</div>
+<div style="display:flex;gap:4px">
+<button style="width:30px;height:30px;background:#F1F3F5;border:0;transition:200ms cubic-bezier(.2,.7,.2,1)" type="button" onClick="{{ prev }}" aria-label="이전" style-hover="background:#EA580C;color:#FFFFFF"><dc-import name="Body" as="span" size="sm" color="secondary" hint-size="140px,21px">&#8249;</dc-import></button>
+<button style="width:30px;height:30px;background:#F1F3F5;border:0;transition:200ms cubic-bezier(.2,.7,.2,1)" type="button" onClick="{{ next }}" aria-label="다음" style-hover="background:#EA580C;color:#FFFFFF"><dc-import name="Body" as="span" size="sm" color="secondary" hint-size="140px,21px">&#8250;</dc-import></button>
+</div>
+</div>
+<div style="position:absolute;left:0;right:0;bottom:0;height:3px;background:#F1F3F5">
+<div style="height:3px;transform-origin:0 50%;background:#EA580C;animation:{{ bar }}"></div>
+</div>
+</div>
+
+</div>
+</div>
+</section>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:560},&quot;slides&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;HeroSlide[]&quot;},&quot;pulse&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;PulseStat[]&quot;},&quot;card&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;HeroCard&quot;},&quot;cardAnim&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;string&quot;},&quot;bar&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;string&quot;},&quot;dots&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Dot[]&quot;},&quot;counter&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;01 / 03&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;prev&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;},&quot;next&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;}}"></script>
+</body>
+</html>

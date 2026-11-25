@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+.sbCard{transition:box-shadow 200ms cubic-bezier(.2,.7,.2,1)}
+.sbCard:hover,.sbCard:active{box-shadow:0 0 16px 0 rgba(0,0,0,.16)}
+.sbZoom{position:absolute;inset:0;transition:transform 320ms cubic-bezier(.2,.7,.2,1)}
+.sbCard:hover .sbZoom{transform:scale(1.06)}
+</style>
+</helmet>
+
+<div style="display:grid;grid-template-columns:minmax(0,6fr) minmax(0,4fr);gap:24px;height:568px">
+
+<a class="sbCard" onMouseEnter="{{ holdOn }}" onMouseLeave="{{ holdOff }}" style="display:flex;flex-direction:column;background:#FFFFFF">
+<div style="position:relative;flex:1;min-height:0;background:#F1F3F5;overflow:hidden">
+<sc-for list="{{ slides }}" as="s" hint-placeholder-count="1">
+<div style="position:absolute;inset:0;opacity:{{ s.op }};z-index:{{ s.z }};transition:opacity 480ms cubic-bezier(.2,.7,.2,1)">
+<div class="sbZoom" style="height:100%"><image-slot id="{{ s.slot }}" shape="rect" placeholder="{{ s.title }}"></image-slot></div>
+</div>
+</sc-for>
+<dc-import name="Body" as="span" size="xs" weight="bold" color="inverse" sx="position:absolute;top:0;left:0;z-index:5;padding:6px 12px;background:{{ focus.badgeBg }};transition:background 320ms cubic-bezier(.2,.7,.2,1);letter-spacing:.06em" hint-size="120px,18px">{{ focus.badge }}</dc-import>
+</div>
+<div style="flex:none;padding:20px 24px 22px;display:flex;flex-direction:column">
+<div style="display:flex;align-items:center;gap:9px;flex-wrap:wrap">
+<span style="display:inline-flex;align-items:center;gap:6px">
+<dc-import name="Body" as="span" size="xs" weight="bold" color="inverse" sx="width:20px;height:20px;border-radius:999px;background:{{ focus.authorColor }};display:grid;place-items:center" hint-size="120px,18px">{{ focus.initial }}</dc-import>
+<dc-import name="Body" as="span" size="xs" weight="bold" hint-size="120px,18px">{{ focus.author }}</dc-import>
+</span>
+<sc-for list="{{ focus.chips }}" as="p" hint-placeholder-count="3">
+<dc-import name="Body" as="span" size="xs" weight="bold" sx="padding:2px 8px;background:{{ p.bg }};color:{{ p.fg }}" hint-size="120px,18px">{{ p.text }}</dc-import>
+</sc-for>
+</div>
+<dc-import name="Headline" as="h2" size="sm" sx="margin-top:9px;text-wrap:balance" hint-size="220px,31px">{{ focus.title }}</dc-import>
+<dc-import name="Body" as="p" size="sm" color="secondary" sx="margin:9px 0 0;text-wrap:pretty;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden" hint-size="140px,21px">{{ focus.desc }}</dc-import>
+<div style="margin-top:18px;display:flex;align-items:flex-end;justify-content:space-between;gap:20px">
+<div style="display:flex;gap:26px">
+<sc-for list="{{ focus.stats }}" as="t" hint-placeholder-count="3">
+<div>
+<dc-import name="Display" as="span" size="sm" tabular="{{ true }}" sx="color:{{ t.color }}" hint-size="90px,34px">{{ t.value }}</dc-import>
+<dc-import name="Body" as="div" size="xs" color="tertiary" sx="margin-top:3px" hint-size="120px,18px">{{ t.label }}</dc-import>
+</div>
+</sc-for>
+</div>
+<div style="flex:none;display:flex;gap:8px">
+<span style="width:150px;height:44px;display:inline-flex;align-items:center;justify-content:center;background:#0F172A;white-space:nowrap;transition:background 200ms cubic-bezier(.2,.7,.2,1)" style-hover="background:#EA580C"><dc-import name="Body" as="span" size="sm" weight="bold" color="inverse" hint-size="140px,21px">{{ focus.cta }}</dc-import></span>
+<span style="width:150px;height:44px;display:inline-flex;align-items:center;justify-content:center;background:#F1F3F5;white-space:nowrap;transition:color 120ms cubic-bezier(.2,.7,.2,1)" style-hover="color:#EA580C"><dc-import name="Body" as="span" size="sm" weight="bold" hint-size="140px,21px">{{ focus.listCta }}</dc-import></span>
+</div>
+</div>
+</div>
+</a>
+
+<div style="display:flex;flex-direction:column;gap:10px">
+<sc-for list="{{ cards }}" as="c" hint-placeholder-count="5">
+<a onMouseEnter="{{ c.enter }}" onMouseLeave="{{ c.leave }}" onClick="{{ c.enter }}" style="flex:1;min-height:0;display:grid;grid-template-columns:150px minmax(0,1fr);background:#FFFFFF;opacity:{{ c.op }};box-shadow:{{ c.shadow }};transition:opacity 200ms cubic-bezier(.2,.7,.2,1),box-shadow 320ms cubic-bezier(.2,.7,.2,1)">
+<div style="position:relative;background:#F1F3F5;overflow:hidden">
+<div style="height:100%;transform:scale({{ c.zoom }});transition:transform 320ms cubic-bezier(.2,.7,.2,1)"><image-slot id="{{ c.slot }}" shape="rect" placeholder=" "></image-slot></div>
+<dc-import name="Body" as="span" size="xs" weight="bold" color="inverse" sx="position:absolute;top:0;left:0;z-index:4;padding:3px 7px;background:{{ c.badgeBg }};letter-spacing:.06em" hint-size="120px,18px">{{ c.badge }}</dc-import>
+</div>
+<div style="min-width:0;padding:10px 14px;display:flex;flex-direction:column;justify-content:center">
+<div style="display:flex;align-items:center;gap:8px;min-width:0">
+<dc-import name="Body" as="span" size="sm" weight="bold" sx="min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:color 200ms cubic-bezier(.2,.7,.2,1);color:{{ c.titleColor }}" hint-size="140px,21px">{{ c.title }}</dc-import>
+</div>
+<div style="margin-top:6px;display:flex;align-items:center;gap:6px;min-width:0">
+<dc-import name="Body" as="span" size="xs" weight="bold" sx="flex:none;padding:2px 6px;background:#F1F3F5;color:#475569" hint-size="120px,18px">{{ c.genre }}</dc-import>
+<dc-import name="Body" as="span" size="xs" color="tertiary" sx="min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" hint-size="120px,18px">{{ c.author }}</dc-import>
+</div>
+<div style="margin-top:9px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:#F1F3F5">
+<sc-for list="{{ c.stats }}" as="t" hint-placeholder-count="3">
+<div style="background:#FFFFFF;padding:{{ t.pad }}">
+<dc-import name="Body" as="div" size="sm" weight="bold" tabular="{{ true }}" sx="color:{{ t.color }}" hint-size="140px,21px">{{ t.value }}</dc-import>
+<dc-import name="Body" as="div" size="xs" weight="semibold" color="tertiary" sx="margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.06em" hint-size="120px,18px">{{ t.label }}</dc-import>
+</div>
+</sc-for>
+</div>
+</div>
+</a>
+</sc-for>
+</div>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:568},&quot;focus&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;FocusItem&quot;},&quot;slides&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Slide[]&quot;},&quot;cards&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;FocusCard[]&quot;},&quot;holdOn&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;},&quot;holdOff&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;}}"></script>
+</body>
+</html>

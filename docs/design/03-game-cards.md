@@ -70,5 +70,5 @@
 
 ## 6. 적용 현황
 
-- 캔버스 `게임 카드 컴포넌트` — 7종 · 상태 변형 · 공통 구조 해부도
-- 캔버스 `PlayGround v10` 홈(문구·툴팁 수정, PICK 배경 제거, 전체 게임 4열) — PickCard(고른 게임) · RankRow(랭킹) · ContinueCard(이어하기, 회원) · GameCard(시간별 · 전체 게임). RoomCard·LibraryRow·MiniRow 는 해당 페이지(같이 하기 방 목록, 라이브러리, 검색) 디자인 때 적용.
+- 캔버스 `DS04 게임 카드` — 7종 · 상태 변형 · 공통 구조 해부도
+- 캔버스 `PG01 홈` 홈(문구·툴팁 수정, PICK 배경 제거, 전체 게임 4열) — PickCard(고른 게임) · RankRow(랭킹) · ContinueCard(이어하기, 회원) · GameCard(시간별 · 전체 게임). RoomCard·LibraryRow·MiniRow 는 해당 페이지(같이 하기 방 목록, 라이브러리, 검색) 디자인 때 적용.

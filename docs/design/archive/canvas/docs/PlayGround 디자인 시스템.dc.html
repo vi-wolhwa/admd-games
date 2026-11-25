@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F6F7F9;font-family:Inter,-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#2563EB;text-decoration:none}
+a:hover{color:#1D4ED8}
+.dsLift{transition:box-shadow 200ms cubic-bezier(.2,.7,.2,1)}
+.dsLift:hover{box-shadow:0 0 16px 0 rgba(0,0,0,.16)}
+</style>
+</helmet>
+
+<div style="width:1180px;margin:0 auto;padding:52px 0 96px;color:#0F172A">
+
+<div style="background:#0F172A;color:#FFFFFF;padding:34px 38px 32px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.14em;color:#94A3B8">DESIGN SYSTEM · PLAYGROUND v2</div>
+<h1 style="margin:13px 0 0;font-size:32px;font-weight:700;letter-spacing:-.038em;line-height:1.2">최종 UI/UX 설계 규칙과<br>공통 컴포넌트 준비</h1>
+<p style="margin:15px 0 0;max-width:700px;font-size:13px;line-height:1.8;color:#CBD5E1;letter-spacing:-.014em;text-wrap:pretty">v2에 적용된 상태를 기준으로 토큰 · 인터랙션 · 레이아웃 규칙을 확정하고, 이어서 공통 컴포넌트로 뽑을 목록과 기술 방식(수정 한 번이 모든 사용처에 전파되는 구조)을 정리했습니다.</p>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:28px 32px 30px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">01 — 토큰</div>
+<div style="margin-top:20px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px">
+<sc-for list="{{ tokens }}" as="t" hint-placeholder-count="6">
+<div>
+<div style="display:flex;align-items:baseline;gap:9px;padding-bottom:10px;border-bottom:1px solid #E9ECF1">
+<span style="font-size:13px;font-weight:700;letter-spacing:-.022em">{{ t.name }}</span>
+<span style="font-size:11px;color:#94A3B8;letter-spacing:-.012em">{{ t.rule }}</span>
+</div>
+<div style="margin-top:12px;display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ t.rows }}" as="r" hint-placeholder-count="4">
+<div style="display:flex;align-items:baseline;gap:12px">
+<span style="flex:none;width:104px;font-size:11px;font-weight:600;letter-spacing:.02em;color:#94A3B8">{{ r.k }}</span>
+<span style="min-width:0;font-size:12px;line-height:1.6;color:#334155;letter-spacing:-.012em">{{ r.v }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:28px 32px 30px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">02 — 규칙</div>
+<div style="margin-top:18px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:#E9ECF1">
+<sc-for list="{{ rules }}" as="r" hint-placeholder-count="12">
+<div style="background:#FFFFFF;padding:16px 18px 17px">
+<div style="display:flex;align-items:center;gap:8px">
+<span style="padding:2px 7px;background:#0F172A;color:#FFFFFF;font-size:11px;font-weight:700;letter-spacing:.03em">{{ r.no }}</span>
+<span style="font-size:12px;font-weight:700;letter-spacing:-.02em">{{ r.name }}</span>
+</div>
+<p style="margin:9px 0 0;font-size:12px;line-height:1.75;color:#64748B;letter-spacing:-.012em;text-wrap:pretty">{{ r.desc }}</p>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:28px 32px 32px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">03 — 공통 컴포넌트 카탈로그</div>
+<p style="margin:14px 0 0;max-width:820px;font-size:12px;line-height:1.8;color:#64748B;letter-spacing:-.013em;text-wrap:pretty">v2에서 2회 이상 반복되고 props가 명확한 것만 뽑았습니다. 우선순위 순으로 추출하고, 추출 후에는 원본 마크업을 남기지 않습니다(중복 정의 금지).</p>
+<div style="margin-top:20px;display:grid;grid-template-columns:150px minmax(0,1.1fr) minmax(0,1fr) 78px;gap:1px;background:#E9ECF1">
+<div style="background:#F6F7F9;padding:9px 12px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#64748B">컴포넌트</div>
+<div style="background:#F6F7F9;padding:9px 12px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#64748B">props</div>
+<div style="background:#F6F7F9;padding:9px 12px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#64748B">사용처</div>
+<div style="background:#F6F7F9;padding:9px 12px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#64748B;text-align:right">순위</div>
+<sc-for list="{{ components }}" as="c" hint-placeholder-count="8">
+<div style="background:#FFFFFF;padding:13px 12px">
+<div style="font-size:12px;font-weight:700;letter-spacing:-.02em">{{ c.name }}</div>
+<div style="margin-top:4px;font-size:11px;color:#94A3B8;letter-spacing:-.012em">{{ c.file }}</div>
+</div>
+<div style="background:#FFFFFF;padding:13px 12px;font-size:11px;line-height:1.7;color:#475569;letter-spacing:-.012em">{{ c.props }}</div>
+<div style="background:#FFFFFF;padding:13px 12px;font-size:11px;line-height:1.7;color:#64748B;letter-spacing:-.012em">{{ c.where }}</div>
+<div style="background:#FFFFFF;padding:13px 12px;text-align:right;font-size:12px;font-weight:700;color:{{ c.pColor }};font-variant-numeric:tabular-nums">{{ c.rank }}</div>
+</sc-for>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:28px 32px 32px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">04 — 기술 방식 · 수정 전파 구조</div>
+<div style="margin-top:18px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:#E9ECF1">
+<sc-for list="{{ tech }}" as="t" hint-placeholder-count="6">
+<div style="background:#FFFFFF;padding:17px 18px 18px">
+<div style="display:flex;align-items:center;gap:8px">
+<span style="padding:2px 7px;background:{{ t.badgeBg }};color:{{ t.badgeFg }};font-size:11px;font-weight:700;letter-spacing:.03em">{{ t.tag }}</span>
+<span style="font-size:12px;font-weight:700;letter-spacing:-.02em">{{ t.name }}</span>
+</div>
+<p style="margin:9px 0 0;font-size:12px;line-height:1.75;color:#64748B;letter-spacing:-.012em;text-wrap:pretty">{{ t.desc }}</p>
+</div>
+</sc-for>
+</div>
+
+<div style="margin-top:22px;background:#0F172A;padding:20px 22px 22px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:#94A3B8">사용 예시 — 부모(페이지)</div>
+<pre style="margin:12px 0 0;font-size:11.5px;line-height:1.85;color:#E2E8F0;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap">&lt;sc-for list="{{ visible }}" as="g" hint-placeholder-count="8"&gt;
+  &lt;dc-import name="GameCard"
+    game="{{ g }}"
+    show-plays="{{ showPlays }}"
+    hint-size="100%,268px"&gt;&lt;/dc-import&gt;
+&lt;/sc-for&gt;</pre>
+<div style="margin-top:16px;font-size:11px;font-weight:700;letter-spacing:.1em;color:#94A3B8">자식 — GameCard.dc.html</div>
+<pre style="margin:12px 0 0;font-size:11.5px;line-height:1.85;color:#E2E8F0;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;white-space:pre-wrap">&lt;a href="#" class="pfCard" style="…"&gt;
+  &lt;div style="aspect-ratio:3/2;…"&gt;…{{ game.art }}…&lt;/div&gt;
+  &lt;div&gt;{{ game.title }} · {{ game.dev }}&lt;/div&gt;
+&lt;/a&gt;
+
+data-props: { "game": {"editor": null, "tsType": "Game"},
+              "showPlays": {"editor": "boolean", "default": true} }</pre>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:28px 32px 32px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">05 — 추출 순서</div>
+<div style="margin-top:18px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:#E9ECF1">
+<sc-for list="{{ phases }}" as="ph" hint-placeholder-count="3">
+<div style="background:#FFFFFF;padding:20px 20px 22px">
+<div style="display:flex;align-items:center;gap:8px">
+<span style="padding:2px 8px;background:#0F172A;color:#FFFFFF;font-size:11px;font-weight:700;letter-spacing:.03em">{{ ph.step }}</span>
+<span style="font-size:12px;font-weight:700;letter-spacing:-.022em">{{ ph.name }}</span>
+</div>
+<div style="margin-top:12px;display:flex;flex-direction:column;gap:7px">
+<sc-for list="{{ ph.items }}" as="x" hint-placeholder-count="3">
+<div style="display:flex;gap:8px">
+<span style="flex:none;width:4px;height:4px;margin-top:7px;background:#CBD5E1"></span>
+<span style="min-width:0;font-size:12px;line-height:1.65;color:#475569;letter-spacing:-.012em">{{ x.t }}</span>
+</div>
+</sc-for>
+</div>
+<div style="margin-top:14px;padding-top:11px;border-top:1px solid #E9ECF1;font-size:11px;color:#94A3B8;letter-spacing:-.012em">{{ ph.note }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<p style="margin:28px 0 0;font-size:12px;line-height:1.8;color:#94A3B8;letter-spacing:-.012em">STEP 1부터 시작해도 될지 알려주세요. 추출 후에는 "카드 여백 4px 줄여줘" 같은 요청이 GameCard 한 파일 수정으로 카탈로그 · 신작 · 추천 전부에 반영됩니다.</p>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1240,&quot;height&quot;:1500}}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      tokens: [
+        { name: "형태", rule: "직각 · 컨테이너 테두리 없음", rows: [
+          { k: "컨테이너·카드", v: "radius 0 · border 없음 · 표면 대비로 구분" },
+          { k: "버튼·칩", v: "radius 0 · 의도적 테두리는 허용(제외 칩 1px #94A3B8)" },
+          { k: "예외", v: "내비 탭 · 검색창 · 정렬 토글 · 아바타 · 로고 · 도트" },
+          { k: "divider", v: "1px #E9ECF1 (목록 내부 · 섹션 헤더)" }
+        ] },
+        { name: "그림자", rule: "반응에만 · 1값 고정", rows: [
+          { k: "rest", v: "none" },
+          { k: "hover/active", v: "0 0 16px 0 rgba(0,0,0,.16)" },
+          { k: "포커스(자동)", v: "hover와 동일 값" },
+          { k: "금지", v: "글로우 · 정지 상태 그림자 · 다단 깊이" }
+        ] },
+        { name: "모션", rule: "4단 · 이징 1종", rows: [
+          { k: "120ms", v: "색 전환" },
+          { k: "200ms", v: "그림자 · 디밍 · 상태" },
+          { k: "320ms", v: "줌 · 위치" },
+          { k: "480ms", v: "슬라이드 · 진입 · 순환" },
+          { k: "easing", v: "cubic-bezier(.2,.7,.2,1)" },
+          { k: "감속 모드", v: "prefers-reduced-motion → 전부 정지" }
+        ] },
+        { name: "표면 · 잉크", rule: "5단", rows: [
+          { k: "SURFACE", v: "#FFFFFF — 카드 · 패널" },
+          { k: "BASE", v: "#F6F7F9 — 페이지 배경" },
+          { k: "TINT", v: "#F6F8FA — active · 스켈레톤" },
+          { k: "HAIRLINE", v: "#E9ECF1 — divider" },
+          { k: "INK", v: "#0F172A / #475569 / #94A3B8 / #CBD5E1" }
+        ] },
+        { name: "타이포", rule: "6단 + display", rows: [
+          { k: "display", v: "34~50 / 700 / -.038em (히어로 전용)" },
+          { k: "title", v: "21 / 700 / -.034em" },
+          { k: "card", v: "15 / 700 / -.028em" },
+          { k: "body", v: "13 / 400 / -.014em" },
+          { k: "caption", v: "12 / 500 / -.012em" },
+          { k: "micro", v: "11 / 600 (하한)" },
+          { k: "숫자", v: "tabular-nums 고정 · 라벨 11px" }
+        ] },
+        { name: "색 배분", rule: "60-30-10 · 배지 예외", rows: [
+          { k: "brand", v: "#2563EB — CTA · 링크 · 내 상태(하트)" },
+          { k: "선택 상태", v: "#0F172A 채움 (칩 · 세그먼트 · NEW)" },
+          { k: "배지", v: "레드 시간성 / 틸 참여 / 앰버 기간 / 바이올렛 큐레이션" },
+          { k: "뉴트럴", v: "태그 · 수치 · 아이콘 · 기하 마크" }
+        ] }
+      ],
+
+      rules: [
+        { no: "R1", name: "직각 적용 범위", desc: "컨테이너 · 카드 · 버튼 · 칩 · 배지는 직각. 내비 탭, 검색창, 정렬 토글, 프로필·아바타, 로고, 페이지 도트는 예외로 기존 형태 유지." },
+        { no: "R2", name: "컨테이너 테두리 금지", desc: "카드·패널에 border를 두지 않고 표면 대비(#FFFFFF on #F6F7F9)로 구분. 단, 의도적으로 테두리를 쓰는 버튼·칩(제외 태그, 아웃라인 CTA)은 예외." },
+        { no: "R3", name: "그림자는 반응에만", desc: "정지 상태 그림자 0. hover · active · 자동 포커스에서만 부상. 값은 0 0 16px 0 rgba(0,0,0,.16) 하나로 고정." },
+        { no: "R4", name: "위치 이동 금지", desc: "hover에서 translate를 쓰지 않는다. 반응은 그림자 + 썸네일 줌 + 제목 색 + 메타 후퇴로 표현." },
+        { no: "R5", name: "플랫", desc: "그라디언트 · 글로우 · 내부 광원 금지. 상태는 채움과 굵기로 말한다. 히어로 이미지 마스크만 예외." },
+        { no: "R6", name: "상태 레이어 L1/L2/L3", desc: "L1 자기 강조(항상) · L2 형제 디밍 55%(형제 2개 이상) · L3 포커스(자동 순환·선택)는 그림자. 세 레이어를 섞지 않는다." },
+        { no: "R7", name: "썸네일 3:2", desc: "모든 썸네일은 3:2. 크기만 다르게 쓰고 크롭은 cover + center. 히어로 배너는 예외." },
+        { no: "R8", name: "카드 스택", desc: "목록은 흰 컨테이너 안의 행이 아니라, 배경 위에 놓인 독립 카드 스택(gap 10px)으로 만든다. 행 구분선 없음." },
+        { no: "R9", name: "선택은 테마 블랙", desc: "칩·세그먼트 선택은 #0F172A 채움, 제외는 1px #94A3B8 테두리 + #64748B 텍스트 + 취소선(굵기 유지). 브랜드 블루는 CTA와 '내 것'에만." },
+        { no: "R10", name: "border:0 명시", desc: "버튼·입력의 테두리를 없앨 때는 선언을 지우지 말고 border:0을 명시한다(기본 3D 베벨 방지)." },
+        { no: "R11", name: "정보는 시각으로", desc: "수치는 굵기 대비 + tabular-nums, 진행은 2px 바, 플랫폼·인원은 기하 마크, 순위는 숫자 강조. 문장으로 설명하지 않는다." },
+        { no: "R12", name: "근거 없는 문구 금지", desc: "기능이 없는 안내(이어하기, 게스트 기록 이관 등)를 쓰지 않는다. 카피는 실제 동작만 서술." }
+      ],
+
+      components: [
+        { name: "GameCard", file: "GameCard.dc.html", props: "game, showPlays, size", where: "게임 둘러보기 · 검색 결과 · 추천 그리드", rank: 1 },
+        { name: "GameRow", file: "GameRow.dc.html", props: "game, trailing(도전과제/지표), thumbWidth", where: "내 라이브러리 · 최근 플레이(리스트형)", rank: 1 },
+        { name: "SpecMarks", file: "SpecMarks.dc.html", props: "marks[]", where: "카드 · 행 · 상세 (싱글/멀티 · 실행 환경)", rank: 2 },
+        { name: "Badge", file: "Badge.dc.html", props: "label, kind(new/test/jam/pick/info)", where: "썸네일 · 히어로 · 추천 · 소식", rank: 2 },
+        { name: "FilterBar", file: "FilterBar.dc.html", props: "axes[], tags[], onToggle", where: "게임 둘러보기 · 추후 검색 페이지", rank: 3 },
+        { name: "SectionHead", file: "SectionHead.dc.html", props: "title, hint, action", where: "모든 섹션 헤더", rank: 3 },
+        { name: "NotifList", file: "NotifList.dc.html", props: "items[], onRead, onRemove", where: "내 정보 · 메이커스 알림", rank: 4 },
+        { name: "FocusCarousel", file: "FocusCarousel.dc.html", props: "items[], interval, renderDetail", where: "지금 플레이할 게임 · 메이커스 쇼케이스", rank: 4 }
+      ].map(c => ({ ...c, pColor: c.rank <= 2 ? "#0F172A" : "#94A3B8" })),
+
+      tech: [
+        { tag: "핵심", badgeBg: "#0F172A", badgeFg: "#FFFFFF", name: "dc-import = 단일 정의 · 자동 전파", desc: "공통 UI를 형제 파일(GameCard.dc.html)로 분리하고 페이지에서 <dc-import name=\"GameCard\" …>로 마운트합니다. 파일이 하나뿐이므로 자식을 고치면 이를 쓰는 모든 페이지가 즉시 함께 갱신됩니다 — 사용처를 일일이 찾아 고칠 필요가 없어집니다." },
+        { tag: "props", badgeBg: "#EFF6FF", badgeFg: "#1D4ED8", name: "속성 = 데이터, data-props = 계약", desc: "부모는 game=\"{{ g }}\"처럼 값을 넘기고, 자식은 data-props에 각 prop의 editor/기본값/타입을 선언합니다. 선언된 prop은 Tweaks 패널에도 노출되므로 색·토글 같은 변형을 코드 수정 없이 실험할 수 있습니다." },
+        { tag: "규약", badgeBg: "#F1F5F9", badgeFg: "#475569", name: "스타일은 인라인 · 토큰은 값으로", desc: "이 환경은 클래스 시트를 쓰지 않으므로 토큰은 '문서화된 리터럴'로 관리합니다. 그림자·모션처럼 hover가 필요한 것만 각 컴포넌트 <helmet>의 최소 CSS(.pfCard 등)로 두고, 그 정의도 컴포넌트 파일 안에 함께 둡니다." },
+        { tag: "주의", badgeBg: "#FFF7ED", badgeFg: "#C2410C", name: "hint-size와 스트리밍", desc: "모든 dc-import에 hint-size를 붙여야 로딩 중 자리(플레이스홀더)가 잡힙니다. 또 자식 컴포넌트가 많아지면 첫 페인트가 느려지므로, 반복 4회 이상 + props가 분명한 것만 컴포넌트로 만듭니다." },
+        { tag: "한계", badgeBg: "#FEF2F2", badgeFg: "#BE123C", name: "상태 소유권", desc: "필터·순환 타이머처럼 페이지 전역 상태는 부모가 소유하고 콜백을 내려줍니다. 자식이 자체 상태를 들면 같은 컴포넌트를 여러 곳에서 쓸 때 동작이 갈립니다(예: FocusCarousel의 interval은 prop으로)." },
+        { tag: "운영", badgeBg: "#ECFDF5", badgeFg: "#0D9488", name: "변경 요청 흐름", desc: "앞으로 UI 수정 요청은 ① 공통 컴포넌트에 해당하면 그 파일만 수정 ② 페이지 고유 레이아웃이면 페이지 파일 수정 ③ 토큰(색·모션·그림자)이면 이 문서를 먼저 갱신하고 컴포넌트에 반영 — 이 순서로 처리합니다." }
+      ],
+
+      phases: [
+        { step: "STEP 1", name: "카드/행 추출", note: "가장 반복이 많고 효과 큼", items: [
+          { t: "GameCard.dc.html — 카탈로그 카드 규격(3:2 · 태그 · 평점/리뷰 · 마크)" },
+          { t: "GameRow.dc.html — 라이브러리·최근 플레이 리스트 카드" },
+          { t: "v2의 해당 마크업을 dc-import로 교체" }
+        ] },
+        { step: "STEP 2", name: "조각 컴포넌트", note: "카드 내부에서 재사용", items: [
+          { t: "SpecMarks — 싱글/멀티 · 브라우저/PC/모바일 기하 마크" },
+          { t: "Badge — kind별 색·의미 고정" },
+          { t: "SectionHead — 제목 + 부제 + 우측 액션" }
+        ] },
+        { step: "STEP 3", name: "복합 컴포넌트", note: "메이커스와 공유 대상", items: [
+          { t: "FilterBar — 축 세그먼트 + 태그 3단 토글" },
+          { t: "NotifList — 읽음/삭제 · 탭 배지 연동" },
+          { t: "FocusCarousel — interval prop · L3 포커스 규칙 내장" },
+          { t: "메이커스 그라운드에 같은 컴포넌트 적용(accent만 prop으로 교체)" }
+        ] }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

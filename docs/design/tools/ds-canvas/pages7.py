@@ -205,7 +205,7 @@ def help_page():
     return mypage("고객센터 · 약관", body, 1900, memo)
 
 if __name__ == "__main__":
-    for name, fn in [("내 게임.dc.html", games_page), ("리뷰 · 피드백함.dc.html", feedback_page), ("메이커 프로필 만들기.dc.html", newmaker_page), ("리뷰 전체.dc.html", reviews_page), ("신고.dc.html", report_page), ("고객센터 · 약관.dc.html", help_page)]:
+    for name, fn in [("MG05-my-games.dc.html", games_page), ("MG07-feedback.dc.html", feedback_page), ("MG03-new-maker.dc.html", newmaker_page), ("PG10-reviews.dc.html", reviews_page), ("SH04-report.dc.html", report_page), ("SH05-help.dc.html", help_page)]:
         html = fn()
         open(os.path.join(OUT, name), "w", encoding="utf-8").write(html)
         print(name, len(html))

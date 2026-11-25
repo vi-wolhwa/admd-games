@@ -63,5 +63,5 @@ def build(tpl_name, out_name):
     print(out_name, len(t))
 
 if __name__ == "__main__":
-    for tpl, out in [("foundations.tpl.html", "디자인 시스템 · 기초.dc.html"), ("components.tpl.html", "디자인 시스템 · 컴포넌트.dc.html")]:
+    for tpl, out in [("foundations.tpl.html", "DS01-foundations.dc.html"), ("components.tpl.html", "DS02-components.dc.html")]:
         if os.path.exists(os.path.join(HERE, tpl)): build(tpl, out)

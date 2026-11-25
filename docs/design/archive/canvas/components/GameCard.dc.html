@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@keyframes gcRise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+.gcCard{transition:box-shadow 200ms cubic-bezier(.2,.7,.2,1)}
+.gcCard:hover{box-shadow:0 0 16px 0 rgba(0,0,0,.16)}
+.gcCard:active{box-shadow:0 0 16px 0 rgba(0,0,0,.16)}
+.gcZoom{position:absolute;inset:0;transition:transform 320ms cubic-bezier(.2,.7,.2,1)}
+.gcCard:hover .gcZoom{transform:scale(1.06)}
+.gcTitle{transition:color 120ms cubic-bezier(.2,.7,.2,1)}
+.gcCard:hover .gcTitle{color:#2563EB}
+.gcMark{position:relative;display:inline-flex;align-items:center}
+.gcTip{position:absolute;bottom:calc(100% + 9px);right:-8px;padding:6px 10px;background:#FFFFFF;color:#0F172A;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;white-space:nowrap;box-shadow:0 0 16px 0 rgba(0,0,0,.16);opacity:0;transform:translateY(4px);transition:opacity 200ms cubic-bezier(.2,.7,.2,1),transform 200ms cubic-bezier(.2,.7,.2,1);pointer-events:none;z-index:20}
+.gcMark:hover .gcTip{opacity:1;transform:translateY(0)}
+</style>
+</helmet>
+
+<a class="gcCard" style="display:flex;flex-direction:column;background:#FFFFFF;animation:gcRise 480ms cubic-bezier(.2,.7,.2,1) both;animation-delay:{{ delay }}">
+<div style="position:relative;width:100%;aspect-ratio:3/2;background:#F1F3F5;overflow:hidden">
+<div class="gcZoom" style="background-image:url('{{ game.art }}');background-size:cover;background-position:center"></div>
+<sc-if value="{{ game.isNew }}" hint-placeholder-val="{{ false }}">
+<dc-import name="Body" as="span" size="xs" weight="bold" color="inverse" sx="position:absolute;top:0;left:0;z-index:4;padding:4px 7px;background:#0F172A;letter-spacing:.06em" hint-size="120px,18px">NEW</dc-import>
+</sc-if>
+</div>
+<div style="padding:14px 15px">
+<div style="display:flex;align-items:center;gap:8px;min-width:0">
+<span style="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" class="gcTitle"><dc-import name="Headline" as="h3" size="xs" hint-size="180px,24px">{{ game.title }}</dc-import></span>
+<sc-if value="{{ game.inLibrary }}" hint-placeholder-val="{{ false }}">
+<span class="gcMark" style="flex:none;margin-left:auto;display:grid;place-items:center;width:16px;height:16px">
+<dc-import name="Body" as="span" size="sm" sx="color:#2563EB" hint-size="140px,21px">&#9829;</dc-import>
+<span class="gcTip">라이브러리에 있음</span>
+</span>
+</sc-if>
+<sc-if value="{{ game.playedBefore }}" hint-placeholder-val="{{ false }}">
+<span class="gcMark" style="flex:none;margin-left:auto;display:grid;place-items:center;width:16px;height:16px">
+<dc-import name="Body" as="span" size="sm" color="tertiary" hint-size="140px,21px">&#8635;</dc-import>
+<span class="gcTip">플레이 했던 게임</span>
+</span>
+</sc-if>
+</div>
+<div style="margin-top:5px;display:flex;align-items:center;gap:6px;min-width:0">
+<dc-import name="Body" as="span" size="xs" color="secondary" sx="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" hint-size="120px,18px">{{ game.dev }}</dc-import>
+<sc-if value="{{ showPlays }}" hint-placeholder-val="{{ true }}">
+<span style="flex:none;width:3px;height:3px;border-radius:999px;background:#CBD5E1"></span>
+<dc-import name="Body" as="span" size="xs" color="tertiary" sx="flex:none;white-space:nowrap" hint-size="120px,18px">{{ game.playsLabel }}</dc-import>
+</sc-if>
+</div>
+<div style="margin-top:11px;display:flex;flex-wrap:wrap;gap:4px 9px">
+<sc-for list="{{ game.chips }}" as="ch" hint-placeholder-count="3">
+<dc-import name="Body" as="span" size="xs" color="tertiary" sx="white-space:nowrap" hint-size="120px,18px">{{ ch.text }}</dc-import>
+</sc-for>
+</div>
+<div style="margin-top:10px;display:flex;align-items:center;gap:14px">
+<span style="display:flex;align-items:baseline;gap:4px">
+<dc-import name="Body" as="span" weight="bold" size="md" tabular="{{ true }}" sx="display:inline" hint-size="160px,24px">{{ game.ratingLabel }}</dc-import>
+<dc-import name="Body" as="span" size="xs" weight="semibold" color="tertiary" sx="letter-spacing:.06em" hint-size="120px,18px">평점</dc-import>
+</span>
+<span style="display:flex;align-items:baseline;gap:4px">
+<dc-import name="Body" as="span" weight="bold" size="md" tabular="{{ true }}" sx="display:inline" hint-size="160px,24px">{{ game.reviewLabel }}</dc-import>
+<dc-import name="Body" as="span" size="xs" weight="semibold" color="tertiary" sx="letter-spacing:.06em" hint-size="120px,18px">리뷰</dc-import>
+</span>
+<span style="flex:none;margin-left:auto;display:flex;align-items:center;gap:9px">
+<dc-import name="SpecMarks" marks="{{ game.marks }}" size="15px" gap="9px" stroke="#94A3B8" hint-size="60px,15px"></dc-import>
+</span>
+</div>
+</div>
+</a>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:300,&quot;height&quot;:320},&quot;game&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Game&quot;,&quot;default&quot;:{&quot;title&quot;:&quot;루프 컴파일러&quot;,&quot;dev&quot;:&quot;픽셀상점&quot;,&quot;playsLabel&quot;:&quot;12.8만 플레이&quot;,&quot;art&quot;:&quot;uploads/pasted-1787733428273-0.png&quot;,&quot;isNew&quot;:false,&quot;inLibrary&quot;:true,&quot;playedBefore&quot;:false,&quot;ratingLabel&quot;:&quot;4.8&quot;,&quot;reviewLabel&quot;:&quot;178&quot;,&quot;chips&quot;:[{&quot;text&quot;:&quot;#프로그래밍&quot;},{&quot;text&quot;:&quot;#싱글플레이&quot;},{&quot;text&quot;:&quot;#브라우저 실행&quot;}],&quot;marks&quot;:[]}},&quot;showPlays&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;delay&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;0ms&quot;,&quot;tsType&quot;:&quot;string&quot;}}"></script>
+</body>
+</html>

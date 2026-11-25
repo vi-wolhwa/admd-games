@@ -170,7 +170,7 @@ def review_page():
     return html.replace("</style>", CSS + "\n</style>", 1)
 
 if __name__ == "__main__":
-    for name, fn in [("메이커 페이지.dc.html", maker_page), ("게임 관리 · 통계.dc.html", game_admin_page), ("심사 대기열.dc.html", review_page)]:
+    for name, fn in [("PG13-maker.dc.html", maker_page), ("MG06-game-manage.dc.html", game_admin_page), ("AD01-review-queue.dc.html", review_page)]:
         html = fn()
         open(os.path.join(OUT, name), "w", encoding="utf-8").write(html)
         print(name, len(html))

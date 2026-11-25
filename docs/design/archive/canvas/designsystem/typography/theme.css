@@ -1,0 +1,26 @@
+/* Tailwind v4 — text color scale for TextColor.
+   현재 사이트에서 실제로 쓰이던 잉크 값을 그대로 토큰화한 것입니다.
+   primary 80회 · tertiary 79회 · inverse 57회 · secondary 44회 · quaternary 4회. */
+
+@theme {
+	--color-primary: #0f172a;
+	--color-secondary: #64748b;
+	--color-tertiary: #94a3b8;
+	--color-quaternary: #cbd5e1;
+	--color-inverse: #ffffff;
+}
+
+/* 대비 (WCAG, 배경 #F6F7F9 기준 / inverse는 #0F172A 기준)
+   primary     16.66:1 — 전부 통과
+   secondary    4.44:1 — AA(4.5:1) 미달. 본문에는 primary를 쓰고,
+                         secondary는 설명문 · 2차 정보에만
+   tertiary     2.39:1 — AA 미달. 메타 · 라벨 · 장식 한정, 필수 정보 금지
+   quaternary   1.39:1 — 텍스트로 쓰지 않음. 비활성 표시 · 구분 기호 전용
+   inverse     17.85:1 — primary 배경 위
+
+   secondary는 순백(#FFFFFF) 위에서는 4.76:1로 AA를 통과합니다.
+   우리 배경이 #F6F7F9라서 미달이므로, AA가 필수인 화면은 배경을 흰색으로
+   올리거나 primary를 쓰세요.
+
+   tertiary를 AA로 끌어올리려면 secondary와 거의 같은 값이 되어
+   3단 위계가 무너집니다. 위계를 유지하되 필수 정보를 넣지 않는 쪽을 택했습니다. */

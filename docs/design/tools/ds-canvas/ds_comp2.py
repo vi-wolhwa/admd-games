@@ -130,5 +130,5 @@ def build():
 
 if __name__ == "__main__":
     html = build()
-    open(os.path.join(OUT, "디자인 시스템 · 컴포넌트 2.dc.html"), "w", encoding="utf-8").write(html)
+    open(os.path.join(OUT, "DS03-components-2.dc.html"), "w", encoding="utf-8").write(html)
     print(len(html))

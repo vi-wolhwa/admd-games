@@ -8,41 +8,24 @@
 1. `action: read`, `url` = 위 주소, `paths` = `["project/compat.json", "project/<페이지>.dc.html"]` → 세션 스크래치 폴더의 `artifact-files/57ed…/project/` 에 저장된다.
 2. 같은 폴더에서 파일을 고치거나 새 `.dc.html` 을 만든다(루트에 두면 페이지 메뉴에 나타남).
 3. `action: publish`, `url` 동일, `root` = `…/artifact-files/57ed3789-695b-4f2c-8ae6-b210fafc167d`, `file_path` = 그 안의 `project/compat.json`, `files` = 바꾼 파일만 `{"project/X.dc.html": "project/X.dc.html"}`. 폰트(woff2)는 `{"from": …, "contentType": "font/woff2"}`.
-4. `compat.json` 의 `pages` 는 건드리지 않는다. 기존 페이지(v2 등)는 지우지 않는다(삭제는 사용자 승인 필요).
+4. **새 페이지는 [이름 규칙](canvas/README.md#이름-규칙-2026-11-26)을 따른다**(`PG17-xxx.dc.html`). `compat.json` 의 `pages` 끝에 `{"path", "title", "kind": "page", "name": "PG17 한글 이름"}` 을 넣어 함께 게시하고(메뉴 이름 · 순서), `report` 는 그대로 둔다. 같은 내용을 [`canvas/README.md`](canvas/README.md) 목록과 생성기 출력 이름에도 적는다.
+5. 이름 바꾸기 = 새 이름 게시 + 옛 경로 `null` 을 한 호출에, `pages` · `entry` 도 함께. 삭제는 사용자 승인 후, 먼저 [`archive/`](archive/) 에 보관.
 
-## 캔버스 페이지 목록 (2026-11-26)
+## 캔버스 페이지 목록
 
-| 페이지 | 상태 |
-| --- | --- |
-| `PlayGround v10` | **확정된 PlayGround 홈** |
-| `게임 카드 컴포넌트` | 카드 7종 · 상태 · 해부도 · 툴팁 (v10 과 같은 규칙) |
-| `aDmD 고양이 얼굴` | 고양이 DmD 표정 5종 · 그라운드 색 · 404 예시 |
-| `디자인 시스템 · 기초` · `디자인 시스템 · 컴포넌트` | 디자인 시스템 견본. **생성물** — `docs/design/tools/ds-canvas/build.py <받은 project 폴더>` 로 만들어 게시. 직접 고치지 말고 템플릿을 고친다 |
-| `MakersGround 홈 A` · `홈 B` · `MakersGround 모바일` | MakersGround 홈 시안 — 생성물(`tools/ds-canvas/mg.py`, `mg_mobile.py`) |
-| `게임 상세 A` · `B` · `플레이 화면` · `플레이 종료` · `다운로드 안내` · `보안 검사 리포트` · `내 라이브러리` | PlayGround 페이지 시안 — 생성물(`detail.py`, `play.py`, `pages2.py`) |
-| `로그인 · 내 얼굴 만들기` · `업로드 마법사` · `검색 결과` | 추가 시안 — 생성물(`pages3.py`) |
-| `메이커 페이지` · `게임 관리 · 통계` · `심사 대기열` | 추가 시안 — 생성물(`pages4.py`) |
-| `MakersGround 홈 C` · `커뮤니티 목록` · `커뮤니티 글 보기` | 커뮤니티 중심 개정 — 생성물(`mg_c.py`, 모바일 페이지도 여기서 생성) |
-| `전체 게임` · `공개 프로필` · `알림` · `설정` · `처음 올리는 분` · `글쓰기 · 개발일지` · `지난 PICK · 컬렉션` | 추가 시안 2 — 생성물(`pages5.py`, `pages6.py`) |
-| `PlayGround 모바일 · 홈` · `PlayGround 모바일 · 게임` | 모바일 PlayGround 시안 — 생성물(`pg_mobile.py`) |
-| `디자인 시스템 · 컴포넌트 2` | 시안에서 생긴 컴포넌트 견본 — 생성물(`ds_comp2.py`, 다른 생성기의 마크업 · CSS 재사용) |
-| `내 게임` · `리뷰 · 피드백함` · `메이커 프로필 만들기` · `리뷰 전체` · `신고` · `고객센터 · 약관` · `운영 · …` 3개 | L1 마무리 시안 — 생성물(`pages7.py`, `pages8.py`) |
-| `잼 · 상세` · `잼 · 투표 · 결과` · `랭킹 전체` · `친구` · `같이 하기 대기실` · `팀 관리` | L2 시안 — 생성물(`pages9.py`) |
-| `PlayGround v3 ~ v9` | 반복 이력 (참고용) |
-| `콘셉트 A 판` · `B 놀이터` · `C 크레딧` | 채택하지 않은 시안 |
-| `PlayGround v2` · `MakersGround v2` · `components/` · `docs/` | 사용자 원본 (Claude Design 에서 이관) |
+전체 목록 · 코드 · 생성기 · 옛 이름: **[`canvas/README.md`](canvas/README.md)**. 첫 화면(`entry`)은 `PG01-home`.
 
 ## 화면 확인
 
 - 브라우저 패널에서 캔버스 주소를 열면 된다(claude.ai 로그인 필요 — 사용자가 이미 로그인함).
-- `#page-PlayGround-v10` 처럼 **영문 페이지 이름은 해시로 바로 열린다.** 한글 이름 페이지(`게임 카드 컴포넌트` 등)는 해시가 안 먹으니 상단 왼쪽 페이지 메뉴(클릭 → 목록)에서 고른다.
+- 페이지는 해시로 바로 열린다: `…/57ed3789-…#page-PG05-game`(파일 이름에서 `.dc.html` 을 뺀 것). 메뉴에서는 코드 순서로 보인다.
 - 게시 직후 화면이 새 버전으로 다시 그려지며 스크롤이 맨 위로 돌아갈 수 있다.
 - 캔버스 Tweaks: `startSignedIn`(게스트/회원), `ground`(play/make 색 미리보기), 디자인 시스템 페이지는 `theme`(light/dark).
 - **페이지 메뉴가 안 열리거나 브라우저 패널이 좁을 때 — 로컬 미리보기**: `.dc.html` 의 `<helmet>` 안쪽(head)과 `</helmet>…</x-dc>` 사이(body)를 꺼내 `{{ 값 }}` 을 채운 일반 HTML 로 만들고, 스크래치 폴더에서 `python -m http.server` 를 띄워(`.claude/launch.json` 에 임시 설정 → `preview_start`) 브라우저 패널로 본다. `file://` 는 스크린샷이 안 된다. 끝나면 임시 설정을 지운다.
 
 ## 공통 후처리
 
-- 모든 생성 페이지는 `cat_face.py` 의 `catify()` 를 거친다(얼굴 = 고양이 실루엣). 손으로 만든 페이지(`PlayGround v10`, `게임 카드 컴포넌트`)에도 같은 함수를 한 번 적용했다 — 새로 손으로 만드는 페이지도 게시 전 적용.
+- 모든 생성 페이지는 `cat_face.py` 의 `catify()` 를 거친다(얼굴 = 고양이 실루엣). 손으로 만든 페이지(`PG01 홈`, `DS04 게임 카드`)에도 같은 함수를 한 번 적용했다 — 새로 손으로 만드는 페이지도 게시 전 적용.
 - 테마 전환 버튼은 `onClick="{{ toggleTheme }}"` + `renderVals` 의 `this.state.theme`. 브라우저 패널에서는 캔버스 안 클릭이 잘 안 먹으니 로컬 미리보기로 확인하고, 실제 클릭은 사용자 확인.
 
 ## 겪은 함정 (다시 하지 말 것)

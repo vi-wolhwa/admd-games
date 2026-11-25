@@ -4,7 +4,7 @@
 
 사용자가 자리를 비운 동안 확정된 PlayGround v10 문법과 [디자인 시스템](system/README.md) 위에서 혼자 만든 시안. **결정은 사용자** — [feedback-queue.md](feedback-queue.md) M1~M4.
 
-캔버스: `MakersGround 홈 A` · `MakersGround 홈 B` · `MakersGround 모바일` (Tweaks: `startSignedIn` 게스트/회원 · `theme` · `showMemo` 설명 메모). 생성기: [`tools/ds-canvas/mg.py`](tools/ds-canvas/mg.py), [`mg_mobile.py`](tools/ds-canvas/mg_mobile.py).
+캔버스: `MakersGround 홈 A` · `MakersGround 홈 B` · `MG91 모바일` (Tweaks: `startSignedIn` 게스트/회원 · `theme` · `showMemo` 설명 메모). 생성기: [`tools/ds-canvas/mg.py`](tools/ds-canvas/mg.py), [`mg_mobile.py`](tools/ds-canvas/mg_mobile.py).
 
 ## 1. 출발점
 

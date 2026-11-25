@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F6F7F9;font-family:Inter,-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;-webkit-font-smoothing:antialiased}
+a{color:#2563EB;text-decoration:none}
+a:hover{color:#1D4ED8}
+.rvLift{transition:box-shadow 200ms cubic-bezier(.2,.7,.2,1)}
+.rvLift:hover{box-shadow:0 0 16px 0 rgba(0,0,0,.16)}
+.rvLift:active{box-shadow:0 0 8px 0 rgba(0,0,0,.14)}
+.rvZoom{transition:transform 320ms cubic-bezier(.2,.7,.2,1)}
+.rvLift:hover .rvZoom{transform:scale(1.06)}
+.rvTitle{transition:color 120ms ease}
+.rvLift:hover .rvTitle{color:#2563EB}
+.rvMeta{transition:opacity 200ms ease}
+.rvLift:hover .rvMeta{opacity:.5}
+.rvSibs:hover .rvLift{opacity:.55}
+.rvSibs .rvLift:hover{opacity:1}
+.rvRow{transition:background 200ms ease,box-shadow 200ms ease}
+.rvRow:hover{background:#FFFFFF;box-shadow:0 0 16px 0 rgba(0,0,0,.16)}
+</style>
+</helmet>
+
+<div style="width:1200px;margin:0 auto;padding:56px 0 96px;color:#0F172A">
+
+<div style="background:#0F172A;color:#FFFFFF;padding:34px 38px 32px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.14em;color:#94A3B8">DESIGN RE-REVIEW · PLAYGROUND</div>
+<h1 style="margin:13px 0 0;font-size:32px;font-weight:700;letter-spacing:-.038em;line-height:1.2">확정 컨셉 기준 전수 재검토</h1>
+<p style="margin:15px 0 0;max-width:680px;font-size:13px;line-height:1.8;color:#CBD5E1;letter-spacing:-.014em;text-wrap:pretty">그림자를 컨셉에 편입하면 판단 기준이 바뀝니다. 테두리로 경계를 만들지 않고, 평상시에는 표면 대비로 구분하고 hover에서 그림자로 부상시키는 체계가 됩니다. 아래 규칙 → 위반 목록 → 체계 정의 → 토큰 → 적용 순서로 정리했습니다.</p>
+<div style="margin-top:24px;display:flex;flex-wrap:wrap;gap:6px">
+<sc-for list="{{ concept }}" as="c" hint-placeholder-count="9">
+<span style="padding:5px 10px;background:{{ c.bg }};color:{{ c.fg }};font-size:11px;font-weight:700;letter-spacing:-.01em">{{ c.name }}</span>
+</sc-for>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:28px 32px 30px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">01 — 규칙으로 번역한 컨셉</div>
+<div style="margin-top:18px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:#EEF0F3">
+<sc-for list="{{ rules }}" as="r" hint-placeholder-count="8">
+<div style="background:#FFFFFF;padding:17px 18px 18px">
+<div style="display:flex;align-items:center;gap:8px">
+<span style="padding:2px 7px;background:#0F172A;color:#FFFFFF;font-size:9px;font-weight:700;letter-spacing:.03em">{{ r.no }}</span>
+<span style="font-size:12.5px;font-weight:700;letter-spacing:-.02em">{{ r.name }}</span>
+</div>
+<p style="margin:9px 0 0;font-size:12px;line-height:1.75;color:#64748B;letter-spacing:-.012em;text-wrap:pretty">{{ r.desc }}</p>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:28px 32px 30px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">02 — 현재 파일의 위반 목록</div>
+<div style="margin-top:18px;display:grid;grid-template-columns:44px minmax(0,1.1fr) minmax(0,1fr) 92px;gap:1px;background:#EEF0F3">
+<div style="background:#F8F9FA;padding:9px 12px;font-size:10.5px;font-weight:700;letter-spacing:.04em;color:#64748B">#</div>
+<div style="background:#F8F9FA;padding:9px 12px;font-size:10.5px;font-weight:700;letter-spacing:.04em;color:#64748B">위반 지점</div>
+<div style="background:#F8F9FA;padding:9px 12px;font-size:10.5px;font-weight:700;letter-spacing:.04em;color:#64748B">수정 방향</div>
+<div style="background:#F8F9FA;padding:9px 12px;font-size:10.5px;font-weight:700;letter-spacing:.04em;color:#64748B;text-align:right">규칙</div>
+<sc-for list="{{ violations }}" as="v" hint-placeholder-count="10">
+<div style="background:#FFFFFF;padding:13px 12px;font-size:11.5px;font-weight:700;color:#CBD5E1;font-variant-numeric:tabular-nums">{{ v.no }}</div>
+<div style="background:#FFFFFF;padding:13px 12px">
+<div style="font-size:12.5px;font-weight:700;letter-spacing:-.02em">{{ v.where }}</div>
+<div style="margin-top:4px;font-size:11.5px;line-height:1.6;color:#94A3B8;letter-spacing:-.012em">{{ v.now }}</div>
+</div>
+<div style="background:#FFFFFF;padding:13px 12px;font-size:12px;line-height:1.7;color:#475569;letter-spacing:-.012em">{{ v.fix }}</div>
+<div style="background:#FFFFFF;padding:13px 12px;text-align:right">
+<span style="padding:2px 7px;background:{{ v.tagBg }};color:{{ v.tagFg }};font-size:9.5px;font-weight:700;letter-spacing:.02em">{{ v.rule }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:28px 32px 32px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">03 — 상태 전달 체계 (실제 동작)</div>
+<p style="margin:14px 0 0;max-width:820px;font-size:12.5px;line-height:1.8;color:#64748B;letter-spacing:-.013em;text-wrap:pretty">평상시 구분은 <b style="font-weight:700;color:#334155">표면 대비</b>(배경 #F6F7F9 · 카드 #FFFFFF)가, 반응은 <b style="font-weight:700;color:#334155">그림자 부상 + 2px 상승</b>이 담당합니다. 테두리는 쓰지 않습니다. 형제 유무에 따라 레이어를 얹는 구조라 단일 항목에서도 같은 감각이 납니다. 각 패널에 마우스를 올려보세요.</p>
+
+<div style="margin-top:22px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px">
+
+<div>
+<div style="display:flex;align-items:center;gap:8px;padding-bottom:11px">
+<span style="padding:2px 7px;background:#0F172A;color:#FFFFFF;font-size:9.5px;font-weight:700;letter-spacing:.04em">L1</span>
+<span style="font-size:11.5px;font-weight:700;letter-spacing:-.016em">단일 항목 · 자기 부상</span>
+</div>
+<div style="background:#F6F7F9;padding:16px">
+<div class="rvLift" style="background:#FFFFFF">
+<div style="position:relative;width:100%;aspect-ratio:16/9;background:#F1F3F5;overflow:hidden">
+<div class="rvZoom" style="position:absolute;inset:0;display:grid;place-items:center"><span style="font-size:10px;color:#94A3B8">썸네일</span></div>
+<span style="position:absolute;top:0;left:0;padding:4px 7px;background:#7C3AED;color:#FFFFFF;font-size:9.5px;font-weight:700;letter-spacing:.03em">에디터 추천</span>
+</div>
+<div style="padding:13px 14px 15px">
+<div class="rvTitle" style="font-size:15px;font-weight:700;letter-spacing:-.028em">루프 컴파일러</div>
+<div class="rvMeta" style="margin-top:6px;font-size:12px;color:#64748B;letter-spacing:-.013em">픽셀상점 · 12.8만 플레이</div>
+</div>
+</div>
+</div>
+<p style="margin:11px 0 0;font-size:11.5px;line-height:1.7;color:#94A3B8;letter-spacing:-.012em">그림자 부상 + 2px 상승 + 썸네일 줌 + 제목 블루 + 메타 후퇴. 형제가 없어도 성립.</p>
+</div>
+
+<div>
+<div style="display:flex;align-items:center;gap:8px;padding-bottom:11px">
+<span style="padding:2px 7px;background:#0F172A;color:#FFFFFF;font-size:9.5px;font-weight:700;letter-spacing:.04em">L2</span>
+<span style="font-size:11.5px;font-weight:700;letter-spacing:-.016em">형제 있음 · 디밍 추가</span>
+</div>
+<div class="rvSibs" style="background:#F6F7F9;padding:16px;display:flex;flex-direction:column;gap:12px">
+<sc-for list="{{ cards }}" as="g" hint-placeholder-count="3">
+<div class="rvLift" style="background:#FFFFFF;display:grid;grid-template-columns:96px minmax(0,1fr);gap:12px;align-items:center;padding:9px">
+<div style="position:relative;width:96px;height:54px;background:#F1F3F5;overflow:hidden">
+<div class="rvZoom" style="position:absolute;inset:0;display:grid;place-items:center"><span style="font-size:9px;color:#94A3B8">썸네일</span></div>
+</div>
+<div style="min-width:0">
+<div class="rvTitle" style="font-size:13px;font-weight:700;letter-spacing:-.024em;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ g.title }}</div>
+<div style="margin-top:4px;font-size:11.5px;color:#64748B;letter-spacing:-.013em">{{ g.dev }} · {{ g.plays }}</div>
+</div>
+</div>
+</sc-for>
+</div>
+<p style="margin:11px 0 0;font-size:11.5px;line-height:1.7;color:#94A3B8;letter-spacing:-.012em">L1에 형제 55% 디밍만 얹음. 표면은 흰색을 유지하므로 배경에 녹지 않음.</p>
+</div>
+
+<div>
+<div style="display:flex;align-items:center;gap:8px;padding-bottom:11px">
+<span style="padding:2px 7px;background:#0F172A;color:#FFFFFF;font-size:9.5px;font-weight:700;letter-spacing:.04em">L3</span>
+<span style="font-size:11.5px;font-weight:700;letter-spacing:-.016em">자동 순환 · 포커스 부상</span>
+</div>
+<div style="background:#F6F7F9;padding:16px;display:flex;flex-direction:column;gap:10px">
+<sc-for list="{{ focusRows }}" as="r" hint-placeholder-count="4">
+<div class="rvRow" style="background:{{ r.bg }};box-shadow:{{ r.shadow }};display:grid;grid-template-columns:26px minmax(0,1fr) 44px;gap:10px;align-items:center;padding:11px 12px">
+<span style="font-size:12px;font-weight:700;letter-spacing:-.02em;color:{{ r.rankColor }};font-variant-numeric:tabular-nums">{{ r.rank }}</span>
+<span style="min-width:0;font-size:12px;font-weight:{{ r.weight }};letter-spacing:-.018em;color:{{ r.fg }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ r.title }}</span>
+<span style="font-size:11px;color:#94A3B8;text-align:right;font-variant-numeric:tabular-nums">{{ r.value }}</span>
+</div>
+</sc-for>
+</div>
+<p style="margin:11px 0 0;font-size:11.5px;line-height:1.7;color:#94A3B8;letter-spacing:-.012em">시스템이 고른 항목만 그림자로 떠 있음. 마우스 hover(L1)와 겹치지 않는 별도 레이어.</p>
+</div>
+
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:28px 32px 32px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">04 — 토큰</div>
+<div style="margin-top:20px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px">
+<sc-for list="{{ tokens }}" as="t" hint-placeholder-count="4">
+<div>
+<div style="display:flex;align-items:baseline;gap:9px;padding-bottom:10px;border-bottom:1px solid #E8ECF1">
+<span style="font-size:13.5px;font-weight:700;letter-spacing:-.022em">{{ t.name }}</span>
+<span style="font-size:11px;color:#94A3B8;letter-spacing:-.012em">{{ t.rule }}</span>
+</div>
+<div style="margin-top:12px;display:flex;flex-direction:column;gap:9px">
+<sc-for list="{{ t.rows }}" as="r" hint-placeholder-count="4">
+<div style="display:flex;align-items:baseline;gap:12px">
+<span style="flex:none;width:96px;font-size:11px;font-weight:600;letter-spacing:.02em;color:#94A3B8">{{ r.k }}</span>
+<span style="min-width:0;font-size:12px;line-height:1.6;color:#334155;letter-spacing:-.012em">{{ r.v }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+
+<div style="margin-top:26px">
+<div style="display:flex;align-items:baseline;gap:9px;padding-bottom:11px;border-bottom:1px solid #E8ECF1">
+<span style="font-size:13.5px;font-weight:700;letter-spacing:-.022em">그림자 3단</span>
+<span style="font-size:11px;color:#94A3B8;letter-spacing:-.012em">평상시 0 · 반응할 때만 부상</span>
+</div>
+<div style="margin-top:16px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px">
+<sc-for list="{{ shadows }}" as="s" hint-placeholder-count="3">
+<div>
+<div style="height:64px;background:#FFFFFF;box-shadow:{{ s.value }}"></div>
+<div style="margin-top:11px;font-size:11.5px;font-weight:700;letter-spacing:.02em">{{ s.name }}</div>
+<div style="margin-top:5px;font-size:11px;color:#94A3B8;letter-spacing:-.012em">{{ s.use }}</div>
+<div style="margin-top:5px;font-size:10.5px;color:#CBD5E1;letter-spacing:-.008em;font-variant-numeric:tabular-nums">{{ s.value }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="margin-top:26px">
+<div style="display:flex;align-items:baseline;gap:9px;padding-bottom:11px;border-bottom:1px solid #E8ECF1">
+<span style="font-size:13.5px;font-weight:700;letter-spacing:-.022em">배지 팔레트 (60-30-10 예외)</span>
+<span style="font-size:11px;color:#94A3B8;letter-spacing:-.012em">색은 배지와 CTA에만 · 의미 1:1 고정</span>
+</div>
+<div style="margin-top:16px;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:1px;background:#EEF0F3">
+<sc-for list="{{ badges }}" as="b" hint-placeholder-count="6">
+<div style="background:#FFFFFF;padding:14px 14px 16px">
+<span style="display:inline-flex;padding:4px 8px;background:{{ b.bg }};color:#FFFFFF;font-size:9.5px;font-weight:700;letter-spacing:.03em">{{ b.label }}</span>
+<div style="margin-top:10px;font-size:11.5px;font-weight:700;letter-spacing:-.016em">{{ b.meaning }}</div>
+<div style="margin-top:5px;font-size:10.5px;color:#CBD5E1;letter-spacing:.02em;font-variant-numeric:tabular-nums">{{ b.bg }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:28px 32px 32px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">05 — 적용 순서</div>
+<div style="margin-top:18px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:#EEF0F3">
+<sc-for list="{{ phases }}" as="ph" hint-placeholder-count="3">
+<div style="background:#FFFFFF;padding:20px 20px 22px">
+<div style="display:flex;align-items:center;gap:8px">
+<span style="padding:2px 8px;background:#0F172A;color:#FFFFFF;font-size:9.5px;font-weight:700;letter-spacing:.03em">{{ ph.step }}</span>
+<span style="font-size:13px;font-weight:700;letter-spacing:-.022em">{{ ph.name }}</span>
+</div>
+<div style="margin-top:12px;display:flex;flex-direction:column;gap:7px">
+<sc-for list="{{ ph.items }}" as="x" hint-placeholder-count="3">
+<div style="display:flex;gap:8px">
+<span style="flex:none;width:4px;height:4px;margin-top:7px;background:#CBD5E1"></span>
+<span style="min-width:0;font-size:12px;line-height:1.65;color:#475569;letter-spacing:-.012em">{{ x.t }}</span>
+</div>
+</sc-for>
+</div>
+<div style="margin-top:14px;padding-top:11px;border-top:1px solid #F1F3F5;font-size:11px;color:#94A3B8;letter-spacing:-.012em">{{ ph.cost }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<p style="margin:28px 0 0;font-size:12px;line-height:1.8;color:#94A3B8;letter-spacing:-.012em">이 안대로 플레이그라운드 파일에 적용해도 될지, 또는 조정할 항목 번호를 알려주세요.</p>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1260,&quot;height&quot;:1500}}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      concept: ["square", "flat", "hover-shadow", "no container border", "simple", "modern", "animation", "60-30-10", "visual feedback"]
+        .map((name, i) => ({ name, bg: i === 2 || i === 3 ? "#2563EB" : "rgba(255,255,255,.1)", fg: "#FFFFFF" })),
+
+      rules: [
+        { no: "R1", name: "직각 — 컨테이너·카드·버튼·칩", desc: "사각형은 주요 컨테이너 · 카드 · 버튼 · 필터 칩 · 배지에 적용합니다. 예외: 내비게이션 바(탭 캡슐), 검색창, 정렬 토글, 프로필·아바타, 플랫폼 로고, 페이지 도트는 기존 형태를 유지합니다." },
+        { no: "R2", name: "컨테이너에 테두리 금지", desc: "카드·패널에 border/ring을 두지 않습니다. 평상시 구분은 표면 대비(배경 #F6F7F9 vs 카드 #FFFFFF), 목록 내부 구분은 1px 헤어라인 divider만 허용합니다." },
+        { no: "R3", name: "그림자는 반응에만", desc: "정지 상태 그림자 0. hover·active·자동 포커스에서만 부상시킵니다. 그림자는 '지금 반응하는 것' 하나만 가질 수 있어 시선이 분산되지 않습니다." },
+        { no: "R4", name: "부상은 그림자만", desc: "hover = box-shadow 0 0 16px 0 rgba(0,0,0,.16) 고정 + 썸네일 줌 + 제목 블루 + 메타 후퇴. 위치 이동(translateY)은 쓰지 않습니다 — 요소가 튀어 목록의 정렬감이 흔들립니다." },
+        { no: "R5", name: "플랫 = 채우기로 말한다", desc: "그라디언트·글로우·내부 광원 금지. 상태는 채움(다크/블루)과 텍스트 굵기로 표현합니다. 그림자는 깊이 표현이 아니라 반응 신호입니다." },
+        { no: "R6", name: "정보는 시각으로", desc: "수치는 tabular-nums + 굵기 대비, 진행은 2px 바, 플랫폼·인원은 기하 마크, 순위는 오도미터. 문장으로 설명하지 않고 형태로 읽히게 합니다." },
+        { no: "R7", name: "모션 4단 · 이징 1종", desc: "120 / 200 / 320 / 480ms, cubic-bezier(.2,.7,.2,1). 자동 순환은 hover 시 정지, prefers-reduced-motion에서 전면 정지." },
+        { no: "R8", name: "60-30-10 + 배지 예외", desc: "표면 60 · 잉크 30 · 액센트 10. 배지는 면적이 1% 이하라 예외로 다색 허용하되 의미를 1:1 고정하고, 태그·수치·아이콘은 뉴트럴로 유지합니다." },
+        { no: "R9", name: "선택 상태는 테마 블랙", desc: "필터 칩·세그먼트의 선택은 브랜드 블루가 아니라 테마 블랙(#0F172A) 채움. 제외는 1px #0F172A 테두리 + 연한 글씨(#94A3B8) + 취소선. 액센트는 CTA와 '내 것'에만 남깁니다. NEW 등 정보 배지도 블랙." },
+        { no: "R10", name: "테두리를 없앨 때 border:0", desc: "버튼·입력의 테두리 선언을 그냥 지우면 브라우저 기본 3D 베벨이 드러납니다(히어로 화살표 사례). 제거할 때는 항상 border:0을 명시합니다." }
+      ],
+
+      violations: [
+        { where: "필터 칩", now: "캡슐 + 선택 시 블루 채움", fix: "직각 · 비선택 배경 없음 · 선택은 테마 블랙 · 제외는 1px 테두리 + 취소선", rule: "R1 · R9" },
+        { where: "히어로 화살표 버튼", now: "테두리 선언만 지워 기본 3D 베벨 노출", fix: "border:0 명시 + 배경 채움 유지", rule: "R10" },
+        { where: "히어로 CTA", now: "radius 9px + 블루 글로우 그림자", fix: "직각 + 글로우 제거. hover에서만 lift 그림자", rule: "R1 · R5" },
+        { where: "히어로 진행 바", now: "블루→퍼플 그라디언트", fix: "브랜드 블루 단색 2px", rule: "R5" },
+        { where: "히어로 마스크", now: "흰색 3겹 + 컬러 워시", fix: "흰색 1겹 + 컬러 워시 1겹(히어로는 액센트 무대라 톤 유지)", rule: "R8" },
+        { where: "카드 강조색", now: "이름 해시 8색이 태그·수치에 적용", fix: "태그·수치는 뉴트럴. 색은 배지와 CTA로 이전", rule: "R8" },
+        { where: "NEW 배지 · 하트", now: "둘 다 #E11D48로 의미 충돌", fix: "NEW는 레드(시간성) 유지, 내 상태(하트·이력)는 브랜드 블루", rule: "R8" },
+        { where: "목록 hover", now: "배경 채움(#F8FAFC) · 디밍 · 그림자 3종 혼재", fix: "L1 그림자 부상 세트로 통일, 배경 채움은 :active만", rule: "R3 · R4" },
+        { where: "빈 상태 버튼", now: "radius 8px + 1px 테두리", fix: "직각 채움 버튼. 좌측 정렬로 카드 문법에 맞춤", rule: "R1 · R2" },
+        { where: "모션 값", now: ".16 ~ .55s 10종 + 이징 4종", fix: "120/200/320/480ms · 이징 1종으로 축약, 감속 모드 대응 추가", rule: "R7" },
+        { where: "썸네일 비율", now: "16:9 · 232×131 · 150×85 혼재", fix: "16:9 단일 비율, 크기만 다르게", rule: "R6" },
+        { where: "타이포 스케일", now: "9.5 ~ 34px 11단계", fix: "11/12/13/15/21/34px 6단계. 마크 라벨 11px 하한", rule: "R6" }
+      ].map((v, i) => ({
+        ...v,
+        no: String(i + 1).padStart(2, "0"),
+        tagBg: v.rule.indexOf("R1") === 0 || v.rule.indexOf("R3") === 0 ? "#FEF2F2" : "#F1F5F9",
+        tagFg: v.rule.indexOf("R1") === 0 || v.rule.indexOf("R3") === 0 ? "#BE123C" : "#475569"
+      })),
+
+      cards: [
+        { title: "루프 컴파일러", dev: "픽셀상점", plays: "12.8만" },
+        { title: "그리드락", dev: "세모난고양이", plays: "7.4만" },
+        { title: "애쉬폴 러너", dev: "잿빛토끼", plays: "21.2만" }
+      ],
+
+      focusRows: [
+        { rank: "01", title: "브라우저 빌드 용량 40% 줄인 방법", value: "5.8천", on: false },
+        { rank: "02", title: "첫 리뷰 100개를 읽고 바꾼 것", value: "4.2천", on: true },
+        { rank: "03", title: "잼 3일차에 접은 아이디어들", value: "3.1천", on: false },
+        { rank: "04", title: "세이브 데이터 구조 다시 짜기", value: "2.6천", on: false }
+      ].map(r => ({
+        ...r,
+        bg: "#FFFFFF",
+        shadow: r.on ? "0 0 16px 0 rgba(0,0,0,.16)" : "none",
+        fg: r.on ? "#0F172A" : "#64748B",
+        weight: r.on ? 700 : 500,
+        rankColor: r.on ? "#2563EB" : "#CBD5E1"
+      })),
+
+      tokens: [
+        { name: "형태", rule: "radius 0 · 테두리 없음", rows: [
+          { k: "컨테이너", v: "0px · border 없음 · 표면 대비로 구분" },
+          { k: "컨트롤", v: "0px · 비선택 배경 없음 · 선택 채움" },
+          { k: "divider", v: "목록 내부 1px #E9ECF1만 허용" },
+          { k: "원형 예외", v: "아바타 · 상태 점 · 페이지 도트" }
+        ] },
+        { name: "모션", rule: "4단 · 이징 1종", rows: [
+          { k: "instant", v: "120ms — 색 전환" },
+          { k: "base", v: "200ms — 그림자 · 디밍 · 상태" },
+          { k: "layout", v: "320ms — 줌 · 위치" },
+          { k: "scene", v: "480ms — 슬라이드 · 순환" },
+          { k: "easing", v: "cubic-bezier(.2,.7,.2,1)" }
+        ] },
+        { name: "표면 · 잉크", rule: "5단", rows: [
+          { k: "SURFACE", v: "#FFFFFF — 카드 · 패널" },
+          { k: "BASE", v: "#F6F7F9 — 페이지 배경" },
+          { k: "TINT", v: "#F6F8FA — active · 스켈레톤" },
+          { k: "HAIRLINE", v: "#E9ECF1 — divider" },
+          { k: "INK", v: "#0F172A / #475569 / #94A3B8 / #CBD5E1" }
+        ] },
+        { name: "타이포", rule: "6단", rows: [
+          { k: "display", v: "34 / 700 / -.038em" },
+          { k: "title", v: "21 / 700 / -.034em" },
+          { k: "card", v: "15 / 700 / -.028em" },
+          { k: "body", v: "13 / 400 / -.014em" },
+          { k: "caption", v: "12 / 500 / -.012em" },
+          { k: "micro", v: "11 / 600 / .03em (하한)" }
+        ] }
+      ],
+
+      shadows: [
+        { name: "REST", use: "정지 상태 — 그림자 없음", value: "none" },
+        { name: "LIFT", use: "hover · 자동 포커스 (고정값)", value: "0 0 16px 0 rgba(0,0,0,.16)" },
+        { name: "PRESS", use: "active — 눌린 순간", value: "0 0 8px 0 rgba(0,0,0,.14)" }
+      ],
+
+      badges: [
+        { label: "신작", meaning: "시간성", bg: "#E11D48" },
+        { label: "테스트", meaning: "참여 요청", bg: "#0D9488" },
+        { label: "잼", meaning: "기간 한정", bg: "#D97706" },
+        { label: "추천", meaning: "큐레이션", bg: "#7C3AED" },
+        { label: "플레이", meaning: "행동 · 내 것", bg: "#2563EB" },
+        { label: "정보", meaning: "중립", bg: "#0F172A" }
+      ],
+
+      phases: [
+        { step: "STEP 1", name: "그림자 · 모션 체계", cost: "반나절 · 체감 큼", items: [
+          { t: "REST/LIFT/PRESS 3단 그림자 도입 (R3·R4)" },
+          { t: "hover 5신호 세트로 전 컴포넌트 통일" },
+          { t: "모션 4단 토큰 + 감속 모드 (R7)" }
+        ] },
+        { step: "STEP 2", name: "형태 · 색 정리", cost: "하루 · 구조 변화", items: [
+          { t: "칩·검색창·버튼 직각화, 테두리 제거 (R1·R2)" },
+          { t: "정렬 세그먼트 → 밑줄 탭" },
+          { t: "해시 8색 → 배지 팔레트로 이전 (R8)" },
+          { t: "히어로 글로우·그라디언트 제거, 톤 유지" }
+        ] },
+        { step: "STEP 3", name: "정보 표현 · 마감", cost: "하루 · 디테일", items: [
+          { t: "타이포 6단 · 썸네일 16:9 통일 (R6)" },
+          { t: "수치 tabular-nums · 진행 바 2px 규격화" },
+          { t: "빈 상태 · 스켈레톤 문법 통일" },
+          { t: "접근성 보조 텍스트 · aria 정리" }
+        ] }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

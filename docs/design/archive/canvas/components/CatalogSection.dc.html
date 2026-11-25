@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<section style="width:1280px;margin:0 auto;padding:64px 0 0">
+<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:24px;padding-bottom:20px">
+<dc-import name="SectionHead" title="{{ headline }}" subtitle="{{ countLabel }}" hint-size="420px,30px"></dc-import>
+<dc-import name="CatalogToolbar" query="{{ query }}" on-search="{{ onSearch }}" sorts="{{ sorts }}" thumb-w="{{ sortW }}" thumb-x="{{ sortX }}" hint-size="560px,38px"></dc-import>
+</div>
+
+<div style="background:#FFFFFF">
+<div style="display:flex;align-items:center;flex-wrap:wrap;gap:30px;padding:12px 14px;border-bottom:1px solid #E9ECF1">
+<dc-import name="FilterGroup" label="플레이" label-width="52px" opts="{{ modeOpts }}" hint-size="300px,30px"></dc-import>
+<span style="width:1px;height:24px;background:#CBD5E1"></span>
+<dc-import name="FilterGroup" label="실행 환경" label-width="52px" opts="{{ runOpts }}" hint-size="360px,30px"></dc-import>
+</div>
+<dc-import name="TagRow" label="태그" label-width="52px" all-label="#전체" all-go="{{ clearTags }}" all-enter="{{ allTagEnter }}" all-leave="{{ allTagLeave }}" all-weight="{{ allTagWeight }}" all-fg="{{ allTagFg }}" all-bg="{{ allTagBg }}" tags="{{ tags }}" hint-size="100%,54px"></dc-import>
+</div>
+
+<div ref="{{ gridRef }}" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px;padding-top:24px">
+<sc-for list="{{ games }}" as="g" hint-placeholder-count="8">
+<dc-import name="GameCard" game="{{ g }}" show-plays="{{ showPlays }}" delay="{{ g.delay }}" hint-size="100%,300px"></dc-import>
+</sc-for>
+</div>
+
+<sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+<div style="padding:76px 0;text-align:center">
+<dc-import name="Headline" as="h3" size="xs" sx="margin:0" hint-size="180px,24px">조건에 맞는 게임이 없습니다</dc-import>
+<dc-import name="Body" as="p" size="sm" color="tertiary" sx="margin:8px 0 0" hint-size="140px,21px">태그를 줄이거나 전체 목록으로 돌아가 보세요.</dc-import>
+<button style="border:0;margin-top:20px;height:36px;padding:0 16px;background:#FFFFFF;transition:200ms" type="button" onClick="{{ onReset }}" style-hover="border-color:#2563EB;color:#FFFFFF;background:#2563EB"><dc-import name="Body" as="span" size="sm" weight="semibold" hint-size="140px,21px">필터 초기화</dc-import></button>
+</div>
+</sc-if>
+</section>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:900},&quot;headline&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;게임 둘러보기&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;countLabel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;12개&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;query&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;onSearch&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;(e) =&gt; void&quot;},&quot;sorts&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;SortOpt[]&quot;},&quot;sortW&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;58px&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;sortX&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;0px&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;modeOpts&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;FilterOpt[]&quot;},&quot;runOpts&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;FilterOpt[]&quot;},&quot;tags&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Tag[]&quot;},&quot;clearTags&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;},&quot;allTagEnter&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;},&quot;allTagLeave&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;},&quot;allTagWeight&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:700,&quot;tsType&quot;:&quot;number&quot;},&quot;allTagFg&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#FFFFFF&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#FFFFFF&quot;,&quot;#64748B&quot;]},&quot;allTagBg&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#0F172A&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#0F172A&quot;,&quot;transparent&quot;]},&quot;games&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Game[]&quot;},&quot;showPlays&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;gridRef&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Ref&quot;},&quot;isEmpty&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;onReset&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;}}"></script>
+</body>
+</html>

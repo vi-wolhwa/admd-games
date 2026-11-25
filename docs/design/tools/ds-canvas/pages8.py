@@ -114,7 +114,7 @@ def notice_users_page():
     return page("운영 · 공지 · 사용자", body, 1000, memo)
 
 if __name__ == "__main__":
-    for name, fn in [("운영 · 신고 처리.dc.html", reports_page), ("운영 · 큐레이션 편집.dc.html", curate_page), ("운영 · 공지 · 사용자.dc.html", notice_users_page)]:
+    for name, fn in [("AD02-reports.dc.html", reports_page), ("AD03-curation.dc.html", curate_page), ("AD04-notice-users.dc.html", notice_users_page)]:
         html = fn()
         open(os.path.join(OUT, name), "w", encoding="utf-8").write(html)
         print(name, len(html))

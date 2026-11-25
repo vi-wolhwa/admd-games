@@ -421,6 +421,8 @@ def page_b():
     return page("MakersGround 홈 B · 일지 먼저", body, 2800, memo)
 
 if __name__ == "__main__":
+    # 홈 A/B 는 보관됨(docs/design/archive). 홈은 mg_c.py 의 MG01-home. 이 파일은 헬퍼 제공용
+    raise SystemExit("MakersGround 홈은 mg_c.py 로 생성하세요")
     out = sys.argv_out
     for name, fn in [("MakersGround 홈 A.dc.html", page_a), ("MakersGround 홈 B.dc.html", page_b)]:
         html = fn()

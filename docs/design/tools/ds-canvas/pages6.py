@@ -152,7 +152,7 @@ def issues_page():
     return dt.page("지난 PICK · 컬렉션", body, 2100, memo).replace("</style>", p5.CSS + CSS + "\n</style>", 1)
 
 if __name__ == "__main__":
-    for name, fn in [("처음 올리는 분.dc.html", start_page), ("글쓰기 · 개발일지.dc.html", editor_page), ("지난 PICK · 컬렉션.dc.html", issues_page)]:
+    for name, fn in [("MG02-start.dc.html", start_page), ("MG10-write.dc.html", editor_page), ("PG02-issues.dc.html", issues_page)]:
         html = fn()
         open(os.path.join(OUT, name), "w", encoding="utf-8").write(html)
         print(name, len(html))

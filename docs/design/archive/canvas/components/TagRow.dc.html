@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="display:flex;align-items:flex-start;gap:11px;padding:12px 14px">
+<dc-import name="Body" as="span" size="xs" weight="bold" sx="flex:none;width:{{ labelWidth }};padding-top:8px" hint-size="120px,18px">{{ label }}</dc-import>
+<div style="display:flex;flex-wrap:wrap;gap:6px;flex:1">
+<button style="height:30px;padding:0 13px;border:0;transition:background 200ms cubic-bezier(.2,.7,.2,1),color 200ms cubic-bezier(.2,.7,.2,1);background:{{ allBg }}" type="button" onClick="{{ allGo }}" onMouseEnter="{{ allEnter }}" onMouseLeave="{{ allLeave }}"><dc-import name="Body" as="span" size="xs" sx="color:{{ allFg }};font-weight:{{ allWeight }};transition:color 200ms cubic-bezier(.2,.7,.2,1)" hint-size="120px,18px">{{ allLabel }}</dc-import></button>
+<sc-for list="{{ tags }}" as="t" hint-placeholder-count="8">
+<button style="height:30px;padding:0 13px;transition:background 200ms cubic-bezier(.2,.7,.2,1),color 200ms cubic-bezier(.2,.7,.2,1),border-color 200ms cubic-bezier(.2,.7,.2,1);background:{{ t.bg }};border:{{ t.ring }};text-decoration:{{ t.deco }}" type="button" onClick="{{ t.go }}" onMouseEnter="{{ t.enter }}" onMouseLeave="{{ t.leave }}"><dc-import name="Body" as="span" size="xs" sx="color:{{ t.fg }};font-weight:{{ t.weight }};transition:color 200ms cubic-bezier(.2,.7,.2,1)" hint-size="120px,18px">{{ t.label }}</dc-import></button>
+</sc-for>
+</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:900,&quot;height&quot;:58},&quot;label&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;태그&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;labelWidth&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;52px&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;allLabel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;#전체&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;allWeight&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:700,&quot;tsType&quot;:&quot;number&quot;},&quot;allFg&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#FFFFFF&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#FFFFFF&quot;,&quot;#64748B&quot;]},&quot;allBg&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#0F172A&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#0F172A&quot;,&quot;transparent&quot;]},&quot;tags&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Tag[]&quot;,&quot;default&quot;:[{&quot;label&quot;:&quot;#퍼즐&quot;,&quot;weight&quot;:500,&quot;fg&quot;:&quot;#64748B&quot;,&quot;bg&quot;:&quot;transparent&quot;,&quot;ring&quot;:&quot;0&quot;,&quot;deco&quot;:&quot;none&quot;},{&quot;label&quot;:&quot;#로그라이크&quot;,&quot;weight&quot;:500,&quot;fg&quot;:&quot;#64748B&quot;,&quot;bg&quot;:&quot;transparent&quot;,&quot;ring&quot;:&quot;0&quot;,&quot;deco&quot;:&quot;none&quot;}]}}"></script>
+</body>
+</html>

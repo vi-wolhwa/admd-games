@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F6F7F9;font-family:"Pretendard Variable",Pretendard,Inter,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;word-break:keep-all}
+a{color:#2563EB;text-decoration:none}
+a:hover{color:#1D4ED8}
+</style>
+</helmet>
+
+<div style="width:1180px;margin:0 auto;padding:52px 0 96px;color:#0F172A">
+
+<div style="background:#0F172A;color:#FFFFFF;padding:34px 38px 32px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.14em;color:#94A3B8">TYPOGRAPHY · PLAYGROUND · MAKERSGROUND</div>
+<h1 style="margin:13px 0 0;font-size:32px;font-weight:700;letter-spacing:-.038em;line-height:1.2">타이포그래피 규칙<br>— 코드에 이미 있는 것을 규격으로 고정</h1>
+<p style="margin:15px 0 0;max-width:760px;font-size:13px;line-height:1.8;color:#CBD5E1;letter-spacing:-.014em;text-wrap:pretty">v2 페이지와 41개 컴포넌트에서 실제로 쓰인 값을 전수 집계해 정리했습니다. 크기는 이미 9단으로 수렴해 있었고, 흐트러진 축은 트래킹 · line-height · 굵기였습니다. 이 문서는 그 세 축의 기준값을 확정하고, 크기와 별개로 <span style="font-weight:700;color:#FFFFFF">Heading / Text</span> 구분을 세운 뒤 이탈 지점을 지목합니다.</p>
+<div style="margin-top:26px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:#1E293B">
+<div style="background:#0F172A;padding:16px 18px 15px">
+<div style="font-size:11px;font-weight:600;letter-spacing:.04em;color:#94A3B8">집계 대상</div>
+<div style="margin-top:7px;font-size:24px;font-weight:700;letter-spacing:-.04em;font-variant-numeric:tabular-nums">43<span style="font-size:13px;font-weight:600;color:#94A3B8">개 파일</span></div>
+</div>
+<div style="background:#0F172A;padding:16px 18px 15px">
+<div style="font-size:11px;font-weight:600;letter-spacing:.04em;color:#94A3B8">쓰인 크기</div>
+<div style="margin-top:7px;font-size:24px;font-weight:700;letter-spacing:-.04em;font-variant-numeric:tabular-nums">9<span style="font-size:13px;font-weight:600;color:#94A3B8">단 · 이탈 0</span></div>
+</div>
+<div style="background:#0F172A;padding:16px 18px 15px">
+<div style="font-size:11px;font-weight:600;letter-spacing:.04em;color:#94A3B8">트래킹 값</div>
+<div style="margin-top:7px;font-size:24px;font-weight:700;letter-spacing:-.04em;color:#FCA5A5;font-variant-numeric:tabular-nums">20<span style="font-size:13px;font-weight:600;color:#94A3B8">종 → 9종</span></div>
+</div>
+<div style="background:#0F172A;padding:16px 18px 15px">
+<div style="font-size:11px;font-weight:600;letter-spacing:.04em;color:#94A3B8">고칠 지점</div>
+<div style="margin-top:7px;font-size:24px;font-weight:700;letter-spacing:-.04em;color:#FCD34D;font-variant-numeric:tabular-nums">9<span style="font-size:13px;font-weight:600;color:#94A3B8">건</span></div>
+</div>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:28px 32px 30px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">01 — 서체</div>
+<div style="margin-top:20px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:#E9ECF1">
+<div style="background:#FFFFFF;padding:22px 24px 24px">
+<div style="display:flex;align-items:baseline;gap:9px">
+<span style="font-size:15px;font-weight:700;letter-spacing:-.026em">Pretendard Variable</span>
+<span style="font-size:11px;font-weight:600;letter-spacing:.02em;color:#94A3B8">본문 · 제목 전부</span>
+</div>
+<div style="margin-top:14px;font-size:34px;font-weight:700;letter-spacing:-.048em;line-height:1.15">플레이 그라운드<br>인디 게임 쇼케이스</div>
+<p style="margin:16px 0 0;font-size:12px;line-height:1.75;color:#64748B;letter-spacing:-.012em;text-wrap:pretty">한글 조판이 기본이므로 라틴 폴백이 아닌 한글 우선 서체를 1순위에 둡니다. 가변 폰트라 400~700을 파일 추가 없이 씁니다. dynamic-subset 버전을 쓰므로 본문 로딩 비용은 낮습니다.</p>
+<div style="margin-top:15px;padding-top:12px;border-top:1px solid #E9ECF1;font-size:11px;line-height:1.7;color:#94A3B8;letter-spacing:-.01em">word-break: keep-all · text-wrap: pretty 동반 필수 — 한글 어절이 중간에서 끊기는 것을 막습니다.</div>
+</div>
+<div style="background:#FFFFFF;padding:22px 24px 24px">
+<div style="display:flex;align-items:baseline;gap:9px">
+<span style="font-family:Inter,sans-serif;font-size:15px;font-weight:700;letter-spacing:-.026em">Inter</span>
+<span style="font-size:11px;font-weight:600;letter-spacing:.02em;color:#94A3B8">숫자 · 라틴 라벨 한정</span>
+</div>
+<div style="margin-top:14px;font-family:Inter,sans-serif;font-size:34px;font-weight:700;letter-spacing:-.048em;line-height:1.15;font-variant-numeric:tabular-nums">12,480 · 4.7<br>NEW / JAM / PICK</div>
+<p style="margin:16px 0 0;font-size:12px;line-height:1.75;color:#64748B;letter-spacing:-.012em;text-wrap:pretty">지표·평점·순위처럼 자리수가 변하는 숫자와 대문자 라틴 배지에만 씁니다. 문장 안에 섞인 숫자는 Pretendard를 그대로 두세요 — 서체가 바뀌면 기준선이 흔들립니다.</p>
+<div style="margin-top:15px;padding-top:12px;border-top:1px solid #E9ECF1;font-size:11px;line-height:1.7;color:#94A3B8;letter-spacing:-.01em">현재 하드코딩된 곳: SiteNav 1건. 숫자 블록에는 font-variant-numeric: tabular-nums를 반드시 함께 선언합니다.</div>
+</div>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:28px 32px 32px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">02 — 스케일 9단</div>
+<p style="margin:14px 0 0;max-width:820px;font-size:12px;line-height:1.8;color:#64748B;letter-spacing:-.013em;text-wrap:pretty">실제 코드에서 쓰인 크기는 50 · 46 · 34 · 21 · 15 · 13 · 12 · 11 뿐이고 그 밖의 값은 하나도 없었습니다. 이 목록 밖의 크기는 새로 만들지 않습니다. 11px이 하한입니다.</p>
+
+<div style="margin-top:22px;display:grid;grid-template-columns:112px 178px minmax(0,1fr) 232px;gap:1px;background:#E9ECF1">
+<div style="background:#F6F7F9;padding:9px 12px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#64748B">토큰</div>
+<div style="background:#F6F7F9;padding:9px 12px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#64748B">크기 / 굵기 / 트래킹 / 행간</div>
+<div style="background:#F6F7F9;padding:9px 12px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#64748B">견본</div>
+<div style="background:#F6F7F9;padding:9px 12px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#64748B">용도 · 사용처</div>
+
+<div style="background:#FFFFFF;padding:16px 12px"><div style="font-size:12px;font-weight:700;letter-spacing:-.022em">display-xl</div></div>
+<div style="background:#FFFFFF;padding:16px 12px;font-size:11px;line-height:1.7;color:#475569;letter-spacing:-.01em;font-variant-numeric:tabular-nums">50px · 700 · -.04em · 1.12<div style="color:#94A3B8">메이커스 히어로는 46px</div></div>
+<div style="background:#FFFFFF;padding:16px 12px;overflow:hidden"><div style="font-size:50px;font-weight:700;letter-spacing:-.04em;line-height:1.12;white-space:nowrap">오늘의 게임</div></div>
+<div style="background:#FFFFFF;padding:16px 12px;font-size:11px;line-height:1.7;color:#64748B;letter-spacing:-.012em">페이지당 1회. 히어로 헤드라인 전용<div style="margin-top:3px;color:#94A3B8">HeroSpotlight · MakersHero</div></div>
+
+<div style="background:#FFFFFF;padding:16px 12px"><div style="font-size:12px;font-weight:700;letter-spacing:-.022em">display</div></div>
+<div style="background:#FFFFFF;padding:16px 12px;font-size:11px;line-height:1.7;color:#475569;letter-spacing:-.01em;font-variant-numeric:tabular-nums">34px · 700 · -.048em · 1.05<div style="color:#94A3B8">숫자는 tabular-nums</div></div>
+<div style="background:#FFFFFF;padding:16px 12px;overflow:hidden"><div style="font-size:34px;font-weight:700;letter-spacing:-.048em;line-height:1.05;white-space:nowrap;font-variant-numeric:tabular-nums">128<span style="font-size:15px;font-weight:600;color:#94A3B8">개 저장</span></div></div>
+<div style="background:#FFFFFF;padding:16px 12px;font-size:11px;line-height:1.7;color:#64748B;letter-spacing:-.012em">큰 수치는 <span style="font-weight:700;color:#0F172A">Text</span> · 패널 헤드라인은 <span style="font-weight:700;color:#0F172A">Heading</span><div style="margin-top:3px;color:#94A3B8">ShelfStats(Text) · PanelHeadline(h2)</div></div>
+
+<div style="background:#FFFFFF;padding:16px 12px"><div style="font-size:12px;font-weight:700;letter-spacing:-.022em">title</div></div>
+<div style="background:#FFFFFF;padding:16px 12px;font-size:11px;line-height:1.7;color:#475569;letter-spacing:-.01em;font-variant-numeric:tabular-nums">21px · 700 · -.034em · 1.3</div>
+<div style="background:#FFFFFF;padding:16px 12px;overflow:hidden"><div style="font-size:21px;font-weight:700;letter-spacing:-.034em;line-height:1.3;white-space:nowrap">지금 플레이할 게임</div></div>
+<div style="background:#FFFFFF;padding:16px 12px;font-size:11px;line-height:1.7;color:#64748B;letter-spacing:-.012em">섹션 제목 · 패널 제목<div style="margin-top:3px;color:#94A3B8">SectionHead · NewsBoard · ProfileSummary · ShowcaseBoard</div></div>
+
+<div style="background:#FFFFFF;padding:16px 12px"><div style="font-size:12px;font-weight:700;letter-spacing:-.022em">card</div></div>
+<div style="background:#FFFFFF;padding:16px 12px;font-size:11px;line-height:1.7;color:#475569;letter-spacing:-.01em;font-variant-numeric:tabular-nums">15px · 700 · -.026em · 1.35</div>
+<div style="background:#FFFFFF;padding:16px 12px;overflow:hidden"><div style="font-size:15px;font-weight:700;letter-spacing:-.026em;line-height:1.35;white-space:nowrap">별빛 아래 정원사</div></div>
+<div style="background:#FFFFFF;padding:16px 12px;font-size:11px;line-height:1.7;color:#64748B;letter-spacing:-.012em">카드 · 리스트 행 제목<div style="margin-top:3px;color:#94A3B8">GameCard · GameRow · LibraryPanel</div></div>
+
+<div style="background:#FFFFFF;padding:16px 12px"><div style="font-size:12px;font-weight:700;letter-spacing:-.022em">body</div></div>
+<div style="background:#FFFFFF;padding:16px 12px;font-size:11px;line-height:1.7;color:#475569;letter-spacing:-.01em;font-variant-numeric:tabular-nums">13px · 400 · -.014em · 1.75</div>
+<div style="background:#FFFFFF;padding:16px 12px"><div style="font-size:13px;font-weight:400;letter-spacing:-.014em;line-height:1.75;color:#475569;text-wrap:pretty">밤마다 자라는 정원을 돌보며 사라진 별을 되찾는 짧은 이야기 게임입니다.</div></div>
+<div style="background:#FFFFFF;padding:16px 12px;font-size:11px;line-height:1.7;color:#64748B;letter-spacing:-.012em">설명문 · 섹션 부제<div style="margin-top:3px;color:#94A3B8">두 줄 이상 흐르는 문장에만 사용</div></div>
+
+<div style="background:#FFFFFF;padding:16px 12px"><div style="font-size:12px;font-weight:700;letter-spacing:-.022em">label</div></div>
+<div style="background:#FFFFFF;padding:16px 12px;font-size:11px;line-height:1.7;color:#475569;letter-spacing:-.01em;font-variant-numeric:tabular-nums">13px · 600 · -.016em · 1.4</div>
+<div style="background:#FFFFFF;padding:16px 12px"><div style="display:flex;gap:8px;align-items:center"><span style="padding:8px 14px;background:#0F172A;color:#FFFFFF;font-size:13px;font-weight:600;letter-spacing:-.016em">지금 플레이</span><span style="font-size:13px;font-weight:600;letter-spacing:-.016em;color:#64748B">최신순</span></div></div>
+<div style="background:#FFFFFF;padding:16px 12px;font-size:11px;line-height:1.7;color:#64748B;letter-spacing:-.012em">버튼 · 탭 · 정렬 토글<div style="margin-top:3px;color:#94A3B8">SectionBar · CatalogToolbar · MakersSubNav</div></div>
+
+<div style="background:#FFFFFF;padding:16px 12px"><div style="font-size:12px;font-weight:700;letter-spacing:-.022em">caption</div></div>
+<div style="background:#FFFFFF;padding:16px 12px;font-size:11px;line-height:1.7;color:#475569;letter-spacing:-.01em;font-variant-numeric:tabular-nums">12px · 500 · -.012em · 1.6</div>
+<div style="background:#FFFFFF;padding:16px 12px"><div style="font-size:12px;font-weight:500;letter-spacing:-.012em;line-height:1.6;color:#64748B">한밤스튜디오 · 퍼즐 · 2026.04</div></div>
+<div style="background:#FFFFFF;padding:16px 12px;font-size:11px;line-height:1.7;color:#64748B;letter-spacing:-.012em">메타 정보 · 태그 · 푸터<div style="margin-top:3px;color:#94A3B8">TagRow · SiteFooter · NotifList</div></div>
+
+<div style="background:#FFFFFF;padding:16px 12px"><div style="font-size:12px;font-weight:700;letter-spacing:-.022em">micro</div></div>
+<div style="background:#FFFFFF;padding:16px 12px;font-size:11px;line-height:1.7;color:#475569;letter-spacing:-.01em;font-variant-numeric:tabular-nums">11px · 600 · -.01em · 1.45<div style="color:#94A3B8">가독 하한 — 그 아래 없음</div></div>
+<div style="background:#FFFFFF;padding:16px 12px"><div style="display:flex;gap:10px;align-items:center"><span style="font-size:11px;font-weight:600;letter-spacing:-.01em;color:#475569">4.7 · 리뷰 128</span><span style="padding:2px 7px;background:#0F172A;color:#FFFFFF;font-size:11px;font-weight:700;letter-spacing:-.01em">NEW</span></div></div>
+<div style="background:#FFFFFF;padding:16px 12px;font-size:11px;line-height:1.7;color:#64748B;letter-spacing:-.012em">수치 라벨 · 배지 · 스펙 마크<div style="margin-top:3px;color:#94A3B8">SpecMarks · Badge · MyGameRow</div></div>
+
+<div style="background:#FFFFFF;padding:16px 12px"><div style="font-size:12px;font-weight:700;letter-spacing:-.022em">eyebrow</div></div>
+<div style="background:#FFFFFF;padding:16px 12px;font-size:11px;line-height:1.7;color:#475569;letter-spacing:-.01em;font-variant-numeric:tabular-nums">11px · 700 · +.06em · 1<div style="color:#94A3B8">유일한 양수 트래킹</div></div>
+<div style="background:#FFFFFF;padding:16px 12px"><div style="font-size:11px;font-weight:700;letter-spacing:.06em;color:#94A3B8">THIS WEEK · 마감 임박</div></div>
+<div style="background:#FFFFFF;padding:16px 12px;font-size:11px;line-height:1.7;color:#64748B;letter-spacing:-.012em">섹션 오버라인 · 대문자 라틴<div style="margin-top:3px;color:#94A3B8">WeekStrip · GrantList · ReleasePipeline</div></div>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:28px 32px 32px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">03 — Heading과 Text</div>
+<div style="margin-top:15px;display:flex;align-items:baseline;gap:12px;flex-wrap:wrap">
+<div style="font-size:21px;font-weight:700;letter-spacing:-.034em;line-height:1.3">스케일은 하나, 요소는 둘</div>
+<div style="font-size:12px;font-weight:600;letter-spacing:-.014em;color:#64748B">크기는 컴포넌트에 박히지 않고 prop으로 받습니다</div>
+</div>
+<p style="margin:13px 0 0;max-width:860px;font-size:12px;line-height:1.8;color:#64748B;letter-spacing:-.013em;text-wrap:pretty">Heading은 <span style="font-weight:700;color:#0F172A">문서 구조를 만드는 글자</span>(h1~h4), Text는 <span style="font-weight:700;color:#0F172A">그 밖의 모든 글자</span>입니다. 크기는 두 요소가 02의 9단을 공유합니다. 그래서 <span style="font-weight:700;color:#0F172A">34px 수치는 Text로 크게</span> 쓸 수 있고, 21px 섹션 제목은 Heading으로 개요에 남습니다.</p>
+
+<div style="margin-top:22px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:#E9ECF1">
+<div style="background:#FFFFFF;padding:22px 24px 24px">
+<div style="display:flex;align-items:center;gap:8px">
+<span style="padding:2px 8px;background:#0F172A;color:#FFFFFF;font-size:11px;font-weight:700;letter-spacing:.03em">HEADING</span>
+<span style="font-size:12px;font-weight:700;letter-spacing:-.022em">페이지 목차에 남는 것만</span>
+</div>
+<div style="margin-top:14px;display:flex;flex-wrap:wrap;gap:6px">
+<span style="padding:4px 10px;background:#F1F5F9;font-size:11px;font-weight:600;letter-spacing:-.01em;color:#0F172A">display-xl · h1</span>
+<span style="padding:4px 10px;background:#F1F5F9;font-size:11px;font-weight:600;letter-spacing:-.01em;color:#0F172A">display · h2</span>
+<span style="padding:4px 10px;background:#F1F5F9;font-size:11px;font-weight:600;letter-spacing:-.01em;color:#0F172A">title · h2 / h3</span>
+<span style="padding:4px 10px;background:#F1F5F9;font-size:11px;font-weight:600;letter-spacing:-.01em;color:#0F172A">card · h3 / h4</span>
+</div>
+<p style="margin:15px 0 0;font-size:12px;line-height:1.75;color:#475569;letter-spacing:-.012em;text-wrap:pretty">기본 굵기 700, 트래킹·행간은 크기가 정합니다. 레벨(h1~h4)은 <span style="font-weight:700;color:#0F172A">위치가 결정</span>하고 크기가 결정하지 않습니다 — 사이드 패널 제목이 card 크기라도 h3일 수 있습니다.</p>
+<div style="margin-top:14px;padding-top:11px;border-top:1px solid #E9ECF1;font-size:11px;line-height:1.7;color:#94A3B8;letter-spacing:-.01em">쓰지 않는 것: body 이하 4단 · eyebrow. eyebrow는 제목 위 라벨이므로 제목이 아닙니다.</div>
+</div>
+<div style="background:#FFFFFF;padding:22px 24px 24px">
+<div style="display:flex;align-items:center;gap:8px">
+<span style="padding:2px 8px;background:#475569;color:#FFFFFF;font-size:11px;font-weight:700;letter-spacing:.03em">TEXT</span>
+<span style="font-size:12px;font-weight:700;letter-spacing:-.022em">display-xl 하나만 빼고 전부</span>
+</div>
+<div style="margin-top:14px;display:flex;flex-wrap:wrap;gap:6px">
+<span style="padding:4px 10px;background:#FFF7ED;font-size:11px;font-weight:600;letter-spacing:-.01em;color:#C2410C">display · 수치</span>
+<span style="padding:4px 10px;background:#F1F5F9;font-size:11px;font-weight:600;letter-spacing:-.01em;color:#475569">title</span>
+<span style="padding:4px 10px;background:#F1F5F9;font-size:11px;font-weight:600;letter-spacing:-.01em;color:#475569">card</span>
+<span style="padding:4px 10px;background:#F1F5F9;font-size:11px;font-weight:600;letter-spacing:-.01em;color:#475569">body</span>
+<span style="padding:4px 10px;background:#F1F5F9;font-size:11px;font-weight:600;letter-spacing:-.01em;color:#475569">label</span>
+<span style="padding:4px 10px;background:#F1F5F9;font-size:11px;font-weight:600;letter-spacing:-.01em;color:#475569">caption</span>
+<span style="padding:4px 10px;background:#F1F5F9;font-size:11px;font-weight:600;letter-spacing:-.01em;color:#475569">micro</span>
+<span style="padding:4px 10px;background:#F1F5F9;font-size:11px;font-weight:600;letter-spacing:-.01em;color:#475569">eyebrow</span>
+</div>
+<p style="margin:15px 0 0;font-size:12px;line-height:1.75;color:#475569;letter-spacing:-.012em;text-wrap:pretty">기본은 body(13/400). 크기를 키워도 요소는 <span style="font-weight:700;color:#0F172A">span / p / div</span>로 남습니다. 지표·평점·카운트·타이머가 여기 들어옵니다 — 값이 갱신되는 글자는 제목이 아닙니다.</p>
+<div style="margin-top:14px;padding-top:11px;border-top:1px solid #E9ECF1;font-size:11px;line-height:1.7;color:#94A3B8;letter-spacing:-.01em">display-xl은 Text에 개방하지 않습니다. 페이지에서 가장 큰 글자는 항상 그 페이지의 제목이어야 합니다.</div>
+</div>
+</div>
+
+<div style="margin-top:20px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:#E9ECF1">
+<div style="background:#F8FAFC;padding:18px 20px 19px">
+<div style="font-size:12px;font-weight:700;letter-spacing:-.022em">왜 Text 하나로 두지 않는가</div>
+<p style="margin:9px 0 0;font-size:12px;line-height:1.75;color:#64748B;letter-spacing:-.012em;text-wrap:pretty">모두 span이 되면 문서 개요가 사라집니다. 스크린리더 사용자는 제목 목록으로 페이지를 훑는데, 그 목록이 비면 카탈로그 20개 카드를 순서대로 듣는 수밖에 없습니다.</p>
+</div>
+<div style="background:#F8FAFC;padding:18px 20px 19px">
+<div style="font-size:12px;font-weight:700;letter-spacing:-.022em">왜 Heading에 크기를 묶지 않는가</div>
+<p style="margin:9px 0 0;font-size:12px;line-height:1.75;color:#64748B;letter-spacing:-.012em;text-wrap:pretty">묶으면 34px을 쓰려고 숫자를 h2로 만들게 됩니다. <span style="font-weight:700;color:#0F172A">128개 저장</span>이 정확히 그 사례입니다. 크기와 의미를 분리하면 둘 다 정직해집니다.</p>
+</div>
+<div style="background:#F8FAFC;padding:18px 20px 19px">
+<div style="font-size:12px;font-weight:700;letter-spacing:-.022em">판정 기준 한 줄</div>
+<p style="margin:9px 0 0;font-size:12px;line-height:1.75;color:#64748B;letter-spacing:-.012em;text-wrap:pretty">이 글자가 <span style="font-weight:700;color:#0F172A">아래 내용의 이름</span>인가? 예 → Heading. 값·상태·설명·조작 라벨인가? → Text. 크기는 이 판정에 관여하지 않습니다.</p>
+</div>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:28px 32px 30px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">04 — 세 축의 규칙</div>
+<div style="margin-top:18px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:#E9ECF1">
+<sc-for list="{{ axes }}" as="a" hint-placeholder-count="3">
+<div style="background:#FFFFFF;padding:20px 20px 22px">
+<div style="display:flex;align-items:center;gap:8px">
+<span style="padding:2px 8px;background:#0F172A;color:#FFFFFF;font-size:11px;font-weight:700;letter-spacing:.03em">{{ a.tag }}</span>
+<span style="font-size:12px;font-weight:700;letter-spacing:-.022em">{{ a.name }}</span>
+</div>
+<p style="margin:11px 0 0;font-size:12px;line-height:1.75;color:#475569;letter-spacing:-.012em;text-wrap:pretty">{{ a.rule }}</p>
+<div style="margin-top:13px;display:flex;flex-direction:column;gap:7px">
+<sc-for list="{{ a.rows }}" as="r" hint-placeholder-count="4">
+<div style="display:flex;align-items:baseline;gap:10px">
+<span style="flex:none;width:88px;font-size:11px;font-weight:600;letter-spacing:.02em;color:#94A3B8;font-variant-numeric:tabular-nums">{{ r.k }}</span>
+<span style="min-width:0;font-size:11px;line-height:1.65;color:#475569;letter-spacing:-.01em">{{ r.v }}</span>
+</div>
+</sc-for>
+</div>
+<div style="margin-top:14px;padding-top:11px;border-top:1px solid #E9ECF1;font-size:11px;line-height:1.7;color:#94A3B8;letter-spacing:-.01em">{{ a.note }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<sc-if value="{{ showAudit }}" hint-placeholder-val="{{ true }}">
+<div style="margin-top:16px;background:#FFFFFF;padding:28px 32px 32px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">05 — 감사 · 현재 코드의 이탈 9건</div>
+<p style="margin:14px 0 0;max-width:820px;font-size:12px;line-height:1.8;color:#64748B;letter-spacing:-.013em;text-wrap:pretty">전수 집계에서 나온 실제 이탈입니다. 크기 이탈은 없었고, 트래킹 · 굵기 · 행간 축과 요소 구분 문제입니다. 우선순위 順으로 정렬했습니다.</p>
+<div style="margin-top:20px;display:grid;grid-template-columns:44px minmax(0,1.15fr) minmax(0,1fr) 176px 68px;gap:1px;background:#E9ECF1">
+<div style="background:#F6F7F9;padding:9px 12px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#64748B">#</div>
+<div style="background:#F6F7F9;padding:9px 12px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#64748B">현재 상태</div>
+<div style="background:#F6F7F9;padding:9px 12px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#64748B">고칠 값</div>
+<div style="background:#F6F7F9;padding:9px 12px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#64748B">해당 파일</div>
+<div style="background:#F6F7F9;padding:9px 12px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#64748B;text-align:right">등급</div>
+<sc-for list="{{ audit }}" as="d" hint-placeholder-count="8">
+<div style="background:#FFFFFF;padding:13px 12px;font-size:11px;font-weight:700;color:#94A3B8;font-variant-numeric:tabular-nums">{{ d.no }}</div>
+<div style="background:#FFFFFF;padding:13px 12px">
+<div style="font-size:12px;font-weight:700;letter-spacing:-.02em">{{ d.title }}</div>
+<div style="margin-top:4px;font-size:11px;line-height:1.65;color:#64748B;letter-spacing:-.01em">{{ d.now }}</div>
+</div>
+<div style="background:#FFFFFF;padding:13px 12px;font-size:11px;line-height:1.7;color:#475569;letter-spacing:-.01em">{{ d.fix }}</div>
+<div style="background:#FFFFFF;padding:13px 12px;font-size:11px;line-height:1.7;color:#94A3B8;letter-spacing:-.01em">{{ d.files }}</div>
+<div style="background:#FFFFFF;padding:13px 12px;text-align:right"><span style="font-size:11px;font-weight:700;letter-spacing:.02em;color:{{ d.color }}">{{ d.grade }}</span></div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showChecklist }}" hint-placeholder-val="{{ true }}">
+<div style="margin-top:16px;background:#FFFFFF;padding:28px 32px 32px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">06 — 새 화면을 그릴 때</div>
+<div style="margin-top:18px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:#E9ECF1">
+<sc-for list="{{ checklist }}" as="c" hint-placeholder-count="6">
+<div style="background:#FFFFFF;padding:16px 18px 17px">
+<div style="display:flex;align-items:center;gap:8px">
+<span style="padding:2px 7px;background:#0F172A;color:#FFFFFF;font-size:11px;font-weight:700;letter-spacing:.03em">{{ c.no }}</span>
+<span style="font-size:12px;font-weight:700;letter-spacing:-.02em">{{ c.name }}</span>
+</div>
+<p style="margin:9px 0 0;font-size:12px;line-height:1.75;color:#64748B;letter-spacing:-.012em;text-wrap:pretty">{{ c.desc }}</p>
+</div>
+</sc-for>
+</div>
+<p style="margin:26px 0 0;font-size:12px;line-height:1.8;color:#94A3B8;letter-spacing:-.012em;text-wrap:pretty">04의 8건을 한 번에 반영할지 알려주세요. 컴포넌트 파일만 고치면 두 페이지에 동시 적용됩니다.</p>
+</div>
+</sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showAudit&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;섹션 표시&quot;},&quot;showChecklist&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;섹션 표시&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    return {
+      showAudit: this.props.showAudit ?? true,
+      showChecklist: this.props.showChecklist ?? true,
+
+      axes: [
+        { tag: "축 1", name: "트래킹 — 크기에 종속", rule: "커질수록 조인다. 값을 자유롭게 고르지 않고 크기가 정해지면 트래킹도 함께 정해집니다. 양수는 대문자 eyebrow 하나뿐입니다.", rows: [
+          { k: "50 / 46", v: "-.04em" },
+          { k: "34", v: "-.048em" },
+          { k: "21", v: "-.034em" },
+          { k: "15", v: "-.026em" },
+          { k: "13 본문", v: "-.014em / 라벨 -.016em" },
+          { k: "12", v: "-.012em" },
+          { k: "11", v: "-.01em" },
+          { k: "eyebrow", v: "+.06em (대문자 전용)" }
+        ], note: "-.008em · -.05em · +.02~.07em 혼용은 폐기. 9개 값 밖으로 나가지 않습니다." },
+
+        { tag: "축 2", name: "행간 — 역할에 종속", rule: "한 줄인지 흐르는 문장인지로 갈립니다. 미지정(normal)을 남기지 말고 항상 선언하세요 — 브라우저 기본값이 한글에서 좁게 잡힙니다.", rows: [
+          { k: "흐르는 문장", v: "1.75 (13px 설명문 · 카피)" },
+          { k: "짧은 문장", v: "1.6 (12px 메타 2줄)" },
+          { k: "제목 2줄", v: "1.3 (21px) / 1.12~1.15 (34px+)" },
+          { k: "단일 행", v: "1.35~1.45 또는 1" },
+          { k: "숫자 블록", v: "1 (베이스라인 정렬 위해)" },
+          { k: "금지", v: "px 단위 행간 (line-height:15px)" }
+        ], note: "한글은 라틴보다 넉넉한 행간이 필요합니다. 본문 1.75 미만으로 조이지 않습니다." },
+
+        { tag: "축 3", name: "굵기 — 4단", rule: "400 · 500 · 600 · 700만 씁니다. 강조는 굵기 한 단 + 색 한 단으로 끝냅니다. 두 단 이상 뛰지 않습니다.", rows: [
+          { k: "700", v: "제목 · 수치 · 배지 · eyebrow" },
+          { k: "600", v: "버튼 · 탭 · micro 라벨" },
+          { k: "500", v: "caption 메타" },
+          { k: "400", v: "본문 문장" },
+          { k: "폐기", v: "800 (한글에서 뭉침) · 450 (중간값)" }
+        ], note: "가변 폰트라 임의 굵기가 가능하지만, 4단 밖은 화면 간 비교가 불가능해집니다." }
+      ],
+
+      audit: [
+        { no: "01", title: "eyebrow 트래킹 4종 혼용", now: "+.04 / +.05 / +.06 / +.07em", fix: "전부 +.06em", files: "MakersHero · HeroSpotlight · DeadlineCarousel · GrantList · ReleasePipeline · WeekStrip", grade: "높음", color: "#BE123C" },
+        { no: "02", title: "font-weight 800", now: "한글 굵기가 뭉쳐 21px 이하에서 판독 저하", fix: "700으로 통일", files: "PanelHeadline · OpenQuestionsPanel", grade: "높음", color: "#BE123C" },
+        { no: "03", title: "px 단위 행간", now: "line-height:15px — 크기 변경 시 깨짐", fix: "1.45 등 비율값", files: "MakerMePanel · ProfileCard", grade: "높음", color: "#BE123C" },
+        { no: "04", title: "11~12px에 -.008em", now: "규칙보다 느슨해 다른 micro와 폭이 어긋남", fix: "11px -.01em · 12px -.012em", files: "MyGameRow · HotPostsPanel · ShowcaseBoard · TodaysPicks · OpenQuestionsPanel", grade: "보통", color: "#C2410C" },
+        { no: "05", title: "34px 트래킹 3종", now: "-.04 / -.048 / -.05em", fix: "-.048em", files: "PanelHeadline · ShelfStats · DeadlineCarousel", grade: "보통", color: "#C2410C" },
+        { no: "06", title: "21px 행간 3종", now: "1.28 / 1.30 / 1.32", fix: "1.3", files: "NewsBoard · ShowcaseBoard · SpotlightCard", grade: "보통", color: "#C2410C" },
+        { no: "07", title: "수치가 제목 태그로 마크업", now: "34px 카운트가 h2 — 문서 개요에 값이 섞임", fix: "span + Text(display) 로 교체, 옆 섹션 제목만 h2", files: "ShelfStats · DeadlineCarousel · MakerMePanel", grade: "보통", color: "#C2410C" },
+        { no: "08", title: "15px 트래킹 3종", now: "-.024 / -.026 / -.028em", fix: "-.026em", files: "GameCard · GameRow · LibraryPanel · CatalogSection · SignInFallback", grade: "낮음", color: "#64748B" },
+        { no: "09", title: "font-weight 450", now: "4단 밖의 중간값 1건", fix: "400 또는 500", files: "GameCard", grade: "낮음", color: "#64748B" }
+      ],
+
+      checklist: [
+        { no: "C1", name: "크기부터 고른다", desc: "9단 중 하나를 먼저 정하면 트래킹·행간·굵기는 02 표에서 그대로 따라옵니다. 값을 새로 눈대중하지 않습니다." },
+        { no: "C2", name: "11px 하한", desc: "더 작게 만들고 싶으면 크기를 줄이는 대신 색을 #94A3B8로 후퇴시키거나 요소를 뺍니다." },
+        { no: "C3", name: "한 화면 4단 이내", desc: "한 섹션에서 title · card · caption · micro 정도로 끝냅니다. 단계가 5개 넘으면 위계가 아니라 소음입니다." },
+        { no: "C4", name: "숫자는 tabular", desc: "지표·평점·순위·시간은 font-variant-numeric: tabular-nums. 카운트가 바뀔 때 레이아웃이 흔들리지 않습니다." },
+        { no: "C5", name: "한글 조판 3종 세트", desc: "word-break: keep-all · text-wrap: pretty · 넉넉한 행간. 세 개를 항상 함께 씁니다." },
+        { no: "C6", name: "굵기로 말한다", desc: "정보 위계는 크기를 키우기보다 굵기 700 + 색 #0F172A로 만듭니다. 크기 단계를 늘리지 않고 강조를 얻는 방법입니다." }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

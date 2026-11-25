@@ -1,11 +1,11 @@
 # STATUS
 
-- 마지막 업데이트: 2026-11-26 (Asia/Seoul)
+- 마지막 업데이트: 2026-11-26 (Asia/Seoul) — 캔버스 정리: 옛 시안 · 원본 보관 후 삭제, 46페이지를 코드 이름(DS · PG · MG · SH · AD)으로 변경
 - 현재 Phase: **2. 디자인** — PlayGround 홈 확정 · 디자인 시스템 정의 완료 · 주요 페이지 시안 1차 완료 → **사용자 검토 대기** (PRD 는 디자인과 병행 — 킥오프·시나리오 완료, 확정은 디자인 후)
 - 작업 브랜치: `design/redesign` (main 에는 개발 환경 셋업만 있음. 디자인 단계가 끝나면 PR 로 합칠 예정 — 아직 PR 없음)
 - 디자인 캔버스(원본): https://claude.ai/code/artifact/57ed3789-695b-4f2c-8ae6-b210fafc167d
   - 편집 절차·함정: [`docs/design/canvas-notes.md`](design/canvas-notes.md) — **캔버스 작업 전 반드시 읽기**
-  - 스냅샷: [`docs/design/canvas/`](design/canvas/) · 시안 생성기: [`docs/design/tools/ds-canvas/`](design/tools/ds-canvas/)
+  - **페이지 목록 · 이름 규칙(코드 PG05 등)**: [`docs/design/canvas/README.md`](design/canvas/README.md) · 보관: [`docs/design/archive/`](design/archive/) · 시안 생성기: [`docs/design/tools/ds-canvas/`](design/tools/ds-canvas/)
 - **사용자 돌아오면 먼저 볼 것: [`docs/design/feedback-queue.md`](design/feedback-queue.md)** (결정 D1~D4 · 시안 선택 M1~M4 · P1~P6 · S1~S3 · K1~K3 · 피드백 F1~F4)
 
 ## 완료
@@ -14,9 +14,9 @@
 - 킥오프 인터뷰 → `docs/product/kickoff.md` · 시나리오 23개·요구사항 → `docs/product/scenarios.md` · 페이지 44개 → `docs/design/pages.md`
 - 디자인 리서치 3종 → `docs/design/research/` (플랫폼·트렌드 / 원칙·AI 티 / 게임 카드)
 - 콘셉트: 기존 Ground 콘셉트 계승·발전 → `docs/design/02-concept-ground.md`
-- **PlayGround 홈 확정 = 캔버스 `PlayGround v10`** (2026-11-26)
-- 게임 카드 7종 → `docs/design/03-game-cards.md` · 브랜드 고양이 DmD → 캔버스 `aDmD 고양이 얼굴`
-- **디자인 시스템** → `docs/design/system/` (tokens.css — Tailwind 4, 라이트·다크, play·make / 기초 · 브랜드 · 컴포넌트 · 패턴), 캔버스 `디자인 시스템 · 기초` · `컴포넌트`
+- **PlayGround 홈 확정 = 캔버스 `PG01 홈`** (2026-11-26)
+- 게임 카드 7종 → `docs/design/03-game-cards.md` · 브랜드 고양이 DmD → 캔버스 `DS05 고양이 얼굴`
+- **디자인 시스템** → `docs/design/system/` (tokens.css — Tailwind 4, 라이트·다크, play·make / 기초 · 브랜드 · 컴포넌트 · 패턴), 캔버스 `DS01 기초` · `DS02 컴포넌트` · `DS03 컴포넌트 2`
 - 사용자 부재 중 자율 진행한 **시안 (모두 검토 대기)**:
   - MakersGround 홈 A(작업 먼저) · B(일지 먼저) · 모바일 → `docs/design/04-makersground-home.md`
   - 게임 상세 A(결정 패널, 상태 5종) · B(무대) · 플레이 화면(4상태) · 플레이 종료 · 다운로드 안내 · 보안 검사 리포트 · 내 라이브러리 → `docs/design/05-playground-pages.md`
@@ -36,7 +36,7 @@
 
 진행 방식 결정(2026-11-26): **핵심 흐름 확정 → 개발 환경 + 디자인 시스템 코드화 → 디자인이 한 묶음 앞서 가며 구현.** 순서표: [`docs/design/12-confirm-order.md`](design/12-confirm-order.md)
 
-1. **사용자: 1묶음 화면 확정** — 디자인 시스템 3페이지 · PlayGround v10(재확인) · 게임 상세 A · 플레이 화면/종료 · 로그인·얼굴 만들기 · 전체 게임 · 내 라이브러리. Claude 는 피드백을 받는 대로 고쳐 다시 올림
+1. **사용자: 1묶음 화면 확정** — DS01~03 · PG01 홈(재확인) · PG05 게임 상세 · PG06/07 플레이 화면 · 종료 · SH01 로그인 · 얼굴 만들기 · PG03 전체 게임 · PG14 내 라이브러리. Claude 는 피드백을 받는 대로 고쳐 다시 올림
 2. 1묶음 확정 후: 개발 환경 마무리(컨벤션 · 브랜치 · 이슈/마일스톤) → `tokens.css` · 공통 컴포넌트 SvelteKit 구현 → 1묶음 페이지 구현
 3. 그동안 2묶음(PlayGround 완성) 확정
 

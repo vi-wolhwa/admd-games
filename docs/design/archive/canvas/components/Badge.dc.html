@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+.bdWrap{position:relative;display:inline-flex;align-items:center}
+.bdTip{position:absolute;bottom:calc(100% + 9px);right:-8px;padding:6px 10px;background:#FFFFFF;color:#0F172A;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;white-space:nowrap;box-shadow:0 0 16px 0 rgba(0,0,0,.16);opacity:0;transform:translateY(4px);transition:opacity 200ms cubic-bezier(.2,.7,.2,1),transform 200ms cubic-bezier(.2,.7,.2,1);pointer-events:none;z-index:60}
+.bdWrap:hover .bdTip{opacity:1;transform:translateY(0)}
+</style>
+</helmet>
+
+<span class="bdWrap" onMouseEnter="{{ place }}" onMouseLeave="{{ unplace }}" style="flex:none;min-width:{{ size }};height:{{ size }};padding:0 5px;background:{{ bg }};display:grid;place-items:center">
+<dc-import name="Body" as="span" size="xs" weight="bold" sx="color:{{ fg }}" hint-size="120px,18px">{{ label }}</dc-import>
+<span class="bdTip">{{ tip }}</span>
+</span>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:120,&quot;height&quot;:60},&quot;label&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;HIT&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;tip&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;인기 급상승&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;bg&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#0F172A&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#0F172A&quot;,&quot;#2563EB&quot;,&quot;#E11D48&quot;,&quot;#008638&quot;]},&quot;fg&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#FFFFFF&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#FFFFFF&quot;,&quot;#0F172A&quot;]},&quot;size&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;24px&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  componentWillUnmount() { this.detach(); }
+
+  position(wrap, tip) {
+    const r = wrap.getBoundingClientRect();
+    tip.style.position = "fixed";
+    tip.style.right = "auto";
+    tip.style.bottom = "auto";
+    tip.style.left = "0px";
+    tip.style.top = "0px";
+    const w = tip.offsetWidth, h = tip.offsetHeight, m = 8;
+    const fitsAbove = r.top - h - 9 >= m;
+    const y = fitsAbove ? r.top - h - 9 : r.bottom + 9;
+    tip.style.top = Math.max(m, Math.min(y, window.innerHeight - h - m)) + "px";
+    tip.style.left = Math.max(m, Math.min(r.right + 8 - w, window.innerWidth - w - m)) + "px";
+  }
+
+  detach() {
+    if (!this._track) return;
+    removeEventListener("scroll", this._track, true);
+    removeEventListener("resize", this._track);
+    this._track = null;
+  }
+
+  renderVals() {
+    return {
+      place: (e) => {
+        const wrap = e.currentTarget, tip = wrap.querySelector(".bdTip");
+        if (!tip) return;
+        this.position(wrap, tip);
+        this.detach();
+        this._track = () => {
+          if (!wrap.isConnected || !wrap.matches(":hover")) { this.detach(); tip.style.cssText = ""; return; }
+          this.position(wrap, tip);
+        };
+        addEventListener("scroll", this._track, true);
+        addEventListener("resize", this._track);
+      },
+      unplace: (e) => {
+        this.detach();
+        const tip = e.currentTarget.querySelector(".bdTip");
+        if (tip) tip.style.cssText = "";
+      }
+    };
+  }
+}
+
+</script>
+</body>
+</html>

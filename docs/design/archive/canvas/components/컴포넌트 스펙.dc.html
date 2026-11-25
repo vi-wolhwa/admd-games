@@ -1,0 +1,443 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#F6F7F9;font-family:"Pretendard Variable",Pretendard,Inter,-apple-system,"Apple SD Gothic Neo",sans-serif;-webkit-font-smoothing:antialiased;word-break:keep-all}
+a{color:#2563EB;text-decoration:none}
+a:hover{color:#1D4ED8}
+button{font-family:inherit;cursor:pointer}
+input{font-family:inherit}
+@keyframes gcRise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+@keyframes grGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+@keyframes pcRise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes pcGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+</style>
+</helmet>
+
+<div style="width:1240px;margin:0 auto;padding:52px 0 110px;color:#0F172A">
+
+<div style="background:#0F172A;color:#FFFFFF;padding:34px 38px 32px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.14em;color:#94A3B8">COMPONENT SPEC · PLAYGROUND v2</div>
+<h1 style="margin:13px 0 0;font-size:32px;font-weight:700;letter-spacing:-.036em;line-height:1.2">컴포넌트 카탈로그</h1>
+<p style="margin:14px 0 0;max-width:740px;font-size:13px;line-height:1.8;color:#CBD5E1;letter-spacing:-.014em;text-wrap:pretty">아래 미리보기는 설명용 복제가 아니라 <b style="font-weight:700;color:#FFFFFF">페이지가 실제로 쓰는 컴포넌트 파일을 그대로 마운트</b>한 것입니다. 컴포넌트를 고치면 페이지와 이 문서가 동시에 바뀝니다. 전체 <b style="font-weight:700;color:#FFFFFF">{{ fileCount }}개</b> 컴포넌트 + 페이지 1개.</p>
+<div style="margin-top:24px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:rgba(255,255,255,.16)">
+<sc-for list="{{ levels }}" as="l" hint-placeholder-count="4">
+<div style="background:#0F172A;padding:13px 16px 14px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.1em;color:#64748B">{{ l.tag }}</div>
+<div style="margin-top:6px;font-size:12px;font-weight:700;letter-spacing:-.018em">{{ l.name }}</div>
+<div style="margin-top:4px;font-size:11px;line-height:1.6;color:#94A3B8;letter-spacing:-.012em">{{ l.items }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:26px 30px 30px">
+<div style="display:flex;align-items:baseline;gap:10px;padding-bottom:16px;border-bottom:1px solid #E9ECF1">
+<span style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">L1</span>
+<span style="font-size:17px;font-weight:700;letter-spacing:-.03em">프리미티브</span>
+<span style="font-size:12px;color:#94A3B8;letter-spacing:-.013em">카드 · 섹션 컴포넌트 내부에서도 이 파일들을 씁니다</span>
+</div>
+<div style="margin-top:20px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:#E9ECF1">
+
+<div style="background:#FFFFFF;padding:18px 20px 20px">
+<div style="font-size:12px;font-weight:700;letter-spacing:-.02em">SectionHead</div>
+<div style="margin-top:4px;font-size:11px;color:#94A3B8;letter-spacing:-.012em">title · subtitle — 21px / -.034em 고정</div>
+<div style="margin-top:16px">
+<dc-import name="SectionHead" title="내 라이브러리" subtitle="플레이 기록과 도전과제" hint-size="360px,30px"></dc-import>
+</div>
+</div>
+
+<div style="background:#FFFFFF;padding:18px 20px 20px">
+<div style="font-size:12px;font-weight:700;letter-spacing:-.02em">SpecMarks</div>
+<div style="margin-top:4px;font-size:11px;color:#94A3B8;letter-spacing:-.012em">marks · size · gap · stroke — hover 툴팁 내장</div>
+<div style="margin-top:16px;display:flex;align-items:center;gap:26px">
+<sc-for list="{{ markSets }}" as="ms" hint-placeholder-count="2">
+<span style="display:flex;align-items:center;gap:9px">
+<dc-import name="SpecMarks" marks="{{ ms.marks }}" size="15px" gap="9px" stroke="#94A3B8" hint-size="60px,15px"></dc-import>
+<span style="font-size:11px;color:#CBD5E1;letter-spacing:-.012em">{{ ms.label }}</span>
+</span>
+</sc-for>
+</div>
+</div>
+
+<div style="background:#FFFFFF;padding:18px 20px 20px">
+<div style="font-size:12px;font-weight:700;letter-spacing:-.02em">Badge</div>
+<div style="margin-top:4px;font-size:11px;color:#94A3B8;letter-spacing:-.012em">label · tip · bg · fg · size — 직각, 라벨이 길면 폭만 늘어남</div>
+<div style="margin-top:16px;display:flex;align-items:center;gap:8px">
+<sc-for list="{{ badges }}" as="b" hint-placeholder-count="4">
+<dc-import name="Badge" label="{{ b.label }}" tip="{{ b.tip }}" bg="{{ b.bg }}" fg="#FFFFFF" size="24px" hint-size="24px,24px"></dc-import>
+</sc-for>
+</div>
+</div>
+
+<div style="background:#FFFFFF;padding:18px 20px 20px">
+<div style="font-size:12px;font-weight:700;letter-spacing:-.02em">FilterGroup</div>
+<div style="margin-top:4px;font-size:11px;color:#94A3B8;letter-spacing:-.012em">label · labelWidth · opts — 플레이 / 실행 환경 공용</div>
+<div style="margin-top:14px">
+<dc-import name="FilterGroup" label="플레이" label-width="52px" opts="{{ demoOpts }}" hint-size="300px,30px"></dc-import>
+</div>
+</div>
+
+<div style="background:#FFFFFF;padding:18px 20px 20px;grid-column:span 2">
+<div style="font-size:12px;font-weight:700;letter-spacing:-.02em">TagRow</div>
+<div style="margin-top:4px;font-size:11px;color:#94A3B8;letter-spacing:-.012em">label · all* · tags[] — 선택은 검정 채움, 제외는 얇은 테두리 + 취소선</div>
+<div style="margin-top:8px">
+<dc-import name="TagRow" label="태그" label-width="52px" all-label="#전체" all-weight="{{ demoAllWeight }}" all-fg="#64748B" all-bg="transparent" tags="{{ demoTags }}" hint-size="100%,54px"></dc-import>
+</div>
+</div>
+
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:26px 30px 30px">
+<div style="display:flex;align-items:baseline;gap:10px;padding-bottom:16px;border-bottom:1px solid #E9ECF1">
+<span style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">L2</span>
+<span style="font-size:17px;font-weight:700;letter-spacing:-.03em">카드</span>
+<span style="font-size:12px;color:#94A3B8;letter-spacing:-.013em">모든 썸네일 3:2 · hover 그림자 0 0 16px rgba(0,0,0,.16)</span>
+</div>
+
+<div style="margin-top:18px;font-size:12px;font-weight:700;letter-spacing:-.02em">GameCard <span style="font-weight:500;color:#94A3B8">— 카탈로그 · 검색 결과 그리드</span></div>
+<div style="margin-top:14px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px">
+<sc-for list="{{ cardStates }}" as="s" hint-placeholder-count="4">
+<div>
+<div style="display:flex;align-items:center;gap:7px;padding-bottom:9px">
+<span style="padding:2px 7px;background:#0F172A;color:#FFFFFF;font-size:11px;font-weight:700;letter-spacing:.03em">{{ s.tag }}</span>
+<span style="font-size:11px;color:#94A3B8;letter-spacing:-.012em">{{ s.note }}</span>
+</div>
+<dc-import name="GameCard" game="{{ s.game }}" show-plays="{{ s.showPlays }}" delay="0ms" hint-size="100%,290px"></dc-import>
+</div>
+</sc-for>
+</div>
+
+<div style="margin-top:30px;font-size:12px;font-weight:700;letter-spacing:-.02em">GameRow <span style="font-weight:500;color:#94A3B8">— 내 라이브러리 리스트</span></div>
+<div style="margin-top:14px;display:flex;flex-direction:column;gap:14px">
+<sc-for list="{{ rowStates }}" as="s" hint-placeholder-count="2">
+<div>
+<div style="display:flex;align-items:center;gap:7px;padding-bottom:9px">
+<span style="padding:2px 7px;background:#0F172A;color:#FFFFFF;font-size:11px;font-weight:700;letter-spacing:.03em">{{ s.tag }}</span>
+<span style="font-size:11px;color:#94A3B8;letter-spacing:-.012em">{{ s.note }}</span>
+</div>
+<dc-import name="GameRow" game="{{ s.game }}" hint-size="100%,118px"></dc-import>
+</div>
+</sc-for>
+</div>
+
+<div style="margin-top:30px;display:grid;grid-template-columns:280px minmax(0,1fr);gap:24px;align-items:start">
+<div>
+<div style="font-size:12px;font-weight:700;letter-spacing:-.02em">GameTile</div>
+<div style="margin-top:4px;font-size:11px;color:#94A3B8;letter-spacing:-.012em">최근 플레이 캐러셀 · width 가변</div>
+<div style="margin-top:14px">
+<dc-import name="GameTile" game="{{ tile }}" width="232px" show-achievements="{{ demoTrue }}" hint-size="232px,240px"></dc-import>
+</div>
+</div>
+<div>
+<div style="font-size:12px;font-weight:700;letter-spacing:-.02em">PickCard</div>
+<div style="margin-top:4px;font-size:11px;color:#94A3B8;letter-spacing:-.012em">오늘의 추천 목록 — 포커스가 아닌 카드는 opacity로 디밍</div>
+<div style="margin-top:14px;display:flex;flex-direction:column;gap:10px;height:226px">
+<sc-for list="{{ pickCards }}" as="c" hint-placeholder-count="2">
+<div style="flex:1;min-height:0;display:flex;flex-direction:column">
+<dc-import name="PickCard" card="{{ c }}" hint-size="100%,100%"></dc-import>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:26px 30px 30px">
+<div style="display:flex;align-items:baseline;gap:10px;padding-bottom:16px;border-bottom:1px solid #E9ECF1">
+<span style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">L3</span>
+<span style="font-size:17px;font-weight:700;letter-spacing:-.03em">셸 · 도구</span>
+<span style="font-size:12px;color:#94A3B8;letter-spacing:-.013em">페이지 전역 요소와 컨트롤 묶음</span>
+</div>
+
+<div style="margin-top:18px;font-size:12px;font-weight:700;letter-spacing:-.02em">SiteNav <span style="font-weight:500;color:#94A3B8">— 게스트 상태</span></div>
+<div style="margin-top:12px;overflow:hidden;background:#F6F7F9">
+<dc-import name="SiteNav" total-players="18,204" total-plays="241만" guest="{{ demoTrue }}" signed-in="{{ demoFalse }}" hint-size="100%,73px"></dc-import>
+</div>
+
+<div style="margin-top:26px;display:grid;grid-template-columns:330px minmax(0,1fr);gap:24px;align-items:start">
+<div>
+<div style="font-size:12px;font-weight:700;letter-spacing:-.02em">ProfileSummary</div>
+<div style="margin-top:4px;font-size:11px;color:#94A3B8;letter-spacing:-.012em">아바타 · 레벨 · XP 바 · 3열 지표</div>
+<div style="margin-top:14px;background:#FFFFFF;padding:16px">
+<dc-import name="ProfileSummary" initial="진" display-name="진수 님" tier="코드 러너 · 상위 8%" level="Lv.12" has-level="{{ demoTrue }}" avatar-radius="0px" show-my-page="{{ demoTrue }}" xp-label="경험치 8,760 XP" next-label="Lv.13까지 1,240" xp-pct="78%" stats="{{ memberStats }}" hint-size="100%,210px"></dc-import>
+</div>
+</div>
+<div>
+<div style="font-size:12px;font-weight:700;letter-spacing:-.02em">SignInFallback</div>
+<div style="margin-top:4px;font-size:11px;color:#94A3B8;letter-spacing:-.012em">블러 베일 + 2줄 안내 + 버튼 — 라벨은 항상 "로그인"</div>
+<div style="margin-top:14px;position:relative;height:242px;background:#FFFFFF;overflow:hidden">
+<div style="padding:16px;opacity:.75">
+<dc-import name="ProfileSummary" initial="P" display-name="플레이어 님" tier="퍼즐 수집가 · 상위 21%" level="" has-level="{{ demoFalse }}" avatar-radius="999px" show-my-page="{{ demoFalse }}" xp-label="경험치 3,420 XP" next-label="Lv.8까지 580" xp-pct="64%" bar-anim="none" stats="{{ guestStats }}" hint-size="100%,210px"></dc-import>
+</div>
+<dc-import name="SignInFallback" line1="내 플레이 기록과 도전과제를" line2="요약해서 보여드려요" label="로그인" inset="0" veil=".58" gap="0px" pad-x="26px" button-width="280px" button-height="44px" button-gap="16px" hint-size="100%,100%"></dc-import>
+</div>
+</div>
+</div>
+
+<div style="margin-top:26px;display:grid;grid-template-columns:minmax(0,1fr) 330px;gap:24px;align-items:start">
+<div>
+<div style="font-size:12px;font-weight:700;letter-spacing:-.02em">CatalogToolbar</div>
+<div style="margin-top:4px;font-size:11px;color:#94A3B8;letter-spacing:-.012em">query · onSearch · sorts · thumbW/thumbX — 캡슐 슬라이더</div>
+<div style="margin-top:14px;padding:14px;background:#F6F7F9">
+<dc-import name="CatalogToolbar" query="" sorts="{{ demoSorts }}" thumb-w="58px" thumb-x="0px" hint-size="560px,38px"></dc-import>
+</div>
+<div style="margin-top:26px;font-size:12px;font-weight:700;letter-spacing:-.02em">SiteFooter</div>
+<div style="margin-top:4px;font-size:11px;color:#94A3B8;letter-spacing:-.012em">props 없음 — 정적</div>
+<div style="margin-top:14px;overflow:hidden">
+<div style="transform:scale(.62);transform-origin:0 0;width:1280px;height:68px">
+<dc-import name="SiteFooter" hint-size="1280px,110px"></dc-import>
+</div>
+</div>
+</div>
+<div>
+<div style="font-size:12px;font-weight:700;letter-spacing:-.02em">NotifList</div>
+<div style="margin-top:4px;font-size:11px;color:#94A3B8;letter-spacing:-.012em">읽음/삭제 · 하단 페이드 링크. 루트가 absolute이므로 <b style="font-weight:700;color:#475569">position:relative 래퍼</b>가 필요합니다</div>
+<div style="margin-top:14px;position:relative;height:236px;background:#FFFFFF;padding:16px">
+<div style="position:absolute;inset:16px">
+<dc-import name="NotifList" feed-title="알림" items="{{ notifItems }}" has-link="{{ demoTrue }}" link-label="알림 전체 보기" hint-size="100%,100%"></dc-import>
+</div>
+</div>
+</div>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:26px 30px 30px">
+<div style="display:flex;align-items:baseline;gap:10px;padding-bottom:16px;border-bottom:1px solid #E9ECF1">
+<span style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">L4</span>
+<span style="font-size:17px;font-weight:700;letter-spacing:-.03em">섹션</span>
+<span style="font-size:12px;color:#94A3B8;letter-spacing:-.013em">페이지 상태를 받아 한 섹션을 통째로 그립니다 — 미리보기는 페이지에서 확인</span>
+</div>
+<div style="margin-top:20px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:#E9ECF1">
+<sc-for list="{{ sections }}" as="s" hint-placeholder-count="6">
+<div style="background:#FFFFFF;padding:16px 18px 18px">
+<div style="display:flex;align-items:baseline;gap:8px">
+<span style="font-size:12px;font-weight:700;letter-spacing:-.02em">{{ s.name }}</span>
+<span style="font-size:11px;color:#CBD5E1;letter-spacing:-.012em">{{ s.children }}</span>
+</div>
+<div style="margin-top:7px;font-size:11px;line-height:1.7;color:#64748B;letter-spacing:-.012em;text-wrap:pretty">{{ s.desc }}</div>
+<div style="margin-top:9px;font-size:11px;line-height:1.6;color:#94A3B8;letter-spacing:-.012em"><b style="font-weight:700;color:#475569">props</b> {{ s.props }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:26px 30px 30px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">전체 props 카탈로그</div>
+<div style="margin-top:18px;display:grid;grid-template-columns:150px 88px minmax(0,1fr);gap:1px;background:#E9ECF1">
+<div style="background:#F6F7F9;padding:9px 12px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#64748B">컴포넌트</div>
+<div style="background:#F6F7F9;padding:9px 12px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#64748B">레벨</div>
+<div style="background:#F6F7F9;padding:9px 12px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#64748B">props · 사용처</div>
+<sc-for list="{{ catalog }}" as="c" hint-placeholder-count="12">
+<div style="background:#FFFFFF;padding:11px 12px;font-size:12px;font-weight:700;letter-spacing:-.02em">{{ c.name }}</div>
+<div style="background:#FFFFFF;padding:11px 12px;font-size:11px;color:#94A3B8;letter-spacing:.02em">{{ c.level }}</div>
+<div style="background:#FFFFFF;padding:11px 12px">
+<div style="font-size:11px;line-height:1.65;color:#475569;letter-spacing:-.012em">{{ c.props }}</div>
+<div style="margin-top:4px;font-size:11px;color:#94A3B8;letter-spacing:-.012em">{{ c.used }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:26px 30px 30px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">페이지 구성</div>
+<p style="margin:14px 0 0;font-size:12px;line-height:1.75;color:#64748B;letter-spacing:-.012em;text-wrap:pretty">PlayGround v2의 템플릿은 <b style="font-weight:700;color:#0F172A">8개의 dc-import + 레이아웃 래퍼</b>뿐입니다. 페이지가 소유하는 것은 상태·데이터·필터 계산이고, 마크업은 전부 컴포넌트 파일에 있습니다.</p>
+<div style="margin-top:16px;background:#0F172A;padding:20px 22px;color:#CBD5E1;font-family:Inter,monospace;font-size:11px;line-height:2">
+<sc-for list="{{ treeLines }}" as="t" hint-placeholder-count="10">
+<div style="white-space:pre;color:{{ t.color }}">{{ t.text }}</div>
+</sc-for>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:26px 30px 30px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">작업 규칙</div>
+<div style="margin-top:18px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:#E9ECF1">
+<sc-for list="{{ rules }}" as="r" hint-placeholder-count="4">
+<div style="background:#FFFFFF;padding:16px 18px 17px">
+<div style="display:flex;align-items:center;gap:8px">
+<span style="padding:2px 7px;background:{{ r.bg }};color:{{ r.fg }};font-size:11px;font-weight:700;letter-spacing:.03em">{{ r.tag }}</span>
+<span style="font-size:12px;font-weight:700;letter-spacing:-.02em">{{ r.title }}</span>
+</div>
+<p style="margin:9px 0 0;font-size:12px;line-height:1.7;color:#64748B;letter-spacing:-.012em;text-wrap:pretty">{{ r.desc }}</p>
+</div>
+</sc-for>
+</div>
+</div>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1300,&quot;height&quot;:2400}}">
+class Component extends DCLogic {
+  art = i => "../uploads/" + ["pasted-1787733428273-0.png", "pasted-1787733681725-0.png", "pasted-1787733760574-0.png", "pasted-1787733890496-0.png", "pasted-1787733948919-0.png"][i % 5];
+
+  marks = [
+    { tip: "싱글 플레이", fill: "#94A3B8", paths: [{ d: "M8 5.7a2.3 2.3 0 1 0 0 4.6a2.3 2.3 0 1 0 0-4.6" }] },
+    { tip: "브라우저에서 바로 실행", fill: "none", paths: [{ d: "M2.2 3.8h11.6v8.4H2.2z" }, { d: "M2.2 6.3h11.6" }] },
+    { tip: "PC 다운로드", fill: "none", paths: [{ d: "M2.2 3.4h11.6v7H2.2z" }, { d: "M8 10.4v2.2" }, { d: "M6 12.8h4" }] }
+  ];
+
+  renderVals() {
+    const noop = () => {};
+    const base = {
+      title: "루프 컴파일러", dev: "픽셀상점", playsLabel: "12.8만 플레이",
+      art: this.art(0), isNew: false, inLibrary: false, playedBefore: false,
+      ratingLabel: "4.9", reviewLabel: "178",
+      chips: [{ text: "#프로그래밍" }, { text: "#싱글플레이" }, { text: "#브라우저 실행" }],
+      marks: this.marks
+    };
+    const rowBase = {
+      title: "루프 컴파일러", dev: "픽셀상점", topTag: "#프로그래밍",
+      playHours: "12시간 42분", lastPlayed: "오늘", lastDate: "",
+      art: this.art(0), accent: "#2563EB",
+      achLabel: "5 / 8", achPct: "63%", achPctLabel: "63% 달성",
+      badges: [{ label: "HIT", bg: "#0F172A", tip: "인기 급상승" }, { label: "NEW", bg: "#E11D48", tip: "최근 업데이트" }]
+    };
+    const pick = (i, badge, badgeBg, short, genre, dev, op, shadow) => ({
+      art: this.art(i), badge, badgeBg, short, genre, dev, op, shadow,
+      zoom: op === 1 ? 1.04 : 1, enter: noop, leave: noop,
+      stats: [
+        { value: "4.8", label: "평점", color: "#0F172A", pad: "9px 10px" },
+        { value: "296", label: "리뷰", color: "#0F172A", pad: "9px 10px" },
+        { value: "2위", label: "주간", color: "#2563EB", pad: "9px 10px" }
+      ]
+    });
+
+    return {
+      fileCount: 21,
+      memberStats: [
+        { value: "41시간", label: "플레이 시간", color: "#0F172A" },
+        { value: "3", label: "저장한 게임", color: "#2563EB" },
+        { value: "12", label: "도전과제", color: "#7C3AED" }
+      ],
+      guestStats: [
+        { value: "12시간", label: "플레이 시간", color: "#0F172A" },
+        { value: "3", label: "저장한 게임", color: "#2563EB" },
+        { value: "5", label: "도전과제", color: "#7C3AED" }
+      ],
+      demoTrue: true,
+      demoFalse: false,
+      levels: [
+        { tag: "L1", name: "프리미티브", items: "SectionHead · SpecMarks · Badge · FilterGroup · TagRow" },
+        { tag: "L2", name: "카드", items: "GameCard · GameRow · GameTile · PickCard" },
+        { tag: "L3", name: "셸 · 도구", items: "SiteNav · SiteFooter · CatalogToolbar · NotifList · ProfileSummary · SignInFallback" },
+        { tag: "L4", name: "섹션", items: "HeroSpotlight · LibraryPanel · ProfileCard · RecentPlays · TodaysPicks · CatalogSection" }
+      ],
+      markSets: [
+        { label: "싱글 · 브라우저", marks: this.marks.slice(0, 2) },
+        { label: "싱글 · 브라우저 · PC", marks: this.marks }
+      ],
+      badges: [
+        { label: "HIT", tip: "인기 급상승", bg: "#0F172A" },
+        { label: "NEW", tip: "최근 업데이트", bg: "#E11D48" },
+        { label: "100", tip: "도전과제 전체 달성", bg: "#0D9488" },
+        { label: "3위", tip: "주간 순위 진입", bg: "#2563EB" }
+      ],
+      demoOpts: [
+        { name: "전체", go: noop, enter: noop, leave: noop, weight: 700, bg: "#0F172A", fg: "#FFFFFF" },
+        { name: "싱글", go: noop, enter: noop, leave: noop, weight: 500, bg: "transparent", fg: "#64748B" },
+        { name: "멀티", go: noop, enter: noop, leave: noop, weight: 500, bg: "transparent", fg: "#64748B" }
+      ],
+      demoAllWeight: 500,
+      demoTags: [
+        { label: "#퍼즐", go: noop, enter: noop, leave: noop, weight: 700, fg: "#FFFFFF", bg: "#0F172A", ring: "0", deco: "none" },
+        { label: "#로그라이크", go: noop, enter: noop, leave: noop, weight: 500, fg: "#94A3B8", bg: "transparent", ring: "1px solid #CBD5E1", deco: "line-through" },
+        { label: "#스토리", go: noop, enter: noop, leave: noop, weight: 500, fg: "#64748B", bg: "transparent", ring: "1px solid transparent", deco: "none" },
+        { label: "#픽셀아트", go: noop, enter: noop, leave: noop, weight: 500, fg: "#64748B", bg: "transparent", ring: "1px solid transparent", deco: "none" }
+      ],
+      demoSorts: [
+        { name: "인기", go: noop, w: "58px", fg: "#0F172A" },
+        { name: "신작", go: noop, w: "58px", fg: "#94A3B8" },
+        { name: "평점", go: noop, w: "58px", fg: "#94A3B8" }
+      ],
+      cardStates: [
+        { tag: "기본", note: "라이브러리 밖", game: base, showPlays: true },
+        { tag: "NEW", note: "14일 이내 공개", game: { ...base, isNew: true, title: "리팩터 러시", dev: "리팩터클럽", art: this.art(3), ratingLabel: "4.6", reviewLabel: "54", playsLabel: "3,870 플레이" }, showPlays: true },
+        { tag: "보유", note: "라이브러리 하트", game: { ...base, inLibrary: true, title: "애쉬폴 러너", dev: "잿빛토끼", art: this.art(2), ratingLabel: "4.7", reviewLabel: "296" }, showPlays: true },
+        { tag: "이력", note: "플레이 수 숨김", game: { ...base, playedBefore: true, title: "틸트 이론", dev: "기울기연구소", art: this.art(4), ratingLabel: "0", reviewLabel: "0" }, showPlays: false }
+      ],
+      rowStates: [
+        { tag: "기본", note: "도전과제 진행 중", game: rowBase },
+        { tag: "완료 임박", note: "배지 2개 · 진행률 88%", game: { ...rowBase, title: "그리드락", dev: "세모난고양이", topTag: "#물리 퍼즐", art: this.art(1), playHours: "25시간 40분", lastPlayed: "어제", achLabel: "14 / 16", achPct: "88%", achPctLabel: "88% 달성" } }
+      ],
+      tile: { title: "루프 컴파일러", art: this.art(0), achLabel: "5 / 8", playtime: "12시간 42분 플레이", session: "오늘 플레이" },
+      pickCards: [
+        pick(1, "이번 주 1위", "#0F172A", "테서랙트 드리프트", "#멀티플레이", "무중력스튜디오", 1, "0 0 16px 0 rgba(0,0,0,.16)"),
+        pick(2, "숨은 보석", "#2563EB", "솔벤트", "#퍼즐", "미드나잇랩", 0.45, "none")
+      ],
+      notifItems: [
+        { dot: "#2563EB", weight: 700, titleColor: "#0F172A", metaColor: "#64748B", whenColor: "#94A3B8", title: "루프 컴파일러 v1.4 업데이트", meta: "픽셀상점 · 새 스테이지 4개", when: "10분", open: noop, remove: noop },
+        { dot: "#2563EB", weight: 700, titleColor: "#0F172A", metaColor: "#64748B", whenColor: "#94A3B8", title: "달빛코더 님이 도전과제를 달성", meta: "그리드락 · 14 / 16", when: "2시간", open: noop, remove: noop },
+        { dot: "#E2E8F0", weight: 500, titleColor: "#94A3B8", metaColor: "#CBD5E1", whenColor: "#CBD5E1", title: "8월 정기 점검 안내", meta: "운영팀 공지", when: "어제", open: noop, remove: noop },
+        { dot: "#E2E8F0", weight: 500, titleColor: "#94A3B8", metaColor: "#CBD5E1", whenColor: "#CBD5E1", title: "주간 랭킹이 갱신됐습니다", meta: "플레이 그라운드", when: "3일", open: noop, remove: noop }
+      ],
+      sections: [
+        { name: "HeroSpotlight", children: "", desc: "크로스페이드 슬라이드 · 좌측 흰색 마스크 · 도트/카운터/화살표 · 하단 진행 바. 자동 전환은 페이지 타이머가 소유합니다.", props: "slides · spot · dots · slideCounter · heroAnim · barAnim · prevSlide · nextSlide" },
+        { name: "LibraryPanel", children: "→ SectionHead · GameRow · SignInFallback", desc: "정렬 토글, 게스트 폴백(SignInFallback), 빈 상태, 오버스크롤 격리 스크롤러. 형제 디밍(.lpList:hover .grRow)을 이 컴포넌트가 소유합니다.", props: "title · subtitle · signedIn · guest · sorts · signIn · hasItems · items · isEmpty" },
+        { name: "ProfileCard", children: "→ ProfileSummary · SignInFallback · NotifList", desc: "회원 정보는 ProfileSummary, 폴백은 SignInFallback에 위임. 자신은 5개 바로가기 아이콘 버튼(배지)과 레이아웃만 소유합니다.", props: "height · guest · signedIn · signIn · favCount · f0~f4 · feedTitle · feedItems · markAllRead · feedLink · feedLinkLabel" },
+        { name: "RecentPlays", children: "→ SectionHead · GameTile", desc: "좌우 화살표로 translateX 이동하는 가로 캐러셀. 로그인 상태에서만 도전과제 줄을 노출합니다.", props: "title · subtitle · items · offsetX · onPrev · onNext · signedIn" },
+        { name: "TodaysPicks", children: "→ SectionHead · PickCard", desc: "좌측 6fr 포커스 카드(4초 순환, hover 시 정지) + 우측 4fr 목록 5장. 카드 높이는 래퍼 flex:1이 만듭니다.", props: "title · subtitle · linkLabel · slides · pick · cards · onHoldOn · onHoldOff" },
+        { name: "CatalogSection", children: "→ SectionHead · CatalogToolbar · FilterGroup ×2 · TagRow · GameCard", desc: "검색 · 정렬 · 필터 · 4열 그리드 · 빈 상태까지 한 섹션. 태그 선택/제외 계산은 페이지 로직에 남습니다.", props: "headline · countLabel · query · onSearch · sorts · sortW/sortX · modeOpts · runOpts · tags · allTag* · games · showPlays · gridRef · isEmpty · onReset" }
+      ],
+      catalog: [
+        { name: "SectionHead", level: "L1", props: "title · subtitle", used: "섹션 헤딩 4곳 · LibraryPanel · RecentPlays · TodaysPicks · CatalogSection" },
+        { name: "SpecMarks", level: "L1", props: "marks · size · gap · stroke", used: "GameCard 하단 우측" },
+        { name: "Badge", level: "L1", props: "label · tip · bg · fg · size", used: "GameRow 배지 열" },
+        { name: "FilterGroup", level: "L1", props: "label · labelWidth · opts", used: "CatalogSection — 플레이 / 실행 환경" },
+        { name: "TagRow", level: "L1", props: "label · labelWidth · allLabel · allGo/allEnter/allLeave · allWeight/allFg/allBg · tags", used: "CatalogSection 태그 줄" },
+        { name: "GameCard", level: "L2", props: "game · showPlays · delay", used: "CatalogSection 그리드 12장" },
+        { name: "GameRow", level: "L2", props: "game", used: "LibraryPanel 목록" },
+        { name: "GameTile", level: "L2", props: "game · width · showAchievements", used: "RecentPlays 캐러셀" },
+        { name: "PickCard", level: "L2", props: "card", used: "TodaysPicks 우측 목록" },
+        { name: "SiteNav", level: "L3", props: "totalPlayers · totalPlays · guest · signedIn · signIn · signOut", used: "페이지 최상단" },
+        { name: "SiteFooter", level: "L3", props: "—", used: "페이지 최하단" },
+        { name: "CatalogToolbar", level: "L3", props: "query · placeholder · onSearch · sorts · thumbW · thumbX", used: "CatalogSection 헤더 우측" },
+        { name: "NotifList", level: "L3", props: "feedTitle · items · markAllRead · hasLink · linkLabel", used: "ProfileCard 하단" },
+        { name: "ProfileSummary", level: "L3", props: "initial · displayName · tier · level/hasLevel · avatarRadius · showMyPage · xpLabel · nextLabel · xpPct · barAnim · stats", used: "ProfileCard — 회원 정보 · 게스트 더미" },
+        { name: "SignInFallback", level: "L3", props: "line1 · line2 · label · onSignIn · inset · veil · gap · padX · buttonWidth/Height/Gap", used: "LibraryPanel · ProfileCard 로그인 폴백 — 라벨은 '로그인'으로 통일" },
+        { name: "HeroSpotlight", level: "L4", props: "slides · spot · dots · slideCounter · heroAnim · barAnim · prevSlide · nextSlide", used: "페이지 히어로" },
+        { name: "LibraryPanel", level: "L4", props: "title · subtitle · signedIn · guest · sorts · signIn · hasItems · items · isEmpty", used: "내 라이브러리 좌측 열" },
+        { name: "ProfileCard", level: "L4", props: "height · guest · signedIn · signIn · favCount · f0~f4 · feed*", used: "내 라이브러리 우측 열" },
+        { name: "RecentPlays", level: "L4", props: "title · subtitle · items · offsetX · onPrev · onNext · signedIn", used: "최근 플레이 섹션" },
+        { name: "TodaysPicks", level: "L4", props: "title · subtitle · linkLabel · slides · pick · cards · onHoldOn · onHoldOff", used: "지금 플레이할 게임 섹션" },
+        { name: "CatalogSection", level: "L4", props: "headline · countLabel · query · onSearch · sorts · 필터 일체 · games · gridRef · isEmpty · onReset", used: "게임 둘러보기 섹션" }
+      ],
+      treeLines: [
+        { text: "PlayGround v2.dc.html", color: "#FFFFFF" },
+        { text: "├─ SiteNav", color: "#CBD5E1" },
+        { text: "├─ HeroSpotlight", color: "#CBD5E1" },
+        { text: "├─ section (grid 1fr / 372px)", color: "#64748B" },
+        { text: "│   ├─ LibraryPanel ─── SectionHead · SignInFallback · GameRow → Badge", color: "#CBD5E1" },
+        { text: "│   └─ ProfileCard ──── ProfileSummary · SignInFallback · NotifList", color: "#CBD5E1" },
+        { text: "├─ RecentPlays ──────── SectionHead · GameTile", color: "#CBD5E1" },
+        { text: "├─ TodaysPicks ──────── SectionHead · PickCard", color: "#CBD5E1" },
+        { text: "├─ CatalogSection ───── SectionHead · CatalogToolbar", color: "#CBD5E1" },
+        { text: "│                       FilterGroup ×2 · TagRow", color: "#CBD5E1" },
+        { text: "│                       GameCard → SpecMarks", color: "#CBD5E1" },
+        { text: "└─ SiteFooter", color: "#CBD5E1" }
+      ],
+      rules: [
+        { tag: "높이", bg: "#FEF3C7", fg: "#92400E", title: "마운트는 flex를 받지 않는다", desc: "dc-import 마운트는 블록 요소라 style=\"flex:1\"이 전달되지 않습니다. 세로로 늘어나야 하는 컴포넌트는 래퍼가 높이를 만들고, 컴포넌트 루트가 height:100% 또는 position:absolute;inset:0으로 채웁니다." },
+        { tag: "스타일", bg: "#EFF6FF", fg: "#1D4ED8", title: "클래스는 컴포넌트가 소유", desc: "hover · 형제 디밍 · 키프레임은 각 컴포넌트 helmet에 접두어(gc/gr/gt/tp/nl/lp)로 정의합니다. 페이지 helmet에는 폰트 · body 리셋 · 공용 pfRise만 남습니다." },
+        { tag: "책임", bg: "#F0FDF4", fg: "#15803D", title: "상태는 페이지, 마크업은 컴포넌트", desc: "필터 계산 · 슬라이드 타이머 · 알림 읽음 상태는 페이지 로직에 있고, 컴포넌트는 계산된 값과 핸들러만 받습니다. 컴포넌트에 로직 클래스는 없습니다." },
+        { tag: "확장", bg: "#FDF4FF", fg: "#A21CAF", title: "메이커스는 프롭만 교체", desc: "동일한 컴포넌트 세트에 accent를 오렌지로 넘기면 메이커스 그라운드가 됩니다. 배지 팔레트와 마크 정의는 공용으로 유지합니다." }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

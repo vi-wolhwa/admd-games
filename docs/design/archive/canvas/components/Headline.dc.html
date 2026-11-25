@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<dc-import name="Text" as="{{ as }}" size="{{ textSize }}" weight="bold" color="{{ color }}" sx="{{ sx }}" dc-props="{{ rest }}" hint-size="220px,32px">{{ children }}</dc-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:460,&quot;height&quot;:72},&quot;as&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;h1&quot;,&quot;h2&quot;,&quot;h3&quot;,&quot;h4&quot;,&quot;h5&quot;,&quot;h6&quot;],&quot;default&quot;:&quot;h2&quot;,&quot;tsType&quot;:&quot;HeadlineAs&quot;},&quot;size&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;xs&quot;,&quot;sm&quot;,&quot;md&quot;,&quot;lg&quot;,&quot;xl&quot;],&quot;default&quot;:&quot;sm&quot;,&quot;tsType&quot;:&quot;HeadlineSize&quot;},&quot;color&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;primary&quot;,&quot;secondary&quot;,&quot;tertiary&quot;,&quot;inverse&quot;],&quot;default&quot;:&quot;primary&quot;,&quot;tsType&quot;:&quot;HeadlineColor&quot;},&quot;sx&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;children&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Snippet&quot;}}">
+class Component extends DCLogic {
+  static MAP = { xs: "2xs", sm: "sm", md: "lg", lg: "2xl", xl: "4xl" };
+  static AS = ["h1", "h2", "h3", "h4", "h5", "h6"];
+  static OWN = new Set(["as", "size", "color", "sx", "children", "key"]);
+
+  renderVals() {
+    const K = Component;
+    const rest = {};
+    for (const k in this.props) {
+      if (K.OWN.has(k) || k.startsWith("__") || k.startsWith("hint")) continue;
+      rest[k] = this.props[k];
+    }
+    const size = K.MAP[this.props.size] ? this.props.size : "sm";
+    return {
+      as: K.AS.includes(this.props.as) ? this.props.as : "h2",
+      textSize: K.MAP[size],
+      color: this.props.color || "primary",
+      sx: this.props.sx || "",
+      rest,
+      children: this.props.children
+    };
+  }
+}
+
+</script>
+</body>
+</html>

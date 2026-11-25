@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@keyframes grGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+.grRow{position:relative;transition:opacity 200ms cubic-bezier(.2,.7,.2,1),box-shadow 200ms cubic-bezier(.2,.7,.2,1)}
+.grRow:hover{z-index:2;box-shadow:0 0 16px 0 rgba(0,0,0,.16)}
+.grZoom{position:absolute;inset:0;transition:transform 320ms cubic-bezier(.2,.7,.2,1)}
+.grRow:hover .grZoom{transform:scale(1.07)}
+.grTitle{transition:color 120ms cubic-bezier(.2,.7,.2,1)}
+.grRow:hover .grTitle{color:#2563EB}
+.grMark{position:relative;display:inline-flex;align-items:center}
+.grTip{position:absolute;bottom:calc(100% + 9px);right:-8px;padding:6px 10px;background:#FFFFFF;color:#0F172A;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;white-space:nowrap;box-shadow:0 0 16px 0 rgba(0,0,0,.16);opacity:0;transform:translateY(4px);transition:opacity 200ms cubic-bezier(.2,.7,.2,1),transform 200ms cubic-bezier(.2,.7,.2,1);pointer-events:none;z-index:20}
+.grMark:hover .grTip{opacity:1;transform:translateY(0)}
+</style>
+</helmet>
+
+<a class="grRow" style="flex:none;overflow:hidden;background:#FFFFFF;display:grid;grid-template-columns:minmax(0,1fr) auto 146px;gap:16px;align-items:stretch;height:118px;padding:16px 18px 16px 195px">
+<div style="position:absolute;left:0;top:0;bottom:0;width:177px;z-index:0;overflow:hidden;background:#F1F3F5">
+<div class="grZoom" style="background-image:url('{{ game.art }}');background-size:cover;background-position:center"></div>
+</div>
+<div style="position:relative;z-index:3;min-width:0;display:flex;flex-direction:column;justify-content:space-between">
+<div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis" class="grTitle"><dc-import name="Headline" as="h3" size="xs" hint-size="180px,24px">{{ game.title }}</dc-import></div>
+<div style="display:flex;align-items:center;gap:7px;min-width:0">
+<dc-import name="Body" as="span" size="xs" color="tertiary" sx="flex:none" hint-size="120px,18px">{{ game.topTag }}</dc-import>
+<span style="flex:none;width:3px;height:3px;border-radius:999px;background:#CBD5E1"></span>
+<dc-import name="Body" as="span" size="xs" color="tertiary" sx="min-width:0;overflow:hidden;text-overflow:ellipsis;white-space:nowrap" hint-size="120px,18px">{{ game.dev }}</dc-import>
+</div>
+<div style="display:flex;align-items:center;gap:8px">
+<dc-import name="Body" as="span" size="xs" weight="bold" tabular="{{ true }}" hint-size="120px,18px">{{ game.playHours }}</dc-import>
+<dc-import name="Body" as="span" size="xs" color="tertiary" hint-size="120px,18px">플레이</dc-import>
+<span style="width:3px;height:3px;border-radius:999px;background:#CBD5E1"></span>
+<dc-import name="Body" as="span" size="xs" color="secondary" hint-size="120px,18px">{{ game.lastPlayed }} 플레이</dc-import>
+<dc-import name="Body" as="span" size="xs" color="quaternary" hint-size="120px,18px">{{ game.lastDate }}</dc-import>
+</div>
+</div>
+<div style="position:relative;z-index:3;display:flex;flex-wrap:wrap;align-content:flex-start;gap:5px;justify-content:flex-end;max-width:120px">
+<sc-for list="{{ game.badges }}" as="b" hint-placeholder-count="2">
+<dc-import name="Badge" label="{{ b.label }}" tip="{{ b.tip }}" bg="{{ b.bg }}" fg="#FFFFFF" size="24px" hint-size="24px,24px"></dc-import>
+</sc-for>
+</div>
+<div style="position:relative;z-index:3;display:flex;flex-direction:column;justify-content:space-between">
+<div style="display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+<dc-import name="Body" as="span" size="xs" weight="semibold" color="tertiary" sx="letter-spacing:.06em" hint-size="120px,18px">도전과제</dc-import>
+<dc-import name="Body" as="span" size="xs" weight="bold" tabular="{{ true }}" hint-size="120px,18px">{{ game.achLabel }}</dc-import>
+</div>
+<div style="margin-top:7px;height:5px;background:#F1F3F5;overflow:hidden">
+<div style="height:5px;width:{{ game.achPct }};background:{{ game.accent }};transform-origin:0 50%;animation:grGrow 480ms cubic-bezier(.2,.7,.2,1) both"></div>
+</div>
+<dc-import name="Body" as="div" size="xs" color="tertiary" sx="margin-top:5px;text-align:right" hint-size="120px,18px">{{ game.achPctLabel }}</dc-import>
+</div>
+</a>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:880,&quot;height&quot;:150},&quot;game&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;LibraryGame&quot;,&quot;default&quot;:{&quot;title&quot;:&quot;루프 컴파일러&quot;,&quot;dev&quot;:&quot;픽셀상점&quot;,&quot;topTag&quot;:&quot;#프로그래밍&quot;,&quot;playHours&quot;:&quot;12시간 42분&quot;,&quot;lastPlayed&quot;:&quot;오늘&quot;,&quot;lastDate&quot;:&quot;&quot;,&quot;art&quot;:&quot;../uploads/pasted-1787733428273-0.png&quot;,&quot;accent&quot;:&quot;#2563EB&quot;,&quot;achLabel&quot;:&quot;5 / 8&quot;,&quot;achPct&quot;:&quot;63%&quot;,&quot;achPctLabel&quot;:&quot;63% 달성&quot;,&quot;badges&quot;:[]}}}"></script>
+</body>
+</html>

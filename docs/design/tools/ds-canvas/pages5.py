@@ -219,7 +219,7 @@ def settings_page():
     return html.replace("</style>", CSS + swcss + "\n</style>", 1)
 
 if __name__ == "__main__":
-    for name, fn in [("전체 게임.dc.html", catalog_page), ("공개 프로필.dc.html", profile_page), ("알림.dc.html", noti_page), ("설정.dc.html", settings_page)]:
+    for name, fn in [("PG03-catalog.dc.html", catalog_page), ("PG15-profile.dc.html", profile_page), ("SH03-notifications.dc.html", noti_page), ("SH02-settings.dc.html", settings_page)]:
         html = fn()
         open(os.path.join(OUT, name), "w", encoding="utf-8").write(html)
         print(name, len(html))

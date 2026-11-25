@@ -300,7 +300,7 @@ def page_b():
     return page("게임 상세 B · 무대", body, 3900, memo)
 
 if __name__ == "__main__":
-    for name, fn in [("게임 상세 A.dc.html", page_a), ("게임 상세 B.dc.html", page_b)]:
+    for name, fn in [("PG05-game.dc.html", page_a)]:  # B 안은 보관됨(docs/design/archive)
         html = fn()
         open(os.path.join(OUT, name), "w", encoding="utf-8").write(html)
         print(name, len(html))

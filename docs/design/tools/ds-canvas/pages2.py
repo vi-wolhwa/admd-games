@@ -161,7 +161,7 @@ def lib_page():
     return html.replace("</style>", CSS + "\n</style>", 1)
 
 if __name__ == "__main__":
-    for name, fn in [("다운로드 안내.dc.html", dl_page), ("보안 검사 리포트.dc.html", scan_page), ("내 라이브러리.dc.html", lib_page)]:
+    for name, fn in [("PG08-download.dc.html", dl_page), ("PG09-scan-report.dc.html", scan_page), ("PG14-library.dc.html", lib_page)]:
         html = fn()
         open(os.path.join(OUT, name), "w", encoding="utf-8").write(html)
         print(name, len(html))

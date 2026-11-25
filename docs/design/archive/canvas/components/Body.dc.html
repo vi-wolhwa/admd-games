@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<dc-import name="Text" as="{{ as }}" size="{{ textSize }}" weight="{{ weight }}" color="{{ color }}" caps="{{ caps }}" tabular="{{ tabular }}" sx="{{ sx }}" dc-props="{{ rest }}" hint-size="180px,24px">{{ children }}</dc-import>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:460,&quot;height&quot;:72},&quot;as&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;div&quot;,&quot;p&quot;,&quot;span&quot;],&quot;default&quot;:&quot;span&quot;,&quot;tsType&quot;:&quot;BodyAs&quot;},&quot;size&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;xs&quot;,&quot;sm&quot;,&quot;md&quot;,&quot;lg&quot;],&quot;default&quot;:&quot;md&quot;,&quot;tsType&quot;:&quot;BodySize&quot;},&quot;weight&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;normal&quot;,&quot;medium&quot;,&quot;semibold&quot;,&quot;bold&quot;],&quot;default&quot;:&quot;normal&quot;,&quot;tsType&quot;:&quot;BodyWeight&quot;},&quot;color&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;primary&quot;,&quot;body&quot;,&quot;secondary&quot;,&quot;tertiary&quot;,&quot;quaternary&quot;,&quot;inverse&quot;],&quot;default&quot;:&quot;primary&quot;,&quot;tsType&quot;:&quot;BodyColor&quot;},&quot;caps&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;tabular&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;sx&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;children&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Snippet&quot;}}">
+class Component extends DCLogic {
+  static MAP = { xs: "4xs", sm: "3xs", md: "2xs", lg: "xs" };
+  static AS = ["div", "p", "span"];
+  static W = ["normal", "medium", "semibold", "bold"];
+  static OWN = new Set(["as", "size", "weight", "color", "caps", "tabular", "sx", "children", "key"]);
+
+  renderVals() {
+    const K = Component;
+    const rest = {};
+    for (const k in this.props) {
+      if (K.OWN.has(k) || k.startsWith("__") || k.startsWith("hint")) continue;
+      rest[k] = this.props[k];
+    }
+    const size = K.MAP[this.props.size] ? this.props.size : "md";
+    return {
+      as: K.AS.includes(this.props.as) ? this.props.as : "span",
+      textSize: K.MAP[size],
+      weight: K.W.includes(this.props.weight) ? this.props.weight : "normal",
+      color: this.props.color || "primary",
+      caps: this.props.caps ?? false,
+      tabular: this.props.tabular ?? false,
+      sx: this.props.sx || "",
+      rest,
+      children: this.props.children
+    };
+  }
+}
+
+</script>
+</body>
+</html>

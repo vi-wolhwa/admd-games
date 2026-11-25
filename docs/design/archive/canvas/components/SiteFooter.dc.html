@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<footer style="margin-top:{{ topGap }};border-top:1px solid #E2E8F0;background:#FFFFFF">
+<div style="width:1280px;margin:0 auto;padding:34px 0;display:flex;align-items:center;justify-content:space-between;gap:32px">
+<div style="display:flex;align-items:center;gap:10px">
+<span style="width:20px;height:20px;background:{{ accent }};display:grid;place-items:center">
+<span style="width:7px;height:7px;background:#FFFFFF;transform:rotate(45deg)"></span>
+</span>
+<dc-import name="Body" as="span" size="xs" color="secondary" hint-size="120px,18px">{{ blurb }}</dc-import>
+</div>
+<nav style="display:flex;align-items:center;gap:26px">
+<a style-hover="color:#0F172A"><dc-import name="Body" as="span" size="xs" color="secondary" hint-size="120px,18px">게임 등록</dc-import></a>
+<a style-hover="color:#0F172A"><dc-import name="Body" as="span" size="xs" color="secondary" hint-size="120px,18px">개발자 문서</dc-import></a>
+<a style-hover="color:#0F172A"><dc-import name="Body" as="span" size="xs" color="secondary" hint-size="120px,18px">업데이트 노트</dc-import></a>
+<a style-hover="color:#0F172A"><dc-import name="Body" as="span" size="xs" color="secondary" hint-size="120px,18px">이용약관</dc-import></a>
+</nav>
+</div>
+</footer>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:110}}">class Component extends DCLogic {
+  renderVals() {
+    const p = this.props;
+    return {
+      accent: p.accent ?? "#2563EB",
+      topGap: p.topGap ?? "0px",
+      blurb: p.blurb ?? "aDmD 그라운드 — 브라우저에서 바로, PC·모바일은 다운로드로 즐기는 인디 게임 카탈로그"
+    };
+  }
+}
+</script>
+</body>
+</html>

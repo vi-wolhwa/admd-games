@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+.gtCard{transition:box-shadow 200ms cubic-bezier(.2,.7,.2,1)}
+.gtCard:hover{box-shadow:0 0 16px 0 rgba(0,0,0,.16)}
+.gtCard:active{box-shadow:0 0 16px 0 rgba(0,0,0,.16)}
+.gtZoom{position:absolute;inset:0;transition:transform 320ms cubic-bezier(.2,.7,.2,1)}
+.gtCard:hover .gtZoom{transform:scale(1.06)}
+.gtTitle{transition:color 120ms cubic-bezier(.2,.7,.2,1)}
+.gtCard:hover .gtTitle{color:#2563EB}
+</style>
+</helmet>
+
+<a class="gtCard" style="flex:none;width:{{ width }};display:block;background:#FFFFFF">
+<div style="position:relative;width:100%;aspect-ratio:3/2;background:#F1F3F5;overflow:hidden">
+<div class="gtZoom" style="background-image:url('{{ game.art }}');background-size:cover;background-position:center"></div>
+</div>
+<div style="padding:12px 13px 14px;display:flex;flex-direction:column;gap:8px">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:8px">
+<span style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis" class="gtTitle"><dc-import name="Headline" as="h3" size="xs" hint-size="180px,24px">{{ game.title }}</dc-import></span>
+</div>
+<sc-if value="{{ showAchievements }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:6px">
+<dc-import name="Body" as="span" size="xs" color="tertiary" hint-size="120px,18px">도전과제</dc-import>
+<dc-import name="Body" as="span" size="xs" weight="bold" tabular="{{ true }}" hint-size="120px,18px">{{ game.achLabel }}</dc-import>
+</div>
+</sc-if>
+<div style="display:flex;align-items:center;gap:6px">
+<dc-import name="Body" as="span" size="xs" weight="semibold" color="secondary" hint-size="120px,18px">{{ game.playtime }}</dc-import>
+<span style="width:3px;height:3px;border-radius:999px;background:#CBD5E1"></span>
+<dc-import name="Body" as="span" size="xs" color="tertiary" hint-size="120px,18px">{{ game.session }}</dc-import>
+</div>
+</div>
+</a>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:232,&quot;height&quot;:240},&quot;game&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;RecentGame&quot;,&quot;default&quot;:{&quot;title&quot;:&quot;루프 컴파일러&quot;,&quot;art&quot;:&quot;../uploads/pasted-1787733428273-0.png&quot;,&quot;achLabel&quot;:&quot;5 / 8&quot;,&quot;playtime&quot;:&quot;12시간 42분 플레이&quot;,&quot;session&quot;:&quot;오늘 플레이&quot;}},&quot;width&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;232px&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;showAchievements&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;}}"></script>
+</body>
+</html>

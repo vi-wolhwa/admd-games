@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@keyframes cbUp{from{transform:translateY(0)}to{transform:translateY(-50%)}}
+.cbScroll{scrollbar-width:none;-ms-overflow-style:none;overscroll-behavior:contain}
+.cbScroll::-webkit-scrollbar{width:0;height:0}
+.cbMarquee{animation:cbUp 46s linear infinite}
+.cbWrap:hover .cbMarquee{animation-play-state:paused}
+.cbRow{position:relative;transition:box-shadow 200ms cubic-bezier(.2,.7,.2,1)}
+.cbRow:hover,.cbRow:active{z-index:2;box-shadow:0 0 16px 0 rgba(0,0,0,.16)}
+.cbName{transition:color 120ms cubic-bezier(.2,.7,.2,1)}
+.cbRow:hover .cbName{color:#EA580C}
+</style>
+</helmet>
+
+<div style="height:100%;min-height:460px;background:#FFFFFF;padding:20px 22px 18px;display:flex;flex-direction:column">
+<dc-import name="PanelHeadline" count="{{ count }}" prefix="명의 메이커가 " highlight="기여" suffix="했습니다" chip="전체 기간" note="누적 기여도 · 상위 20위까지 표시" accent="#EA580C" hint-size="100%,90px"></dc-import>
+<div style="height:16px"></div>
+<div class="cbWrap" style="position:relative;flex:1;min-height:0">
+<div class="cbScroll" style="position:absolute;inset:0;overflow-x:hidden;overflow-y:auto">
+<div class="cbMarquee">
+<sc-for list="{{ items }}" as="c" hint-placeholder-count="20">
+<a class="cbRow" style="display:grid;grid-template-columns:16px 28px minmax(0,1fr) auto;gap:9px;align-items:center;height:46px;padding:0 12px;margin:0 -12px;border-bottom:1px solid #F1F3F5">
+<dc-import name="Body" as="span" size="xs" weight="bold" tabular="{{ true }}" sx="color:{{ c.rankColor }}" hint-size="120px,18px">{{ c.rank }}</dc-import>
+<dc-import name="Body" as="span" size="xs" weight="bold" color="inverse" sx="width:28px;height:28px;border-radius:999px;background:{{ c.color }};display:grid;place-items:center" hint-size="120px,18px">{{ c.initial }}</dc-import>
+<div style="min-width:0">
+<div style="white-space:nowrap;overflow:hidden;text-overflow:ellipsis" class="cbName"><dc-import name="Body" as="div" size="xs" weight="bold" hint-size="120px,18px">{{ c.name }}</dc-import></div>
+<dc-import name="Body" as="div" size="xs" color="tertiary" sx="margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" hint-size="120px,18px">{{ c.meta }}</dc-import>
+</div>
+<div style="text-align:right">
+<dc-import name="Body" as="div" size="xs" weight="bold" tabular="{{ true }}" hint-size="120px,18px">{{ c.score }}</dc-import>
+<dc-import name="Body" as="div" size="xs" weight="bold" sx="margin-top:2px;color:#008638" hint-size="120px,18px">{{ c.delta }}</dc-import>
+</div>
+</a>
+</sc-for>
+</div>
+</div>
+<div style="position:absolute;left:0;right:0;top:0;height:16px;pointer-events:none;background:linear-gradient(180deg,#FFFFFF,rgba(255,255,255,0))"></div>
+<div style="position:absolute;left:0;right:0;bottom:0;height:26px;pointer-events:none;background:linear-gradient(180deg,rgba(255,255,255,0),#FFFFFF 70%)"></div>
+</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:248,&quot;height&quot;:460},&quot;count&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;186&quot;,&quot;tsType&quot;:&quot;string | number&quot;},&quot;items&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Contributor[]&quot;}}"></script>
+</body>
+</html>

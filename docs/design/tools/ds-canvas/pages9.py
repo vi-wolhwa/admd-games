@@ -185,7 +185,7 @@ def team_page():
     return page("팀 관리", body, 1000, memo, make=True)
 
 if __name__ == "__main__":
-    for name, fn in [("잼 · 상세.dc.html", jam_page), ("잼 · 투표 · 결과.dc.html", jam_vote_page), ("랭킹 전체.dc.html", ranking_page), ("친구.dc.html", friends_page), ("같이 하기 대기실.dc.html", room_page), ("팀 관리.dc.html", team_page)]:
+    for name, fn in [("MG11-jam.dc.html", jam_page), ("MG12-jam-vote.dc.html", jam_vote_page), ("PG11-ranking.dc.html", ranking_page), ("PG16-friends.dc.html", friends_page), ("PG12-room.dc.html", room_page), ("MG13-team.dc.html", team_page)]:
         html = fn()
         open(os.path.join(OUT, name), "w", encoding="utf-8").write(html)
         print(name, len(html))

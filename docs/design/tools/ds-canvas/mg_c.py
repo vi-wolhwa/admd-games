@@ -301,7 +301,7 @@ def mobile2():
     return html.replace("</style>", mgm.M_CSS + M_CSS2 + CSS + "\n</style>", 1)
 
 if __name__ == "__main__":
-    for name, fn in [("MakersGround 홈 C.dc.html", home_c), ("커뮤니티 목록.dc.html", community_list), ("커뮤니티 글 보기.dc.html", post_view), ("MakersGround 모바일.dc.html", mobile2)]:
+    for name, fn in [("MG01-home.dc.html", home_c), ("MG08-community.dc.html", community_list), ("MG09-post.dc.html", post_view), ("MG91-mobile.dc.html", mobile2)]:
         html = fn()
         open(os.path.join(OUT, name), "w", encoding="utf-8").write(html)
         print(name, len(html))

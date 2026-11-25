@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@keyframes pcRise{from{opacity:0;transform:translateY(16px)}to{opacity:1;transform:none}}
+@keyframes pcGrow{from{transform:scaleX(0)}to{transform:scaleX(1)}}
+</style>
+</helmet>
+
+<aside style="height:{{ height }};display:flex;flex-direction:column;background:#FFFFFF;padding:22px;animation:pcRise 480ms cubic-bezier(.2,.7,.2,1) both">
+<sc-if value="{{ guest }}" hint-placeholder-val="{{ true }}">
+<div style="position:relative;flex:1;min-height:0">
+<div style="opacity:.75;pointer-events:none;user-select:none;overflow:hidden">
+<dc-import name="ProfileSummary" initial="P" display-name="플레이어 님" tier="퍼즐 수집가 · 상위 21%" level="" has-level="{{ falseVal }}" avatar-radius="999px" show-my-page="{{ falseVal }}" xp-label="경험치 3,420 XP" next-label="Lv.8까지 580" xp-pct="64%" bar-anim="none" stats="{{ guestStats }}" hint-size="100%,210px"></dc-import>
+<div style="margin-top:18px;padding-top:14px;border-top:1px solid #E9ECF1">
+<div style="display:flex;gap:16px">
+<span style="width:19px;height:14px;background:#94A3B8"></span>
+<span style="width:14px;height:14px;border:2px solid #94A3B8;transform:rotate(45deg)"></span>
+<span style="width:14px;height:14px;border-radius:999px;background:#94A3B8"></span>
+<span style="width:14px;height:14px;background:#94A3B8"></span>
+</div>
+<div style="margin-top:12px;display:flex;flex-direction:column;gap:11px">
+<div><dc-import name="Body" as="div" size="xs" weight="semibold" hint-size="120px,18px">8월 정기 점검 안내</dc-import><dc-import name="Body" as="div" size="xs" color="tertiary" sx="margin-top:3px" hint-size="120px,18px">운영팀 공지 · 오늘</dc-import></div>
+<div><dc-import name="Body" as="div" size="xs" weight="semibold" hint-size="120px,18px">루프 컴파일러 v1.4 업데이트</dc-import><dc-import name="Body" as="div" size="xs" color="tertiary" sx="margin-top:3px" hint-size="120px,18px">픽셀상점 · 어제</dc-import></div>
+<div><dc-import name="Body" as="div" size="xs" weight="semibold" hint-size="120px,18px">달빛코더 님이 도전과제를 달성</dc-import><dc-import name="Body" as="div" size="xs" color="tertiary" sx="margin-top:3px" hint-size="120px,18px">그리드락 · 2일 전</dc-import></div>
+</div>
+</div>
+</div>
+
+<dc-import name="SignInFallback" line1="내 플레이 기록과 도전과제를" line2="요약해서 보여드려요" label="로그인" on-sign-in="{{ signIn }}" inset="-22px" veil=".55" gap="0px" pad-x="26px" button-width="280px" button-height="44px" button-gap="16px" hint-size="100%,100%"></dc-import>
+</div>
+</sc-if>
+<sc-if value="{{ signedIn }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;min-height:0;display:flex;flex-direction:column">
+<dc-import name="ProfileSummary" initial="진" display-name="진수 님" tier="코드 러너 · 상위 8%" level="Lv.12" has-level="{{ trueVal }}" avatar-radius="0px" show-my-page="{{ trueVal }}" xp-label="경험치 8,760 XP" next-label="Lv.13까지 1,240" xp-pct="78%" stats="{{ memberStats }}" hint-size="100%,210px"></dc-import>
+
+<div style="margin-top:20px;flex:1;min-height:0;display:flex;flex-direction:column">
+<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px">
+<button type="button" onClick="{{ f0.go }}" style="position:relative;display:flex;align-items:center;justify-content:center;height:50px;border:0;background:#FFFFFF;transition:background 120ms cubic-bezier(.2,.7,.2,1)" style-hover="background:#F6F7F9">
+<svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="{{ f0.ic }}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4.5 9.8v4.4l11.5 3.8V6L4.5 9.8Z"></path><path d="M4.5 9.8H3.2v4.4h1.3"></path><path d="M8.4 15.4v2.6a1.9 1.9 0 0 0 3.8 0v-1.3"></path><path d="M19 9.4v5.2"></path></svg>
+<sc-if value="{{ f0.hasBadge }}" hint-placeholder-val="{{ false }}">
+<dc-import name="Body" as="span" size="xs" weight="bold" color="inverse" sx="position:absolute;top:5px;right:6px;min-width:15px;height:15px;padding:0 4px;border-radius:999px;background:#E11D48;text-align:center" hint-size="120px,18px">{{ f0.badge }}</dc-import>
+</sc-if>
+</button>
+<button type="button" onClick="{{ f1.go }}" style="position:relative;display:flex;align-items:center;justify-content:center;height:50px;border:0;background:#FFFFFF;transition:background 120ms cubic-bezier(.2,.7,.2,1)" style-hover="background:#F6F7F9">
+<svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="{{ f1.ic }}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M19.9 12a7.9 7.9 0 1 1-2.6-5.8"></path><path d="M19.9 4.4v4.2h-4.2"></path></svg>
+<sc-if value="{{ f1.hasBadge }}" hint-placeholder-val="{{ false }}">
+<dc-import name="Body" as="span" size="xs" weight="bold" color="inverse" sx="position:absolute;top:5px;right:6px;min-width:15px;height:15px;padding:0 4px;border-radius:999px;background:#E11D48;text-align:center" hint-size="120px,18px">{{ f1.badge }}</dc-import>
+</sc-if>
+</button>
+<button type="button" onClick="{{ f2.go }}" style="position:relative;display:flex;align-items:center;justify-content:center;height:50px;border:0;background:#FFFFFF;transition:background 120ms cubic-bezier(.2,.7,.2,1)" style-hover="background:#F6F7F9">
+<svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="{{ f2.ic }}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="8.4"></circle><path d="M10.4 9.1 15.2 12l-4.8 2.9V9.1Z"></path></svg>
+<sc-if value="{{ f2.hasBadge }}" hint-placeholder-val="{{ false }}">
+<dc-import name="Body" as="span" size="xs" weight="bold" color="inverse" sx="position:absolute;top:5px;right:6px;min-width:15px;height:15px;padding:0 4px;border-radius:999px;background:#E11D48;text-align:center" hint-size="120px,18px">{{ f2.badge }}</dc-import>
+</sc-if>
+</button>
+<button type="button" onClick="{{ f3.go }}" style="position:relative;display:flex;align-items:center;justify-content:center;height:50px;border:0;background:#FFFFFF;transition:background 120ms cubic-bezier(.2,.7,.2,1)" style-hover="background:#F6F7F9">
+<svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="{{ f3.ic }}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7.6 4.4h8.8v3.5a4.4 4.4 0 0 1-8.8 0V4.4Z"></path><path d="M7.6 6H5.2v1a3 3 0 0 0 2.4 3"></path><path d="M16.4 6h2.4v1a3 3 0 0 1-2.4 3"></path><path d="M12 12.4V16"></path><path d="M8.8 19.2h6.4"></path></svg>
+<sc-if value="{{ f3.hasBadge }}" hint-placeholder-val="{{ false }}">
+<dc-import name="Body" as="span" size="xs" weight="bold" color="inverse" sx="position:absolute;top:5px;right:6px;min-width:15px;height:15px;padding:0 4px;border-radius:999px;background:#E11D48;text-align:center" hint-size="120px,18px">{{ f3.badge }}</dc-import>
+</sc-if>
+</button>
+<button type="button" onClick="{{ f4.go }}" style="position:relative;display:flex;align-items:center;justify-content:center;height:50px;border:0;background:#FFFFFF;transition:background 120ms cubic-bezier(.2,.7,.2,1)" style-hover="background:#F6F7F9">
+<svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="{{ f4.ic }}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9.2" cy="9.4" r="3.1"></circle><path d="M3.6 19c0-3 2.5-5.1 5.6-5.1s5.6 2.1 5.6 5.1"></path><path d="M16.2 7.4a3 3 0 0 1 0 5.8"></path><path d="M17.6 14.6c2 .8 3 2.4 3 4.4"></path></svg>
+<sc-if value="{{ f4.hasBadge }}" hint-placeholder-val="{{ false }}">
+<dc-import name="Body" as="span" size="xs" weight="bold" color="inverse" sx="position:absolute;top:5px;right:6px;min-width:15px;height:15px;padding:0 4px;border-radius:999px;background:#E11D48;text-align:center" hint-size="120px,18px">{{ f4.badge }}</dc-import>
+</sc-if>
+</button>
+</div>
+
+<div style="margin-top:14px;flex:1;min-height:0;display:flex;flex-direction:column">
+<div style="flex:1;min-height:0;position:relative">
+<dc-import name="NotifList" feed-title="{{ feedTitle }}" items="{{ feedItems }}" mark-all-read="{{ markAllRead }}" has-link="{{ feedLink }}" link-label="{{ feedLinkLabel }}" hint-size="100%,100%"></dc-import>
+</div>
+</div>
+</div>
+</div>
+</sc-if>
+</aside>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:372,&quot;height&quot;:560},&quot;height&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;560px&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;guest&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;signedIn&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;signIn&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;},&quot;favCount&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:3,&quot;tsType&quot;:&quot;number&quot;},&quot;f0&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Shortcut&quot;},&quot;f1&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Shortcut&quot;},&quot;f2&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Shortcut&quot;},&quot;f3&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Shortcut&quot;},&quot;f4&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Shortcut&quot;},&quot;feedTitle&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;알림&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;feedItems&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Notif[]&quot;},&quot;markAllRead&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;},&quot;feedLink&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;feedLinkLabel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;알림 전체 보기&quot;,&quot;tsType&quot;:&quot;string&quot;}}">class Component extends DCLogic {
+  renderVals() {
+    return {
+      trueVal: true,
+      falseVal: false,
+      guestStats: [
+        { value: "12시간", label: "플레이 시간", color: "#0F172A" },
+        { value: "3", label: "저장한 게임", color: "#2563EB" },
+        { value: "5", label: "도전과제", color: "#8949FF" }
+      ],
+      memberStats: [
+        { value: "41시간", label: "플레이 시간", color: "#0F172A" },
+        { value: String(this.props.favCount ?? 0), label: "저장한 게임", color: "#2563EB" },
+        { value: "12", label: "도전과제", color: "#8949FF" }
+      ]
+    };
+  }
+}
+</script>
+</body>
+</html>

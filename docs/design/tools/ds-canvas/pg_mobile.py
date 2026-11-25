@@ -215,7 +215,7 @@ def page_game():
     return page("PlayGround 모바일 · 게임", cols, memo, 1900)
 
 if __name__ == "__main__":
-    for name, fn in [("PlayGround 모바일 · 홈.dc.html", page_home), ("PlayGround 모바일 · 게임.dc.html", page_game)]:
+    for name, fn in [("PG91-mobile-home.dc.html", page_home), ("PG92-mobile-games.dc.html", page_game)]:
         html = fn()
         open(os.path.join(OUT, name), "w", encoding="utf-8").write(html)
         print(name, len(html))

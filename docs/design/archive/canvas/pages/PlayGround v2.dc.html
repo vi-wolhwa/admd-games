@@ -1,0 +1,605 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<base href="components/">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet data-dc-atomics>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#F6F7F9;color:#0F172A;font-family:"Pretendard Variable",Pretendard,Inter,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;word-break:keep-all}
+a{color:#2563EB;text-decoration:none;cursor:pointer}
+a:hover{color:#1D4ED8}
+button{font-family:inherit;cursor:pointer}
+input{font-family:inherit}
+input::placeholder{color:#94A3B8}
+::selection{background:#DBEAFE;color:#0F172A}
+a:focus-visible,button:focus-visible{outline:2px solid #2563EB;outline-offset:2px}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</helmet>
+
+<div style="min-height:1080px;background:#F6F7F9">
+
+<dc-import name="SiteNav" style="display:contents" accent="#2563EB" site-name="플레이 그라운드" active-site="play" show-stats="{{ showStatsNav }}" stat-label1="플레이어" stat-value1="{{ totalPlayers }}" stat-label2="누적 플레이" stat-value2="{{ totalPlays }}" guest="{{ guest }}" signed-in="{{ signedIn }}" sign-in="{{ signIn }}" sign-out="{{ signOut }}" hint-size="100%,73px"></dc-import>
+
+<dc-import name="HeroSpotlight" slides="{{ slides }}" spot="{{ spot }}" hero-anim="{{ heroAnim }}" bar-anim="{{ barAnim }}" dots="{{ dots }}" slide-counter="{{ slideCounter }}" prev-slide="{{ prevSlide }}" next-slide="{{ nextSlide }}" hint-size="100%,520px"></dc-import>
+
+<section ref="{{ favRef }}" style="width:1280px;margin:0 auto;padding:64px 0 0;display:grid;grid-template-columns:minmax(0,1fr) 372px;gap:40px;align-items:stretch">
+<dc-import name="LibraryPanel" title="내 라이브러리" subtitle="{{ favSubtitle }}" signed-in="{{ signedIn }}" guest="{{ guest }}" sorts="{{ libSorts }}" sign-in="{{ signIn }}" has-items="{{ hasFavs }}" items="{{ favs }}" is-empty="{{ emptyFavs }}" hint-size="100%,100%"></dc-import>
+<dc-import name="ProfileCard" height="{{ asideH }}" guest="{{ guest }}" signed-in="{{ signedIn }}" sign-in="{{ signIn }}" fav-count="{{ favCount }}" f0="{{ f0 }}" f1="{{ f1 }}" f2="{{ f2 }}" f3="{{ f3 }}" f4="{{ f4 }}" feed-title="{{ feedTitle }}" feed-items="{{ feedItems }}" mark-all-read="{{ markAllRead }}" feed-link="{{ feedLink }}" feed-link-label="{{ feedLinkLabel }}" hint-size="372px,100%"></dc-import>
+</section>
+
+<dc-import name="RecentPlays" title="최근 플레이" subtitle="최근에 플레이한 순서대로" items="{{ recent }}" offset-x="{{ recentX }}" on-prev="{{ prevRecent }}" on-next="{{ nextRecent }}" signed-in="{{ signedIn }}" hint-size="100%,340px"></dc-import>
+
+<dc-import name="TodaysPicks" title="지금 플레이할 게임" subtitle="이번 주 왕좌부터 숨은 보석까지" link-label="카탈로그 전체 보기 &#8594;" slides="{{ pickSlides }}" pick="{{ pick }}" cards="{{ pickCards }}" on-hold-on="{{ pickHoldOn }}" on-hold-off="{{ pickHoldOff }}" hint-size="100%,700px"></dc-import>
+
+<dc-import name="CatalogSection" headline="{{ headline }}" count-label="{{ countLabel }}" query="{{ q }}" on-search="{{ onSearch }}" sorts="{{ sorts }}" sort-w="{{ sortW }}" sort-x="{{ sortX }}" mode-opts="{{ modeOpts }}" run-opts="{{ runOpts }}" tags="{{ tagsTheme }}" clear-tags="{{ clearTags }}" all-tag-enter="{{ allTagEnter }}" all-tag-leave="{{ allTagLeave }}" all-tag-weight="{{ allTagWeight }}" all-tag-fg="{{ allTagFg }}" all-tag-bg="{{ allTagBg }}" games="{{ visible }}" show-plays="{{ showPlays }}" grid-ref="{{ gridRef }}" is-empty="{{ isEmpty }}" on-reset="{{ reset }}" hint-size="100%,900px"></dc-import>
+
+<dc-import name="SiteFooter" top-gap="96px" hint-size="100%,206px"></dc-import>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1920,&quot;height&quot;:1080},&quot;startSignedIn&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;계정&quot;},&quot;columns&quot;:{&quot;editor&quot;:&quot;int&quot;,&quot;default&quot;:4,&quot;min&quot;:3,&quot;max&quot;:5,&quot;tsType&quot;:&quot;number&quot;,&quot;section&quot;:&quot;카탈로그&quot;},&quot;showPlayCounts&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;카탈로그&quot;},&quot;autoRotateSpotlight&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;히어로&quot;}}">
+class Component extends DCLogic {
+  state = { hoverChip: null, mode: "전체", runtime: "전체", notifRead: {}, notifHidden: {}, pick: 0, pickHold: false, q: "", sort: "인기", spot: 0, recent: 0, tagState: {}, feed: "공지", dismissed: {}, libSort: "최근 플레이", signedIn: false, email: "", favs: [] };
+
+  // 강조색은 이름 해시로 팔레트에서 자동 배정
+  hues = ["#2563EB"];
+
+  arts = [
+    "../uploads/pasted-1787733428273-0.png",
+    "../uploads/pasted-1787733681725-0.png",
+    "../uploads/pasted-1787733760574-0.png",
+    "../uploads/pasted-1787733890496-0.png",
+    "../uploads/pasted-1787733948919-0.png"
+  ];
+
+  artFor(seed) {
+    let h = 0;
+    const s = String(seed);
+    for (let i = 0; i < s.length; i++) h = (h * 33 + s.charCodeAt(i)) >>> 0;
+    return this.arts[h % this.arts.length];
+  }
+
+  accentOf(name) {
+    let h = 0;
+    for (let i = 0; i < name.length; i++) h = (h * 31 + name.charCodeAt(i)) >>> 0;
+    return this.hues[h % this.hues.length];
+  }
+
+  static rgba(hex, a) {
+    const n = parseInt(hex.slice(1), 16);
+    return "rgba(" + (n >> 16) + "," + ((n >> 8) & 255) + "," + (n & 255) + "," + a + ")";
+  }
+
+  games = [
+    { title: "루프 컴파일러", engine: "Unity", run: "브라우저", plays: 128400, days: 26, trend: 98, pct: 62, mins: 762, dev: "픽셀상점", tags: ["싱글플레이", "퍼즐", "스토리"] },
+    { title: "테서랙트 드리프트", engine: "Unity", run: "브라우저 · Windows", plays: 96200, days: 9, trend: 94, pct: 0, mins: 128, dev: "무중력스튜디오", tags: ["멀티플레이", "레이싱", "컨트롤러"] },
+    { title: "그리드락", engine: "Godot", run: "브라우저", plays: 74800, days: 51, trend: 71, pct: 88, mins: 1540, dev: "세모난고양이", tags: ["싱글플레이", "퍼즐", "캐주얼"] },
+    { title: "널 포인터", engine: "GameMaker", run: "Windows", plays: 61300, days: 4, trend: 90, pct: 12, mins: 45, dev: "라온게임즈", tags: ["싱글플레이", "로그라이크", "픽셀아트"] },
+    { title: "애쉬폴 러너", engine: "Unity", run: "브라우저", plays: 212900, days: 118, trend: 86, pct: 0, mins: 310, dev: "잿빛토끼", tags: ["싱글플레이", "스피드런", "픽셀아트"] },
+    { title: "솔벤트", engine: "Godot", run: "브라우저", plays: 43100, days: 33, trend: 62, pct: 45, mins: 205, dev: "미드나잇랩", tags: ["싱글플레이", "퍼즐", "캐주얼"] },
+    { title: "데몬 가든", engine: "Unity", run: "브라우저 · Windows", plays: 88500, days: 6, trend: 92, pct: 27, mins: 88, dev: "정원사K", tags: ["싱글플레이", "멀티플레이", "스토리", "캐주얼"] },
+    { title: "페이퍼 벡터", engine: "Godot", run: "브라우저", plays: 155600, days: 74, trend: 80, pct: 0, mins: 615, dev: "벡터공방", tags: ["싱글플레이", "멀티플레이", "스피드런", "컨트롤러"] },
+    { title: "리팩터 러시", engine: "Godot", run: "브라우저 · APK", plays: 38700, days: 3, trend: 77, pct: 8, mins: 22, dev: "리팩터클럽", tags: ["멀티플레이", "스피드런", "캐주얼"] },
+    { title: "할시온 뎁스", engine: "Unity", run: "브라우저 · Windows", plays: 102400, days: 62, trend: 74, pct: 40, mins: 430, dev: "심해상회", tags: ["싱글플레이", "멀티플레이", "스토리", "컨트롤러"] },
+    { title: "틸트 이론", engine: "Unreal", run: "Windows", plays: 29500, days: 21, trend: 58, pct: 93, mins: 970, dev: "기울기연구소", tags: ["싱글플레이", "퍼즐", "캐주얼"] },
+    { title: "바이트 바자", engine: "Unity", run: "브라우저", plays: 57900, days: 44, trend: 66, pct: 22, mins: 150, dev: "바이트마켓", tags: ["멀티플레이", "로그라이크", "픽셀아트"] }
+  ].map((g, i) => ({
+    ...g,
+    i,
+    topTag: "#" + (g.tags.find(t => !["싱글플레이", "멀티플레이"].includes(t)) || g.tags[0]),
+    tags: g.tags.concat(
+      g.run.includes("브라우저") ? ["브라우저 실행"] : [],
+      /Windows|macOS|PC/.test(g.run) ? ["PC 다운로드"] : [],
+      /APK|모바일/.test(g.run) ? ["모바일"] : []
+    ),
+    art: null,
+    slot: "card-" + (i + 1),
+    newSlot: "new-" + (i + 1),
+    favSlot: "fav-" + (i + 1),
+    recentSlot: "recent-" + (i + 1),
+    isNew: g.days <= 7,
+    achTotal: 8 + (i % 5) * 4,
+    achDone: Math.max(1, Math.round((8 + (i % 5) * 4) * (0.25 + (g.trend % 55) / 100))),
+    lastDays: [0, 1, 2, 3, 5, 7, 9, 12][i % 8],
+    devInitial: g.dev.slice(0, 1),
+    playtime: Component.dur(g.mins) + " 플레이",
+    hasProgress: g.pct > 0,
+    ago: g.days <= 1 ? "오늘 공개" : g.days + "일 전 공개",
+    playsLabel: "플레이 " + Component.fmt(g.plays),
+    session: ["오늘 플레이", "어제 플레이", "3일 전 플레이", "이번 주 플레이", "지난주 플레이"][i % 5]
+  }));
+
+  markSpec = {
+    single: { tip: "싱글 플레이", fill: "#94A3B8", paths: ["M8 5.7a2.3 2.3 0 1 0 0 4.6a2.3 2.3 0 1 0 0-4.6"] },
+    multi: { tip: "멀티 플레이", fill: "#94A3B8", paths: ["M4.9 5.7a2.1 2.1 0 1 0 0 4.2a2.1 2.1 0 1 0 0-4.2", "M11.1 5.7a2.1 2.1 0 1 0 0 4.2a2.1 2.1 0 1 0 0-4.2"] },
+    browser: { tip: "브라우저에서 바로 실행", fill: "none", paths: ["M2.2 3.8h11.6v8.4H2.2z", "M2.2 6.3h11.6"] },
+    pc: { tip: "PC 다운로드", fill: "none", paths: ["M2.2 3.4h11.6v7H2.2z", "M8 10.4v2.2", "M6 12.8h4"] },
+    mobile: { tip: "모바일 설치", fill: "none", paths: ["M5.6 2.6h4.8v10.8H5.6z", "M7.2 11.9h1.6"] }
+  };
+
+  marksOf(g) {
+    const players = [];
+    if (g.tags.includes("싱글플레이")) players.push("single");
+    if (g.tags.includes("멀티플레이")) players.push("multi");
+    const runs = [];
+    if (g.run.includes("브라우저")) runs.push("browser");
+    if (/Windows|macOS|PC/.test(g.run)) runs.push("pc");
+    if (/APK|모바일/.test(g.run)) runs.push("mobile");
+    const build = keys => keys.map(k => {
+      const d = this.markSpec[k];
+      return { tip: d.tip, fill: d.fill, paths: d.paths.map(x => ({ d: x })) };
+    });
+    return { playerMarks: build(players), runMarks: build(runs) };
+  }
+
+  allTags = ["브라우저 실행", "PC 다운로드", "모바일", "싱글플레이", "멀티플레이", "퍼즐", "레이싱", "로그라이크", "스피드런", "스토리", "픽셀아트", "컨트롤러", "캐주얼"];
+
+  static fmt(n) {
+    return n >= 10000 ? (n / 10000).toFixed(1).replace(/\.0$/, "") + "만" : n.toLocaleString("ko-KR");
+  }
+
+  static dur(m) {
+    const h = Math.floor(m / 60), r = m % 60;
+    return h ? h + "시간" + (r ? " " + r + "분" : "") : m + "분";
+  }
+
+  feeds = {
+    "공지": { tip: "공지사항", title: "공지사항", badge: 2, link: true, items: [
+      { title: "8월 정기 점검 안내 (8/27 02:00~06:00)", meta: "운영팀 공지", when: "오늘", dot: "#E11D48" },
+      { title: "게임 업로드 심사 기준이 일부 변경됩니다", meta: "개발자 공지", when: "2일 전", dot: "#E11D48" },
+      { title: "리더보드 초기화 주기 변경 안내", meta: "운영팀 공지", when: "6일 전", dot: "#CBD5E1" },
+      { title: "여름 인디 페스티벌 결과 발표", meta: "이벤트", when: "11일 전", dot: "#CBD5E1" }
+    ] },
+    "업데이트": { tip: "내 게임 소식", title: "내 게임 소식", badge: 3, items: [
+      { title: "루프 컴파일러 v1.4 — 스테이지 8개 추가", meta: "픽셀상점 · 패치노트", when: "오늘", dot: "#2563EB" },
+      { title: "그리드락, 주간 랭킹 12위 → 4위", meta: "세모난고양이 · 랭킹", when: "어제", dot: "#2563EB" },
+      { title: "애쉬폴 러너 시즌 2 리더보드 오픈", meta: "잿빛토끼 · 이벤트", when: "2일 전", dot: "#2563EB" },
+      { title: "데몬 가든 저장 오류 수정 (v0.9.3)", meta: "정원사K · 패치노트", when: "5일 전", dot: "#CBD5E1" }
+    ] },
+    "기록": { tip: "플레이 기록", title: "플레이 기록", items: [
+      { title: "루프 컴파일러 · 42분 플레이", meta: "스테이지 21 클리어", when: "오늘", dot: "#008638" },
+      { title: "그리드락 · 1시간 12분 플레이", meta: "퍼즐 88% 진행", when: "어제", dot: "#008638" },
+      { title: "애쉬폴 러너 · 18분 플레이", meta: "최고 기록 4,820m", when: "3일 전", dot: "#CBD5E1" },
+      { title: "데몬 가든 · 26분 플레이", meta: "협동 세션 2회", when: "5일 전", dot: "#CBD5E1" }
+    ] },
+    "도전과제": { tip: "도전과제", title: "도전과제", badge: 1, items: [
+      { title: "무결점 클리어 · +240 XP", meta: "루프 컴파일러", when: "오늘", dot: "#8949FF" },
+      { title: "7일 연속 플레이 · +120 XP", meta: "그리드락", when: "어제", dot: "#8949FF" },
+      { title: "스피드런 브론즈 · +180 XP", meta: "애쉬폴 러너", when: "3일 전", dot: "#CBD5E1" },
+      { title: "첫 컴파일 · +60 XP", meta: "널 포인터", when: "9일 전", dot: "#CBD5E1" }
+    ] },
+    "친구": { tip: "친구 소식", title: "친구 소식", badge: 1, items: [
+      { title: "달빛코더 님이 루프 컴파일러를 클리어했어요", meta: "내 기록보다 6분 빠름", when: "1시간 전", dot: "#2563EB" },
+      { title: "무중력스튜디오 님이 새 게임을 공개했어요", meta: "테서랙트 드리프트 DLC", when: "오늘", dot: "#2563EB" },
+      { title: "픽셀상점 님이 친구 요청을 보냈어요", meta: "함께 플레이한 게임 3개", when: "어제", dot: "#CBD5E1" },
+      { title: "라온게임즈 님이 도전과제를 달성했어요", meta: "널 포인터 · 로그라이크 마스터", when: "4일 전", dot: "#CBD5E1" }
+    ] }
+  };
+
+  achievements = [
+    { name: "첫 컴파일", on: true }, { name: "무결점 클리어", on: true }, { name: "연속 7일", on: true },
+    { name: "스피드런 브론즈", on: true }, { name: "수집가 (미달성)", on: false }, { name: "야간 근무 (미달성)", on: false }
+  ];
+
+  paint(g) {
+    const accent = this.accentOf(g.title);
+    g = { ...g, art: this.artFor(g.title) };
+    return { ...g, accent, tint: "#F1F3F5", glow: Component.rgba(accent, 0.42) };
+  }
+
+  componentDidMount() {
+    if (this.props.startSignedIn) this.setState({ signedIn: true, favs: [0, 2, 4, 6, 8, 10] });
+    this.applyCols();
+    if (this.props.autoRotateSpotlight !== false) {
+      this.timer = setInterval(() => this.setState(s => ({ spot: (s.spot + 1) % 3 })), 7000);
+    }
+    this.startPickTimer();
+  }
+  componentDidUpdate(prevProps) {
+    this.applyCols();
+    if (prevProps.startSignedIn !== this.props.startSignedIn) {
+      this.setState(st => ({
+        signedIn: !!this.props.startSignedIn,
+        favs: this.props.startSignedIn && !st.favs.length ? [0, 2, 4, 6, 8, 10] : st.favs
+      }));
+    }
+  }
+  componentWillUnmount() { clearInterval(this.timer); clearInterval(this.pickTimer); }
+
+  startPickTimer() {
+    clearInterval(this.pickTimer);
+    this.pickTimer = setInterval(() => {
+      if (this.state.pickHold) return;
+      this.setState(st => ({ pick: (st.pick + 1) % this.pickData.length }));
+    }, 4000);
+  }
+
+  pickData = [
+    {
+      badge: "이번 주 왕좌", badgeBg: "#2563EB", slot: "pick-1", genre: "#스피드런",
+      title: "애쉬폴 러너 — 이번 주 가장 많이 플레이된 게임", short: "애쉬폴 러너", dev: "잿빛토끼",
+      chips: [
+        { text: "#스피드런", bg: "#F1F3F5", fg: "#0F172A" },
+        { text: "브라우저 실행", bg: "#EFF6FF", fg: "#1D4ED8" },
+        { text: "한 판 6분", bg: "#F1F3F5", fg: "#475569" },
+        { text: "주간 1위", bg: "#F1F3F5", fg: "#475569" }
+      ],
+      desc: "폐허가 된 도시를 6분 안에 완주하는 스피드런. 이번 주 플레이 수와 완주율 모두 1위입니다.",
+      stats: [{ label: "플레이", value: "21.2만", color: "#0F172A" }, { label: "평점", value: "4.7", color: "#2563EB" }, { label: "완주율", value: "38%", color: "#8949FF" }],
+      cta: "지금 플레이", listCta: "왕좌 구경하기"
+    },
+    {
+      badge: "갓 나온 신작", badgeBg: "#0F172A", slot: "pick-2", genre: "#타임 어택",
+      title: "리팩터 러시 — 오늘 오전에 공개된 신작", short: "리팩터 러시", dev: "리팩터클럽",
+      chips: [
+        { text: "#타임 어택", bg: "#F1F3F5", fg: "#0F172A" },
+        { text: "브라우저 실행", bg: "#EFF6FF", fg: "#1D4ED8" },
+        { text: "한 판 3분", bg: "#F1F3F5", fg: "#475569" },
+        { text: "공개 3시간 전", bg: "#F1F3F5", fg: "#475569" }
+      ],
+      desc: "쌓이는 코드 더미를 3분 안에 정리하는 아케이드. 오늘 올라온 빌드라 아직 순위가 없습니다.",
+      stats: [{ label: "플레이", value: "3,870", color: "#0F172A" }, { label: "공개", value: "3시간 전", color: "#2563EB" }, { label: "한 판", value: "3분", color: "#008638" }],
+      cta: "먼저 플레이", listCta: "신작 줄 서기"
+    },
+    {
+      badge: "숨은 보석", badgeBg: "#8949FF", slot: "pick-3", genre: "#물리 퍼즐",
+      title: "틸트 이론 — 플레이는 적지만 평점이 가장 높은 게임", short: "틸트 이론", dev: "기울기연구소",
+      chips: [
+        { text: "#물리 퍼즐", bg: "#F1F3F5", fg: "#0F172A" },
+        { text: "PC 다운로드", bg: "#F1F3F5", fg: "#475569" },
+        { text: "평균 90분", bg: "#F1F3F5", fg: "#475569" },
+        { text: "평점 1위", bg: "#F1F3F5", fg: "#8949FF" }
+      ],
+      desc: "기울기 하나로 스테이지를 푸는 조용한 퍼즐. 플레이 수는 상위 40위권 밖이지만 평점은 전체 1위입니다.",
+      stats: [{ label: "평점", value: "4.9", color: "#8949FF" }, { label: "플레이", value: "2.9만", color: "#0F172A" }, { label: "재플레이", value: "62%", color: "#008638" }],
+      cta: "지금 플레이", listCta: "숨은 보석 찾기"
+    },
+    {
+      badge: "딱 한 판", badgeBg: "#008638", slot: "pick-4", genre: "#경영 퍼즐",
+      title: "바이트 바자 — 4분이면 한 판이 끝납니다", short: "바이트 바자", dev: "바이트마켓",
+      chips: [
+        { text: "#경영 퍼즐", bg: "#F1F3F5", fg: "#0F172A" },
+        { text: "브라우저 실행", bg: "#EFF6FF", fg: "#1D4ED8" },
+        { text: "한 판 4분", bg: "#F1F3F5", fg: "#008638" },
+        { text: "저장 없이 시작", bg: "#F1F3F5", fg: "#475569" }
+      ],
+      desc: "부품을 사고팔아 주문을 맞추는 짧은 경영 퍼즐. 로그인 없이 켜서 한 판만 하고 나가기 좋습니다.",
+      stats: [{ label: "평균 한 판", value: "4분", color: "#008638" }, { label: "플레이", value: "5.8만", color: "#0F172A" }, { label: "평점", value: "4.3", color: "#2563EB" }],
+      cta: "한 판 하기", listCta: "순삭 게임 모음"
+    },
+    {
+      badge: "같이 할 사람", badgeBg: "#E11D48", slot: "pick-5", genre: "#대전",
+      title: "페이퍼 벡터 — 지금 18명이 상대를 기다립니다", short: "페이퍼 벡터", dev: "벡터공방",
+      chips: [
+        { text: "#멀티플레이", bg: "#F1F3F5", fg: "#0F172A" },
+        { text: "브라우저 실행", bg: "#EFF6FF", fg: "#1D4ED8" },
+        { text: "2~4인", bg: "#F1F3F5", fg: "#475569" },
+        { text: "대기 18명", bg: "#F1F3F5", fg: "#E11D48" }
+      ],
+      desc: "링크만 공유하면 바로 붙는 2~4인 대전. 지금 대기실에 18명이 있어 매칭까지 평균 12초입니다.",
+      stats: [{ label: "대기 인원", value: "18", color: "#E11D48" }, { label: "매칭", value: "12초", color: "#0F172A" }, { label: "평점", value: "4.5", color: "#2563EB" }],
+      cta: "바로 매칭", listCta: "대기실 엿보기"
+    }
+  ];
+
+  applyCols() {
+    const n = this.props.columns || 4;
+    if (this.gridEl) this.gridEl.style.gridTemplateColumns = "repeat(" + n + ",minmax(0,1fr))";
+  }
+
+  toggleFav(i) {
+    this.setState(s => ({ favs: s.favs.includes(i) ? s.favs.filter(x => x !== i) : s.favs.concat(i) }));
+  }
+
+  spots = [
+    { eyebrow: "에디터 추천", title: "루프를 벗어나려면, 코드를 고쳐라.", desc: "『루프 컴파일러』는 모든 방이 하나의 함수인 프로그래밍 퍼즐 게임입니다. 손으로 설계한 40개 스테이지, 설치 없이 브라우저에 저장되는 진행 상황.", engine: "Unity", run: "브라우저", plays: "12.8만", slot: "spotlight-1", slotHint: "스포트라이트 아트워크 1920x520 — 루프 컴파일러" },
+    { eyebrow: "스태프 추천", title: "재를 앞질러라. 단 90초.", desc: "『애쉬폴 러너』는 무너지는 도시를 한 버튼으로 질주하는 러너입니다. 딱 한 판만 더 하고 싶어지는 밸런스, 리더보드는 매주 월요일 초기화됩니다.", engine: "Unity", run: "브라우저", plays: "21.2만", slot: "spotlight-2", slotHint: "스포트라이트 아트워크 1920x520 — 애쉬폴 러너" },
+    { eyebrow: "이번 주 신작", title: "4차원을 가로지르는 레이싱 라인.", desc: "『테서랙트 드리프트』는 달리는 도중에 트랙을 접습니다. 두 명이 Unity로 만들었고, 노트북 트랙패드로도 내장 그래픽에서 60프레임이 나옵니다.", engine: "Unity", run: "브라우저 · Windows", plays: "9.6만", slot: "spotlight-3", slotHint: "스포트라이트 아트워크 1920x520 — 테서랙트 드리프트" }
+  ];
+
+  renderVals() {
+    const showStatsNav = true;
+    const s = this.state;
+    const sortDefs = [{ name: "인기", w: 62 }, { name: "신규", w: 62 }, { name: "플레이순", w: 84 }];
+    let acc = 0;
+    const offsets = sortDefs.map(d => { const o = acc; acc += d.w; return o; });
+    const sortIdx = Math.max(0, sortDefs.findIndex(d => d.name === s.sort));
+    const sorts = sortDefs.map(d => ({
+      name: d.name,
+      w: d.w + "px",
+      go: () => this.setState({ sort: d.name }),
+      fg: d.name === s.sort ? "#0F172A" : "#64748B"
+    }));
+
+    const tagOf = label => {
+      const st = s.tagState[label];
+      const hv = s.hoverChip === "tag:" + label;
+      return {
+        label: "#" + label,
+        enter: () => this.setState({ hoverChip: "tag:" + label }),
+        leave: () => this.setState({ hoverChip: null }),
+        go: () => this.setState(prev => {
+          const next = { ...prev.tagState };
+          if (!next[label]) next[label] = "in";
+          else if (next[label] === "in") next[label] = "ex";
+          else delete next[label];
+          return { tagState: next };
+        }),
+        bg: st === "in" ? (hv ? "#1E293B" : "#0F172A") : (hv ? "#F1F3F5" : "transparent"),
+        fg: st === "in" ? "#FFFFFF" : st === "ex" ? "#64748B" : hv ? "#0F172A" : "#64748B",
+        ring: st === "ex" ? "1px solid #94A3B8" : "1px solid transparent",
+        deco: st === "ex" ? "line-through" : "none",
+        cls: st === "in" ? "pfTagIn" : st === "ex" ? "pfTagEx" : "pfTag",
+        weight: st ? 500 : 400
+      };
+    };
+    const axis = (key, defs) => defs.map(d => {
+      const on = s[key] === d.value, hv = s.hoverChip === key + ":" + d.value;
+      return {
+        name: d.name,
+        go: () => this.setState({ [key]: d.value }),
+        enter: () => this.setState({ hoverChip: key + ":" + d.value }),
+        leave: () => this.setState({ hoverChip: null }),
+        bg: on ? (hv ? "#1E293B" : "#0F172A") : hv ? "#F1F3F5" : "transparent",
+        fg: on ? "#FFFFFF" : hv ? "#0F172A" : "#64748B",
+        weight: on ? 600 : 500
+      };
+    });
+    const modeOpts = axis("mode", [
+      { name: "전체", value: "전체" },
+      { name: "싱글", value: "싱글플레이" },
+      { name: "멀티", value: "멀티플레이" }
+    ]);
+    const runOpts = axis("runtime", [
+      { name: "전체", value: "전체" },
+      { name: "브라우저", value: "브라우저 실행" },
+      { name: "PC", value: "PC 다운로드" },
+      { name: "모바일", value: "모바일" }
+    ]);
+    const themeNames = this.allTags.filter(t => !["싱글플레이", "멀티플레이", "브라우저 실행", "PC 다운로드", "모바일"].includes(t));
+    const tagsTheme = themeNames.map(tagOf);
+
+    const needle = s.q.replace(/[\u1100-\u11FF\u3130-\u318F\uA960-\uA97F\uD7B0-\uD7FF]/g, "").trim().toLowerCase();
+    const inc = Object.keys(s.tagState).filter(k => s.tagState[k] === "in");
+    const exc = Object.keys(s.tagState).filter(k => s.tagState[k] === "ex");
+    const match = g =>
+      (s.mode === "전체" || g.tags.includes(s.mode)) &&
+      (s.runtime === "전체" || g.tags.includes(s.runtime)) &&
+      inc.every(t => g.tags.includes(t)) &&
+      !exc.some(t => g.tags.includes(t)) &&
+      (!needle || g.title.toLowerCase().includes(needle) ||
+        g.dev.toLowerCase().includes(needle) || g.tags.some(t => t.includes(needle)));
+
+    const key = s.sort === "신규" ? (a, b) => a.days - b.days
+      : s.sort === "플레이순" ? (a, b) => b.plays - a.plays
+      : (a, b) => b.trend - a.trend;
+
+    const visible = this.games.filter(match).sort(key).map((g, n) => {
+      const saved = s.favs.includes(g.i);
+      return {
+        ...this.paint(g),
+        chips: g.tags.slice(0, 3).map(t => ({ text: "#" + t })),
+        ratingLabel: (3.5 + (g.trend / 100) * 1.4).toFixed(1),
+        reviewLabel: Component.fmt(Math.round(g.plays / 720)),
+        marks: (mk => mk.playerMarks.concat(mk.runMarks))(this.marksOf(g)),
+        delay: (n % 8) * 45 + "ms",
+        inLibrary: s.signedIn && saved,
+        playedBefore: g.i < 8 && !(s.signedIn && saved),
+        favLabel: saved ? "저장됨" : "저장",
+        favColor: saved ? "#2563EB" : "#94A3B8",
+        favBg: saved ? "#EFF6FF" : "#FFFFFF",
+        favBd: saved ? "#DBEAFE" : "#E2E8F0",
+        toggleFav: () => this.toggleFav(g.i)
+      };
+    });
+
+    const recentList = this.games.slice().sort((a, b) => a.days - b.days).slice(0, 8).map(g => ({
+      ...this.paint(g),
+      slot: g.recentSlot,
+      achLabel: g.achDone + " / " + g.achTotal,
+      achPct: Math.round((g.achDone / g.achTotal) * 100) + "%"
+    }));
+    const step = 248;
+    const maxIdx = Math.max(0, recentList.length - 5);
+
+    const palettes = ["#2563EB", "#8949FF", "#008638"].map(accent => ({ accent }));
+    const badges = this.achievements.map((a, i) => ({
+      name: a.name,
+      delay: i * 60 + "ms",
+      bg: a.on ? palettes[i % 3].accent : "#F1F3F5",
+      bd: a.on ? palettes[i % 3].accent : "#E2E8F0",
+      fg: a.on ? "#FFFFFF" : "#CBD5E1"
+    }));
+    const idx = Math.min(s.recent, maxIdx);
+
+    const libSorts = ["최근 플레이", "가나다"].map(name => ({
+      name,
+      go: () => this.setState({ libSort: name }),
+      weight: name === s.libSort ? 700 : 500,
+      fg: name === s.libSort ? "#0F172A" : "#94A3B8"
+    }));
+
+    const favOrder = s.libSort === "가나다"
+      ? (a, b) => a.title.localeCompare(b.title, "ko")
+      : (a, b) => a.lastDays - b.lastDays;
+
+    const byTime = s.favs.map(i => this.games[i]).filter(Boolean).slice().sort((a, b) => b.mins - a.mins).map(g => g.i);
+
+    const favs = s.favs.map(i => this.games[i]).filter(Boolean).sort(favOrder).map(g => {
+      const pct = Math.round((g.achDone / g.achTotal) * 100);
+      const d = new Date(2026, 7, 25 - g.lastDays);
+      const rank = byTime.indexOf(g.i);
+      const badges = [];
+      if (rank < 3) badges.push({ label: (rank + 1) + "위", bg: ["#0F172A", "#94A3B8", "#94A3B8"][rank], tip: "플레이타임 " + (rank + 1) + "위" });
+      if (g.achDone === g.achTotal) badges.push({ label: "완", bg: "#8949FF", tip: "도전과제 전체 달성" });
+      if (g.mins >= 600) badges.push({ label: "10h", bg: "#2563EB", tip: "10시간 이상 플레이" });
+      if (g.i % 3 === 0) badges.push({ label: "7d", bg: "#008638", tip: "7일 연속 플레이" });
+      return {
+        ...this.paint(g),
+        badges,
+        playHours: Component.dur(g.mins),
+        recentHours: Component.dur(Math.max(15, Math.round(g.mins * 0.22))),
+        lastPlayed: g.lastDays === 0 ? "오늘" : g.lastDays === 1 ? "어제" : g.lastDays + "일 전",
+        lastDate: (d.getMonth() + 1) + "월 " + d.getDate() + "일",
+        achLabel: g.achDone + " / " + g.achTotal,
+        achPct: pct + "%",
+        achPctLabel: pct + "% 달성",
+        toggleFav: () => this.toggleFav(g.i)
+      };
+    });
+
+    const spot = this.spots[s.spot];
+    const spAccent = this.accentOf(spot.title);
+    const sp = { accent: spAccent, glow: Component.rgba(spAccent, 0.45) };
+    const rotating = this.props.autoRotateSpotlight !== false;
+
+    const unreadOf = name => this.feeds[name].items.filter((it, i) => !s.notifHidden[name + "|" + i] && !s.notifRead[name + "|" + i]).length;
+    const notifs = this.feeds[s.feed].items
+      .map((it, i) => ({ it, key: s.feed + "|" + i }))
+      .filter(x => !s.notifHidden[x.key])
+      .map(({ it, key }) => {
+        const read = !!s.notifRead[key];
+        return {
+          ...it,
+          dot: read ? "#E2E8F0" : it.dot,
+          weight: read ? 500 : 600,
+          titleColor: read ? "#94A3B8" : "#0F172A",
+          metaColor: read ? "#CBD5E1" : "#94A3B8",
+          whenColor: read ? "#E2E8F0" : "#CBD5E1",
+          open: () => this.setState(st => ({ notifRead: { ...st.notifRead, [key]: true } })),
+          remove: e => {
+            if (e) { e.preventDefault(); e.stopPropagation(); }
+            this.setState(st => ({ notifHidden: { ...st.notifHidden, [key]: true } }));
+          }
+        };
+      });
+
+    return {
+      sorts, modeOpts, runOpts, tagsTheme, visible, badges, libSorts, showStatsNav,
+      pickHoldOn: () => this.setState({ pickHold: true }),
+      pickHoldOff: () => { this.setState({ pickHold: false }); this.startPickTimer(); },
+      pick: { ...this.pickData[s.pick], initial: this.pickData[s.pick].dev.slice(0, 1), devColor: this.accentOf(this.pickData[s.pick].dev) },
+      pickSlides: this.pickData.map((x, i) => ({ slot: x.slot, title: x.short, art: this.artFor(x.short), op: i === s.pick ? 1 : 0, z: i === s.pick ? 2 : 1 })),
+      pickCards: this.pickData.map((x, i) => ({
+        ...x,
+        art: this.artFor(x.short),
+        stats: x.stats.map((t, j) => ({ ...t, pad: j === 0 ? "0 8px 0 0" : j === 1 ? "0 8px" : "0 0 0 8px" })),
+        op: i === s.pick ? 1 : .4,
+        shadow: i === s.pick ? "0 0 16px 0 rgba(0,0,0,.16)" : "none",
+        liveOp: i === s.pick ? 1 : 0,
+        zoom: i === s.pick ? 1.06 : 1,
+        enter: () => this.setState({ pick: i, pickHold: true }),
+        leave: () => { this.setState({ pickHold: false }); this.startPickTimer(); }
+      })),
+      ...Object.keys(this.feeds).reduce((acc, name, i) => {
+        const d = this.feeds[name], on = s.feed === name;
+        acc["f" + i] = {
+          go: () => this.setState({ feed: name }),
+          tip: d.tip,
+          bg: on ? "#EFF6FF" : "#F6F7F9",
+          bd: on ? "#2563EB" : "#F6F7F9",
+          fg: on ? "#2563EB" : "#94A3B8",
+          ic: on ? "#2563EB" : "#94A3B8",
+          badge: unreadOf(name),
+          hasBadge: unreadOf(name) > 0
+        };
+        return acc;
+      }, {}),
+      feedTitle: this.feeds[s.feed].title,
+      feedItems: notifs,
+      markAllRead: () => this.setState(st => {
+        const next = { ...st.notifRead };
+        this.feeds[st.feed].items.forEach((it, i) => { next[st.feed + "|" + i] = true; });
+        return { notifRead: next };
+      }),
+      feedLink: true,
+      feedLinkLabel: s.feed === "공지" ? "전체 공지 보러가기" : "더 보기",
+      allTagCls: Object.keys(s.tagState).length ? "pfTag" : "pfTagIn",
+      allTagEnter: () => this.setState({ hoverChip: "tag:__all" }),
+      allTagLeave: () => this.setState({ hoverChip: null }),
+      allTagBg: Object.keys(s.tagState).length ? (s.hoverChip === "tag:__all" ? "#F1F3F5" : "transparent") : (s.hoverChip === "tag:__all" ? "#1E293B" : "#0F172A"),
+      allTagFg: Object.keys(s.tagState).length ? (s.hoverChip === "tag:__all" ? "#0F172A" : "#64748B") : "#FFFFFF",
+      allTagWeight: Object.keys(s.tagState).length ? 400 : 500,
+      badgeGhosts: badges.slice(0, 6),
+      slides: this.spots.map((x, i) => ({
+        ...x,
+        op: i === s.spot ? 1 : 0,
+        z: i === s.spot ? 2 : 1,
+        wash: Component.rgba(this.accentOf(x.title), 0.1),
+        art: this.artFor(x.title)
+      })),
+      spot: { ...spot, accent: sp.accent, glow: sp.glow },
+      heroAnim: "pfHero" + ["A", "B", "C"][s.spot] + " .6s cubic-bezier(.2,.7,.2,1) both",
+      barAnim: rotating ? "pfBar" + s.spot + " 7s linear both" : "none",
+      dots: this.spots.map((_, i) => ({
+        go: () => this.setState({ spot: i }),
+        w: i === s.spot ? "24px" : "5px",
+        bg: i === s.spot ? sp.accent : "#CBD5E1"
+      })),
+      slideCounter: "0" + (s.spot + 1) + " / 0" + this.spots.length,
+      prevSlide: () => this.setState(st => ({ spot: (st.spot + 2) % 3 })),
+      nextSlide: () => this.setState(st => ({ spot: (st.spot + 1) % 3 })),
+      recent: recentList,
+      recentX: "-" + idx * step + "px",
+      prevRecent: () => this.setState(st => ({ recent: Math.max(0, st.recent - 1) })),
+      nextRecent: () => this.setState(st => ({ recent: Math.min(maxIdx, st.recent + 1) })),
+      fresh: this.games.filter(g => g.days <= 14).sort((a, b) => a.days - b.days).slice(0, 4)
+        .map((g, n) => ({
+          ...this.paint(g),
+          delay: n * 70 + "ms",
+          chips: g.tags.slice(0, 3).map(t => ({ text: "#" + t })),
+        ratingLabel: (3.5 + (g.trend / 100) * 1.4).toFixed(1),
+        reviewLabel: Component.fmt(Math.round(g.plays / 720)),
+        marks: (mk => mk.playerMarks.concat(mk.runMarks))(this.marksOf(g)),
+          inLibrary: s.signedIn && s.favs.includes(g.i),
+          playedBefore: g.i < 8 && !(s.signedIn && s.favs.includes(g.i))
+        })),
+      sortW: sortDefs[sortIdx].w + "px",
+      sortX: offsets[sortIdx] + "px",
+      totalPlayers: (12480).toLocaleString("ko-KR"),
+      totalPlays: Component.fmt(this.games.reduce((a, g) => a + g.plays, 0)) + "회",
+      q: s.q,
+      onSearch: e => this.setState({ q: e.target.value }),
+      email: s.email,
+      onEmail: e => this.setState({ email: e.target.value }),
+      signIn: () => this.setState(st => ({ signedIn: true, favs: st.favs.length ? st.favs : [0, 2, 4, 6, 8, 10] })),
+      signOut: () => this.setState({ signedIn: false }),
+      showFavs: () => { if (this.favEl) window.scrollTo({ top: this.favEl.offsetTop - 90, behavior: "smooth" }); },
+      asideH: s.signedIn ? "600px" : "auto",
+      guest: !s.signedIn,
+      signedIn: s.signedIn,
+      favs,
+      favCount: s.favs.length,
+      libCount: "게임 " + favs.length + "개",
+      libTotal: Component.dur(favs.reduce((a, g) => a + g.mins, 0)),
+      libAch: favs.reduce((a, g) => a + g.achDone, 0) + " / " + favs.reduce((a, g) => a + g.achTotal, 0),
+      hasFavs: s.signedIn && favs.length > 0,
+      emptyFavs: s.signedIn && favs.length === 0,
+      favSubtitle: s.signedIn ? "저장한 게임 " + favs.length + "개" : "게스트도 둘러볼 수 있어요 — 저장은 로그인 후",
+      reset: () => this.setState({ q: "", tagState: {}, mode: "전체", runtime: "전체" }),
+      hasFilters: inc.length + exc.length > 0,
+      hasTags: inc.length + exc.length > 0,
+      clearTags: () => this.setState({ tagState: {} }),
+      headline: "게임 둘러보기",
+      countLabel: visible.length + "개 타이틀",
+      isEmpty: visible.length === 0,
+      showPlays: this.props.showPlayCounts !== false,
+      gridRef: el => { this.gridEl = el; this.applyCols(); },
+      favRef: el => { this.favEl = el; }
+    };
+  }
+}
+</script>
+</body>
+</html>

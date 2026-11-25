@@ -1,0 +1,158 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>콘셉트 B 놀이터</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Do+Hyeon&family=Gaegu:wght@700&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'Pretendard';src:url('fonts/PretendardVariable.woff2') format('woff2');font-weight:45 920;font-display:swap}
+body{margin:0;background:#D9DDE3;color:#16181D;font-family:'Pretendard',system-ui,sans-serif;word-break:keep-all;-webkit-font-smoothing:antialiased}
+.disp{font-family:'Do Hyeon','Pretendard',sans-serif;font-weight:400}
+.hand{font-family:'Gaegu',cursive;font-weight:700}
+a{color:inherit;text-decoration:none}
+.face{display:inline-flex;align-items:center;gap:.04em;font-family:'Do Hyeon',sans-serif;line-height:1}
+.face .e{display:inline-block;transform:rotate(90deg)}
+.face .e.up{transform:rotate(-90deg)}
+.face .e.flat{transform:none}
+.face .e.shut{transform:rotate(90deg) scaleX(.15)}
+.face .m{font-size:.75em}
+.art{position:relative;overflow:hidden}
+.art-snail{background:radial-gradient(circle at 62% 58%,#F3D36B 0 9%,#2F6B5A 9.5% 15%,#F3D36B 15.5% 21%,#2F6B5A 21.5% 27%,#F3D36B 27.5% 31%,transparent 31.5%),linear-gradient(#3E8A73,#2F6B5A)}
+.art-penguin{background:radial-gradient(ellipse 22% 30% at 50% 46%,#1D2430 0 60%,transparent 61%),radial-gradient(ellipse 30% 12% at 50% 82%,#FFFFFF 0 70%,transparent 71%),#BFD9EE}
+.art-subway{background:repeating-linear-gradient(0deg,transparent 0 22px,#00000022 22px 24px),linear-gradient(90deg,#55652A 0 64%,#7C8C3E 64% 100%)}
+.art-mole{background:radial-gradient(circle at 25% 65%,#5A3418 0 9%,transparent 9.5%),radial-gradient(circle at 55% 40%,#5A3418 0 9%,transparent 9.5%),radial-gradient(circle at 80% 70%,#5A3418 0 9%,transparent 9.5%),#F0A23B}
+.art-store{background:linear-gradient(transparent 0 30%,#FFE27A 30% 70%,transparent 70%) 58% 50%/26% 60% no-repeat,#1C2A4A}
+.art-plane{background:linear-gradient(135deg,transparent 46%,#FFFFFF 46% 54%,transparent 54%) 40% 45%/30% 30% no-repeat,radial-gradient(circle at 80% 20%,#FFFFFF 0 1.5%,transparent 2%),#0F3D63}
+.sticker{background:#FFFFFF;border:2px solid #16181D;border-radius:16px;overflow:hidden}
+.press{display:inline-flex;align-items:center;justify-content:center;gap:8px;height:48px;padding:0 22px;border:2px solid #16181D;border-radius:999px;font-weight:800;font-size:16px;box-shadow:0 4px 0 #16181D}
+.chip{display:inline-flex;align-items:center;height:26px;padding:0 10px;border:1.5px solid #16181D;border-radius:999px;font-size:12px;font-weight:700}
+.cap{font-size:13px;color:#4A4F59}
+.stampface{display:grid;place-items:center;width:44px;height:44px;border-radius:999px;border:2px dashed #16181D33}
+.stampface.on{border:2px solid #2546F0;color:#2546F0;transform:rotate(-10deg)}
+</style>
+</helmet>
+
+<div style="width:1440px;padding:56px 80px 80px;box-sizing:border-box;display:flex;flex-direction:column;gap:40px">
+
+<header style="display:flex;align-items:baseline;gap:20px">
+<span class="disp" style="font-size:44px">시안 B 「놀이터」</span>
+<span style="font-size:18px;color:#3A3F48">도장과 스티커 — 같이 노는 재미를 앞세운다</span>
+<span class="cap" style="margin-left:auto">게임 아트는 모두 플레이스홀더 · 게임·메이커는 가상</span>
+</header>
+
+<section style="width:1280px;height:860px;background:#EEF0F3;overflow:hidden;display:flex;flex-direction:column">
+<nav style="height:72px;display:flex;align-items:center;gap:24px;padding:0 40px">
+<a href="#" class="face" style="font-size:30px;background:#FFC928;border:2px solid #16181D;border-radius:14px;padding:4px 10px" aria-label="aDmD 홈"><span>a</span><span class="e">D</span><span class="m">m</span><span class="e">D</span></a>
+<span style="display:flex;gap:6px"><span class="chip" style="background:#16181D;color:#FFFFFF">플레이</span><span class="chip">메이커스</span></span>
+<span style="display:flex;gap:22px;font-size:15px;font-weight:700;margin-left:8px"><a href="#">놀거리</a><a href="#">전체 게임</a><a href="#">도장판</a><a href="#">친구</a></span>
+<label style="margin-left:auto;display:flex;align-items:center;gap:8px;width:230px;height:40px;padding:0 14px;background:#FFFFFF;border:2px solid #16181D;border-radius:999px;font-size:14px"><svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#16181D" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="6" cy="6" r="4.25"></circle><path d="M9.3 9.3 12.4 12.4"></path></svg><input aria-label="검색" placeholder="뭐 하고 놀지 찾기" style="border:0;background:transparent;outline:0;font:inherit;width:100%"></label>
+<a href="#" class="press" style="height:40px;background:#FFFFFF;font-size:14px;box-shadow:0 3px 0 #16181D">로그인</a>
+</nav>
+
+<div style="flex:1;display:grid;grid-template-columns:5fr 6fr;gap:40px;padding:28px 40px 0;min-height:0">
+<div style="display:flex;flex-direction:column;gap:22px;padding-top:24px">
+<h1 class="disp" style="margin:0;font-size:84px;line-height:1.02">오늘은<br>몇 분 놀래요?</h1>
+<div style="display:flex;gap:12px" role="group" aria-label="한 판 시간">
+<button type="button" class="press" style="background:#FFC928;height:64px;font-size:20px;padding:0 28px">5분</button>
+<button type="button" class="press" style="background:#FFFFFF;height:64px;font-size:20px;padding:0 28px">15분</button>
+<button type="button" class="press" style="background:#FFFFFF;height:64px;font-size:20px;padding:0 28px">저녁 하나</button>
+</div>
+<p style="margin:0;font-size:17px;line-height:1.6;color:#3A3F48">5분짜리 게임 9개가 있어요. 가입 없이 바로, 광고 없이.</p>
+<a href="#" class="press" style="background:#2546F0;color:#FFFFFF;align-self:flex-start">아무거나 한 판 굴리기</a>
+
+<div class="sticker" style="margin-top:auto;padding:16px 18px;display:flex;align-items:center;gap:14px;transform:rotate(-1deg)">
+<span class="face" style="font-size:28px"><span class="e up">D</span><span class="m">m</span><span class="e shut">D</span></span>
+<div style="flex:1"><b style="font-size:15px">준호가 도전장을 보냈어요</b><div class="cap">두더지 리그 · 3,420점을 깨 보래요</div></div>
+<a href="#" class="press" style="height:40px;background:#FFC928;font-size:14px;box-shadow:0 3px 0 #16181D">받기</a>
+</div>
+</div>
+
+<div style="position:relative">
+<div class="sticker" style="position:absolute;left:10px;top:20px;width:330px;transform:rotate(-3deg)">
+<div class="art art-penguin" style="aspect-ratio:16/10"></div>
+<div style="padding:12px 14px;display:flex;flex-direction:column;gap:8px"><b class="disp" style="font-size:24px">반쯤 녹은 펭귄</b><div style="display:flex;gap:6px"><span class="chip" style="background:#FFC928">5분</span><span class="chip">터치 됨</span></div><span class="cap">얼음공방이 만들었어요</span></div>
+</div>
+<div class="sticker" style="position:absolute;left:340px;top:0;width:300px;transform:rotate(2.5deg)">
+<div class="art art-mole" style="aspect-ratio:16/10"></div>
+<div style="padding:12px 14px;display:flex;flex-direction:column;gap:8px"><b class="disp" style="font-size:24px">두더지 리그</b><div style="display:flex;gap:6px"><span class="chip" style="background:#FFC928">5분</span><span class="chip">2~4인</span></div><span class="hand" style="font-size:18px;color:#2546F0">친구 수빈이 방금 1등함!</span></div>
+</div>
+<div class="sticker" style="position:absolute;left:60px;top:330px;width:300px;transform:rotate(1.5deg)">
+<div class="art art-plane" style="aspect-ratio:16/10"></div>
+<div style="padding:12px 14px;display:flex;flex-direction:column;gap:8px"><b class="disp" style="font-size:24px">종이비행기 우주국</b><div style="display:flex;gap:6px"><span class="chip" style="background:#FFC928">5분</span><span class="chip">새로 나옴</span></div><span class="cap">종이연구소가 만들었어요</span></div>
+</div>
+<div class="sticker" style="position:absolute;left:390px;top:300px;width:270px;padding:18px;transform:rotate(-2deg);display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;justify-content:space-between;align-items:baseline"><b class="disp" style="font-size:24px">11월 도장판</b><span class="cap">4 / 10</span></div>
+<div style="display:grid;grid-template-columns:repeat(5,44px);gap:8px">
+<span class="stampface on"><span class="face" style="font-size:15px"><span class="e up">D</span><span class="m">w</span><span class="e up">D</span></span></span>
+<span class="stampface on"><span class="face" style="font-size:15px"><span class="e up">D</span><span class="m">w</span><span class="e up">D</span></span></span>
+<span class="stampface on"><span class="face" style="font-size:15px"><span class="e up">D</span><span class="m">w</span><span class="e up">D</span></span></span>
+<span class="stampface on"><span class="face" style="font-size:15px"><span class="e up">D</span><span class="m">w</span><span class="e up">D</span></span></span>
+<span class="stampface"></span><span class="stampface"></span><span class="stampface"></span><span class="stampface"></span><span class="stampface"></span><span class="stampface"></span>
+</div>
+<span class="cap">다음 도장: 잼 작품 하나 끝까지 하기</span>
+</div>
+</div>
+</div>
+</section>
+
+<div style="display:grid;grid-template-columns:1fr 390px;gap:48px;align-items:start">
+<div style="display:flex;flex-direction:column;gap:40px">
+<section>
+<h3 class="disp" style="margin:0 0 16px;font-size:26px">게임 카드 — 기본 · 저장함 · 다운로드</h3>
+<div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:24px">
+<div class="sticker"><div class="art art-penguin" style="aspect-ratio:16/9"></div><div style="padding:14px;display:flex;flex-direction:column;gap:8px"><b class="disp" style="font-size:24px">반쯤 녹은 펭귄</b><div style="display:flex;gap:6px"><span class="chip" style="background:#FFC928">5분</span><span class="chip">브라우저</span></div><div style="display:flex;align-items:center;gap:8px"><span style="width:24px;height:24px;border-radius:999px;background:#BFD9EE;border:1.5px solid #16181D"></span><span class="cap">얼음공방 · 2명</span></div></div></div>
+<div class="sticker" style="transform:rotate(-1.5deg);box-shadow:0 6px 0 #16181D"><div class="art art-store" style="aspect-ratio:16/9"></div><div style="padding:14px;display:flex;flex-direction:column;gap:8px"><div style="display:flex;justify-content:space-between"><b class="disp" style="font-size:24px">새벽 세 시 편의점</b><span class="chip" style="background:#2546F0;color:#FFFFFF;border-color:#2546F0">저장함</span></div><div style="display:flex;gap:6px"><span class="chip">30분</span><span class="chip">이어하기 40%</span></div><div style="display:flex;align-items:center;gap:8px"><span style="width:24px;height:24px;border-radius:999px;background:#1C2A4A;border:1.5px solid #16181D"></span><span class="cap">밤샘상점</span></div></div></div>
+<div class="sticker"><div class="art art-snail" style="aspect-ratio:16/9"></div><div style="padding:14px;display:flex;flex-direction:column;gap:8px"><b class="disp" style="font-size:24px">달팽이 우체국</b><div style="display:flex;gap:6px"><span class="chip">저녁 하나</span><span class="chip" style="background:#DDF5E4;border-color:#0E6B32;color:#0E6B32">검사 통과 · Windows</span></div><div style="display:flex;align-items:center;gap:8px"><span style="width:24px;height:24px;border-radius:999px;background:#2F6B5A;border:1.5px solid #16181D"></span><span class="cap">노을스튜디오 · 2명</span></div></div></div>
+</div>
+</section>
+<section>
+<h3 class="disp" style="margin:0 0 16px;font-size:26px">DmD 얼굴 — 글자로 만든 표정</h3>
+<div style="display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:12px">
+<div class="sticker" style="padding:18px 0;display:flex;flex-direction:column;align-items:center;gap:8px"><span class="face" style="font-size:44px"><span class="e">D</span><span class="m">m</span><span class="e">D</span></span><span class="cap">기본</span></div>
+<div class="sticker" style="padding:18px 0;display:flex;flex-direction:column;align-items:center;gap:8px"><span class="face" style="font-size:44px"><span class="e">D</span><span class="m">o</span><span class="e">D</span></span><span class="cap">기다림</span></div>
+<div class="sticker" style="padding:18px 0;display:flex;flex-direction:column;align-items:center;gap:8px;background:#FFC928"><span class="face" style="font-size:44px"><span class="e up">D</span><span class="m">w</span><span class="e up">D</span></span><span class="cap" style="color:#16181D">기쁨</span></div>
+<div class="sticker" style="padding:18px 0;display:flex;flex-direction:column;align-items:center;gap:8px"><span class="face" style="font-size:44px"><span class="e flat">D</span><span class="m">~</span><span class="e flat">D</span></span><span class="cap">당황</span></div>
+<div class="sticker" style="padding:18px 0;display:flex;flex-direction:column;align-items:center;gap:8px"><span class="face" style="font-size:44px"><span class="e shut">D</span><span class="m">z</span><span class="e shut">D</span></span><span class="cap">졸림</span></div>
+<div class="sticker" style="padding:18px 0;display:flex;flex-direction:column;align-items:center;gap:8px"><span class="face" style="font-size:44px"><span class="e up">D</span><span class="m">m</span><span class="e shut">D</span></span><span class="cap">윙크</span></div>
+</div>
+</section>
+</div>
+
+<section aria-label="MakersGround 휴대폰 화면" style="width:390px;height:800px;background:#EEF0F3;border:10px solid #16181D;border-radius:36px;box-sizing:border-box;overflow:hidden;display:flex;flex-direction:column">
+<div style="padding:22px 18px 12px;display:flex;align-items:center;gap:10px">
+<span class="face" style="font-size:22px;background:#FFC928;border:2px solid #16181D;border-radius:10px;padding:3px 7px"><span>a</span><span class="e">D</span><span class="m">m</span><span class="e">D</span></span><span class="chip" style="background:#16181D;color:#FFFFFF">메이커스</span><span style="margin-left:auto" class="chip">알림 2</span>
+</div>
+<div style="padding:8px 18px 18px;display:flex;flex-direction:column;gap:16px;flex:1">
+<h2 class="disp" style="margin:0;font-size:34px;line-height:1.15">도윤, 종이비행기가<br>심사 줄에 섰어요</h2>
+<div class="sticker" style="padding:16px;display:flex;flex-direction:column;gap:12px">
+<div style="display:flex;align-items:center;gap:6px">
+<span style="flex:1;height:10px;border-radius:999px;background:#16181D"></span><span style="flex:1;height:10px;border-radius:999px;background:#16181D"></span><span style="flex:1;height:10px;border-radius:999px;background:#FFC928;border:2px solid #16181D"></span><span style="flex:1;height:10px;border-radius:999px;background:#FFFFFF;border:2px solid #16181D33"></span>
+</div>
+<div style="display:flex;justify-content:space-between" class="cap"><span>작성</span><span>자동 검사</span><b style="color:#16181D">심사</b><span>공개</span></div>
+<p style="margin:0;font-size:14px;line-height:1.6">보통 1~2일. 기다리는 동안 스크린샷 2장 더 붙이면 카드가 반짝여요.</p>
+</div>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:10px">
+<div class="sticker" style="padding:14px"><div class="cap">새 리뷰</div><b class="disp" style="font-size:32px">2</b><div class="cap">지하철 7호선 탈출</div></div>
+<div class="sticker" style="padding:14px;background:#FFC928"><div class="cap" style="color:#16181D">버그 제보</div><b class="disp" style="font-size:32px">1</b><div class="cap" style="color:#16181D">3단계 문이 안 열려요</div></div>
+</div>
+<a href="#" class="press" style="background:#2546F0;color:#FFFFFF;margin-top:auto">개발일지 쓰기</a>
+</div>
+<nav style="height:66px;background:#FFFFFF;border-top:2px solid #16181D;display:grid;grid-template-columns:repeat(5,1fr);font-size:12px;font-weight:700;text-align:center;align-items:center">
+<a href="#">홈</a><a href="#">내 게임</a><a href="#" style="justify-self:center;display:grid;place-items:center;width:46px;height:46px;border-radius:999px;background:#FFC928;border:2px solid #16181D;font-size:22px" aria-label="게임 올리기">+</a><a href="#">일지</a><a href="#">나</a>
+</nav>
+</section>
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2120}}'>
+class Component extends DCLogic {
+  renderVals() { return {}; }
+}
+</script>
+</body>
+</html>

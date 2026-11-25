@@ -2,7 +2,7 @@
 
 > 결정: PM1 탭바 확정 · **PM2 PC 전용 게임도 기본으로 보이고 표시만**(‘되는 게임만 보기’는 꺼진 상태로 제공) · PM3 반투명 버튼 2개 확정.
 
-캔버스 `PlayGround 모바일 · 홈` · `PlayGround 모바일 · 게임`. 생성기 [`tools/ds-canvas/pg_mobile.py`](tools/ds-canvas/pg_mobile.py). 라이트 · 다크 확인, 얼굴은 고양이 실루엣.
+캔버스 `PG91 모바일 · 홈` · `PG92 모바일 · 게임`. 생성기 [`tools/ds-canvas/pg_mobile.py`](tools/ds-canvas/pg_mobile.py). 라이트 · 다크 확인, 얼굴은 고양이 실루엣.
 
 ## 구조
 

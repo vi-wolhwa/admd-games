@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+.lpScroll{scrollbar-width:none;-ms-overflow-style:none;overscroll-behavior:contain}
+.lpScroll::-webkit-scrollbar{width:0;height:0}
+.lpLink span{transition:color 120ms cubic-bezier(.2,.7,.2,1)}
+.lpLink:hover span{color:#2563EB!important}
+.lpList:hover .grRow,.lpList:hover .mrRow{opacity:.4}
+.lpList .grRow:hover,.lpList .mrRow:hover{opacity:1;z-index:2}
+.lpQuick{cursor:pointer;background:#FFFFFF;transition:box-shadow 200ms cubic-bezier(.2,.7,.2,1)}
+.lpQuick:hover,.lpQuick:active{box-shadow:0 0 16px 0 rgba(0,0,0,.16)}
+.lpQuickName{color:#0F172A;transition:color 120ms cubic-bezier(.2,.7,.2,1)}
+.lpQuick:hover .lpQuickName{color:var(--lp-acc,#2563EB)}
+.lpQuickDesc{color:#94A3B8}
+.lpQuickArrow{width:24px;height:24px;display:grid;place-items:center;font-size:14px;line-height:1;background:#F1F3F5;color:#64748B;transition:background 120ms cubic-bezier(.2,.7,.2,1),color 120ms cubic-bezier(.2,.7,.2,1)}
+.lpQuick:hover .lpQuickArrow{background:var(--lp-acc,#2563EB);color:#FFFFFF}
+</style>
+</helmet>
+
+<div style="min-width:0;height:100%;display:flex;flex-direction:column">
+<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:16px;padding-bottom:20px;border-bottom:1px solid #E9ECF1">
+<dc-import name="SectionHead" title="{{ title }}" subtitle="{{ subtitle }}" hint-size="360px,30px"></dc-import>
+<sc-if value="{{ signedIn }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:14px">
+<sc-if value="{{ hasSorts }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:10px">
+<sc-for list="{{ sorts }}" as="o" hint-placeholder-count="2">
+<button style="border:0;background:transparent;padding:0;transition:color 120ms cubic-bezier(.2,.7,.2,1)" type="button" onClick="{{ o.go }}" style-hover="color:#0F172A"><dc-import name="Body" as="span" size="xs" hint-size="120px,18px">{{ o.name }}</dc-import></button>
+</sc-for>
+</div>
+<span style="width:1px;height:12px;background:#E2E8F0"></span>
+</sc-if>
+<a class="lpLink"><dc-import name="Body" as="span" size="sm" weight="semibold" hint-size="140px,21px">{{ manageLabel }}</dc-import></a>
+</div>
+</sc-if>
+</div>
+
+<sc-if value="{{ guest }}" hint-placeholder-val="{{ true }}">
+<div style="margin-top:22px;position:relative;flex:1;min-height:340px;background:#FFFFFF;overflow:hidden">
+<sc-if value="{{ isLibrary }}" hint-placeholder-val="{{ true }}">
+<div style="opacity:.75;pointer-events:none;user-select:none">
+<sc-for list="{{ ghostLibrary }}" as="k" hint-placeholder-count="3">
+<div style="display:grid;grid-template-columns:132px minmax(0,1fr) 146px;gap:16px;align-items:center;padding:8px 18px 8px 10px;border-bottom:1px solid #E9ECF1">
+<div style="width:132px;height:74px;background:#F1F3F5"></div>
+<div style="min-width:0">
+<dc-import name="Headline" as="h3" size="xs" hint-size="180px,24px">{{ k.title }}</dc-import>
+<dc-import name="Body" as="div" size="xs" color="tertiary" sx="margin-top:4px" hint-size="120px,18px">{{ k.meta }}</dc-import>
+<dc-import name="Body" as="div" size="xs" color="secondary" sx="margin-top:7px" hint-size="120px,18px">{{ k.tail }}</dc-import>
+</div>
+<div>
+<div style="display:flex;align-items:baseline;justify-content:space-between"><dc-import name="Body" as="span" size="xs" color="tertiary" hint-size="120px,18px">도전과제</dc-import><dc-import name="Body" as="span" size="xs" weight="bold" hint-size="120px,18px">{{ k.ach }}</dc-import></div>
+<div style="margin-top:7px;height:5px;background:#F1F3F5"><div style="height:5px;width:{{ k.pct }};background:{{ accent }}"></div></div>
+</div>
+</div>
+</sc-for>
+</div>
+</sc-if>
+<sc-if value="{{ isStudio }}" hint-placeholder-val="{{ false }}">
+<div style="position:absolute;inset:0;padding:18px 22px 20px;display:flex;flex-direction:column;opacity:.75;pointer-events:none;user-select:none;overflow:hidden">
+<div style="flex:1;display:flex;flex-direction:column">
+<sc-for list="{{ ghostRows }}" as="k" hint-placeholder-count="4">
+<div style="flex:1;min-height:0;display:flex;align-items:center;gap:12px;border-bottom:1px solid #F1F3F5">
+<div style="flex:none;width:72px;height:41px;background:#F1F3F5"></div>
+<div style="min-width:0;flex:1">
+<div style="height:11px;width:{{ k.w1 }};background:#E2E8F0"></div>
+<div style="margin-top:7px;height:9px;width:{{ k.w2 }};background:#F1F3F5"></div>
+</div>
+<div style="flex:none;height:10px;width:34px;background:#F1F3F5"></div>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+<dc-import name="SignInFallback" accent="{{ accent }}" line1="{{ guestLine1 }}" line2="{{ guestLine2 }}" label="로그인" on-sign-in="{{ signIn }}" inset="0" veil=".55" gap="8px" pad-x="26px" button-width="280px" button-height="44px" button-gap="8px" hint-size="100%,100%"></dc-import>
+</div>
+</sc-if>
+
+<sc-if value="{{ hasItems }}" hint-placeholder-val="{{ false }}">
+<div style="margin-top:22px;flex:1;min-height:0;display:grid;grid-template-columns:{{ bodyCols }};gap:24px">
+<div style="min-width:0;display:flex;flex-direction:column;background:{{ listBg }};padding:{{ listPad }}">
+<div style="position:relative;flex:1;min-height:0">
+<div class="lpScroll lpList" style="position:absolute;inset:0;overflow-x:hidden;overflow-y:auto;display:flex;flex-direction:column;gap:{{ scrollGap }};padding:{{ scrollPad }};margin:{{ scrollMargin }}">
+<sc-for list="{{ items }}" as="g" hint-placeholder-count="3">
+<sc-if value="{{ isLibrary }}" hint-placeholder-val="{{ true }}">
+<dc-import name="GameRow" game="{{ g }}" style="flex:none" hint-size="100%,118px"></dc-import>
+</sc-if>
+<sc-if value="{{ isStudio }}" hint-placeholder-val="{{ false }}">
+<dc-import name="MyGameRow" game="{{ g }}" accent="{{ accent }}" style="flex:none" hint-size="100%,118px"></dc-import>
+</sc-if>
+</sc-for>
+</div>
+<div style="position:absolute;left:{{ fadeSide }};right:{{ fadeSide }};bottom:0;height:{{ fadeH }};z-index:6;pointer-events:none;background:{{ fadeBg }}"></div>
+</div>
+<sc-if value="{{ hasFooter }}" hint-placeholder-val="{{ false }}">
+<div style="flex:none;display:flex;align-items:center;justify-content:space-between;gap:16px;padding:11px 12px;border-top:1px solid #F1F3F5">
+<dc-import name="Body" as="span" size="xs" color="tertiary" hint-size="120px,18px">{{ footerLeft }}</dc-import>
+<dc-import name="Body" as="span" size="xs" color="tertiary" hint-size="120px,18px">{{ footerRight }}</dc-import>
+</div>
+</sc-if>
+</div>
+<sc-if value="{{ hasRail }}" hint-placeholder-val="{{ false }}">
+<div style="--lp-acc:{{ accent }};display:flex;flex-direction:column;gap:4px">
+<sc-for list="{{ rail }}" as="q" hint-placeholder-count="6">
+<a class="lpQuick" style="flex:1;min-height:0;padding:0 13px 0 15px;display:grid;grid-template-columns:minmax(0,1fr) 24px;gap:9px;align-items:center">
+<span style="min-width:0;display:flex;flex-direction:column;gap:4px">
+<span class="lpQuickName"><dc-import name="Body" as="span" size="sm" weight="bold" hint-size="140px,21px">{{ q.name }}</dc-import></span>
+<span class="lpQuickDesc"><dc-import name="Body" as="span" size="xs" hint-size="120px,18px">{{ q.desc }}</dc-import></span>
+</span>
+<span class="lpQuickArrow">&#8594;</span>
+</a>
+</sc-for>
+</div>
+</sc-if>
+</div>
+</sc-if>
+
+<sc-if value="{{ isEmpty }}" hint-placeholder-val="{{ false }}">
+<div style="background:#FFFFFF;padding:38px 32px;text-align:center">
+<dc-import name="Headline" as="h3" size="xs" hint-size="180px,24px">{{ emptyTitle }}</dc-import>
+<dc-import name="Body" as="p" size="sm" color="secondary" sx="margin:8px 0 0" hint-size="140px,21px">{{ emptyDesc }}</dc-import>
+</div>
+</sc-if>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:860,&quot;height&quot;:560},&quot;title&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;내 라이브러리&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;subtitle&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;플레이 기록과 도전과제&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;pageBg&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#F6F7F9&quot;,&quot;options&quot;:[&quot;#F6F7F9&quot;,&quot;#F6F7F9&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;rowKind&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;library&quot;,&quot;studio&quot;],&quot;default&quot;:&quot;library&quot;,&quot;tsType&quot;:&quot;\&quot;library\&quot; | \&quot;studio\&quot;&quot;},&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#2563EB&quot;,&quot;options&quot;:[&quot;#2563EB&quot;,&quot;#EA580C&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;manageLabel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;라이브러리 관리&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;signedIn&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;guest&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;sorts&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;SortOpt[]&quot;},&quot;signIn&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;},&quot;hasItems&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;items&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;LibraryGame[] | StudioGame[]&quot;},&quot;rail&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;QuickAction[]&quot;},&quot;footerLeft&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;footerRight&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;ghostRows&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Skeleton[]&quot;},&quot;guestLine1&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;라이브러리에 담은 게임의&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;guestLine2&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;플레이 기록과 도전과제를 모아 보여드려요&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;isEmpty&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;emptyTitle&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;아직 라이브러리에 담은 게임이 없습니다&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;emptyDesc&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;게임 상세 페이지에서 라이브러리에 추가할 수 있어요.&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const p = this.props;
+    const studio = p.rowKind === "studio";
+    const rail = p.rail || [];
+    return {
+      isStudio: studio,
+      isLibrary: !studio,
+      accent: p.accent ?? "#2563EB",
+      manageLabel: p.manageLabel ?? "라이브러리 관리",
+      hasSorts: !!(p.sorts && p.sorts.length),
+      hasRail: rail.length > 0,
+      hasFooter: !!(p.footerLeft || p.footerRight),
+      bodyCols: rail.length ? "minmax(0,1fr) 196px" : "minmax(0,1fr)",
+      listBg: "transparent",
+      listPad: "0",
+      scrollGap: "10px",
+      scrollPad: "14px 14px 44px",
+      scrollMargin: "-14px -14px 0",
+      fadeBg: "linear-gradient(180deg," + (p.pageBg ?? "#F6F7F9") + "00,"
+        + (p.pageBg ?? "#F6F7F9") + " 62%)",
+      fadeH: "52px",
+      fadeSide: "-14px",
+      guestLine1: p.guestLine1 ?? "라이브러리에 담은 게임의",
+      guestLine2: p.guestLine2 ?? "플레이 기록과 도전과제를 모아 보여드려요",
+      emptyTitle: p.emptyTitle ?? "아직 라이브러리에 담은 게임이 없습니다",
+      emptyDesc: p.emptyDesc ?? "게임 상세 페이지에서 라이브러리에 추가할 수 있어요.",
+      ghostRows: p.ghostRows || [],
+      ghostLibrary: p.ghostLibrary || [
+        { title: "루프 컴파일러", meta: "#프로그래밍 · 픽셀상점", tail: "12시간 42분 플레이 · 오늘", ach: "5 / 8", pct: "63%" },
+        { title: "애쉬폴 러너", meta: "#스피드런 · 잿빛토끼", tail: "5시간 10분 플레이 · 3일 전", ach: "9 / 24", pct: "38%" },
+        { title: "그리드락", meta: "#물리 퍼즐 · 세모난고양이", tail: "25시간 40분 플레이 · 어제", ach: "14 / 16", pct: "88%" }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>
