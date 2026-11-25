@@ -25,6 +25,7 @@
 | `MakersGround 홈 C` · `커뮤니티 목록` · `커뮤니티 글 보기` | 커뮤니티 중심 개정 — 생성물(`mg_c.py`, 모바일 페이지도 여기서 생성) |
 | `전체 게임` · `공개 프로필` · `알림` · `설정` · `처음 올리는 분` · `글쓰기 · 개발일지` · `지난 PICK · 컬렉션` | 추가 시안 2 — 생성물(`pages5.py`, `pages6.py`) |
 | `PlayGround 모바일 · 홈` · `PlayGround 모바일 · 게임` | 모바일 PlayGround 시안 — 생성물(`pg_mobile.py`) |
+| `디자인 시스템 · 컴포넌트 2` | 시안에서 생긴 컴포넌트 견본 — 생성물(`ds_comp2.py`, 다른 생성기의 마크업 · CSS 재사용) |
 | `PlayGround v3 ~ v9` | 반복 이력 (참고용) |
 | `콘셉트 A 판` · `B 놀이터` · `C 크레딧` | 채택하지 않은 시안 |
 | `PlayGround v2` · `MakersGround v2` · `components/` · `docs/` | 사용자 원본 (Claude Design 에서 이관) |
