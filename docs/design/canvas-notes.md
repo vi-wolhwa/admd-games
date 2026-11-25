@@ -27,6 +27,7 @@
 | `PlayGround 모바일 · 홈` · `PlayGround 모바일 · 게임` | 모바일 PlayGround 시안 — 생성물(`pg_mobile.py`) |
 | `디자인 시스템 · 컴포넌트 2` | 시안에서 생긴 컴포넌트 견본 — 생성물(`ds_comp2.py`, 다른 생성기의 마크업 · CSS 재사용) |
 | `내 게임` · `리뷰 · 피드백함` · `메이커 프로필 만들기` · `리뷰 전체` · `신고` · `고객센터 · 약관` · `운영 · …` 3개 | L1 마무리 시안 — 생성물(`pages7.py`, `pages8.py`) |
+| `잼 · 상세` · `잼 · 투표 · 결과` · `랭킹 전체` · `친구` · `같이 하기 대기실` · `팀 관리` | L2 시안 — 생성물(`pages9.py`) |
 | `PlayGround v3 ~ v9` | 반복 이력 (참고용) |
 | `콘셉트 A 판` · `B 놀이터` · `C 크레딧` | 채택하지 않은 시안 |
 | `PlayGround v2` · `MakersGround v2` · `components/` · `docs/` | 사용자 원본 (Claude Design 에서 이관) |
