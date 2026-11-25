@@ -1,0 +1,690 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>MakersGround 홈 A · 작업 먼저</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Gasoek+One&display=swap" rel="stylesheet">
+<style>
+:root {
+--color-white: #ffffff;
+--color-black: #000000;
+--color-transparent: transparent;
+--color-current: currentColor;
+--color-graphite-0: #ffffff;
+--color-graphite-50: #f2f3f5;
+--color-graphite-60: #eef0f3;
+--color-graphite-75: #eceef0;
+--color-graphite-100: #e9ebee;
+--color-graphite-200: #c4c8cc;
+--color-graphite-300: #a4a8ae;
+--color-graphite-400: #9b9fa3;
+--color-graphite-500: #71757a;
+--color-graphite-600: #65696f;
+--color-graphite-700: #4f5359;
+--color-graphite-800: #272c31;
+--color-graphite-850: #1f2328;
+--color-graphite-900: #191c20;
+--color-graphite-950: #151a20;
+--color-graphite-975: #101316;
+--color-jjok-50: #ecf4fe;
+--color-jjok-100: #d9eaff;
+--color-jjok-400: #3a96fe; 
+--color-jjok-500: #046dce; 
+--color-jjok-600: #0159aa;
+--color-jjok-850: #173456; 
+--color-jjok-900: #122741; 
+--color-jjok-950: #0d2b4d; 
+--color-inju-50: #fef0ed;
+--color-inju-100: #fee0da;
+--color-inju-400: #fe6648;
+--color-inju-500: #d22c02;
+--color-inju-600: #ad2201;
+--color-inju-850: #51241a;
+--color-inju-900: #3d1b14;
+--color-inju-950: #4a1a0c;
+--color-bichwi-50: #e5faea;
+--color-bichwi-400: #05ae59;
+--color-bichwi-500: #047f3f;
+--color-bichwi-600: #026732;
+--color-bichwi-900: #0e2e19;
+--color-dahong-50: #feefef;
+--color-dahong-400: #fe6270;
+--color-dahong-500: #db0240;
+--color-dahong-600: #b40433; 
+--color-dahong-900: #3d1a1c;
+--color-face-hong: #ac5255;
+--color-face-ju: #a85831;
+--color-face-gyul: #a05e14;
+--color-face-hwang: #826c01;
+--color-face-olive: #6b7407;
+--color-face-pul: #427b35;
+--color-face-bichwi: #017e52;
+--color-face-cheongnok: #0a7a7b;
+--color-face-haneul: #027797;
+--color-face-jjok: #3870b1;
+--color-face-bora: #7063b0;
+--color-face-jadu: #9b558d;
+--font-sans:
+'Pretendard', system-ui, -apple-system, 'Apple SD Gothic Neo',
+'Malgun Gothic', sans-serif;
+--font-display: 'Gasoek One', 'Pretendard', sans-serif;
+--text-caption: 12px; 
+--text-caption--line-height: 16px;
+--text-meta: 13px; 
+--text-meta--line-height: 1.45;
+--text-label: 14px; 
+--text-label--line-height: 1.4;
+--text-body: 15px; 
+--text-body--line-height: 1.5;
+--text-lead: 16px; 
+--text-lead--line-height: 1.6;
+--text-title: 17px; 
+--text-title--line-height: 1.4;
+--text-title-lg: 18px; 
+--text-title-lg--line-height: 1.35;
+--text-heading: 22px; 
+--text-heading--line-height: 1.3;
+--text-heading--letter-spacing: -0.02em;
+--text-heading-lg: 28px; 
+--text-heading-lg--line-height: 1.25;
+--text-heading-lg--letter-spacing: -0.02em;
+--text-display-sm: 28px; 
+--text-display-sm--line-height: 1;
+--text-display: 40px; 
+--text-display--line-height: 1.18;
+--text-display-lg: 48px; 
+--text-display-lg--line-height: 1;
+--font-weight-regular: 400;
+--font-weight-medium: 600; 
+--font-weight-bold: 700; 
+--font-weight-heavy: 800; 
+--spacing: 4px;
+--radius-xs: 5px; 
+--radius-sm: 8px; 
+--radius-md: 10px; 
+--radius-lg: 14px; 
+--radius-xl: 16px; 
+--radius-2xl: 22px; 
+--radius-full: 999px;
+--shadow-hairline: 0 1px 2px rgb(21 26 32 / 0.08); 
+--shadow-chip: 0 4px 10px -4px rgb(0 0 0 / 0.45); 
+--shadow-float: 0 6px 16px -6px rgb(0 0 0 / 0.5); 
+--shadow-lift: var(--lift); 
+--shadow-pop: 0 12px 28px -10px rgb(0 0 0 / 0.5); 
+--ease-soft: cubic-bezier(0.2, 0.7, 0.2, 1); 
+--ease-linear: linear;
+--breakpoint-md: 768px; 
+--breakpoint-xl: 1280px; 
+--container-page: 1200px;
+}
+:root,
+[data-theme='light'] {
+color-scheme: light;
+--dark: 0;
+--bg: var(--color-graphite-0);
+--raised: rgb(255 255 255 / 0.7); 
+--raised-hover: var(--color-graphite-0);
+--sunken: var(--color-graphite-50); 
+--sunken-hover: var(--color-graphite-100);
+--line: var(--color-graphite-75);
+--ink-1: var(--color-graphite-950); 
+--ink-2: var(--color-graphite-700); 
+--ink-3: var(--color-graphite-600); 
+--ink-4: var(--color-graphite-400); 
+--surface-ink: var(--color-graphite-950); 
+--on-ink: var(--color-white);
+--scrim: rgb(21 26 32 / 0.66); 
+--scrim-strong: rgb(21 26 32 / 0.78);
+--ok: var(--color-bichwi-500);
+--ok-text: var(--color-bichwi-500);
+--ok-tint: var(--color-bichwi-50);
+--ok-on-ink: var(--color-bichwi-400);
+--danger: var(--color-dahong-500);
+--danger-strong: var(--color-dahong-600);
+--danger-text: var(--color-dahong-500);
+--danger-tint: var(--color-dahong-50);
+--rank-up: var(--color-dahong-500); 
+--rank-down: var(--color-jjok-600); 
+--lift: 0 12px 26px -12px rgb(21 26 32 / 0.36);
+}
+:root,
+[data-ground='play'] {
+--g-50: var(--color-jjok-50);
+--g-100: var(--color-jjok-100);
+--g-400: var(--color-jjok-400);
+--g-500: var(--color-jjok-500);
+--g-600: var(--color-jjok-600);
+--g-850: var(--color-jjok-850);
+--g-900: var(--color-jjok-900);
+}
+[data-ground='make'] {
+--g-50: var(--color-inju-50);
+--g-100: var(--color-inju-100);
+--g-400: var(--color-inju-400);
+--g-500: var(--color-inju-500);
+--g-600: var(--color-inju-600);
+--g-850: var(--color-inju-850);
+--g-900: var(--color-inju-900);
+}
+:root,
+[data-ground],
+[data-theme] {
+--accent: var(--g-500); 
+--accent-strong: var(--g-600); 
+--accent-text: color-mix(in srgb, var(--g-400) calc(var(--dark) * 100%), var(--g-500)); 
+--accent-tint: color-mix(in srgb, var(--g-900) calc(var(--dark) * 100%), var(--g-50)); 
+--accent-tint-2: color-mix(in srgb, var(--g-850) calc(var(--dark) * 100%), var(--g-100));
+--on-accent: var(--color-white);
+}
+:root {
+--play: var(--color-jjok-500);
+--play-strong: var(--color-jjok-600);
+--make: var(--color-inju-500);
+--make-strong: var(--color-inju-600);
+}
+[data-theme='dark'] {
+color-scheme: dark;
+--dark: 1;
+--bg: var(--color-graphite-975);
+--raised: var(--color-graphite-900);
+--raised-hover: var(--color-graphite-850);
+--sunken: var(--color-graphite-850);
+--sunken-hover: var(--color-graphite-800);
+--line: var(--color-graphite-800);
+--ink-1: var(--color-graphite-60);
+--ink-2: var(--color-graphite-200);
+--ink-3: var(--color-graphite-300);
+--ink-4: var(--color-graphite-500);
+--surface-ink: var(--color-graphite-800);
+--ok-text: var(--color-bichwi-400);
+--ok-tint: var(--color-bichwi-900);
+--danger-text: var(--color-dahong-400);
+--danger-tint: var(--color-dahong-900);
+--rank-up: var(--color-dahong-400);
+--rank-down: var(--color-jjok-400);
+--play-strong: var(--color-jjok-400);
+--make-strong: var(--color-inju-400);
+--lift: 0 12px 26px -12px rgb(0 0 0 / 0.7);
+}
+:root {
+--page-width: 1200px;
+--page-min: 1280px; 
+--header-h: 68px;
+--section-gap: 64px; 
+--section-head-gap: 18px; 
+--footer-gap: 88px;
+--btn-h: 44px;
+--btn-h-sm: 38px;
+--chip-h: 38px;
+--tab-h: 34px;
+--icon-btn: 40px;
+--arrow-btn: 34px;
+--search-w: 240px;
+--badge-h: 24px;
+--tag-h: 20px;
+--art-ratio: 16 / 9;
+--card-lift: translateY(-3px);
+--qplay: 40px;
+--qplay-lg: 46px;
+--pick-w: 296px;
+--rank-art: 96px;
+--overlay-inset: 8px; 
+--face-xs: 20px;
+--face-sm: 26px;
+--face-md: 32px;
+--face-lg: 54px;
+--dur-instant: 120ms; 
+--dur-fast: 180ms; 
+--dur-base: 240ms; 
+--dur-face: 260ms; 
+--delay-tooltip: 120ms;
+--logo-idle: 9s; 
+--z-art-overlay: 3;
+--z-card-hover: 6;
+--z-chip-hover: 8;
+--z-header: 20;
+--z-tooltip: 30;
+--z-dropdown: 40;
+--z-modal: 50;
+--z-toast: 60;
+}
+@media (prefers-reduced-motion: reduce) {
+:root {
+--dur-instant: 0ms;
+--dur-fast: 0ms;
+--dur-base: 0ms;
+--dur-face: 0ms;
+}
+}
+@font-face{font-family:'Pretendard';src:url('fonts/PretendardVariable.woff2') format('woff2');font-weight:45 920;font-display:swap}
+*{box-sizing:border-box}
+body{margin:0;background:#FFFFFF;-webkit-font-smoothing:antialiased}
+.ds{background:var(--bg);color:var(--ink-1);font-family:var(--font-sans);font-size:15px;line-height:1.5;word-break:keep-all;min-height:100%}
+.ds a{color:inherit;text-decoration:none}
+.ds button{font:inherit;color:inherit;cursor:pointer}
+.ds :focus-visible,.is-focus{outline:2px solid var(--accent);outline-offset:2px}
+.page{width:1280px;padding:56px 40px 96px;display:flex;flex-direction:column;gap:72px}
+.num{font-variant-numeric:tabular-nums}
+.disp{font-family:var(--font-display);font-weight:400}
+.mono{font-family:ui-monospace,'SF Mono',Consolas,monospace;font-size:12px;letter-spacing:0}
+.m{font-size:13px;line-height:1.45;color:var(--ink-3)}
+.ic{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.ic16{width:16px;height:16px}.ic20{width:20px;height:20px}.ic12{width:12px;height:12px}
+
+/* 문서 머리 */
+.doc-h h1{margin:0;font-size:30px;line-height:1.25;font-weight:800;letter-spacing:-.02em}
+.doc-h p{margin:10px 0 0;max-width:760px;font-size:16px;line-height:1.65;color:var(--ink-2)}
+.doc-h .crumb{display:flex;gap:8px;margin-bottom:14px;font-size:13px;font-weight:700;color:var(--ink-3)}
+.blk{display:flex;flex-direction:column;gap:22px}
+.blk > header{display:flex;align-items:baseline;gap:14px}
+.blk > header h2{margin:0;font-size:22px;line-height:1.3;font-weight:800;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
+.blk > header span{font-size:13px;color:var(--ink-3)}
+.sub{margin:0 0 -8px;font-size:14px;font-weight:800;color:var(--ink-2)}
+.note{font-size:13px;line-height:1.55;color:var(--ink-3);margin:0}
+.ear{width:22px;height:12px;flex:none;align-self:flex-start;margin-top:5px}
+.ear path{fill:var(--accent)}
+
+/* 고양이 DmD */
+.logo{display:inline-flex;align-items:flex-end;gap:.04em;font-weight:800;line-height:1;letter-spacing:-.02em;color:var(--ink-1)}
+.cat{position:relative;display:inline-flex;align-items:flex-end;gap:.03em;padding:0 .06em}
+.cat .ears{position:absolute;left:-.1em;top:-.21em;width:calc(100% + .2em);height:.46em;overflow:visible}
+.cat .ears path{fill:none;stroke:var(--ears,var(--accent));stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.cat .e{display:inline-block;transform-origin:50% 55%;transition:transform 260ms var(--ease-soft)}
+.cat .mo{font-size:.72em}
+.f-up .e{transform:rotate(-90deg)}
+.f-down .e{transform:rotate(90deg)}
+.f-wow .e{transform:scale(1.12)}
+.f-sleep .e{transform:scaleY(.18) translateY(-.1em)}
+.big-face .cat .ears path{stroke-width:3}
+
+/* 자모 얼굴 */
+.jf{display:inline-flex;align-items:center;justify-content:center;flex:none;width:26px;height:26px;border-radius:7px;color:#FFFFFF;font-weight:800;font-size:10px;letter-spacing:-.06em;line-height:1;white-space:nowrap}
+.jf i{font-style:normal;font-size:.78em;margin:0 .02em;position:relative;top:.06em}
+.jf.xs{width:20px;height:20px;font-size:8.5px;border-radius:5px}
+.jf.md{width:32px;height:32px;font-size:12px;border-radius:9px}
+.jf.lg{width:54px;height:54px;font-size:20px;border-radius:14px}
+.jf.xl{width:96px;height:96px;font-size:36px;border-radius:26px}
+
+/* 버튼 */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:var(--btn-h);padding:0 20px;border:0;border-radius:var(--radius-md);font-size:15px;font-weight:700;white-space:nowrap;transition:background var(--dur-fast) var(--ease-soft),transform var(--dur-instant) var(--ease-soft)}
+.btn:active,.btn.is-press{transform:translateY(1px)}
+.btn-sm{height:var(--btn-h-sm);padding:0 16px;font-size:14px;border-radius:var(--radius-full)}
+.btn-primary{background:var(--accent);color:var(--on-accent)}
+.btn-primary:hover,.btn-primary.is-hover{background:var(--accent-strong)}
+.btn-secondary{background:var(--sunken);color:var(--ink-1)}
+.btn-secondary:hover,.btn-secondary.is-hover{background:var(--sunken-hover)}
+.btn-on-color{background:#FFFFFF;color:#151A20}
+.btn-on-color:hover,.btn-on-color.is-hover{background:#E8ECF1}
+.btn-glass{background:rgb(255 255 255 / .16);color:#FFFFFF}
+.btn-glass:hover,.btn-glass.is-hover{background:rgb(255 255 255 / .26)}
+.btn-danger{background:var(--danger);color:#FFFFFF}
+.btn-danger:hover,.btn-danger.is-hover{background:var(--danger-strong)}
+.btn-link{height:auto;padding:0;background:none;font-size:14px;color:var(--ink-3)}
+.btn-link:hover,.btn-link.is-hover{color:var(--ink-1)}
+.btn[disabled],.btn.is-disabled{opacity:.4;cursor:default;transform:none}
+.on-dark .is-focus,.on-dark :focus-visible{outline-color:#FFFFFF}
+.icon-btn{display:grid;place-items:center;width:var(--icon-btn);height:var(--icon-btn);border:0;border-radius:999px;background:transparent;position:relative;color:var(--ink-1)}
+.icon-btn:hover,.icon-btn.is-hover{background:var(--sunken)}
+.arw{display:grid;place-items:center;width:var(--arrow-btn);height:var(--arrow-btn);border:0;border-radius:999px;background:var(--sunken);color:var(--ink-1)}
+.arw:hover{background:var(--sunken-hover)}
+.arw[disabled]{opacity:.4;cursor:default}
+.dot-new{position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:999px;background:var(--color-dahong-500);box-shadow:0 0 0 2px var(--bg)}
+
+/* 칩 · 탭 · 태그 */
+.chips{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:6px;height:var(--chip-h);padding:0 15px;border:0;border-radius:999px;background:var(--sunken);font-size:14px;font-weight:700;color:var(--ink-2)}
+.chip:hover,.chip.is-hover{background:var(--sunken-hover)}
+.chip[aria-pressed="true"]{background:var(--ink-1);color:var(--bg)}
+.chip .c{font-weight:600;opacity:.6}
+.ptabs{display:inline-flex;gap:4px}
+.ptabs button{height:var(--tab-h);padding:0 12px;border:0;border-radius:999px;background:transparent;font-size:14px;font-weight:700;color:var(--ink-3)}
+.ptabs button:hover{color:var(--ink-1)}
+.ptabs button[aria-selected="true"]{background:var(--raised-hover);color:var(--accent-strong);box-shadow:var(--shadow-hairline)}
+[data-theme="dark"] .ptabs button[aria-selected="true"]{color:var(--accent-text)}
+.utabs{display:flex;gap:4px;border-bottom:1px solid var(--line)}
+.utabs a{display:flex;align-items:center;height:48px;padding:0 14px;font-size:16px;font-weight:700;color:var(--ink-3);box-shadow:inset 0 -3px 0 transparent}
+.utabs a:hover{color:var(--ink-1)}
+.utabs a[aria-current]{color:var(--ink-1);box-shadow:inset 0 -3px 0 var(--accent)}
+.tag{display:inline-flex;align-items:center;height:var(--tag-h);padding:0 6px;border-radius:var(--radius-xs);background:var(--sunken);font-size:12px;font-weight:700;color:var(--ink-2)}
+
+/* 헤더 */
+.hdr{background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid var(--line)}
+.hdr .in{width:1200px;margin:0 auto;height:var(--header-h);display:flex;align-items:center;gap:28px}
+.brand{display:flex;align-items:flex-end;gap:7px;padding-top:8px}
+.brand .word{font-size:14px;font-weight:800;color:var(--ink-2);padding-bottom:1px}
+.gnb{display:flex;gap:2px;align-self:stretch}
+.gnb a{display:flex;align-items:center;white-space:nowrap;padding:0 12px;font-size:16px;font-weight:700;color:var(--ink-3);box-shadow:inset 0 -3px 0 transparent}
+.gnb a:hover{color:var(--ink-1)}
+.gnb a[aria-current]{color:var(--ink-1);box-shadow:inset 0 -3px 0 var(--accent)}
+.hdr .right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.ground{display:flex;padding:3px;background:var(--sunken);border-radius:999px;font-size:13px;font-weight:700}
+.ground a{padding:5px 12px;border-radius:999px;color:var(--ink-3)}
+.ground a.play[aria-current]{background:var(--play);color:#FFFFFF}
+.ground a.make[aria-current]{background:var(--make);color:#FFFFFF}
+.ground a.make:not([aria-current]):hover{color:var(--make-strong)}
+.ground a.play:not([aria-current]):hover{color:var(--play-strong)}
+.search{display:flex;align-items:center;gap:8px;width:var(--search-w);height:40px;padding:0 14px;background:var(--sunken);border-radius:999px;color:var(--ink-3);font-size:14px}
+.search.is-focus{outline:0;background:var(--bg);box-shadow:inset 0 0 0 2px var(--accent);color:var(--ink-1)}
+
+/* 아트 */
+.art{position:relative;display:block;aspect-ratio:16/9;border-radius:var(--radius-md);background:var(--sunken)}
+.art.lg-r{border-radius:var(--radius-lg)}
+.art .shots{position:absolute;inset:0;overflow:hidden;border-radius:inherit}
+.badge{position:absolute;left:var(--overlay-inset);top:var(--overlay-inset);z-index:3;display:inline-flex;align-items:center;gap:5px;height:var(--badge-h);padding:0 9px 0 7px;border-radius:999px;font-size:12px;font-weight:800;color:#FFFFFF;background:var(--accent);box-shadow:var(--shadow-chip)}
+.badge.ink{background:var(--scrim-strong);backdrop-filter:blur(6px)}
+.badge.mk{background:var(--make)}
+.badge.static{position:static}
+.plat{position:absolute;right:var(--overlay-inset);top:var(--overlay-inset);z-index:3;display:flex;align-items:center;gap:6px;height:var(--badge-h);padding:0 8px;border-radius:999px;background:var(--scrim);backdrop-filter:blur(6px);color:#FFFFFF;font-size:12px;font-weight:700}
+.plat .ok{color:var(--ok-on-ink)}
+.maker{position:absolute;left:var(--overlay-inset);bottom:var(--overlay-inset);z-index:3;box-shadow:0 0 0 2px #FFFFFF}
+.qplay{position:absolute;right:var(--overlay-inset);bottom:var(--overlay-inset);z-index:3;width:var(--qplay);height:var(--qplay);border-radius:999px;background:var(--accent);color:#FFFFFF;display:grid;place-items:center;box-shadow:var(--shadow-float)}
+.prog{position:absolute;left:0;right:0;bottom:0;z-index:2;height:4px;background:rgb(21 26 32 / .35);border-radius:0 0 var(--radius-md) var(--radius-md);overflow:hidden}
+.prog i{display:block;height:100%;background:var(--accent)}
+.frames{position:absolute;left:50%;bottom:8px;z-index:3;transform:translateX(-50%);display:flex;gap:3px}
+.frames b{width:16px;height:3px;border-radius:2px;background:rgb(255 255 255 / .45)}
+.frames b:first-child{background:#FFFFFF}
+.tip{position:absolute;right:-6px;top:calc(100% + 9px);z-index:var(--z-tooltip);display:flex;flex-direction:column;gap:7px;padding:10px 12px 10px 11px;border-radius:var(--radius-md);background:var(--surface-ink);color:#FFFFFF;font-size:13px;font-weight:600;line-height:1.3;box-shadow:var(--shadow-pop);white-space:nowrap}
+.tip::before{content:"";position:absolute;right:16px;top:-5px;width:10px;height:10px;border-radius:2px;background:var(--surface-ink);transform:rotate(45deg)}
+.tip > span{display:flex;align-items:center;gap:7px}
+.tip .ic{width:13px;height:13px;color:rgb(255 255 255 / .75)}
+.tip .ok,.tip .ok .ic{color:var(--ok-on-ink)}
+
+/* 진행 · 저장 */
+.bar{height:5px;border-radius:999px;background:var(--sunken-hover);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:999px}
+.save{width:28px;height:28px;display:grid;place-items:center;border:0;background:transparent;color:var(--ink-3);border-radius:var(--radius-sm)}
+.save:hover,.save.is-hover{background:var(--sunken);color:var(--ink-1)}
+.save.on{color:var(--accent-text)}
+
+/* 게임 카드(간단) */
+.gc{position:relative;display:flex;flex-direction:column;gap:3px;min-width:0}
+.gc .art{margin-bottom:7px}
+.gc .t{font-size:15px;font-weight:700;line-height:1.4}
+.gc .meta{font-size:13px;color:var(--ink-3)}
+.gc.lift .art{transform:var(--card-lift);box-shadow:var(--shadow-lift)}
+.gc.lift .t{color:var(--accent-text)}
+
+/* 랭킹 줄 */
+.rr{display:grid;grid-template-columns:34px 96px minmax(0,1fr) auto;align-items:center;gap:14px;padding:8px 12px 8px 8px;border-radius:var(--radius-lg);background:var(--raised)}
+.rr .n{font-size:28px;line-height:1;text-align:center;color:var(--ink-2)}
+.rr .n.top{color:var(--accent-text)}
+.rr .art{width:96px;border-radius:9px}
+.rr b{display:block;font-size:15px}
+.rr .by{display:flex;align-items:center;gap:6px;margin-top:3px;font-size:13px;color:var(--ink-3)}
+.rr .k{text-align:right;font-size:12px;font-weight:800;line-height:1.4;color:var(--rank-up)}
+.rr .k.dn{color:var(--rank-down)}
+
+/* 아트 플레이스홀더 */
+.a-loop{background:radial-gradient(circle at 70% 50%,transparent 0 17%,#7CE0B8 17.5% 19%,transparent 19.5%),repeating-linear-gradient(90deg,#FFFFFF10 0 1px,transparent 1px 22px),repeating-linear-gradient(0deg,#FFFFFF10 0 1px,transparent 1px 22px),#173250}
+.a-ash{background:radial-gradient(circle at 20% 30%,#FF8A3D 0 1%,transparent 1.5%),radial-gradient(circle at 45% 18%,#FFB36B 0 .8%,transparent 1.3%),radial-gradient(circle at 75% 26%,#FF8A3D 0 1.2%,transparent 1.7%),linear-gradient(0deg,#2A2523 0 34%,transparent 34%),linear-gradient(#6B4A3A,#C46A3A)}
+.a-tess{background:conic-gradient(from 210deg at 60% 60%,#E9F2FF 0 25%,#9CC3F5 25% 50%,#3C78D8 50% 75%,#1A3F8A 75%)}
+.a-paper{background:linear-gradient(150deg,transparent 46%,#FFFFFF 46% 50%,transparent 50%) 30% 40%/34% 34% no-repeat,linear-gradient(30deg,transparent 46%,#FFE07A 46% 50%,transparent 50%) 70% 60%/30% 30% no-repeat,#167A78}
+.a-grid{background:linear-gradient(#FFFFFF 0 0) 35% 35%/14% 24% no-repeat,linear-gradient(#FFCF33 0 0) 52% 35%/14% 24% no-repeat,linear-gradient(#FFFFFF 0 0) 52% 65%/14% 24% no-repeat,repeating-linear-gradient(90deg,#FFFFFF14 0 2px,transparent 2px 14.28%),#2D3142}
+.a-halcyon{background:radial-gradient(circle at 30% 70%,#FFFFFF55 0 2%,transparent 2.5%),radial-gradient(circle at 38% 58%,#FFFFFF44 0 1.4%,transparent 1.9%),linear-gradient(#0E5A8A,#06243D)}
+.a-demon{background:radial-gradient(circle at 62% 44%,#E8434F 0 6%,transparent 6.5%),radial-gradient(ellipse 40% 20% at 50% 100%,#2E5E3A 0 100%,transparent 100%),linear-gradient(#B9D7A8,#7FAF6C)}
+
+
+body{min-width:1280px}
+.hdr .search{width:220px}
+.two-line{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.clip{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.ds{font-size:15px}
+.wrap{width:1200px;margin:0 auto}
+.hdr{position:sticky;top:0;z-index:var(--z-header)}
+.sec{margin-top:var(--section-gap)}
+.sh{display:flex;align-items:center;gap:10px;margin-bottom:var(--section-head-gap)}
+.sh h2{margin:0;font-size:22px;line-height:1.3;font-weight:800;letter-spacing:-.02em}
+.sh .sub{font-size:13px;color:var(--ink-3);font-weight:500;margin:0 0 0 2px}
+.sh .r{margin-left:auto;display:flex;align-items:center;gap:8px}
+.link{font-size:14px;font-weight:700;color:var(--ink-3)}
+.link:hover{color:var(--ink-1)}
+.cnt{display:inline-grid;place-items:center;min-width:22px;height:22px;padding:0 7px;border-radius:999px;background:var(--accent);color:#FFFFFF;font-size:12px;font-weight:800}
+/* 상태 칩 */
+.st{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px;border-radius:999px;font-size:12px;font-weight:800;white-space:nowrap}
+.st .ic{width:12px;height:12px}
+.st-live{background:var(--ok-tint);color:var(--ok-text)}
+.st-wait{background:var(--sunken);color:var(--ink-2)}
+.st-fix{background:var(--accent-tint);color:var(--accent-text)}
+.st-draft{background:var(--sunken);color:var(--ink-3)}
+.st-no{background:var(--danger-tint);color:var(--danger-text)}
+.pulse{width:6px;height:6px;border-radius:999px;background:currentColor;animation:pl 1.6s var(--ease-soft) infinite}
+@keyframes pl{50%{opacity:.25}}
+@media (prefers-reduced-motion:reduce){.pulse{animation:none}}
+/* 단계 표시 */
+.steps{display:flex;align-items:center;gap:0;font-size:12px;font-weight:700;color:var(--ink-3)}
+.steps span{display:flex;align-items:center;gap:6px}
+.steps span::before{content:"";width:8px;height:8px;border-radius:999px;box-shadow:inset 0 0 0 1.5px var(--ink-4)}
+.steps span.done::before{background:var(--ink-2);box-shadow:none}
+.steps span.now{color:var(--ink-1)}
+.steps span.now::before{background:var(--accent);box-shadow:0 0 0 3px var(--accent-tint)}
+.steps i{width:22px;height:1.5px;background:var(--sunken-hover);margin:0 6px}
+/* 할 일 */
+.todo{display:flex;flex-direction:column}
+.td{display:grid;grid-template-columns:36px minmax(0,1fr) auto;align-items:center;gap:14px;padding:14px 4px;border-top:1px solid var(--line)}
+.td:first-child{border-top:0}
+.td .ico{display:grid;place-items:center;width:36px;height:36px;border-radius:10px;background:var(--sunken);color:var(--ink-2)}
+.td .ico.acc{background:var(--accent-tint);color:var(--accent-text)}
+.td b{display:block;font-size:15px;font-weight:700}
+.td .m{display:block;margin-top:2px}
+/* 내 게임 줄 */
+.mg-rows{display:flex;flex-direction:column;gap:6px}
+.mr{position:relative;display:grid;grid-template-columns:128px minmax(0,1.3fr) minmax(0,1fr) 148px 120px;align-items:center;gap:20px;padding:10px 14px 10px 10px;border-radius:var(--radius-lg);transition:background var(--dur-fast) var(--ease-soft)}
+.mr:hover{background:var(--sunken)}
+.mr .art{width:128px;border-radius:9px}
+.mr .ttl{display:flex;flex-direction:column;gap:6px;min-width:0}
+.mr .ttl b{font-size:16px;font-weight:800}
+.mr .ttl .row{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+.mr .note{font-size:13px;color:var(--ink-2)}
+.mr .note.acc{color:var(--accent-text);font-weight:700}
+.kpi{display:flex;flex-direction:column;gap:2px;font-size:12px;color:var(--ink-3);font-weight:600}
+.kpi b{font-size:18px;font-weight:800;color:var(--ink-1);font-variant-numeric:tabular-nums;letter-spacing:-.01em}
+.kpi .up{color:var(--ok-text);font-weight:800}
+.spark{display:flex;align-items:flex-end;gap:3px;height:28px}
+.spark i{width:8px;border-radius:2px 2px 1px 1px;background:var(--sunken-hover)}
+.spark i:last-child{background:var(--accent)}
+.mr .act{justify-self:end}
+.mr.new{grid-template-columns:128px minmax(0,1fr) auto;color:var(--ink-2)}
+.mr.new .art{display:grid;place-items:center;background:var(--sunken);color:var(--ink-3)}
+.mr.new b{font-size:15px;color:var(--ink-1)}
+/* 개발일지 */
+.band{padding:44px 0 48px;background:var(--accent-tint)}
+.logs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 24px}
+.lg{position:relative;display:flex;flex-direction:column;gap:8px;min-width:0}
+.lg .art{border-radius:var(--radius-lg);transition:transform var(--dur-base) var(--ease-soft),box-shadow var(--dur-base) var(--ease-soft)}
+.lg:hover .art{transform:var(--card-lift);box-shadow:var(--shadow-lift)}
+.lg:hover b{color:var(--accent-text)}
+.lg b{font-size:16px;line-height:1.45;font-weight:800}
+.lg p{margin:0;font-size:14px;line-height:1.55;color:var(--ink-2)}
+.lg .by{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink-3)}
+.lg .by .g{color:var(--ink-2);font-weight:700}
+.react{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink-3);margin-left:auto}
+.react span{display:flex;align-items:center;gap:4px}
+.react .ic{width:13px;height:13px}
+.band .ptabs button[aria-selected="true"]{background:var(--raised-hover)}
+/* 질문·모집 */
+.qa{display:grid;grid-template-columns:1fr 1fr;gap:48px}
+.ql{display:flex;flex-direction:column}
+.qi{display:grid;grid-template-columns:minmax(0,1fr) auto;gap:4px 16px;align-items:center;padding:14px 2px;border-top:1px solid var(--line)}
+.qi:first-child{border-top:0}
+.qi b{font-size:15px;font-weight:700}
+.qi .m{grid-column:1}
+.qi .ans{grid-row:1 / span 2;grid-column:2;display:flex;flex-direction:column;align-items:center;justify-content:center;width:56px;height:52px;border-radius:12px;background:var(--sunken);font-size:11.5px;font-weight:700;color:var(--ink-3)}
+.qi .ans b{font-size:17px;color:var(--ink-1)}
+.qi .ans.ok{background:var(--ok-tint);color:var(--ok-text)}
+.qi .ans.ok b{color:var(--ok-text)}
+.qi .ans.zero{background:var(--accent-tint);color:var(--accent-text)}
+.qi .ans.zero b{color:var(--accent-text)}
+/* 게임 레일 */
+.rail{display:flex;gap:16px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,#000 93%,transparent);mask-image:linear-gradient(90deg,#000 93%,transparent);padding:4px 0 12px;margin:-4px 0 -12px}
+.rail .gc{flex:0 0 227px}
+.gc .t a::after{content:"";position:absolute;inset:0;z-index:1}
+.gc:hover .art{transform:var(--card-lift);box-shadow:var(--shadow-lift)}
+.gc .art{transition:transform var(--dur-base) var(--ease-soft),box-shadow var(--dur-base) var(--ease-soft)}
+.gc:hover .t{color:var(--accent-text)}
+/* 잼 띠 */
+.jam{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:28px;padding:30px 40px;border-radius:var(--radius-2xl);background:var(--surface-ink);color:#FFFFFF}
+.jam .big{font-size:48px;line-height:1;color:var(--color-inju-400)}
+.jam b{font-size:19px;font-weight:800}
+.jam p{margin:5px 0 0;font-size:14px;color:rgb(255 255 255 / .72)}
+.jam .when{display:flex;gap:18px;margin-top:12px;font-size:13px;color:rgb(255 255 255 / .62)}
+.jam .when b{font-size:13px;color:#FFFFFF;margin-right:4px}
+/* 게스트 소개 */
+.intro{display:grid;grid-template-columns:minmax(0,1fr) 400px;gap:64px;align-items:center;padding:48px 0 8px}
+.intro h1{margin:0;font-family:var(--font-display);font-weight:400;font-size:40px;line-height:1.2;letter-spacing:-.01em;text-wrap:balance}
+.intro .lede{margin:16px 0 0;font-size:16px;line-height:1.7;color:var(--ink-2);max-width:560px}
+.how{list-style:none;margin:28px 0 0;padding:0;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px;counter-reset:h}
+.how li{display:flex;flex-direction:column;gap:6px;padding-top:14px;border-top:3px solid var(--sunken-hover);font-size:14px;line-height:1.55;color:var(--ink-2)}
+.how li:first-child{border-top-color:var(--accent)}
+.how li b{font-size:15px;color:var(--ink-1)}
+.how li b::before{counter-increment:h;content:counter(h) "  ";color:var(--accent-text);font-weight:800}
+.intro .acts{display:flex;gap:8px;margin-top:28px}
+.facts{display:flex;gap:18px;margin-top:18px;font-size:13px;color:var(--ink-3);font-weight:600}
+.facts span{display:flex;align-items:center;gap:5px}
+.facts .ic{color:var(--ok-text)}
+.preview{position:relative;padding:22px 22px 20px;border-radius:var(--radius-2xl);background:var(--sunken)}
+.preview .cap{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px;font-size:13px;font-weight:700;color:var(--ink-3)}
+.preview .gc{background:none}
+.preview .gc .art{border-radius:var(--radius-lg)}
+.preview .ph{display:grid;place-items:center;background:repeating-linear-gradient(-45deg,var(--sunken-hover) 0 10px,transparent 10px 20px),var(--bg);color:var(--ink-3);font-size:13px;font-weight:700}
+.preview .gc .t{font-size:17px}
+/* B: 일지 PICK */
+.feat{display:grid;grid-template-columns:660px minmax(0,1fr);gap:40px;align-items:center}
+.feat .art{border-radius:var(--radius-xl)}
+.feat h3{margin:12px 0 0;font-size:28px;line-height:1.3;font-weight:800;letter-spacing:-.02em;text-wrap:balance}
+.feat p{margin:14px 0 0;font-size:16px;line-height:1.7;color:var(--ink-2)}
+.feat .by{display:flex;align-items:center;gap:8px;margin-top:18px;font-size:14px;color:var(--ink-3)}
+.feat .by b{color:var(--ink-1)}
+.strip{display:grid;grid-template-columns:auto repeat(4,minmax(0,1fr)) auto;align-items:center;gap:22px;padding:18px 0 22px;border-bottom:1px solid var(--line)}
+.strip .hi{font-size:15px;font-weight:800;display:flex;align-items:center;gap:8px}
+.sg{display:grid;grid-template-columns:64px minmax(0,1fr);gap:10px;align-items:center;min-width:0}
+.sg .art{width:64px;border-radius:7px}
+.sg b{display:block;font-size:14px;font-weight:800}
+.sg .st{margin-top:3px;height:20px;font-size:11.5px;padding:0 7px}
+.gband{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:24px;margin-top:28px;padding:26px 32px;border-radius:var(--radius-2xl);background:var(--accent);color:#FFFFFF}
+.gband b{font-size:20px;font-weight:800}
+.gband p{margin:4px 0 0;font-size:14px;color:rgb(255 255 255 / .84)}
+footer.ft{margin-top:var(--footer-gap);border-top:3px solid var(--accent);padding:28px 0 48px;font-size:13px;color:var(--ink-3)}
+footer.ft .links{display:flex;gap:18px;color:var(--ink-2);font-weight:600}
+.memo{position:fixed;right:16px;bottom:16px;z-index:50;width:300px;padding:14px 16px;border-radius:14px;background:#151A20;color:#FFFFFF;font-size:12.5px;line-height:1.55;box-shadow:var(--shadow-pop)}
+.memo b{display:block;margin-bottom:4px;font-size:13px;color:#FE6648}
+.memo button{margin-top:10px;height:30px;padding:0 12px;border:0;border-radius:999px;background:rgb(255 255 255 / .14);color:#FFFFFF;font-size:12px;font-weight:700}
+
+</style>
+</helmet>
+<div class="ds" data-theme="{{ theme }}" data-ground="make">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-web" viewBox="0 0 16 16"><rect x="1.5" y="2.5" width="13" height="11" rx="2"></rect><path d="M1.5 5.5h13"></path><path d="M6.5 8v3.4l3-1.7z"></path></symbol>
+<symbol id="i-dl" viewBox="0 0 16 16"><path d="M8 2v8M4.8 7 8 10.2 11.2 7"></path><path d="M2.5 11v2.5h11V11"></path></symbol>
+<symbol id="i-pc" viewBox="0 0 16 16"><rect x="1.5" y="2.5" width="13" height="8.5" rx="1.5"></rect><path d="M5.5 14h5M8 11v3"></path></symbol>
+<symbol id="i-phone" viewBox="0 0 16 16"><rect x="4.5" y="1.5" width="7" height="13" rx="1.8"></rect><path d="M7 12.2h2"></path></symbol>
+<symbol id="i-pad" viewBox="0 0 16 16"><path d="M4.5 5h7a3 3 0 0 1 3 3.2l-.3 2.6a1.8 1.8 0 0 1-3.2.9L9.8 10H6.2L5 11.7a1.8 1.8 0 0 1-3.2-.9l-.3-2.6A3 3 0 0 1 4.5 5z"></path><path d="M5 7.2v1.8M4.1 8.1h1.8"></path></symbol>
+<symbol id="i-duo" viewBox="0 0 16 16"><circle cx="5.5" cy="5.5" r="2.2"></circle><circle cx="11" cy="6.2" r="1.8"></circle><path d="M1.8 13c.4-2.3 1.9-3.6 3.7-3.6s3.3 1.3 3.7 3.6M10 9.6c1.9 0 3.2 1.1 3.6 3"></path></symbol>
+<symbol id="i-shield" viewBox="0 0 16 16"><path d="M8 1.8 13 3.6v4c0 3-2.1 5.3-5 6.6-2.9-1.3-5-3.6-5-6.6v-4z"></path><path d="M5.8 8 7.4 9.6 10.4 6.6"></path></symbol>
+<symbol id="i-play" viewBox="0 0 16 16"><path d="M5 3.2v9.6L12.6 8z" fill="currentColor"></path></symbol>
+<symbol id="i-crown" viewBox="0 0 16 16"><path d="M2.2 5.2 5 8l3-4.6L11 8l2.8-2.8-1 7H3.2z" fill="currentColor"></path></symbol>
+<symbol id="i-spark" viewBox="0 0 16 16"><path d="M8 1.5c.5 3.2 1.3 4 4.5 4.5-3.2.5-4 1.3-4.5 4.5-.5-3.2-1.3-4-4.5-4.5 3.2-.5 4-1.3 4.5-4.5zM12.5 10.5c.2 1.4.6 1.8 2 2-1.4.2-1.8.6-2 2-.2-1.4-.6-1.8-2-2 1.4-.2 1.8-.6 2-2z" fill="currentColor"></path></symbol>
+<symbol id="i-gem" viewBox="0 0 16 16"><path d="M4 2.5h8l2.5 3.5L8 14 1.5 6z" fill="currentColor"></path></symbol>
+<symbol id="i-clock" viewBox="0 0 16 16"><circle cx="8" cy="8.5" r="5.5"></circle><path d="M8 5.5v3l2 1.5M6.5 1.5h3"></path></symbol>
+<symbol id="i-moon" viewBox="0 0 16 16"><path d="M12.8 10.4A5.6 5.6 0 0 1 5.6 3.2a5.6 5.6 0 1 0 7.2 7.2z" fill="currentColor"></path></symbol>
+<symbol id="i-cmt" viewBox="0 0 16 16"><path d="M2.5 3.5h11v7.5H7l-3 2.5V11H2.5z"></path></symbol>
+<symbol id="i-up" viewBox="0 0 16 16"><path d="M8 13V3M4 7l4-4 4 4"></path></symbol>
+<symbol id="i-bm" viewBox="0 0 16 16"><path d="M4 2h8v12l-4-3-4 3z"></path></symbol>
+<symbol id="i-bmf" viewBox="0 0 16 16"><path d="M4 2h8v12l-4-3-4 3z" fill="currentColor"></path></symbol>
+</svg>
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-plus" viewBox="0 0 16 16"><path d="M8 3v10M3 8h10"></path></symbol>
+<symbol id="i-pen" viewBox="0 0 16 16"><path d="M10.5 2.5l3 3L6 13H3v-3z"></path><path d="M9 4l3 3"></path></symbol>
+<symbol id="i-bug" viewBox="0 0 16 16"><rect x="5" y="5" width="6" height="8" rx="3"></rect><path d="M8 5V3.5M6 3.2 5 2M10 3.2 11 2M5 8H2.5M13.5 8H11M5 11l-2 1.5M11 11l2 1.5"></path></symbol>
+<symbol id="i-star" viewBox="0 0 16 16"><path d="M8 2l1.8 3.8 4.2.5-3.1 2.9.8 4.1L8 11.3l-3.7 2 .8-4.1L2 6.3l4.2-.5z"></path></symbol>
+<symbol id="i-alert" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"></circle><path d="M8 5v3.5M8 11h0"></path></symbol>
+<symbol id="i-check" viewBox="0 0 16 16"><path d="M3 8.5l3 3 7-7"></path></symbol>
+<symbol id="i-chev" viewBox="0 0 16 16"><path d="M6 3l5 5-5 5"></path></symbol>
+<symbol id="i-search" viewBox="0 0 16 16"><circle cx="7" cy="7" r="4.5"></circle><path d="M10.5 10.5 13 13"></path></symbol>
+<symbol id="i-bell" viewBox="0 0 16 16"><path d="M4 11V7a4 4 0 0 1 8 0v4l1 1.5H3z"></path><path d="M6.5 14h3"></path></symbol>
+<symbol id="i-home" viewBox="0 0 16 16"><path d="M2.5 7.5 8 3l5.5 4.5V13a.5.5 0 0 1-.5.5H10V10H6v3.5H3a.5.5 0 0 1-.5-.5z"></path></symbol>
+<symbol id="i-box" viewBox="0 0 16 16"><path d="M2.5 5 8 2.5 13.5 5v6L8 13.5 2.5 11z"></path><path d="M2.5 5 8 7.5 13.5 5M8 7.5v6"></path></symbol>
+<symbol id="i-user" viewBox="0 0 16 16"><circle cx="8" cy="5.5" r="2.8"></circle><path d="M2.8 13.5c.6-2.6 2.6-4 5.2-4s4.6 1.4 5.2 4"></path></symbol>
+<symbol id="i-heart" viewBox="0 0 16 16"><path d="M8 13.3S2.3 10 2.3 6.1A2.9 2.9 0 0 1 8 4.9a2.9 2.9 0 0 1 5.7 1.2C13.7 10 8 13.3 8 13.3z"></path></symbol>
+<symbol id="i-q" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"></circle><path d="M6.3 6.3a1.8 1.8 0 1 1 2.4 1.7c-.5.2-.7.6-.7 1.1v.3M8 11.3h0"></path></symbol>
+<symbol id="i-team" viewBox="0 0 16 16"><circle cx="5.5" cy="5.5" r="2.2"></circle><circle cx="11" cy="6.2" r="1.8"></circle><path d="M1.8 13c.4-2.3 1.9-3.6 3.7-3.6s3.3 1.3 3.7 3.6M10 9.6c1.9 0 3.2 1.1 3.6 3"></path></symbol>
+<symbol id="i-up2" viewBox="0 0 16 16"><path d="M8 13V4M4.5 7.5 8 4l3.5 3.5"></path><path d="M3 2.5h10"></path></symbol>
+</svg>
+<sc-if value="{{ signedIn }}" hint-placeholder-val="{{ true }}"><header class="hdr"><div class="in">
+<a class="brand" href="#"><span class="logo" style="font-size:22px"><span>a</span><span class="cat"><svg class="ears" viewBox="0 0 64 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 19 L8 2 L20 10 Q32 6 44 10 L56 2 L61 19"></path></svg><span class="e">D</span><span class="mo">m</span><span class="e">D</span></span></span><span class="word">MakersGround</span></a>
+<nav class="gnb"><a href="#" aria-current="page">홈</a><a href="#">내 게임</a><a href="#">개발일지</a><a href="#">질문</a><a href="#">잼</a></nav>
+<div class="right"><div class="ground"><a class="play" href="#">플레이</a><a class="make" href="#" aria-current="true">메이커스</a></div>
+<div class="search"><svg class="ic"><use href="#i-search"></use></svg>게임, 메이커, 글 검색</div><span class="btn btn-primary btn-sm"><svg class="ic"><use href="#i-up2"></use></svg>게임 올리기</span>
+<button class="icon-btn" aria-label="알림 2개"><svg class="ic ic20"><use href="#i-bell"></use></svg><span class="dot-new"></span></button>
+<span class="jf md" style="background:var(--color-face-jjok)">ㅍ<i>ㅅ</i>ㅍ</span></div>
+</div></header></sc-if>
+<sc-if value="{{ guest }}" hint-placeholder-val="{{ false }}"><header class="hdr"><div class="in">
+<a class="brand" href="#"><span class="logo" style="font-size:22px"><span>a</span><span class="cat"><svg class="ears" viewBox="0 0 64 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 19 L8 2 L20 10 Q32 6 44 10 L56 2 L61 19"></path></svg><span class="e">D</span><span class="mo">m</span><span class="e">D</span></span></span><span class="word">MakersGround</span></a>
+<nav class="gnb"><a href="#" aria-current="page">홈</a><a href="#">내 게임</a><a href="#">개발일지</a><a href="#">질문</a><a href="#">잼</a></nav>
+<div class="right"><div class="ground"><a class="play" href="#">플레이</a><a class="make" href="#" aria-current="true">메이커스</a></div>
+<div class="search"><svg class="ic"><use href="#i-search"></use></svg>게임, 메이커, 글 검색</div><span class="btn btn-secondary btn-sm" onClick="{{ toggle }}">로그인</span><span class="btn btn-primary btn-sm"><svg class="ic"><use href="#i-up2"></use></svg>게임 올리기</span></div>
+</div></header></sc-if><sc-if value="{{ signedIn }}" hint-placeholder-val="{{ true }}"><section class="wrap" style="margin-top:36px">
+<div style="display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:48px;align-items:start">
+<div><div class="sh"><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg><h2>할 일</h2><span class="cnt">3</span></div><div class="todo"><div class="td"><span class="ico acc"><svg class="ic ic16"><use href="#i-alert"></use></svg></span><span><b>‘종이 배 2’ 보완 요청이 왔어요</b><span class="m">스크린샷을 3장 이상 올려 주세요 · 심사 담당 · 2시간 전</span></span><span class="btn btn-primary btn-sm">고치기</span></div><div class="td"><span class="ico"><svg class="ic ic16"><use href="#i-cmt"></use></svg></span><span><b>‘루프 디버거’ 새 리뷰 2개</b><span class="m">답글을 달면 리뷰 쓴 사람에게 알림이 가요</span></span><span class="btn btn-secondary btn-sm">답글 달기</span></div><div class="td"><span class="ico"><svg class="ic ic16"><use href="#i-bug"></use></svg></span><span><b>‘루프 디버거’ 버그 제보 1개</b><span class="m">Windows · Chrome 131 · 3단계에서 소리가 안 나요</span></span><span class="btn btn-secondary btn-sm">보기</span></div></div></div>
+<div><div class="sh"><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg><h2>바로 하기</h2></div>
+<div style="display:flex;flex-direction:column;gap:8px">
+<span class="btn btn-primary" style="justify-content:flex-start"><svg class="ic ic16"><use href="#i-up2"></use></svg>새 게임 올리기</span>
+<span class="btn btn-secondary" style="justify-content:flex-start"><svg class="ic ic16"><use href="#i-box"></use></svg>새 버전 올리기 · 루프 디버거</span>
+<span class="btn btn-secondary" style="justify-content:flex-start"><svg class="ic ic16"><use href="#i-pen"></use></svg>개발일지 쓰기</span></div>
+<p class="m" style="margin:12px 2px 0">심사는 보통 하루 안에 끝나요. 지금 대기 14개.</p></div>
+</div></section>
+<section class="sec wrap"><div class="sh"><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg><h2>내 게임</h2><span class="sub">4개</span><div class="r"><a class="link" href="#">통계 · 전체 관리</a></div></div>
+<div class="mg-rows"><div class="mr"><span class="art a-loop"><span class="shots"></span></span>
+<span class="ttl"><b>루프 디버거</b><span class="row"><span class="st st-live"><svg class="ic"><use href="#i-check"></use></svg>공개</span><span class="note">v1.2 · 3일 전 업데이트</span></span></span>
+<span style="display:flex;align-items:center;gap:22px"><span class="kpi">최근 7일 플레이<b>1,204</b><span class="up">▲ 12%</span></span><span class="spark" aria-hidden="true"><i style="height:12px"></i><i style="height:17px"></i><i style="height:15px"></i><i style="height:22px"></i><i style="height:19px"></i><i style="height:24px"></i><i style="height:28px"></i></span></span><span class="kpi">추천 92% · 리뷰 38<span style="display:flex;gap:6px;align-items:center;margin-top:4px"><span class="st st-fix" style="height:22px">새 리뷰 2</span><span class="st st-wait" style="height:22px"><svg class="ic"><use href="#i-bug"></use></svg>제보 1</span></span></span><span class="act"><span class="btn btn-secondary btn-sm">답글 달기</span></span></div><div class="mr"><span class="art a-paper"><span class="shots"></span></span>
+<span class="ttl"><b>종이 배 2</b><span class="row"><span class="st st-fix"><svg class="ic"><use href="#i-alert"></use></svg>보완 요청</span><span class="note acc">스크린샷이 3장보다 적어요</span></span></span>
+<span><span class="m">아직 공개 전이라 통계가 없어요</span></span><span></span><span class="act"><span class="btn btn-primary btn-sm">고치기</span></span></div><div class="mr"><span class="art a-grid"><span class="shots"></span></span>
+<span class="ttl"><b>그리드 러너</b><span class="row"><span class="st st-wait"><span class="pulse"></span>검사 중</span><span class="note">v0.3 빌드 · 보통 10분 안에 끝나요</span></span></span>
+<span><span class="steps"><span class="done">작성</span><i></i><span class="now">검사</span><i></i><span class="">심사</span><i></i><span class="">공개</span></span></span><span></span><span class="act"><span class="btn btn-secondary btn-sm">진행 보기</span></span></div><div class="mr"><span class="art" style="display:grid;place-items:center;color:var(--ink-3);font-size:13px;font-weight:700">아트 없음</span>
+<span class="ttl"><b>이름 없는 프로젝트</b><span class="row"><span class="st st-draft"><svg class="ic"><use href="#i-pen"></use></svg>작성 중</span><span class="note">8단계 중 3단계 · 어제 저장</span></span></span>
+<span><span class="steps"><span class="now">작성</span><i></i><span class="">검사</span><i></i><span class="">심사</span><i></i><span class="">공개</span></span></span><span></span><span class="act"><span class="btn btn-secondary btn-sm">이어서 쓰기</span></span></div></div></section></sc-if>
+<sc-if value="{{ guest }}" hint-placeholder-val="{{ false }}"><section class="wrap"><div class="intro">
+<div><h1>만든 게임, 여기에 올려 보세요</h1>
+<p class="lede">웹 빌드는 올리자마자 브라우저에서 바로 플레이되고, 설치 파일은 보안 검사를 거쳐 내려받게 해요. 광고도 수수료도 없어요.</p>
+<ol class="how"><li><b>메이커 프로필 만들기</b>이름과 얼굴만 있으면 돼요. 팀도 괜찮아요.</li><li><b>게임 올리기</b>웹 빌드 zip 또는 설치 파일. 저장하며 진행해서 휴대폰으로 이어서 써도 돼요.</li><li><b>검사 · 심사 후 공개</b>보통 하루 안에 끝나요. 고칠 게 있으면 어디를 고칠지 알려 드려요.</li></ol>
+<div class="acts"><span class="btn btn-primary"><svg class="ic ic16"><use href="#i-up2"></use></svg>첫 게임 올리기</span><span class="btn btn-secondary">올리기 전에 읽어 보기</span></div>
+<div class="facts"><span><svg class="ic"><use href="#i-check"></use></svg>무료</span><span><svg class="ic"><use href="#i-check"></use></svg>보안 검사 무료</span><span><svg class="ic"><use href="#i-check"></use></svg>언제든 비공개로 전환</span></div></div>
+<div class="preview"><div class="cap"><span>올리면 이렇게 보여요</span><span>PlayGround 카드</span></div>
+<div class="gc"><span class="art ph"><span>내 게임 대표 그림 1920×1080</span><span class="badge" style="background:var(--color-graphite-950)">새로 공개</span><span class="plat"><svg class="ic ic12"><use href="#i-web"></use></svg></span><span class="jf md maker" style="background:var(--color-face-olive)">ㄴ<i>ㅅ</i>ㄴ</span></span><span class="t">내 게임 이름</span><span class="meta">내 이름 · 장르 · 한 판 시간</span></div>
+<p class="m" style="margin:14px 0 0">카드 · 상세 · 공유 미리보기에서 어떻게 잘리는지 올릴 때 바로 확인할 수 있어요.</p></div>
+</div></section></sc-if><section class="sec band"><div class="wrap"><div class="sh"><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg><h2>개발일지</h2><div class="r"><div class="ptabs" role="tablist"><button role="tab" aria-selected="true">전체</button><button role="tab">팔로우</button><button role="tab">내 게임 언급</button></div><span class="btn btn-primary btn-sm"><svg class="ic"><use href="#i-pen"></use></svg>일지 쓰기</span></div></div>
+<div class="logs"><article class="lg"><span class="art a-ash"><span class="shots"></span></span>
+<b>보스 패턴을 세 번 갈아엎은 이야기</b><p class='two-line'>플레이 테스트에서 ‘억울하다’는 말이 제일 많았던 2페이즈. 예고 동작을 0.4초 늘린 것만으로 완주율이 두 배가 됐어요.</p><span class="by"><span class="jf xs" style="background:var(--color-face-ju)">ㅈ<i>ㅅ</i>ㅈ</span>잿빛토끼 · <span class="g">재의 도시</span><span class="react"><span><svg class="ic"><use href="#i-heart"></use></svg>48</span><span><svg class="ic"><use href="#i-cmt"></use></svg>14</span></span></span></article><article class="lg"><span class="art a-tess"><span class="shots"></span></span>
+<b>웹 빌드 40MB를 9MB로 줄인 방법</b><p class='two-line'>텍스처 압축, 오디오 스트리밍, 안 쓰는 셰이더 빼기. 첫 로딩이 12초에서 3초로 줄었어요.</p><span class="by"><span class="jf xs" style="background:var(--color-face-haneul)">ㄴ<i>ㅅ</i>ㄴ</span>노을공방 · <span class="g">테셀레이트</span><span class="react"><span><svg class="ic"><use href="#i-heart"></use></svg>112</span><span><svg class="ic"><use href="#i-cmt"></use></svg>31</span></span></span></article><article class="lg"><span class="art a-loop"><span class="shots"></span></span>
+<b>첫 리뷰 38개를 읽고 바꾼 것들</b><p class='two-line'>‘튜토리얼이 길다’는 말이 9번. 첫 스테이지를 퍼즐 하나로 줄이고 힌트 버튼을 넣었어요.</p><span class="by"><span class="jf xs" style="background:var(--color-face-jjok)">ㅍ<i>ㅅ</i>ㅍ</span>픽셀상점 · <span class="g">루프 디버거</span><span class="react"><span><svg class="ic"><use href="#i-heart"></use></svg>67</span><span><svg class="ic"><use href="#i-cmt"></use></svg>22</span></span></span></article><article class="lg"><span class="art a-paper"><span class="shots"></span></span>
+<b>Godot 4 웹 내보내기에서 소리가 안 날 때</b><p class='two-line'>브라우저는 첫 클릭 전엔 소리를 막아요. 시작 화면에 버튼 하나를 두는 게 가장 깔끔했어요.</p><span class="by"><span class="jf xs" style="background:var(--color-face-cheongnok)">ㅊ<i>ㅅ</i>ㅊ</span>청록상회 · <span class="g">종이 배</span><span class="react"><span><svg class="ic"><use href="#i-heart"></use></svg>39</span><span><svg class="ic"><use href="#i-cmt"></use></svg>8</span></span></span></article><article class="lg"><span class="art a-grid"><span class="shots"></span></span>
+<b>48시간 잼 회고 — 주제 ‘다시 한 번’</b><p class='two-line'>되감기 기능을 둘째 날 새벽에 버린 게 신의 한 수였어요. 남은 시간에 사운드를 넣었거든요.</p><span class="by"><span class="jf xs" style="background:var(--color-face-bora)">ㅂ<i>ㅅ</i>ㅂ</span>보라네 · <span class="g">그리드 러너</span><span class="react"><span><svg class="ic"><use href="#i-heart"></use></svg>54</span><span><svg class="ic"><use href="#i-cmt"></use></svg>17</span></span></span></article><article class="lg"><span class="art a-demon"><span class="shots"></span></span>
+<b>16색 팔레트로 들판 그리기</b><p class='two-line'>색을 줄이니 오히려 계절이 잘 보였어요. 팔레트 파일도 같이 올려요.</p><span class="by"><span class="jf xs" style="background:var(--color-face-pul)">ㅍ<i>ㅅ</i>ㅍ</span>풀잎 · <span class="g">들판의 악마</span><span class="react"><span><svg class="ic"><use href="#i-heart"></use></svg>83</span><span><svg class="ic"><use href="#i-cmt"></use></svg>12</span></span></span></article></div></div></section><section class="sec wrap"><div class="sh"><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg><h2>이번 주 공개된 게임</h2><span class="sub">다른 메이커들의 새 게임</span><div class="r"><span class="arw" style="opacity:.4"><svg class="ic"><use href="#i-chev"></use></svg></span><span class="arw"><svg class="ic"><use href="#i-chev"></use></svg></span></div></div>
+<div class="rail"><div class="gc"><span class="art a-tess"><span class="shots"></span><span class="plat"><svg class="ic ic12"><use href="#i-web"></use></svg></span><span class="jf maker" style="background:var(--color-face-haneul)">ㄴ<i>ㅅ</i>ㄴ</span></span><span class="t"><a href="#">테셀레이트</a></span><span class="meta">노을공방 · 퍼즐 · 10분</span></div><div class="gc"><span class="art a-demon"><span class="shots"></span><span class="plat"><svg class="ic ic12"><use href="#i-dl"></use></svg><svg class="ic ic12 ok"><use href="#i-shield"></use></svg></span><span class="jf maker" style="background:var(--color-face-pul)">ㅍ<i>ㅅ</i>ㅍ</span></span><span class="t"><a href="#">들판의 악마</a></span><span class="meta">풀잎 · 전략 · 30분</span></div><div class="gc"><span class="art a-halcyon"><span class="shots"></span><span class="plat"><svg class="ic ic12"><use href="#i-web"></use></svg></span><span class="jf maker" style="background:var(--color-face-haneul)">ㅎ<i>ㅅ</i>ㅎ</span></span><span class="t"><a href="#">할시온 바다</a></span><span class="meta">하늘섬 · 탐험 · 20분</span></div><div class="gc"><span class="art a-ash"><span class="shots"></span><span class="plat"><svg class="ic ic12"><use href="#i-dl"></use></svg><svg class="ic ic12 ok"><use href="#i-shield"></use></svg></span><span class="jf maker" style="background:var(--color-face-ju)">ㅈ<i>ㅅ</i>ㅈ</span></span><span class="t"><a href="#">재의 도시</a></span><span class="meta">잿빛토끼 · 생존 · 40분</span></div><div class="gc"><span class="art a-paper"><span class="shots"></span><span class="plat"><svg class="ic ic12"><use href="#i-web"></use></svg></span><span class="jf maker" style="background:var(--color-face-cheongnok)">ㅊ<i>ㅅ</i>ㅊ</span></span><span class="t"><a href="#">종이 배</a></span><span class="meta">청록상회 · 탐험 · 20분</span></div><div class="gc"><span class="art a-grid"><span class="shots"></span><span class="plat"><svg class="ic ic12"><use href="#i-web"></use></svg></span><span class="jf maker" style="background:var(--color-face-bora)">ㅂ<i>ㅅ</i>ㅂ</span></span><span class="t"><a href="#">그리드 러너</a></span><span class="meta">보라네 · 액션 · 3분</span></div></div></section><section class="sec wrap"><div class="qa">
+<div><div class="sh" style="margin-bottom:6px"><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg><h2 style="font-size:19px">답을 기다리는 질문</h2><div class="r"><a class="link" href="#">질문하기</a></div></div><div class="ql"><div class="qi"><b>Unity WebGL 빌드가 아이폰 사파리에서 멈춰요</b><span class="m">Unity · 웹 빌드 · 2시간 전</span><span class="ans ok"><b>2</b>해결</span></div><div class="qi"><b>세이브를 브라우저에 저장하는 가장 안전한 방법?</b><span class="m">웹 · 저장 · 35분 전</span><span class="ans zero"><b>0</b>답변</span></div><div class="qi"><b>다른 사이트에 올린 게임을 여기에도 올려도 되나요?</b><span class="m">운영 · 어제</span><span class="ans ok"><b>4</b>해결</span></div><div class="qi"><b>픽셀 폰트 라이선스, 상업용 아니어도 표기해야 하나요?</b><span class="m">아트 · 폰트 · 어제</span><span class="ans "><b>1</b>답변</span></div></div></div>
+<div><div class="sh" style="margin-bottom:6px"><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg><h2 style="font-size:19px">팀원 모집</h2><div class="r"><a class="link" href="#">모집 글 쓰기</a></div></div><div class="ql"><div class="qi"><b>픽셀 아티스트 1명 · 3개월 · 온라인</b><span class="m" style="display:flex;align-items:center;gap:6px"><span class="jf xs" style="background:var(--color-face-ju)">ㅈ<i>ㅅ</i>ㅈ</span>잿빛토끼 · 로그라이크 ‘재의 도시’ 후속작 · 주 10시간</span><span class="ans" style="width:auto;padding:0 12px;height:36px;flex-direction:row;font-size:13px;color:var(--ink-1)"><svg class="ic"><use href="#i-team"></use></svg>&nbsp;연락</span></div><div class="qi"><b>사운드 · 겨울 잼 기간만</b><span class="m" style="display:flex;align-items:center;gap:6px"><span class="jf xs" style="background:var(--color-face-bora)">ㅂ<i>ㅅ</i>ㅂ</span>보라네 · 효과음 위주, 음악은 있으면 좋아요</span><span class="ans" style="width:auto;padding:0 12px;height:36px;flex-direction:row;font-size:13px;color:var(--ink-1)"><svg class="ic"><use href="#i-team"></use></svg>&nbsp;연락</span></div><div class="qi"><b>Godot 프로그래머 · 취미 프로젝트</b><span class="m" style="display:flex;align-items:center;gap:6px"><span class="jf xs" style="background:var(--color-face-cheongnok)">ㅊ<i>ㅅ</i>ㅊ</span>청록상회 · 퍼즐 플랫포머, 매주 토요일 온라인 회의</span><span class="ans" style="width:auto;padding:0 12px;height:36px;flex-direction:row;font-size:13px;color:var(--ink-1)"><svg class="ic"><use href="#i-team"></use></svg>&nbsp;연락</span></div></div></div>
+</div></section><section class="sec wrap"><div class="jam"><span class="big disp">D-3</span>
+<div><b>겨울 잼 · 주제는 시작할 때 공개</b><p>48시간 동안 혼자 또는 팀으로. 끝나면 PlayGround 잼 아케이드에서 바로 플레이돼요.</p>
+<div class="when"><span><b>시작</b>12/12(금) 19:00</span><span><b>제출</b>12/14(일) 19:00</span><span><b>참가</b>212명 · 팀 58</span></div></div>
+<span class="btn btn-primary">참가 신청</span></div></section><footer class="ft"><div class="wrap" style="display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;align-items:center;gap:10px"><b style="color:var(--ink-2)">공지</b><a href="#">심사 기준을 쉽게 고쳐 썼어요</a><span>·</span><a href="#">설치형 게임 보안 검사를 시작했어요</a></div>
+<div class="links"><a href="#">처음 올리는 분</a><a href="#">심사 기준</a><a href="#">이용약관</a><a href="#"><b>개인정보처리방침</b></a><a href="#">운영정책</a><a href="#">고객센터</a><a href="#" style="color:var(--play-strong)">PlayGround 로</a></div>
+<div style="display:flex;align-items:flex-end;gap:10px"><span class="logo" style="font-size:18px;color:var(--ink-3);--ears:var(--ink-4)"><span>a</span><span class="cat"><svg class="ears" viewBox="0 0 64 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 19 L8 2 L20 10 Q32 6 44 10 L56 2 L61 19"></path></svg><span class="e">D</span><span class="mo">m</span><span class="e">D</span></span></span><span>aDmD Games · 광고 없는 인디 게임 플랫폼</span></div>
+</div></footer>
+<sc-if value="{{ showMemo }}" hint-placeholder-val="{{ true }}"><aside class="memo"><b>MakersGround 홈 A · 작업 먼저</b>할 일 → 내 게임 상태 → 동료(일지·새 게임·질문) 순. 메이커가 들어와서 할 일을 바로 찾게 했다. 게스트는 지표 대신 ‘올리는 법 3단계 + 올리면 이렇게 보여요’. Tweaks 에서 게스트/회원 · 다크 전환.<br><button onClick="{{ toggle }}">게스트 ↔ 회원</button></aside></sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":3000},"startSignedIn":{"editor":"boolean","default":true,"tsType":"boolean"},"theme":{"editor":"enum","default":"light","options":["light","dark"],"tsType":"string"},"showMemo":{"editor":"boolean","default":true,"tsType":"boolean"}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const signed = this.state.signed ?? (this.props.startSignedIn ?? true);
+    return { signedIn: signed, guest: !signed, theme: this.props.theme ?? 'light', showMemo: this.props.showMemo ?? true, toggle: () => this.setState({ signed: !signed }) };
+  }
+}
+</script>
+</body>
+</html>

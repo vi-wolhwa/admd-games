@@ -18,6 +18,7 @@
 | `게임 카드 컴포넌트` | 카드 7종 · 상태 · 해부도 · 툴팁 (v10 과 같은 규칙) |
 | `aDmD 고양이 얼굴` | 고양이 DmD 표정 5종 · 그라운드 색 · 404 예시 |
 | `디자인 시스템 · 기초` · `디자인 시스템 · 컴포넌트` | 디자인 시스템 견본. **생성물** — `docs/design/tools/ds-canvas/build.py <받은 project 폴더>` 로 만들어 게시. 직접 고치지 말고 템플릿을 고친다 |
+| `MakersGround 홈 A` · `홈 B` · `MakersGround 모바일` | MakersGround 홈 시안 — 생성물(`tools/ds-canvas/mg.py`, `mg_mobile.py`) |
 | `PlayGround v3 ~ v9` | 반복 이력 (참고용) |
 | `콘셉트 A 판` · `B 놀이터` · `C 크레딧` | 채택하지 않은 시안 |
 | `PlayGround v2` · `MakersGround v2` · `components/` · `docs/` | 사용자 원본 (Claude Design 에서 이관) |
