@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>aDmD 고양이 얼굴</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@font-face{font-family:'Pretendard';src:url('fonts/PretendardVariable.woff2') format('woff2');font-weight:45 920;font-display:swap}
+:root{--ink-1:#151A20;--ink-2:#4F5359;--ink-3:#65696F;--ink-4:#9B9FA3;--sunken:#F2F3F5;--line:#ECEEF0;--play:#046DCE;--make:#D22C02;--ease:cubic-bezier(.2,.7,.2,1)}
+*{box-sizing:border-box}
+body{margin:0;background:#FFFFFF;color:var(--ink-1);font-family:'Pretendard',system-ui,sans-serif;word-break:keep-all;-webkit-font-smoothing:antialiased}
+.logo{display:inline-flex;align-items:flex-end;gap:.04em;font-weight:800;line-height:1;letter-spacing:-.02em}
+.cat{position:relative;display:inline-flex;align-items:flex-end;gap:.03em;padding:0 .06em}
+.cat .ears{position:absolute;left:-.1em;top:-.21em;width:calc(100% + .2em);height:.46em;overflow:visible}
+.cat .ears path{fill:none;stroke:var(--c,var(--play));stroke-width:3;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.cat .e{display:inline-block;transform-origin:50% 55%;transition:transform 260ms var(--ease)}
+.cat .mo{font-size:.72em}
+.up .e{transform:rotate(-90deg)}
+.down .e{transform:rotate(90deg)}
+.wow .e{transform:scale(1.12)}
+.sleep .e{transform:scaleY(.18) translateY(-.1em)}
+@keyframes eyeIdle{0%,80%,100%{transform:rotate(0)}83%{transform:rotate(-14deg)}86%{transform:rotate(12deg)}89%,95%{transform:rotate(-90deg)}}
+.alive .e{animation:eyeIdle 4s var(--ease) infinite}
+.alive .e2{animation-delay:.06s}
+@media (prefers-reduced-motion:reduce){.alive .e{animation:none}}
+.tile{display:flex;flex-direction:column;align-items:center;gap:14px;padding:44px 0 24px;border-radius:18px;background:var(--sunken)}
+.tile b{font-size:16px}
+.tile span.d{font-size:13px;color:var(--ink-3);text-align:center;line-height:1.5}
+</style>
+</helmet>
+<div style="width:1280px;padding:56px 64px 72px;display:flex;flex-direction:column;gap:44px">
+
+<header>
+<h1 style="margin:0;font-size:30px;font-weight:800">aDmD 고양이 얼굴</h1>
+<p style="margin:8px 0 0;font-size:16px;color:var(--ink-2);line-height:1.6">D 두 개는 눈, m 은 입. 위에는 귀와 이마 윤곽만 그린다. 표정은 D 를 돌려서 만든다 — 위로 돌면 장난꾸러기 웃음, 아래로 돌면 시무룩. 기본은 똑바로 선 D.</p>
+</header>
+
+<section style="display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px">
+<div class="tile"><span class="logo" style="font-size:72px"><span class="cat"><svg class="ears" viewBox="0 0 64 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 19 L8 2 L20 10 Q32 6 44 10 L56 2 L61 19"></path></svg><span class="e">D</span><span class="mo">m</span><span class="e">D</span></span></span><b>기본</b><span class="d">로고 · 헤더</span></div>
+<div class="tile up"><span class="logo" style="font-size:72px"><span class="cat"><svg class="ears" viewBox="0 0 64 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 19 L8 2 L20 10 Q32 6 44 10 L56 2 L61 19"></path></svg><span class="e">D</span><span class="mo">w</span><span class="e">D</span></span></span><b>장난 · 기쁨</b><span class="d">플레이 버튼 호버 · 업적<br>심사 통과 · 저장</span></div>
+<div class="tile down"><span class="logo" style="font-size:72px"><span class="cat"><svg class="ears" viewBox="0 0 64 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 19 L8 2 L20 10 Q32 6 44 10 L56 2 L61 19"></path></svg><span class="e">D</span><span class="mo">n</span><span class="e">D</span></span></span><b>시무룩</b><span class="d">404 · 오류 · 실행 실패</span></div>
+<div class="tile wow"><span class="logo" style="font-size:72px"><span class="cat"><svg class="ears" viewBox="0 0 64 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 19 L8 2 L20 10 Q32 6 44 10 L56 2 L61 19"></path></svg><span class="e">D</span><span class="mo">o</span><span class="e">D</span></span></span><b>놀람 · 기다림</b><span class="d">로딩 · 새 알림</span></div>
+<div class="tile sleep"><span class="logo" style="font-size:72px"><span class="cat"><svg class="ears" viewBox="0 0 64 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 19 L8 2 L20 10 Q32 6 44 10 L56 2 L61 19"></path></svg><span class="e">D</span><span class="mo">z</span><span class="e">D</span></span></span><b>졸림</b><span class="d">점검 · 빈 상태</span></div>
+</section>
+
+<section style="display:grid;grid-template-columns:1fr 1fr;gap:16px">
+<div class="tile" style="padding:40px 0"><span class="logo alive" style="font-size:96px"><span>a</span><span class="cat"><svg class="ears" viewBox="0 0 64 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 19 L8 2 L20 10 Q32 6 44 10 L56 2 L61 19"></path></svg><span class="e e1">D</span><span class="mo">m</span><span class="e e2">D</span></span></span><b>PlayGround · 쪽빛</b><span class="d">가끔 눈을 굴리는 대기 동작 (실제는 9초 간격)</span></div>
+<div class="tile" style="padding:40px 0;--c:var(--make)"><span class="logo alive" style="font-size:96px"><span>a</span><span class="cat"><svg class="ears" viewBox="0 0 64 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 19 L8 2 L20 10 Q32 6 44 10 L56 2 L61 19"></path></svg><span class="e e1">D</span><span class="mo">m</span><span class="e e2">D</span></span></span><b>MakersGround · 인주</b><span class="d">귀 색이 그라운드를 알려 준다</span></div>
+</section>
+
+<section aria-label="404 예시" style="border-radius:22px;background:var(--sunken);padding:64px 0 56px;display:flex;flex-direction:column;align-items:center;gap:16px;text-align:center">
+<span class="logo down" style="font-size:120px"><span class="cat"><svg class="ears" viewBox="0 0 64 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 19 L8 2 L20 10 Q32 6 44 10 L56 2 L61 19"></path></svg><span class="e">D</span><span class="mo">n</span><span class="e">D</span></span></span>
+<h2 style="margin:12px 0 0;font-size:26px;font-weight:800">찾는 페이지가 없어요</h2>
+<p style="margin:0;font-size:16px;color:var(--ink-2)">주소가 바뀌었거나, 메이커가 게임을 내렸을 수 있어요.</p>
+<div style="display:flex;gap:8px;margin-top:8px"><a href="#" style="display:inline-flex;align-items:center;height:44px;padding:0 20px;border-radius:10px;background:var(--play);color:#FFFFFF;font-weight:700;text-decoration:none">홈으로</a><a href="#" style="display:inline-flex;align-items:center;height:44px;padding:0 20px;border-radius:10px;background:#FFFFFF;color:var(--ink-1);font-weight:700;text-decoration:none">게임 검색</a></div>
+</section>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1480}}'>
+class Component extends DCLogic { renderVals() { return {}; } }
+</script>
+</body>
+</html>
