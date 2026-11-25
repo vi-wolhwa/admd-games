@@ -154,10 +154,10 @@ def game_admin_page():
     return html.replace("</style>", CSS + "\n</style>", 1)
 
 def review_page():
-    q = [("a-paper", "종이 배 2", "청록상회 · 웹 · 재심사", "2시간", False, True), ("a-demon", "들판의 악마 v2.1", "풀잎 · 설치형 · 업데이트", "5시간", False, False), ("a-halcyon", "할시온 바다", "하늘섬 · 웹 · 처음", "21시간", False, False), ("a-ash", "재의 도시 v1.3", "잿빛토끼 · 설치형 · 업데이트", "30시간", True, False), ("a-grid", "격자 탈출", "새 메이커 · 웹 · 처음", "31시간", True, False)]
+    q = [("a-paper", "종이 배 2", "청록상회 · 웹 · 재심사", "2시간", False, True), ("a-demon", "들판의 악마 v2.1", "풀잎 · 설치형 · 업데이트", "5시간", False, False), ("a-halcyon", "할시온 바다", "하늘섬 · 웹 · 처음", "21시간", False, False), ("a-ash", "재의 도시 v1.3", "잿빛토끼 · 설치형 · 업데이트", "50시간", True, False), ("a-grid", "격자 탈출", "새 메이커 · 웹 · 처음", "52시간", True, False)]
     rows = "".join(f'<div class="qrow{" on" if on else ""}"><span class="art {a}"></span><span><b>{t}</b><span class="m">{s}</span></span><span class="age{" late" if late else ""}">{age}</span></div>' for a, t, s, age, late, on in q)
     body = mg.header2(True, "심사 14", ["심사 14", "신고 3", "큐레이션", "공지", "사용자"]).replace('MakersGround</span>', '운영</span>', 1) + f'''<main class="wrap">
-<div class="ad-h"><h1>심사 대기열</h1><span class="tag2">운영자</span><span class="m" style="margin-left:8px">대기 14 · 24시간 넘은 것 2 · 오늘 처리 9</span><span style="margin-left:auto" class="chips"><button class="chip" aria-pressed="true">오래된 순</button><button class="chip">처음 올림</button><button class="chip">설치형</button></span></div>
+<div class="ad-h"><h1>심사 대기열</h1><span class="tag2">운영자</span><span class="m" style="margin-left:8px">대기 14 · 48시간 넘은 것 2 · 오늘 처리 9</span><span style="margin-left:auto" class="chips"><button class="chip" aria-pressed="true">오래된 순</button><button class="chip">처음 올림</button><button class="chip">설치형</button></span></div>
 <div class="ad"><div class="q">{rows}</div>
 <div class="rv-pane"><div class="top"><span class="art a-paper"></span><span><span class="m">청록상회 · 웹 빌드 · 재심사(보완 요청 후)</span><h2>종이 배 2</h2><span class="row" style="display:flex;gap:6px;margin-top:6px"><span class="tag">탐험</span><span class="tag">20분</span><span class="tag">콘텐츠 표시 없음</span></span></span><span style="margin-left:auto;display:flex;flex-direction:column;gap:6px"><span class="btn btn-primary btn-sm">{ic("play")}실제로 플레이</span><span class="btn btn-secondary btn-sm">지난 심사 보기</span></span></div>
 <div class="ck2"><div>{ic("check","ic ic16 y")}자동 검사 통과</div><div>{ic("check","ic ic16 y")}외부 요청 없음</div><div>{ic("check","ic ic16 y")}스크린샷 4장 (지난번 2장)</div><div>{ic("check","ic ic16 y")}대표 그림에 글자 없음</div><div class="flag">{ic("alert","ic ic16 w")}소개에 외부 판매 링크 1개</div><div>{ic("check","ic ic16 y")}콘텐츠 표시 입력됨</div></div>
@@ -165,7 +165,7 @@ def review_page():
 <textarea aria-label="보완 요청 내용">소개 마지막 줄의 외부 판매 링크를 빼 주세요. 메이커 페이지의 링크 칸에는 넣을 수 있어요.</textarea></div>
 <div class="decide"><span class="btn btn-secondary">반려<span class="kbd d">R</span></span><span class="btn btn-secondary">보완 요청<span class="kbd d">E</span></span><span class="btn btn-primary">공개 승인<span class="kbd">A</span></span></div></div></div>
 </main>'''
-    memo = "AD-REVIEW. 운영자 1~2명이 하루 안에 처리할 수 있게: 왼쪽 오래된 순 대기열(24시간 넘으면 다홍) · 오른쪽 자동 검사 결과 + 사람이 볼 것만 강조 · 이유 칩 + 메이커에게 그대로 가는 문장 · 키보드 A/E/R."
+    memo = "AD-REVIEW. 운영자(사용자) 혼자 48시간 안에 처리할 수 있게(K3): 왼쪽 오래된 순 대기열(48시간 넘으면 다홍) · 오른쪽 자동 검사 결과 + 사람이 볼 것만 강조 · 이유 칩 + 메이커에게 그대로 가는 문장 · 키보드 A/E/R."
     html = dt.page("심사 대기열", body, 1100, memo).replace('data-ground="play"', 'data-ground="make"')
     return html.replace("</style>", CSS + "\n</style>", 1)
 

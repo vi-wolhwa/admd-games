@@ -5,6 +5,7 @@ sys.stdout.reconfigure(encoding="utf-8")
 HERE = os.path.dirname(os.path.abspath(__file__))
 sys.argv_out = sys.argv[1] if len(sys.argv) > 1 else os.path.join(HERE, "..", "..", "canvas")
 import importlib.util
+_cs = importlib.util.spec_from_file_location("cat_face", os.path.join(HERE, "cat_face.py")); _cm = importlib.util.module_from_spec(_cs); _cs.loader.exec_module(_cm); _catify = _cm.catify
 spec = importlib.util.spec_from_file_location("dsb", os.path.join(HERE, "build.py"))
 dsb = importlib.util.module_from_spec(spec); spec.loader.exec_module(dsb)
 
@@ -326,7 +327,7 @@ def guest_intro():
     return f'''<section class="wrap"><div class="intro">
 <div><h1>만든 게임, 여기에 올려 보세요</h1>
 <p class="lede">웹 빌드는 올리자마자 브라우저에서 바로 플레이되고, 설치 파일은 보안 검사를 거쳐 내려받게 해요. 광고도 수수료도 없어요.</p>
-<ol class="how"><li><b>메이커 프로필 만들기</b>이름과 얼굴만 있으면 돼요. 팀도 괜찮아요.</li><li><b>게임 올리기</b>웹 빌드 zip 또는 설치 파일. 저장하며 진행해서 휴대폰으로 이어서 써도 돼요.</li><li><b>검사 · 심사 후 공개</b>보통 하루 안에 끝나요. 고칠 게 있으면 어디를 고칠지 알려 드려요.</li></ol>
+<ol class="how"><li><b>메이커 프로필 만들기</b>이름과 얼굴만 있으면 돼요. 팀도 괜찮아요.</li><li><b>게임 올리기</b>웹 빌드 zip 또는 설치 파일. 저장하며 진행해서 휴대폰으로 이어서 써도 돼요.</li><li><b>검사 · 심사 후 공개</b>보통 이틀 안에 끝나요. 고칠 게 있으면 어디를 고칠지 알려 드려요.</li></ol>
 <div class="acts"><span class="btn btn-primary">{ic("up2","ic ic16")}첫 게임 올리기</span><span class="btn btn-secondary">올리기 전에 읽어 보기</span></div>
 <div class="facts"><span>{ic("check")}무료</span><span>{ic("check")}보안 검사 무료</span><span>{ic("check")}언제든 비공개로 전환</span></div></div>
 <div class="preview"><div class="cap"><span>올리면 이렇게 보여요</span><span>PlayGround 카드</span></div>
@@ -335,6 +336,9 @@ def guest_intro():
 </div></section>'''
 
 def page(title, body, height, memo, width=1440):
+    return _catify(_page_html(title, body, height, memo, width))
+
+def _page_html(title, body, height, memo, width):
     return f'''<!doctype html>
 <html lang="ko">
 <head>
@@ -384,7 +388,7 @@ def page_a():
 <span class="btn btn-primary" style="justify-content:flex-start">{ic("up2","ic ic16")}새 게임 올리기</span>
 <span class="btn btn-secondary" style="justify-content:flex-start">{ic("box","ic ic16")}새 버전 올리기 · 루프 디버거</span>
 <span class="btn btn-secondary" style="justify-content:flex-start">{ic("pen","ic ic16")}개발일지 쓰기</span></div>
-<p class="m" style="margin:12px 2px 0">심사는 보통 하루 안에 끝나요. 지금 대기 14개.</p></div>
+<p class="m" style="margin:12px 2px 0">심사는 보통 이틀 안에 끝나요. 지금 대기 14개.</p></div>
 </div></section>
 <section class="sec wrap"><div class="sh">{EAR}<h2>내 게임</h2><span class="sub">4개</span><div class="r"><a class="link" href="#">통계 · 전체 관리</a></div></div>
 <div class="mg-rows">{"".join(game_row(g) for g in GAMES)}{draft_row()}</div></section>'''
@@ -401,7 +405,7 @@ def page_b():
     strip_games = "".join(f'<div class="sg"><span class="art {g["art"]}"></span><span><b class="clip">{g["t"]}</b>{status(*g["st"])}</span></div>' for g in GAMES)
     strip_games += f'<div class="sg"><span class="art" style="display:grid;place-items:center;font-size:11px;color:var(--ink-3)">—</span><span><b class="clip">이름 없는 프로젝트</b>{status("draft","작성 중")}</span></div>'
     member = f'''<section class="wrap"><div class="strip"><span class="hi">{face("ㅍ","jjok","md")}내 게임</span>{strip_games}<span style="display:flex;gap:8px"><span class="btn btn-secondary btn-sm">할 일 <span class="cnt" style="margin-left:2px">3</span></span><span class="btn btn-primary btn-sm">{ic("up2")}올리기</span></span></div></section>'''
-    guest = f'''<section class="wrap"><div class="gband"><div><b>만든 게임, 여기에 올려 보세요</b><p>웹 빌드는 바로 플레이 · 설치 파일은 무료 보안 검사 · 광고와 수수료 없음 · 보통 하루 안에 공개</p></div><span style="display:flex;gap:8px"><span class="btn btn-glass">올리기 전에 읽어 보기</span><span class="btn btn-on-color">첫 게임 올리기</span></span></div></section>'''
+    guest = f'''<section class="wrap"><div class="gband"><div><b>만든 게임, 여기에 올려 보세요</b><p>웹 빌드는 바로 플레이 · 설치 파일은 무료 보안 검사 · 광고와 수수료 없음 · 보통 이틀 안에 공개</p></div><span style="display:flex;gap:8px"><span class="btn btn-glass">올리기 전에 읽어 보기</span><span class="btn btn-on-color">첫 게임 올리기</span></span></div></section>'''
     l = LOGS[1]
     feat = f'''<section class="sec wrap" style="margin-top:44px"><div class="sh">{EAR}<h2>이번 주 일지 PICK</h2></div>
 <div class="feat"><span class="art {l[0]}"><span class="shots"></span><span class="badge mk" style="--overlay-inset:12px">{ic("crown","ic ic12")}PICK</span></span>

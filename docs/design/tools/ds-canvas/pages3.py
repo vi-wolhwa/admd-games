@@ -48,7 +48,9 @@ CSS = r'''
 .pick-grid{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:6px}
 .pick-grid span{display:grid;place-items:center;height:40px;border-radius:10px;background:var(--sunken);font-size:17px;font-weight:800}
 .pick-grid span.on{background:var(--ink-1);color:var(--bg)}
-.mouths{display:flex;gap:6px}
+.mouths{display:flex;gap:6px;flex-wrap:wrap}
+.eye-tabs{display:flex;gap:6px}
+.eye-tabs .chip{height:32px;font-size:13px;padding:0 12px}
 .mouths span{display:grid;place-items:center;width:48px;height:40px;border-radius:10px;background:var(--sunken);font-size:17px;font-weight:800}
 .mouths span.on{background:var(--ink-1);color:var(--bg)}
 .colors{display:flex;gap:8px}
@@ -141,18 +143,19 @@ def login_frame():
 </div></div></div>'''
 
 def onboard_frame():
-    eyes = "ㄱㄴㄷㄹㅁㅂㅅㅇㅈㅊㅋㅌㅍㅎ"
-    eg = "".join(f'<span class="{"on" if c == "ㅇ" else ""}">{c}</span>' for c in eyes)
-    mouths = "".join(f'<span class="{"on" if c == "ㅅ" else ""}">{c}</span>' for c in "ㅅㅁㅇㅂㅡㅗ")
+    eyes = list("^-ㅇoO0x>=*+'TUQ@")
+    eg = "".join(f'<span class="{"on" if c == "^" else ""}">{c}</span>' for c in eyes[:14])
+    mouths = "".join(f'<span class="{"on" if c == "ω" else ""}">{c}</span>' for c in ["ㅅ", "ω", "w", "ㅁ", "ㅇ", "▽", "3", "ㅡ", "_", "ㅂ"])
     cols = ["hong", "ju", "gyul", "hwang", "olive", "pul", "bichwi", "cheongnok", "haneul", "jjok", "bora", "jadu"]
-    cg = "".join(f'<span class="{"on" if c == "olive" else ""}" style="background:var(--color-face-{c})"></span>' for c in cols)
-    return f'''<div class="scr"><div class="onb"><div class="left"><span class="jf" style="background:var(--color-face-olive)">ㅇ<i>ㅅ</i>ㅇ</span><b>오렌지맛</b><span class="m">이 얼굴로 리뷰 · 기록 · 친구 목록에 나와요</span>
-<div class="where"><span>{face("ㅇ","olive","xs")}리뷰</span><span>{face("ㅇ","olive","xs")}랭킹</span><span>{face("ㅇ","olive","xs")}헤더</span></div></div>
+    cg = "".join(f'<span class="{"on" if c == "jadu" else ""}" style="background:var(--color-face-{c})"></span>' for c in cols)
+    me = lambda size="": f'<span class="jf {size}" style="background:var(--color-face-jadu)">^<i>ω</i>^</span>'
+    return f'''<div class="scr"><div class="onb"><div class="left">{me()}<b>오렌지맛</b><span class="m">이 얼굴로 리뷰 · 기록 · 친구 목록에 나와요</span>
+<div class="where"><span>{me("xs")}리뷰</span><span>{me("xs")}랭킹</span><span>{me("xs")}헤더</span></div></div>
 <div class="right"><div><span class="step">1 / 1 · 언제든 바꿀 수 있어요</span><h2>내 얼굴 만들기</h2></div>
-<div class="fld"><label for="nick">닉네임</label><div class="input2" id="nick">오렌지맛|<span class="cnt2">3 / 12</span></div><span class="okline">{ic("check")}쓸 수 있는 닉네임이에요 · 첫 글자 ‘ㅇ’ 이 눈이 돼요</span></div>
-<div class="fld"><label>눈</label><div class="pick-grid">{eg}</div></div>
+<div class="fld"><label for="nick">닉네임</label><div class="input2" id="nick">오렌지맛|<span class="cnt2">4 / 12</span></div><span class="okline">{ic("check")}쓸 수 있는 닉네임이에요</span></div>
+<div class="fld"><label>눈</label><div class="eye-tabs"><button class="chip">한글 자음</button><button class="chip">영문 · 숫자</button><button class="chip" aria-pressed="true">기호</button></div><div class="pick-grid">{eg}</div></div>
 <div class="fld"><label>입</label><div class="mouths">{mouths}</div></div>
-<div class="fld"><label>색</label><div class="colors">{cg}</div><span class="help">12색 모두 같은 밝기라 어떤 색을 골라도 얼굴이 또렷해요</span></div>
+<div class="fld"><label>색</label><div class="colors">{cg}</div></div>
 <div class="vis"><span class="switch on" role="switch" aria-checked="true" aria-label="친구에게 지금 하는 게임 보이기"></span><span><b>친구에게 지금 하는 게임이 보여요</b><span class="m">서로 친구인 사람에게만 · 설정에서 언제든 끌 수 있어요</span></span></div>
 <div class="foot"><span class="skip">건너뛰기 — 닉네임 첫 글자로 자동으로 만들어요</span><span class="btn btn-primary" style="margin-left:auto">이 얼굴로 시작</span></div>
 </div></div></div>'''
@@ -160,9 +163,9 @@ def onboard_frame():
 def login_page():
     body = f'''<div class="stagebg">
 <div class="fr"><div class="cap"><b>로그인 (모달)</b><span>페이지를 떠나지 않는 대화상자. 기쁨 표정 고양이 · 쓰던 계정 2개 · 게스트 기록 병합 안내</span></div>{login_frame()}</div>
-<div class="fr"><div class="cap"><b>첫 로그인 · 내 얼굴 만들기</b><span>닉네임 첫 자음이 눈 → 눈 · 입 · 색을 바꿔 보며 왼쪽에서 바로 확인. 건너뛰어도 기본 얼굴이 생김</span></div>{onboard_frame()}</div>
+<div class="fr"><div class="cap"><b>첫 로그인 · 내 얼굴 만들기</b><span>고양이 얼굴 틀 · 눈은 자음 · 영문 · 기호 중에서 · 입 · 색을 바꿔 보며 왼쪽에서 바로 확인. 건너뛰어도 기본 얼굴이 생김</span></div>{onboard_frame()}</div>
 </div>'''
-    memo = "SH-LOGIN · SH-ONBOARD. ‘로그인하면 내 얼굴이 생겨요’ 약속을 지키는 화면. 그라운드 색 큰 면 위에 내 얼굴(168px)을 크게. 눈 14자 × 입 6자 × 색 12 = 1,008 가지."
+    memo = "SH-LOGIN · SH-ONBOARD. ‘로그인하면 내 얼굴이 생겨요’ 약속을 지키는 화면. 얼굴 틀은 고양이 얼굴 실루엣(S2). 눈은 한글 자음 · 영문 · 숫자 · 기호, 입 10종, 색 12. 건너뛰면 닉네임 첫 글자로 자동."
     html = dt.page("로그인 · 내 얼굴 만들기", body, 1700, memo)
     return html.replace("</style>", CSS + "\n</style>", 1)
 

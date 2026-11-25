@@ -698,6 +698,13 @@ footer.ft .links{display:flex;gap:18px;color:var(--ink-2);font-weight:600}
 .subbar .utabs a{height:60px;font-size:15px}
 
 
+/* 자모 얼굴 = 고양이 얼굴 실루엣 (S2) — 색은 --f, 모양은 마스크 */
+.jf{background:none!important;border-radius:0!important;box-shadow:none!important;isolation:isolate;box-sizing:border-box;padding-top:.62em;overflow:visible}
+.jf:not(.maker):not([class*="maker"]){position:relative}
+.jf::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--f,#3870B1);-webkit-mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M8 44 Q8 24 11 8 Q12 2 17 5 L36 20 Q50 16 64 20 L83 5 Q88 2 89 8 Q92 24 92 44 Q99 56 97 69 Q93 97 50 97 Q7 97 3 69 Q1 56 8 44 Z'/%3E%3C/svg%3E") center/100% 100% no-repeat;mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M8 44 Q8 24 11 8 Q12 2 17 5 L36 20 Q50 16 64 20 L83 5 Q88 2 89 8 Q92 24 92 44 Q99 56 97 69 Q93 97 50 97 Q7 97 3 69 Q1 56 8 44 Z'/%3E%3C/svg%3E") center/100% 100% no-repeat}
+.jf.maker::after,.facerow .jf::after,.band-login .jf::after,.mk-hero .jf::after,.onb .left > .jf::after,.jf.ring::after{content:"";position:absolute;inset:-9%;z-index:-2;background:#FFFFFF;-webkit-mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M8 44 Q8 24 11 8 Q12 2 17 5 L36 20 Q50 16 64 20 L83 5 Q88 2 89 8 Q92 24 92 44 Q99 56 97 69 Q93 97 50 97 Q7 97 3 69 Q1 56 8 44 Z'/%3E%3C/svg%3E") center/100% 100% no-repeat;mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M8 44 Q8 24 11 8 Q12 2 17 5 L36 20 Q50 16 64 20 L83 5 Q88 2 89 8 Q92 24 92 44 Q99 56 97 69 Q93 97 50 97 Q7 97 3 69 Q1 56 8 44 Z'/%3E%3C/svg%3E") center/100% 100% no-repeat}
+.jf i{top:.02em}
+
 .stagebg{display:flex;flex-direction:column;gap:56px;padding:48px 0 80px;background:var(--sunken)}
 .fr{width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
 .fr > .cap{display:flex;align-items:baseline;gap:12px}
@@ -735,7 +742,9 @@ footer.ft .links{display:flex;gap:18px;color:var(--ink-2);font-weight:600}
 .pick-grid{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:6px}
 .pick-grid span{display:grid;place-items:center;height:40px;border-radius:10px;background:var(--sunken);font-size:17px;font-weight:800}
 .pick-grid span.on{background:var(--ink-1);color:var(--bg)}
-.mouths{display:flex;gap:6px}
+.mouths{display:flex;gap:6px;flex-wrap:wrap}
+.eye-tabs{display:flex;gap:6px}
+.eye-tabs .chip{height:32px;font-size:13px;padding:0 12px}
 .mouths span{display:grid;place-items:center;width:48px;height:40px;border-radius:10px;background:var(--sunken);font-size:17px;font-weight:800}
 .mouths span.on{background:var(--ink-1);color:var(--bg)}
 .colors{display:flex;gap:8px}
@@ -865,18 +874,18 @@ footer.ft .links{display:flex;gap:18px;color:var(--ink-2);font-weight:600}
 <div class="keep"><svg class="ic"><use href="#i-check"></use></svg><span>로그인 전에 한 기록은 그대로 옮겨져요 — 진행 2개, 저장 3개.</span></div>
 <p class="fine">계속하면 <a href="#">이용약관</a>과 <a href="#">개인정보처리방침</a>에 동의하는 것으로 봐요. 광고용으로 정보를 쓰지 않아요.</p>
 </div></div></div></div>
-<div class="fr"><div class="cap"><b>첫 로그인 · 내 얼굴 만들기</b><span>닉네임 첫 자음이 눈 → 눈 · 입 · 색을 바꿔 보며 왼쪽에서 바로 확인. 건너뛰어도 기본 얼굴이 생김</span></div><div class="scr"><div class="onb"><div class="left"><span class="jf" style="background:var(--color-face-olive)">ㅇ<i>ㅅ</i>ㅇ</span><b>오렌지맛</b><span class="m">이 얼굴로 리뷰 · 기록 · 친구 목록에 나와요</span>
-<div class="where"><span><span class="jf xs" style="background:var(--color-face-olive)">ㅇ<i>ㅅ</i>ㅇ</span>리뷰</span><span><span class="jf xs" style="background:var(--color-face-olive)">ㅇ<i>ㅅ</i>ㅇ</span>랭킹</span><span><span class="jf xs" style="background:var(--color-face-olive)">ㅇ<i>ㅅ</i>ㅇ</span>헤더</span></div></div>
+<div class="fr"><div class="cap"><b>첫 로그인 · 내 얼굴 만들기</b><span>고양이 얼굴 틀 · 눈은 자음 · 영문 · 기호 중에서 · 입 · 색을 바꿔 보며 왼쪽에서 바로 확인. 건너뛰어도 기본 얼굴이 생김</span></div><div class="scr"><div class="onb"><div class="left"><span class="jf " style="--f:var(--color-face-jadu)">^<i>ω</i>^</span><b>오렌지맛</b><span class="m">이 얼굴로 리뷰 · 기록 · 친구 목록에 나와요</span>
+<div class="where"><span><span class="jf xs" style="--f:var(--color-face-jadu)">^<i>ω</i>^</span>리뷰</span><span><span class="jf xs" style="--f:var(--color-face-jadu)">^<i>ω</i>^</span>랭킹</span><span><span class="jf xs" style="--f:var(--color-face-jadu)">^<i>ω</i>^</span>헤더</span></div></div>
 <div class="right"><div><span class="step">1 / 1 · 언제든 바꿀 수 있어요</span><h2>내 얼굴 만들기</h2></div>
-<div class="fld"><label for="nick">닉네임</label><div class="input2" id="nick">오렌지맛|<span class="cnt2">3 / 12</span></div><span class="okline"><svg class="ic"><use href="#i-check"></use></svg>쓸 수 있는 닉네임이에요 · 첫 글자 ‘ㅇ’ 이 눈이 돼요</span></div>
-<div class="fld"><label>눈</label><div class="pick-grid"><span class="">ㄱ</span><span class="">ㄴ</span><span class="">ㄷ</span><span class="">ㄹ</span><span class="">ㅁ</span><span class="">ㅂ</span><span class="">ㅅ</span><span class="on">ㅇ</span><span class="">ㅈ</span><span class="">ㅊ</span><span class="">ㅋ</span><span class="">ㅌ</span><span class="">ㅍ</span><span class="">ㅎ</span></div></div>
-<div class="fld"><label>입</label><div class="mouths"><span class="on">ㅅ</span><span class="">ㅁ</span><span class="">ㅇ</span><span class="">ㅂ</span><span class="">ㅡ</span><span class="">ㅗ</span></div></div>
-<div class="fld"><label>색</label><div class="colors"><span class="" style="background:var(--color-face-hong)"></span><span class="" style="background:var(--color-face-ju)"></span><span class="" style="background:var(--color-face-gyul)"></span><span class="" style="background:var(--color-face-hwang)"></span><span class="on" style="background:var(--color-face-olive)"></span><span class="" style="background:var(--color-face-pul)"></span><span class="" style="background:var(--color-face-bichwi)"></span><span class="" style="background:var(--color-face-cheongnok)"></span><span class="" style="background:var(--color-face-haneul)"></span><span class="" style="background:var(--color-face-jjok)"></span><span class="" style="background:var(--color-face-bora)"></span><span class="" style="background:var(--color-face-jadu)"></span></div><span class="help">12색 모두 같은 밝기라 어떤 색을 골라도 얼굴이 또렷해요</span></div>
+<div class="fld"><label for="nick">닉네임</label><div class="input2" id="nick">오렌지맛|<span class="cnt2">4 / 12</span></div><span class="okline"><svg class="ic"><use href="#i-check"></use></svg>쓸 수 있는 닉네임이에요</span></div>
+<div class="fld"><label>눈</label><div class="eye-tabs"><button class="chip">한글 자음</button><button class="chip">영문 · 숫자</button><button class="chip" aria-pressed="true">기호</button></div><div class="pick-grid"><span class="on">^</span><span class="">-</span><span class="">ㅇ</span><span class="">o</span><span class="">O</span><span class="">0</span><span class="">x</span><span class="">></span><span class="">=</span><span class="">*</span><span class="">+</span><span class="">'</span><span class="">T</span><span class="">U</span></div></div>
+<div class="fld"><label>입</label><div class="mouths"><span class="">ㅅ</span><span class="on">ω</span><span class="">w</span><span class="">ㅁ</span><span class="">ㅇ</span><span class="">▽</span><span class="">3</span><span class="">ㅡ</span><span class="">_</span><span class="">ㅂ</span></div></div>
+<div class="fld"><label>색</label><div class="colors"><span class="" style="background:var(--color-face-hong)"></span><span class="" style="background:var(--color-face-ju)"></span><span class="" style="background:var(--color-face-gyul)"></span><span class="" style="background:var(--color-face-hwang)"></span><span class="" style="background:var(--color-face-olive)"></span><span class="" style="background:var(--color-face-pul)"></span><span class="" style="background:var(--color-face-bichwi)"></span><span class="" style="background:var(--color-face-cheongnok)"></span><span class="" style="background:var(--color-face-haneul)"></span><span class="" style="background:var(--color-face-jjok)"></span><span class="" style="background:var(--color-face-bora)"></span><span class="on" style="background:var(--color-face-jadu)"></span></div></div>
 <div class="vis"><span class="switch on" role="switch" aria-checked="true" aria-label="친구에게 지금 하는 게임 보이기"></span><span><b>친구에게 지금 하는 게임이 보여요</b><span class="m">서로 친구인 사람에게만 · 설정에서 언제든 끌 수 있어요</span></span></div>
 <div class="foot"><span class="skip">건너뛰기 — 닉네임 첫 글자로 자동으로 만들어요</span><span class="btn btn-primary" style="margin-left:auto">이 얼굴로 시작</span></div>
 </div></div></div></div>
 </div>
-<sc-if value="{{ showMemo }}" hint-placeholder-val="{{ true }}"><aside class="memo" style="--x:0"><b style="color:#3A96FE">로그인 · 내 얼굴 만들기</b>SH-LOGIN · SH-ONBOARD. ‘로그인하면 내 얼굴이 생겨요’ 약속을 지키는 화면. 그라운드 색 큰 면 위에 내 얼굴(168px)을 크게. 눈 14자 × 입 6자 × 색 12 = 1,008 가지.</aside></sc-if>
+<sc-if value="{{ showMemo }}" hint-placeholder-val="{{ true }}"><aside class="memo" style="--x:0"><b style="color:#3A96FE">로그인 · 내 얼굴 만들기</b>SH-LOGIN · SH-ONBOARD. ‘로그인하면 내 얼굴이 생겨요’ 약속을 지키는 화면. 얼굴 틀은 고양이 얼굴 실루엣(S2). 눈은 한글 자음 · 영문 · 숫자 · 기호, 입 10종, 색 12. 건너뛰면 닉네임 첫 글자로 자동.</aside></sc-if>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1700},"state":{"editor":"enum","default":"처음","options":["처음","진행 중","완료","다운로드","이 기기 불가"],"tsType":"string"},"theme":{"editor":"enum","default":"light","options":["light","dark"],"tsType":"string"},"showMemo":{"editor":"boolean","default":true,"tsType":"boolean"}}'>

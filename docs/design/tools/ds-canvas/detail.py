@@ -231,6 +231,9 @@ def footer():
 STATES = ["처음", "진행 중", "완료", "다운로드", "이 기기 불가"]
 def page(title, body, height, memo):
     props = '{"$preview":{"width":1440,"height":%d},"state":{"editor":"enum","default":"처음","options":["처음","진행 중","완료","다운로드","이 기기 불가"],"tsType":"string"},"theme":{"editor":"enum","default":"light","options":["light","dark"],"tsType":"string"},"showMemo":{"editor":"boolean","default":true,"tsType":"boolean"}}' % height
+    return mg._catify(_page_html(title, body, height, memo, props))
+
+def _page_html(title, body, height, memo, props):
     return f'''<!doctype html>
 <html lang="ko">
 <head>

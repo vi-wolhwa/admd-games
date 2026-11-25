@@ -56,6 +56,9 @@ def build(tpl_name, out_name):
     t = re.sub(r"\[\[DUO (\w+)\]\]", lambda m: duo(m.group(1)), t)
     left = re.findall(r"\[\[[A-Z]+[^\]]*\]\]|/\*(TOKENS|COMMON)\*/", t)
     assert not left, left
+    import importlib.util as _u
+    _s=_u.spec_from_file_location("cat_face", os.path.join(HERE, "cat_face.py")); _m=_u.module_from_spec(_s); _s.loader.exec_module(_m)
+    t = _m.catify(t)
     open(os.path.join(OUT, out_name), "w", encoding="utf-8").write(t)
     print(out_name, len(t))
 

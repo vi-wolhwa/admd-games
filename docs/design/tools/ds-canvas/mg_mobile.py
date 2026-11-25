@@ -118,7 +118,7 @@ def m_guest():
     logs = "".join(f'<div class="mlog"><span><b>{l[1]}</b><span class="by">{face(l[3], l[4], "xs")}{l[5]} · {l[6]}</span></span><span class="art {l[0]}"></span></div>' for l in mg.LOGS[:3])
     inner = f'''{mtop(False)}
 <div class="mintro"><h1>만든 게임,<br>여기에 올려 보세요</h1><p>웹 빌드는 바로 플레이, 설치 파일은 무료 보안 검사 후 공개. 광고도 수수료도 없어요.</p>
-<ol class="msteps"><li><span><b>메이커 프로필 만들기</b>이름과 얼굴만 있으면 돼요</span></li><li><span><b>게임 올리기</b>저장하며 진행 — PC 에서 이어서 해도 돼요</span></li><li><span><b>검사 · 심사 후 공개</b>보통 하루 안에 끝나요</span></li></ol>
+<ol class="msteps"><li><span><b>메이커 프로필 만들기</b>이름과 얼굴만 있으면 돼요</span></li><li><span><b>게임 올리기</b>저장하며 진행 — PC 에서 이어서 해도 돼요</span></li><li><span><b>검사 · 심사 후 공개</b>보통 이틀 안에 끝나요</span></li></ol>
 <span class="mbtn btn-primary" style="margin-top:16px">{ic("up2", "ic ic16")}첫 게임 올리기</span>
 <span class="mbtn" style="margin-top:4px;color:var(--ink-2);font-size:15px;font-weight:700;height:44px">올리기 전에 읽어 보기 ›</span></div>
 <div class="msec"><div class="msh">{EAR}<h2>메이커들의 개발일지</h2></div>{logs}</div>'''

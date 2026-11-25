@@ -698,6 +698,13 @@ footer.ft .links{display:flex;gap:18px;color:var(--ink-2);font-weight:600}
 .subbar .utabs a{height:60px;font-size:15px}
 
 
+/* 자모 얼굴 = 고양이 얼굴 실루엣 (S2) — 색은 --f, 모양은 마스크 */
+.jf{background:none!important;border-radius:0!important;box-shadow:none!important;isolation:isolate;box-sizing:border-box;padding-top:.62em;overflow:visible}
+.jf:not(.maker):not([class*="maker"]){position:relative}
+.jf::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--f,#3870B1);-webkit-mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M8 44 Q8 24 11 8 Q12 2 17 5 L36 20 Q50 16 64 20 L83 5 Q88 2 89 8 Q92 24 92 44 Q99 56 97 69 Q93 97 50 97 Q7 97 3 69 Q1 56 8 44 Z'/%3E%3C/svg%3E") center/100% 100% no-repeat;mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M8 44 Q8 24 11 8 Q12 2 17 5 L36 20 Q50 16 64 20 L83 5 Q88 2 89 8 Q92 24 92 44 Q99 56 97 69 Q93 97 50 97 Q7 97 3 69 Q1 56 8 44 Z'/%3E%3C/svg%3E") center/100% 100% no-repeat}
+.jf.maker::after,.facerow .jf::after,.band-login .jf::after,.mk-hero .jf::after,.onb .left > .jf::after,.jf.ring::after{content:"";position:absolute;inset:-9%;z-index:-2;background:#FFFFFF;-webkit-mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M8 44 Q8 24 11 8 Q12 2 17 5 L36 20 Q50 16 64 20 L83 5 Q88 2 89 8 Q92 24 92 44 Q99 56 97 69 Q93 97 50 97 Q7 97 3 69 Q1 56 8 44 Z'/%3E%3C/svg%3E") center/100% 100% no-repeat;mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M8 44 Q8 24 11 8 Q12 2 17 5 L36 20 Q50 16 64 20 L83 5 Q88 2 89 8 Q92 24 92 44 Q99 56 97 69 Q93 97 50 97 Q7 97 3 69 Q1 56 8 44 Z'/%3E%3C/svg%3E") center/100% 100% no-repeat}
+.jf i{top:.02em}
+
 .mk-hero{position:relative;padding:48px 0 36px;background:var(--accent-tint)}
 .mk-hero .in{width:1200px;margin:0 auto;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:32px;align-items:center}
 .mk-hero .jf{width:132px;height:132px;font-size:48px;border-radius:36px;box-shadow:0 0 0 5px var(--bg)}
@@ -832,7 +839,7 @@ footer.ft .links{display:flex;gap:18px;color:var(--ink-2);font-weight:600}
 <div class="right"><div class="ground"><a class="play" href="#">플레이</a><a class="make" href="#" aria-current="true">메이커스</a></div>
 <div class="search"><svg class="ic"><use href="#i-search"></use></svg>게임, 메이커, 글 검색</div><button class="icon-btn theme-btn" aria-label="다크 모드 전환" onClick="{{ toggleTheme }}"><svg class="ic ic20 t-moon"><use href="#i-moon"></use></svg><svg class="ic ic20 t-sun"><use href="#i-sun"></use></svg></button><span class="btn btn-primary btn-sm"><svg class="ic"><use href="#i-up2"></use></svg>게임 올리기</span>
 <button class="icon-btn" aria-label="알림 2개"><svg class="ic ic20"><use href="#i-bell"></use></svg><span class="dot-new"></span></button>
-<span class="jf md" style="background:var(--color-face-jjok)">ㅍ<i>ㅅ</i>ㅍ</span></div>
+<span class="jf md" style="--f:var(--color-face-jjok)">ㅍ<i>ㅅ</i>ㅍ</span></div>
 </div></header><main class="wrap">
 <div class="crumb2"><a href="#">내 게임</a><svg class="ic"><use href="#i-chev"></use></svg><span>루프 디버거</span></div>
 <div class="mg-h"><span class="art a-loop"></span><span><h1>루프 디버거</h1><span class="row"><span class="st st-live"><svg class="ic"><use href="#i-check"></use></svg>공개</span><span class="m">v1.2 · 11/23 · 브라우저</span></span></span><span class="acts"><span class="btn btn-secondary"><svg class="ic ic16"><use href="#i-web"></use></svg>PlayGround 에서 보기</span><span class="btn btn-secondary">스토어 정보 수정</span><span class="btn btn-primary"><svg class="ic ic16"><use href="#i-up2"></use></svg>새 버전 올리기</span></span></div>
