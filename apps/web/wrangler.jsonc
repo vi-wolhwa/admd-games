@@ -1,0 +1,23 @@
+{
+	"$schema": "./node_modules/wrangler/config-schema.json",
+	"name": "admd-games",
+	"compatibility_date": "2026-11-25",
+	"compatibility_flags": ["nodejs_als"],
+	"main": ".svelte-kit/cloudflare/_worker.js",
+	"assets": {
+		"binding": "ASSETS",
+		"directory": ".svelte-kit/cloudflare"
+	},
+	"workers_dev": true,
+	"preview_urls": true,
+	"d1_databases": [
+		{
+			"binding": "DB",
+			"database_name": "admd-games",
+			// 로컬 개발은 이 값과 무관하게 .wrangler/ 아래 SQLite 파일을 쓴다.
+			// 배포 전 `npx wrangler d1 create admd-games` 로 만든 실제 ID로 교체한다.
+			"database_id": "00000000-0000-0000-0000-000000000000",
+			"migrations_dir": "migrations"
+		}
+	]
+}

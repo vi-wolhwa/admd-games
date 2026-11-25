@@ -1,0 +1,31 @@
+node_modules
+
+# Output
+.output
+.vercel
+.netlify
+.wrangler
+.svelte-kit
+build
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Env
+.env
+.env.*
+!.env.example
+!.env.test
+
+# Vite
+vite.config.js.timestamp-*
+vite.config.ts.timestamp-*
+
+# Wrangler local state (local D1 SQLite files) and generated types
+.dev.vars
+.dev.vars.*
+worker-configuration.d.ts
+
+# Editors
+.idea
