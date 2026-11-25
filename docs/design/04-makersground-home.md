@@ -1,4 +1,6 @@
-# MakersGround 홈 — 시안 A · B · 모바일 (2026-11-26, 사용자 검토 대기)
+# MakersGround 홈 — 시안 A · B · 모바일 (2026-11-26)
+
+> **결정(M1~M4)**: B 기반 커뮤니티 중심으로 개정 → [07-community.md](07-community.md). 아래는 비교 기록.
 
 사용자가 자리를 비운 동안 확정된 PlayGround v10 문법과 [디자인 시스템](system/README.md) 위에서 혼자 만든 시안. **결정은 사용자** — [feedback-queue.md](feedback-queue.md) M1~M4.
 

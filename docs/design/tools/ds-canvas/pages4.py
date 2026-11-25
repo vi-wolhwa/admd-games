@@ -133,7 +133,7 @@ def game_admin_page():
     dd = "".join(f'<div><span>{k}</span><span class="b"><i class="{"on" if v == 46 else ""}" style="width:{v*2}%"></i></span><span class="n">{v}%</span></div>' for k, v in dist)
     src = [("PlayGround 홈 PICK", 41), ("검색", 22), ("메이커 페이지 · 팔로우", 17), ("외부 링크 · 공유", 14), ("기타", 6)]
     ss = "".join(f'<div><span>{k}</span><span class="b"><i style="width:{v*2}%"></i></span><span class="n">{v}%</span></div>' for k, v in src)
-    body = mg.header(True).replace(OLD_NAV, OLD_NAV.replace(' aria-current="page">홈', '>홈').replace('>내 게임', ' aria-current="page">내 게임')) + f'''<main class="wrap">
+    body = mg.header2(True, "내 게임") + f'''<main class="wrap">
 <div class="crumb2"><a href="#">내 게임</a>{ic("chev")}<span>루프 디버거</span></div>
 <div class="mg-h"><span class="art a-loop"></span><span><h1>루프 디버거</h1><span class="row">{mg.status("live","공개")}<span class="m">v1.2 · 11/23 · 브라우저</span></span></span><span class="acts"><span class="btn btn-secondary">{ic("web","ic ic16")}PlayGround 에서 보기</span><span class="btn btn-secondary">스토어 정보 수정</span><span class="btn btn-primary">{ic("up2","ic ic16")}새 버전 올리기</span></span></div>
 <nav class="utabs" style="margin-top:22px"><a href="#" aria-current="page">통계</a><a href="#">리뷰 38 <span class="cnt" style="height:18px;min-width:18px;font-size:11px;padding:0 5px">2</span></a><a href="#">버그 제보 1</a><a href="#">버전</a><a href="#">공개 설정</a></nav>
@@ -156,7 +156,7 @@ def game_admin_page():
 def review_page():
     q = [("a-paper", "종이 배 2", "청록상회 · 웹 · 재심사", "2시간", False, True), ("a-demon", "들판의 악마 v2.1", "풀잎 · 설치형 · 업데이트", "5시간", False, False), ("a-halcyon", "할시온 바다", "하늘섬 · 웹 · 처음", "21시간", False, False), ("a-ash", "재의 도시 v1.3", "잿빛토끼 · 설치형 · 업데이트", "30시간", True, False), ("a-grid", "격자 탈출", "새 메이커 · 웹 · 처음", "31시간", True, False)]
     rows = "".join(f'<div class="qrow{" on" if on else ""}"><span class="art {a}"></span><span><b>{t}</b><span class="m">{s}</span></span><span class="age{" late" if late else ""}">{age}</span></div>' for a, t, s, age, late, on in q)
-    body = mg.header(True).replace('MakersGround</span>', '운영</span>', 1).replace(OLD_NAV, '<nav class="gnb"><a href="#" aria-current="page">심사 14</a><a href="#">신고 3</a><a href="#">큐레이션</a><a href="#">공지</a><a href="#">사용자</a></nav>') + f'''<main class="wrap">
+    body = mg.header2(True, "심사 14", ["심사 14", "신고 3", "큐레이션", "공지", "사용자"]).replace('MakersGround</span>', '운영</span>', 1) + f'''<main class="wrap">
 <div class="ad-h"><h1>심사 대기열</h1><span class="tag2">운영자</span><span class="m" style="margin-left:8px">대기 14 · 24시간 넘은 것 2 · 오늘 처리 9</span><span style="margin-left:auto" class="chips"><button class="chip" aria-pressed="true">오래된 순</button><button class="chip">처음 올림</button><button class="chip">설치형</button></span></div>
 <div class="ad"><div class="q">{rows}</div>
 <div class="rv-pane"><div class="top"><span class="art a-paper"></span><span><span class="m">청록상회 · 웹 빌드 · 재심사(보완 요청 후)</span><h2>종이 배 2</h2><span class="row" style="display:flex;gap:6px;margin-top:6px"><span class="tag">탐험</span><span class="tag">20분</span><span class="tag">콘텐츠 표시 없음</span></span></span><span style="margin-left:auto;display:flex;flex-direction:column;gap:6px"><span class="btn btn-primary btn-sm">{ic("play")}실제로 플레이</span><span class="btn btn-secondary btn-sm">지난 심사 보기</span></span></div>

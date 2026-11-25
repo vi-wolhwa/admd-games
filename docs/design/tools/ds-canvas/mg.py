@@ -197,6 +197,13 @@ def header(signed):
 <div class="right">{right}</div>
 </div></header>'''
 
+NAV2 = ["홈", "커뮤니티", "내 게임", "잼"]
+def header2(signed=True, active="홈", nav=None):
+    """M2 결정 이후 MakersGround 헤더: 홈 · 커뮤니티 · 내 게임 · 잼(잼은 열릴 때만)"""
+    items = nav or NAV2
+    navh = "".join(f'<a href="#"{' aria-current="page"' if n == active else ""}>{n}</a>' for n in items)
+    return header(signed).replace('<nav class="gnb"><a href="#" aria-current="page">홈</a><a href="#">내 게임</a><a href="#">개발일지</a><a href="#">질문</a><a href="#">잼</a></nav>', f'<nav class="gnb">{navh}</nav>')
+
 GAMES = [  # 메이커 '픽셀상점' 의 게임
     dict(t="루프 디버거", art="a-loop", st=("live", "공개"), note="v1.2 · 3일 전 업데이트", plays="1,204", delta="▲ 12%", rate="추천 92%", rc="38", newr="새 리뷰 2", spark=[30,42,38,55,47,61,70], act=("secondary", "답글 달기")),
     dict(t="종이 배 2", art="a-paper", st=("fix", "보완 요청"), note="스크린샷이 3장보다 적어요", noteacc=True, plays="—", delta="", rate="", rc="", newr="", spark=None, act=("primary", "고치기")),

@@ -646,6 +646,131 @@ body{min-width:0}
 .kv > div > span:first-child{color:var(--ink-3);font-weight:600}
 .kv .ic{color:var(--ink-4)}
 
+.mchips{display:flex;gap:6px;overflow:hidden;padding:0 18px;margin:0 -18px 6px}
+.mchips .chip{height:34px;font-size:13.5px;padding:0 12px;flex:none}
+.mpost{display:flex;flex-direction:column;gap:5px;padding:12px 0;border-top:1px solid var(--line)}
+.mpost:first-child{border-top:0}
+.mpost .tt{display:flex;align-items:flex-start;gap:6px;font-size:15px;font-weight:700;line-height:1.45}
+.mpost .tt .c{color:var(--accent-text);font-weight:800;font-size:13px;flex:none;margin-top:2px}
+.mpost .by{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink-3)}
+.fab{position:absolute;right:18px;bottom:100px;z-index:7;display:flex;align-items:center;gap:6px;height:48px;padding:0 18px;border-radius:999px;background:var(--accent);color:#FFFFFF;font-weight:800;font-size:15px;box-shadow:var(--shadow-float)}
+.mfeat{display:flex;flex-direction:column;gap:8px}
+.mfeat .art{border-radius:14px}
+.mfeat b{font-size:17px;line-height:1.4}
+.mp-body{padding:0 18px;font-size:16px;line-height:1.8}
+.mp-body h1{margin:4px 0 0;font-size:22px;line-height:1.4;font-weight:800}
+.mp-body .by{display:flex;align-items:center;gap:8px;margin:12px 0 14px;font-size:13px;color:var(--ink-3)}
+.mp-body p{margin:0 0 12px}
+.mp-body .imgs{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:12px}
+.mp-body .imgs .art{border-radius:10px}
+.mpoll{display:flex;flex-direction:column;gap:6px;margin-bottom:14px}
+.mpoll .opt{position:relative;display:flex;justify-content:space-between;align-items:center;height:44px;padding:0 12px;border-radius:10px;background:var(--sunken);overflow:hidden;font-size:14px;font-weight:700}
+.mpoll .opt i{position:absolute;left:0;top:0;bottom:0;background:var(--accent-tint-2)}
+.mpoll .opt span{position:relative}
+.mpoll .opt.me{box-shadow:inset 0 0 0 2px var(--accent)}
+.mcmt{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;padding:12px 18px;border-top:1px solid var(--line);font-size:14px;line-height:1.6}
+.mcmt .hd{display:flex;gap:6px;align-items:center;font-size:12.5px;color:var(--ink-3)}
+.mcmt .hd b{color:var(--ink-1);font-size:13.5px}
+.cbar{position:absolute;left:0;right:0;bottom:84px;z-index:7;display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:10px;align-items:center;padding:8px 12px;background:var(--bg);border-top:1px solid var(--line);font-size:14px;color:var(--ink-3)}
+.pcnote{display:flex;gap:10px;align-items:flex-start;margin-top:10px;padding:12px 14px;border-radius:12px;background:var(--sunken);font-size:13.5px;line-height:1.55;color:var(--ink-2)}
+.pcnote .ic{margin-top:3px;color:var(--ink-3)}
+
+.board-chip{display:inline-flex;align-items:center;height:22px;padding:0 8px;border-radius:6px;background:var(--sunken);font-size:12px;font-weight:800;color:var(--ink-2);white-space:nowrap}
+.board-chip.log{background:var(--accent-tint);color:var(--accent-text)}
+.prow{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;min-height:52px;padding:8px 6px;border-top:1px solid var(--line)}
+.prow:first-child{border-top:0}
+.prow:hover{background:var(--sunken);border-radius:10px}
+.prow .tt{display:flex;align-items:center;gap:6px;min-width:0;font-size:15px;font-weight:600}
+.prow .tt .t2{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.prow .tt .c{color:var(--accent-text);font-weight:800;font-size:13.5px;flex:none}
+.prow .tt .ic{color:var(--ink-3);flex:none}
+.prow .side{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--ink-3);white-space:nowrap}
+.st-sm{height:20px;font-size:11.5px;padding:0 7px}
+.hot{display:flex;flex-direction:column;counter-reset:h}
+.hot > div{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;align-items:start;padding:11px 0;border-top:1px solid var(--line)}
+.hot > div:first-child{border-top:0}
+.hot > div::before{counter-increment:h;content:counter(h);font-size:17px;font-weight:800;color:var(--ink-3);text-align:center;line-height:1.3}
+.hot > div:nth-child(-n+3)::before{color:var(--accent-text)}
+.hot b{display:block;font-size:14.5px;font-weight:700;line-height:1.45}
+.hot .m{display:block;margin-top:3px;font-size:12.5px}
+.cm-grid{display:grid;grid-template-columns:minmax(0,1fr) 360px;gap:48px;align-items:start}
+.fbg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:24px}
+.fbc{display:flex;flex-direction:column;gap:8px}
+.fbc .art{border-radius:var(--radius-lg)}
+.fbc b{font-size:15px;line-height:1.45}
+.fbc .by{display:flex;align-items:center;gap:6px;font-size:12.5px;color:var(--ink-3)}
+.vote{display:flex;height:6px;border-radius:999px;overflow:hidden;background:var(--sunken-hover)}
+.vote i{background:var(--accent)}
+.write-fab{display:inline-flex;align-items:center;gap:6px}
+/* 커뮤니티 목록 */
+.cm-head{display:flex;align-items:flex-end;gap:16px;margin-top:28px}
+.cm-head h1{margin:0;font-size:28px;font-weight:800;letter-spacing:-.02em}
+.cm-head .m{padding-bottom:5px;font-size:14px}
+.cm-head .btn{margin-left:auto}
+.cm-tabs{margin-top:16px}
+.cm-tabs a .n{margin-left:5px;font-size:12px;color:var(--ink-3);font-weight:700}
+.cm-desc{display:flex;align-items:center;gap:12px;margin:18px 0 10px}
+.cm-desc .chips .chip{height:34px;font-size:13.5px;padding:0 13px}
+.cm-desc .search{margin-left:auto;width:240px}
+.cm-sort{display:flex;gap:4px;font-size:13.5px;font-weight:700;color:var(--ink-3)}
+.cm-sort span{padding:6px 8px;border-radius:8px}
+.cm-sort span.on{color:var(--ink-1);background:var(--sunken)}
+.blist{display:flex;flex-direction:column;border-top:2px solid var(--ink-1)}
+.brow{display:grid;grid-template-columns:72px minmax(0,1fr) 150px 80px 64px 64px;gap:12px;align-items:center;min-height:54px;padding:6px 8px;border-bottom:1px solid var(--line);font-size:14px}
+.brow.hd{min-height:40px;font-size:12.5px;font-weight:700;color:var(--ink-3)}
+.brow.pin{background:var(--sunken)}
+.brow.pin .k{color:var(--accent-text);font-weight:800}
+.brow:not(.hd):hover{background:var(--sunken)}
+.brow .k{font-size:12.5px;font-weight:700;color:var(--ink-3);text-align:center}
+.brow .tt{display:flex;align-items:center;gap:6px;min-width:0;font-weight:600}
+.brow .tt .t2{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.brow .tt .c{color:var(--accent-text);font-weight:800;font-size:13px;flex:none}
+.brow .tt .ic{color:var(--ink-3);flex:none}
+.brow .who{display:flex;align-items:center;gap:6px;min-width:0;color:var(--ink-2)}
+.brow .n2{text-align:right;color:var(--ink-3);font-variant-numeric:tabular-nums;font-size:13px}
+.pager2{display:flex;justify-content:center;gap:4px;margin-top:24px}
+.pager2 span{display:grid;place-items:center;min-width:36px;height:36px;padding:0 8px;border-radius:10px;font-size:14px;font-weight:700;color:var(--ink-2)}
+.pager2 span.on{background:var(--ink-1);color:var(--bg)}
+.board-rule{margin-top:40px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.board-rule > div{padding:16px 18px;border-radius:var(--radius-lg);background:var(--sunken);font-size:13.5px;line-height:1.6;color:var(--ink-2)}
+.board-rule b{display:block;color:var(--ink-1);font-size:14.5px;margin-bottom:4px}
+/* 글 보기 */
+.post{width:820px;margin:0 auto}
+.post .crumb2{margin-top:28px}
+.post h1{margin:12px 0 0;font-size:30px;line-height:1.35;font-weight:800;letter-spacing:-.02em;text-wrap:balance}
+.post .by{display:flex;align-items:center;gap:10px;margin-top:16px;padding-bottom:20px;border-bottom:1px solid var(--line);font-size:14px;color:var(--ink-3)}
+.post .by b{color:var(--ink-1);font-size:15px}
+.post .by .sp{margin-left:auto;display:flex;gap:2px}
+.post .body{padding:28px 0 8px;font-size:17px;line-height:1.85}
+.post .body p{margin:0 0 18px}
+.post .imgs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin:8px 0 18px}
+.post .imgs figure{margin:0;display:flex;flex-direction:column;gap:6px;font-size:13px;color:var(--ink-3);font-weight:700}
+.post .imgs .art{border-radius:12px}
+.poll{display:flex;flex-direction:column;gap:8px;margin:10px 0 24px;padding:18px;border-radius:var(--radius-lg);box-shadow:inset 0 0 0 1px var(--line)}
+.poll .q{font-size:15px;font-weight:800;margin-bottom:4px}
+.poll .opt{position:relative;display:flex;align-items:center;justify-content:space-between;height:44px;padding:0 14px;border-radius:10px;background:var(--sunken);overflow:hidden;font-size:15px;font-weight:700}
+.poll .opt i{position:absolute;left:0;top:0;bottom:0;background:var(--accent-tint-2)}
+.poll .opt span{position:relative}
+.poll .opt.me{box-shadow:inset 0 0 0 2px var(--accent)}
+.gamelink{display:grid;grid-template-columns:120px minmax(0,1fr) auto;gap:14px;align-items:center;padding:10px;border-radius:var(--radius-lg);box-shadow:inset 0 0 0 1px var(--line);margin-bottom:24px}
+.gamelink .art{border-radius:9px}
+.gamelink b{display:block;font-size:15px}
+.reacts{display:flex;justify-content:center;gap:8px;padding:12px 0 28px;border-bottom:1px solid var(--line)}
+.reacts .btn .n{font-weight:800}
+.reacts .btn.on{background:var(--accent-tint);color:var(--accent-text)}
+.cmts{padding-top:24px}
+.cmts h3{margin:0 0 14px;font-size:18px;font-weight:800;display:flex;align-items:center;gap:8px}
+.cmt-in{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding:12px;border-radius:var(--radius-lg);background:var(--sunken);font-size:15px;color:var(--ink-3)}
+.cmt{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;padding:18px 0;border-bottom:1px solid var(--line)}
+.cmt .hd{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-3)}
+.cmt .hd b{color:var(--ink-1);font-size:14px}
+.cmt p{margin:6px 0 8px;font-size:15px;line-height:1.65}
+.cmt .ac{display:flex;gap:14px;font-size:12.5px;color:var(--ink-3);font-weight:700}
+.cmt.reply{margin-left:44px}
+.mine{display:inline-flex;align-items:center;height:20px;padding:0 7px;border-radius:999px;background:var(--accent);color:#FFFFFF;font-size:11px;font-weight:800}
+.mkb2{display:inline-flex;align-items:center;height:20px;padding:0 7px;border-radius:999px;background:var(--sunken-hover);color:var(--ink-2);font-size:11px;font-weight:800}
+.more-list{margin-top:44px}
+
 </style>
 </helmet>
 <div class="ds" data-theme="{{ theme }}" data-ground="make">
@@ -686,28 +811,26 @@ body{min-width:0}
 <symbol id="i-team" viewBox="0 0 16 16"><circle cx="5.5" cy="5.5" r="2.2"></circle><circle cx="11" cy="6.2" r="1.8"></circle><path d="M1.8 13c.4-2.3 1.9-3.6 3.7-3.6s3.3 1.3 3.7 3.6M10 9.6c1.9 0 3.2 1.1 3.6 3"></path></symbol>
 <symbol id="i-up2" viewBox="0 0 16 16"><path d="M8 13V4M4.5 7.5 8 4l3.5 3.5"></path><path d="M3 2.5h10"></path></symbol>
 </svg>
-<div class="phones"><div class="pcol"><b>메이커 홈</b><span>할 일 → 내 게임(가로로 넘김) → 일지. 올리기는 탭바 가운데 버튼 하나.</span><div class="phone"><div class="sbar"><span>9:41</span><span>5G</span></div><div class="pscroll"><div class="mtop"><span class="logo" style="font-size:19px"><span>a</span><span class="cat"><svg class="ears" viewBox="0 0 64 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 19 L8 2 L20 10 Q32 6 44 10 L56 2 L61 19"></path></svg><span class="e">D</span><span class="mo">m</span><span class="e">D</span></span></span><span class="word">MakersGround</span><span class="sp"><button class="icon-btn" aria-label="검색"><svg class="ic ic20"><use href="#i-search"></use></svg></button><button class="icon-btn" aria-label="알림 2개"><svg class="ic ic20"><use href="#i-bell"></use></svg><span class="dot-new"></span></button></span></div>
-<div class="msec" style="margin-top:12px"><div class="msh"><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg><h2>할 일</h2><span class="cnt">3</span></div><div class="mtd"><span class="ico acc"><svg class="ic ic16"><use href="#i-alert"></use></svg></span><span><b>‘종이 배 2’ 보완 요청이 왔어요</b><span class="m clip">스크린샷을 3장 이상 올려 주세요 · 심사 담당 · 2시간 전</span></span><svg class="ic"><use href="#i-chev"></use></svg></div><div class="mtd"><span class="ico"><svg class="ic ic16"><use href="#i-cmt"></use></svg></span><span><b>‘루프 디버거’ 새 리뷰 2개</b><span class="m clip">답글을 달면 리뷰 쓴 사람에게 알림이 가요</span></span><svg class="ic"><use href="#i-chev"></use></svg></div><div class="mtd"><span class="ico"><svg class="ic ic16"><use href="#i-bug"></use></svg></span><span><b>‘루프 디버거’ 버그 제보 1개</b><span class="m clip">Windows · Chrome 131 · 3단계에서 소리가 안 나요</span></span><svg class="ic"><use href="#i-chev"></use></svg></div></div>
-<div class="msec"><div class="msh"><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg><h2>내 게임</h2><span class="r">전체 4</span></div><div class="hs"><div class="mgc"><span class="art a-loop"></span><b>루프 디버거</b><span class="row"><span class="st st-live"><svg class="ic"><use href="#i-check"></use></svg>공개</span><span class="clip">7일 1,204 · 새 리뷰 2</span></span></div><div class="mgc"><span class="art a-paper"></span><b>종이 배 2</b><span class="row"><span class="st st-fix"><svg class="ic"><use href="#i-alert"></use></svg>보완 요청</span><span class="clip">스크린샷이 3장보다 적어요</span></span></div><div class="mgc"><span class="art a-grid"></span><b>그리드 러너</b><span class="row"><span class="st st-wait"><span class="pulse"></span>검사 중</span><span class="clip">v0.3 빌드 · 보통 10분 안에 끝나요</span></span></div></div></div>
-<div class="msec"><div class="msh"><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg><h2>개발일지</h2><span class="r">전체 보기</span></div><div class="mlog"><span><b>보스 패턴을 세 번 갈아엎은 이야기</b><span class="by"><span class="jf xs" style="background:var(--color-face-ju)">ㅈ<i>ㅅ</i>ㅈ</span>잿빛토끼 · 48명이 좋아해요</span></span><span class="art a-ash"></span></div><div class="mlog"><span><b>웹 빌드 40MB를 9MB로 줄인 방법</b><span class="by"><span class="jf xs" style="background:var(--color-face-haneul)">ㄴ<i>ㅅ</i>ㄴ</span>노을공방 · 112명이 좋아해요</span></span><span class="art a-tess"></span></div><div class="mlog"><span><b>첫 리뷰 38개를 읽고 바꾼 것들</b><span class="by"><span class="jf xs" style="background:var(--color-face-jjok)">ㅍ<i>ㅅ</i>ㅍ</span>픽셀상점 · 67명이 좋아해요</span></span><span class="art a-loop"></span></div><div class="mlog"><span><b>Godot 4 웹 내보내기에서 소리가 안 날 때</b><span class="by"><span class="jf xs" style="background:var(--color-face-cheongnok)">ㅊ<i>ㅅ</i>ㅊ</span>청록상회 · 39명이 좋아해요</span></span><span class="art a-paper"></span></div></div></div><nav class="tabbar"><a href="#" aria-current="page"><svg class="ic"><use href="#i-home"></use></svg>홈</a><a href="#"><svg class="ic"><use href="#i-box"></use></svg>내 게임</a><a href="#" aria-label="게임 올리기"><span class="up"><svg class="ic"><use href="#i-plus"></use></svg></span></a><a href="#"><svg class="ic"><use href="#i-pen"></use></svg>일지</a><a href="#"><svg class="ic"><use href="#i-user"></use></svg>나</a></nav></div></div><div class="pcol"><b>게스트 홈</b><span>지표 없이 올리는 법 3단계와 버튼 하나. 아래는 다른 메이커들의 일지.</span><div class="phone"><div class="sbar"><span>9:41</span><span>5G</span></div><div class="pscroll"><div class="mtop"><span class="logo" style="font-size:19px"><span>a</span><span class="cat"><svg class="ears" viewBox="0 0 64 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 19 L8 2 L20 10 Q32 6 44 10 L56 2 L61 19"></path></svg><span class="e">D</span><span class="mo">m</span><span class="e">D</span></span></span><span class="word">MakersGround</span><span class="sp"><button class="icon-btn" aria-label="검색"><svg class="ic ic20"><use href="#i-search"></use></svg></button><span class="btn btn-secondary btn-sm" style="height:36px;margin-left:4px">로그인</span></span></div>
-<div class="mintro"><h1>만든 게임,<br>여기에 올려 보세요</h1><p>웹 빌드는 바로 플레이, 설치 파일은 무료 보안 검사 후 공개. 광고도 수수료도 없어요.</p>
-<ol class="msteps"><li><span><b>메이커 프로필 만들기</b>이름과 얼굴만 있으면 돼요</span></li><li><span><b>게임 올리기</b>저장하며 진행 — PC 에서 이어서 해도 돼요</span></li><li><span><b>검사 · 심사 후 공개</b>보통 하루 안에 끝나요</span></li></ol>
-<span class="mbtn btn-primary" style="margin-top:16px"><svg class="ic ic16"><use href="#i-up2"></use></svg>첫 게임 올리기</span>
-<span class="mbtn" style="margin-top:4px;color:var(--ink-2);font-size:15px;font-weight:700;height:44px">올리기 전에 읽어 보기 ›</span></div>
-<div class="msec"><div class="msh"><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg><h2>메이커들의 개발일지</h2></div><div class="mlog"><span><b>보스 패턴을 세 번 갈아엎은 이야기</b><span class="by"><span class="jf xs" style="background:var(--color-face-ju)">ㅈ<i>ㅅ</i>ㅈ</span>잿빛토끼 · 재의 도시</span></span><span class="art a-ash"></span></div><div class="mlog"><span><b>웹 빌드 40MB를 9MB로 줄인 방법</b><span class="by"><span class="jf xs" style="background:var(--color-face-haneul)">ㄴ<i>ㅅ</i>ㄴ</span>노을공방 · 테셀레이트</span></span><span class="art a-tess"></span></div><div class="mlog"><span><b>첫 리뷰 38개를 읽고 바꾼 것들</b><span class="by"><span class="jf xs" style="background:var(--color-face-jjok)">ㅍ<i>ㅅ</i>ㅍ</span>픽셀상점 · 루프 디버거</span></span><span class="art a-loop"></span></div></div></div><nav class="tabbar"><a href="#" aria-current="page"><svg class="ic"><use href="#i-home"></use></svg>홈</a><a href="#"><svg class="ic"><use href="#i-box"></use></svg>내 게임</a><a href="#" aria-label="게임 올리기"><span class="up"><svg class="ic"><use href="#i-plus"></use></svg></span></a><a href="#"><svg class="ic"><use href="#i-pen"></use></svg>일지</a><a href="#"><svg class="ic"><use href="#i-user"></use></svg>나</a></nav></div></div><div class="pcol"><b>게임 상태 · 보완 요청</b><span>알림을 받고 들어온 화면. 어디까지 왔는지 · 무엇을 고칠지 · 여기서 바로 고치기.</span><div class="phone"><div class="sbar"><span>9:41</span><span>5G</span></div><div class="pscroll"><div class="mback"><button class="icon-btn" aria-label="뒤로"><svg class="ic ic20" viewBox="0 0 16 16"><path d="M10 3 5 8l5 5"></path></svg></button><span class="t">종이 배 2</span><span style="margin-left:auto"><span class="st st-fix"><svg class="ic"><use href="#i-alert"></use></svg>보완 요청</span></span></div>
+<div class="phones"><div class="pcol"><b>홈</b><span>커뮤니티가 첫 화면. 게시판 칩 + 지금 올라온 글 + 일지 PICK. 글쓰기는 떠 있는 버튼.</span><div class="phone"><div class="sbar"><span>9:41</span><span>5G</span></div><div class="pscroll"><div class="mtop"><span class="logo" style="font-size:19px"><span>a</span><span class="cat"><svg class="ears" viewBox="0 0 64 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 19 L8 2 L20 10 Q32 6 44 10 L56 2 L61 19"></path></svg><span class="e">D</span><span class="mo">m</span><span class="e">D</span></span></span><span class="word">MakersGround</span><span class="sp"><button class="icon-btn" aria-label="검색"><svg class="ic ic20"><use href="#i-search"></use></svg></button><button class="icon-btn" aria-label="알림 2개"><svg class="ic ic20"><use href="#i-bell"></use></svg><span class="dot-new"></span></button></span></div>
+<div class="msec" style="margin-top:8px"><div class="msh"><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg><h2>지금 커뮤니티</h2><span class="r">전체</span></div><div class="mchips"><button class="chip" aria-pressed="true">전체</button><button class="chip">자유</button><button class="chip">개발일지</button><button class="chip">질문</button><button class="chip">피드백</button><button class="chip">팀원 모집</button></div><div class="mpost"><span class="tt"><span class="board-chip" style="margin-top:1px">자유</span><span>오늘 첫 리뷰 받았어요… 손이 떨리네요</span><span class="c">[88]</span></span><span class="by"><span class="jf xs" style="background:var(--color-face-hong)">ㅅ<i>ㅅ</i>ㅅ</span>새벽코딩 · 12분 전</span></div><div class="mpost"><span class="tt"><span class="board-chip" style="margin-top:1px">피드백</span><span>타이틀 화면 두 가지 중 뭐가 나아요?</span><span class="c">[27]</span></span><span class="by"><span class="jf xs" style="background:var(--color-face-bora)">ㅂ<i>ㅅ</i>ㅂ</span>보라네 · 25분 전</span></div><div class="mpost"><span class="tt"><span class="board-chip" style="margin-top:1px">질문</span><span>Unity WebGL 빌드가 아이폰 사파리에서 멈춰요</span><span class="c">[2]</span></span><span class="by"><span class="jf xs" style="background:var(--color-face-gyul)">ㄱ<i>ㅅ</i>ㄱ</span>귤껍질 · 40분 전</span></div><div class="mpost"><span class="tt"><span class="board-chip" style="margin-top:1px">자유</span><span>무료로 쓸 수 있는 효과음 사이트 정리 (2026)</span><span class="c">[15]</span></span><span class="by"><span class="jf xs" style="background:var(--color-face-cheongnok)">ㅊ<i>ㅅ</i>ㅊ</span>청록상회 · 1시간 전</span></div><div class="mpost"><span class="tt"><span class="board-chip log" style="margin-top:1px">개발일지</span><span>웹 빌드 40MB를 9MB로 줄인 방법</span><span class="c">[31]</span></span><span class="by"><span class="jf xs" style="background:var(--color-face-haneul)">ㄴ<i>ㅅ</i>ㄴ</span>노을공방 · 2시간 전</span></div></div>
+<div class="msec"><div class="msh"><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg><h2>이번 주 일지 PICK</h2></div><div class="mfeat"><span class="art a-tess"></span><b>웹 빌드 40MB를 9MB로 줄인 방법</b><span class="m">노을공방 · 테셀레이트</span></div></div></div><span class="fab"><svg class="ic ic16"><use href="#i-pen"></use></svg>글쓰기</span><nav class="tabbar"><a href="#" aria-current="page"><svg class="ic"><use href="#i-home"></use></svg>홈</a><a href="#"><svg class="ic"><use href="#i-cmt"></use></svg>커뮤니티</a><a href="#"><svg class="ic"><use href="#i-box"></use></svg>내 게임</a><a href="#"><svg class="ic"><use href="#i-bell"></use></svg>알림</a><a href="#"><svg class="ic"><use href="#i-user"></use></svg>나</a></nav></div></div><div class="pcol"><b>글 보기</b><span>피드백 글 · 투표 · 댓글. 아래 고정 댓글 입력.</span><div class="phone"><div class="sbar"><span>9:41</span><span>5G</span></div><div class="pscroll"><div class="mback"><button class="icon-btn" aria-label="뒤로"><svg class="ic ic20" viewBox="0 0 16 16"><path d="M10 3 5 8l5 5"></path></svg></button><span class="t" style="font-size:15px">피드백</span><span style="margin-left:auto;display:flex"><button class="icon-btn" aria-label="공유"><svg class="ic ic16"><use href="#i-up2"></use></svg></button><button class="icon-btn" aria-label="더 보기"><svg class="ic ic16" viewBox="0 0 16 16"><circle cx="3.5" cy="8" r=".8"></circle><circle cx="8" cy="8" r=".8"></circle><circle cx="12.5" cy="8" r=".8"></circle></svg></button></span></div>
+<div class="mp-body"><h1>타이틀 화면 두 가지 중 뭐가 나아요?</h1><div class="by"><span class="jf xs" style="background:var(--color-face-bora)">ㅂ<i>ㅅ</i>ㅂ</span><b style="color:var(--ink-1)">보라네</b> · 25분 전 · 조회 230</div>
+<p>‘그리드 러너’ 정식판 타이틀을 두 가지로 만들어 봤어요.</p>
+<div class="imgs"><span class="art a-grid"></span><span class="art a-tess"></span></div>
+<div class="mpoll"><span class="opt"><i style="width:38%"></i><span>A · 잼 버전</span><span>38%</span></span><span class="opt me"><i style="width:62%"></i><span>B · 새로 그림</span><span>62%</span></span></div></div>
+<div class="mcmt"><span class="jf " style="background:var(--color-face-jjok)">ㅍ<i>ㅅ</i>ㅍ</span><span><span class="hd"><b>픽셀상점</b><span class="mkb2">메이커</span>· 20분 전</span>B 요! 실루엣이 바로 읽혀요. 그림자만 한 단계 연하게.</span></div>
+<div class="mcmt"><span class="jf " style="background:var(--color-face-hong)">ㅅ<i>ㅅ</i>ㅅ</span><span><span class="hd"><b>새벽코딩</b>· 15분 전</span>처음 보는 사람이면 B 가 더 끌릴 듯해요.</span></div></div><div class="cbar"><span class="jf " style="background:var(--color-face-olive)">ㅇ<i>ㅅ</i>ㅇ</span><span>댓글 달기</span><span class="btn btn-primary btn-sm" style="height:34px">등록</span></div><nav class="tabbar"><a href="#"><svg class="ic"><use href="#i-home"></use></svg>홈</a><a href="#" aria-current="page"><svg class="ic"><use href="#i-cmt"></use></svg>커뮤니티</a><a href="#"><svg class="ic"><use href="#i-box"></use></svg>내 게임</a><a href="#"><svg class="ic"><use href="#i-bell"></use></svg>알림</a><a href="#"><svg class="ic"><use href="#i-user"></use></svg>나</a></nav></div></div><div class="pcol"><b>내 게임 · 보완 요청</b><span>업로드 화면 없음 — 그림 · 빌드는 ‘PC 에서’. 글자 · 태그 · 공개 설정만 휴대폰에서.</span><div class="phone"><div class="sbar"><span>9:41</span><span>5G</span></div><div class="pscroll"><div class="mback"><button class="icon-btn" aria-label="뒤로"><svg class="ic ic20" viewBox="0 0 16 16"><path d="M10 3 5 8l5 5"></path></svg></button><span class="t">종이 배 2</span><span style="margin-left:auto"><span class="st st-fix"><svg class="ic"><use href="#i-alert"></use></svg>보완 요청</span></span></div>
 <div class="msec" style="margin-top:8px"><div class="vsteps">
 <div class="vs done"><i><svg class="ic ic12"><use href="#i-check"></use></svg></i><span><b>작성</b><span class="m">11/24 제출</span></span></div>
 <div class="vs done"><i><svg class="ic ic12"><use href="#i-check"></use></svg></i><span><b>자동 검사 통과</b><span class="m">악성코드 · 용량 · 실행 확인</span></span></div>
-<div class="vs now"><i></i><span><b>심사 — 보완 요청</b><span class="m">2시간 전 · 고치면 바로 다시 심사해요</span>
-<div class="fixbox"><b><svg class="ic"><use href="#i-alert"></use></svg>고칠 것 1개</b>스크린샷을 3장 이상 올려 주세요. 지금 2장이에요.</div></span></div>
-<div class="vs"><i></i><span><b style="color:var(--ink-3)">공개</b></span></div>
+<div class="vs now"><i></i><span><b>심사 — 보완 요청</b><span class="m">2시간 전</span>
+<div class="fixbox"><b><svg class="ic"><use href="#i-alert"></use></svg>고칠 것 1개</b>스크린샷을 3장 이상 올려 주세요. 지금 2장이에요.</div>
+<div class="pcnote"><svg class="ic"><use href="#i-pc"></use></svg><span>그림 · 빌드 올리기는 PC 에서 할 수 있어요. <a class="link" href="#" style="font-size:13.5px">PC 로 링크 보내기</a></span></div></span></div>
+<div class="vs"><i></i><span><b style="color:var(--ink-3)">공개 — 운영자 승인 후</b></span></div>
 </div></div>
-<div class="msec" style="margin-top:8px"><div class="msh"><h2 style="font-size:16px">스크린샷 2 / 최소 3</h2></div>
-<div class="shots-row"><span class="art a-paper"></span><span class="art a-halcyon"></span><span class="add"><svg class="ic ic20"><use href="#i-plus"></use></svg></span></div>
-<span class="mbtn btn-primary" style="margin-top:14px">고친 내용으로 다시 제출</span></div>
-<div class="msec"><div class="msh"><h2 style="font-size:16px">휴대폰에서 바로 고치기</h2></div>
-<div class="kv"><div><span>한 줄 소개</span><span class="clip">접은 종이배로 강을 따라 내려가요</span><svg class="ic"><use href="#i-chev"></use></svg></div><div><span>공개 설정</span><span>심사 통과 후 바로 공개</span><svg class="ic"><use href="#i-chev"></use></svg></div><div><span>태그</span><span>탐험 · 힐링 · 20분</span><svg class="ic"><use href="#i-chev"></use></svg></div></div></div></div><nav class="tabbar"><a href="#"><svg class="ic"><use href="#i-home"></use></svg>홈</a><a href="#" aria-current="page"><svg class="ic"><use href="#i-box"></use></svg>내 게임</a><a href="#" aria-label="게임 올리기"><span class="up"><svg class="ic"><use href="#i-plus"></use></svg></span></a><a href="#"><svg class="ic"><use href="#i-pen"></use></svg>일지</a><a href="#"><svg class="ic"><use href="#i-user"></use></svg>나</a></nav></div></div></div>
-<sc-if value="{{ showMemo }}" hint-placeholder-val="{{ true }}"><aside class="memo"><b>MakersGround 모바일</b>MakersGround 는 휴대폰도 1급. 탭바(홈 · 내 게임 · 올리기 · 일지 · 나), 누름 영역 44 이상, 큰 버튼 52. 업로드 마법사는 PC 권장이지만 저장하며 진행해 휴대폰에서 이어 쓸 수 있다.</aside></sc-if>
+<div class="msec" style="margin-top:4px"><div class="msh"><h2 style="font-size:16px">휴대폰에서 고칠 수 있는 것</h2></div>
+<div class="kv"><div><span>한 줄 소개</span><span class="clip">접은 종이배로 강을 따라 내려가요</span><svg class="ic"><use href="#i-chev"></use></svg></div><div><span>태그</span><span>탐험 · 힐링 · 20분</span><svg class="ic"><use href="#i-chev"></use></svg></div><div><span>공개 설정</span><span>승인 후 바로 공개</span><svg class="ic"><use href="#i-chev"></use></svg></div></div></div></div><nav class="tabbar"><a href="#"><svg class="ic"><use href="#i-home"></use></svg>홈</a><a href="#"><svg class="ic"><use href="#i-cmt"></use></svg>커뮤니티</a><a href="#" aria-current="page"><svg class="ic"><use href="#i-box"></use></svg>내 게임</a><a href="#"><svg class="ic"><use href="#i-bell"></use></svg>알림</a><a href="#"><svg class="ic"><use href="#i-user"></use></svg>나</a></nav></div></div></div>
+<sc-if value="{{ showMemo }}" hint-placeholder-val="{{ true }}"><aside class="memo"><b>MakersGround 모바일</b>M3 결정 반영: 모바일에는 게임 업로드 UI 를 두지 않는다. 탭바 = 홈 · 커뮤니티 · 내 게임 · 알림 · 나(모두 같은 모양). 글쓰기는 커뮤니티 화면의 떠 있는 버튼.</aside></sc-if>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1400,"height":1000},"startSignedIn":{"editor":"boolean","default":true,"tsType":"boolean"},"theme":{"editor":"enum","default":"light","options":["light","dark"],"tsType":"string"},"showMemo":{"editor":"boolean","default":true,"tsType":"boolean"}}'>
