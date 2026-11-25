@@ -17,6 +17,7 @@
 | `PlayGround v10` | **확정된 PlayGround 홈** |
 | `게임 카드 컴포넌트` | 카드 7종 · 상태 · 해부도 · 툴팁 (v10 과 같은 규칙) |
 | `aDmD 고양이 얼굴` | 고양이 DmD 표정 5종 · 그라운드 색 · 404 예시 |
+| `디자인 시스템 · 기초` · `디자인 시스템 · 컴포넌트` | 디자인 시스템 견본. **생성물** — `docs/design/tools/ds-canvas/build.py <받은 project 폴더>` 로 만들어 게시. 직접 고치지 말고 템플릿을 고친다 |
 | `PlayGround v3 ~ v9` | 반복 이력 (참고용) |
 | `콘셉트 A 판` · `B 놀이터` · `C 크레딧` | 채택하지 않은 시안 |
 | `PlayGround v2` · `MakersGround v2` · `components/` · `docs/` | 사용자 원본 (Claude Design 에서 이관) |
@@ -26,7 +27,8 @@
 - 브라우저 패널에서 캔버스 주소를 열면 된다(claude.ai 로그인 필요 — 사용자가 이미 로그인함).
 - `#page-PlayGround-v10` 처럼 **영문 페이지 이름은 해시로 바로 열린다.** 한글 이름 페이지(`게임 카드 컴포넌트` 등)는 해시가 안 먹으니 상단 왼쪽 페이지 메뉴(클릭 → 목록)에서 고른다.
 - 게시 직후 화면이 새 버전으로 다시 그려지며 스크롤이 맨 위로 돌아갈 수 있다.
-- 캔버스 Tweaks: `startSignedIn`(게스트/회원), `ground`(play/make 색 미리보기).
+- 캔버스 Tweaks: `startSignedIn`(게스트/회원), `ground`(play/make 색 미리보기), 디자인 시스템 페이지는 `theme`(light/dark).
+- **페이지 메뉴가 안 열리거나 브라우저 패널이 좁을 때 — 로컬 미리보기**: `.dc.html` 의 `<helmet>` 안쪽(head)과 `</helmet>…</x-dc>` 사이(body)를 꺼내 `{{ 값 }}` 을 채운 일반 HTML 로 만들고, 스크래치 폴더에서 `python -m http.server` 를 띄워(`.claude/launch.json` 에 임시 설정 → `preview_start`) 브라우저 패널로 본다. `file://` 는 스크린샷이 안 된다. 끝나면 임시 설정을 지운다.
 
 ## 겪은 함정 (다시 하지 말 것)
 
@@ -41,6 +43,9 @@
 | **파일 전체의 "x" 가 다른 문자열로 바뀜** | 변환 스크립트에서 조건부 치환의 기본값을 `'x'` 로 두고 `str.replace` 실행 | 조건부 치환은 `if` 로 감싸고, 치환 후 원래 없어야 할 문자열 개수를 검사한다 |
 | `<form onsubmit="return false">` | dc 형식에서 문자열 이벤트 속성은 동작하지 않음 | 폼 대신 `div role="search"`, 이벤트는 `onClick="{{ fn }}"` |
 | Gasoek One 작은 글자가 안 읽힘 | 두꺼운 디스플레이 서체 | **28px 이상에서만** |
+| 설명 칸의 로고·버튼·배지가 작게 · 회색으로 | `.imp span{font-size:12px}` 같은 자손 선택자가 안쪽 모든 span 에 적용 (범례 문제와 같은 원인) | **설명 글 선택자는 항상 자식 선택자 `>`** |
+| 다크 안의 라이트 견본이 어두운 옅은 바탕으로 | `[data-theme='dark'] [data-ground]` 가 안쪽 라이트 섬의 그라운드 요소까지 덮음 | 테마별 `--dark` 0/1 + `color-mix` 로 경계마다 재계산(tokens.css) |
+| 아트 클래스(`.a-halcyon`)가 안 보임 | `.imp .stage{background}` 가 우선순위로 덮음 | 아트는 안쪽 별도 요소에 칠한다 |
 
 ## 형식 메모
 

@@ -7,5 +7,7 @@
 | `PlayGround v10.dc.html` | PlayGround 홈 (PC) | 2026-11-26 사용자 확정 |
 | `게임 카드 컴포넌트.dc.html` | 게임 카드 7종 · 상태 · 툴팁 | v10 과 같은 규칙 |
 | `aDmD 고양이 얼굴.dc.html` | 고양이 DmD 표정 · 404 예시 | — |
+| `디자인 시스템 · 기초.dc.html` | 색·글자·간격·반경·그림자·모션·자모 얼굴·그라운드 각인 (Tweaks: theme·ground) | 생성물 — [`../tools/ds-canvas/`](../tools/ds-canvas/) 에서 `python build.py` |
+| `디자인 시스템 · 컴포넌트.dc.html` | 헤더·버튼·칩/탭·아트 위 요소·툴팁·띠·입력·메뉴/대화상자/토스트·상태 화면·푸터 | 같음 |
 
 `.dc.html` 은 캔버스 런타임(`support.js`, `fonts/`)이 있어야 그대로 렌더된다. 구현 단계에서는 이 마크업·CSS 를 SvelteKit 컴포넌트와 디자인 토큰으로 옮긴다.

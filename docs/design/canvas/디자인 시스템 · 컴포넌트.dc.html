@@ -1,0 +1,755 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>디자인 시스템 · 컴포넌트</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Gasoek+One&display=swap" rel="stylesheet">
+<style>
+:root {
+--color-white: #ffffff;
+--color-black: #000000;
+--color-transparent: transparent;
+--color-current: currentColor;
+--color-graphite-0: #ffffff;
+--color-graphite-50: #f2f3f5;
+--color-graphite-60: #eef0f3;
+--color-graphite-75: #eceef0;
+--color-graphite-100: #e9ebee;
+--color-graphite-200: #c4c8cc;
+--color-graphite-300: #a4a8ae;
+--color-graphite-400: #9b9fa3;
+--color-graphite-500: #71757a;
+--color-graphite-600: #65696f;
+--color-graphite-700: #4f5359;
+--color-graphite-800: #272c31;
+--color-graphite-850: #1f2328;
+--color-graphite-900: #191c20;
+--color-graphite-950: #151a20;
+--color-graphite-975: #101316;
+--color-jjok-50: #ecf4fe;
+--color-jjok-100: #d9eaff;
+--color-jjok-400: #3a96fe; 
+--color-jjok-500: #046dce; 
+--color-jjok-600: #0159aa;
+--color-jjok-850: #173456; 
+--color-jjok-900: #122741; 
+--color-jjok-950: #0d2b4d; 
+--color-inju-50: #fef0ed;
+--color-inju-100: #fee0da;
+--color-inju-400: #fe6648;
+--color-inju-500: #d22c02;
+--color-inju-600: #ad2201;
+--color-inju-850: #51241a;
+--color-inju-900: #3d1b14;
+--color-inju-950: #4a1a0c;
+--color-bichwi-50: #e5faea;
+--color-bichwi-400: #05ae59;
+--color-bichwi-500: #047f3f;
+--color-bichwi-600: #026732;
+--color-bichwi-900: #0e2e19;
+--color-dahong-50: #feefef;
+--color-dahong-400: #fe6270;
+--color-dahong-500: #db0240;
+--color-dahong-600: #b40433; 
+--color-dahong-900: #3d1a1c;
+--color-face-hong: #ac5255;
+--color-face-ju: #a85831;
+--color-face-gyul: #a05e14;
+--color-face-hwang: #826c01;
+--color-face-olive: #6b7407;
+--color-face-pul: #427b35;
+--color-face-bichwi: #017e52;
+--color-face-cheongnok: #0a7a7b;
+--color-face-haneul: #027797;
+--color-face-jjok: #3870b1;
+--color-face-bora: #7063b0;
+--color-face-jadu: #9b558d;
+--font-sans:
+'Pretendard', system-ui, -apple-system, 'Apple SD Gothic Neo',
+'Malgun Gothic', sans-serif;
+--font-display: 'Gasoek One', 'Pretendard', sans-serif;
+--text-caption: 12px; 
+--text-caption--line-height: 16px;
+--text-meta: 13px; 
+--text-meta--line-height: 1.45;
+--text-label: 14px; 
+--text-label--line-height: 1.4;
+--text-body: 15px; 
+--text-body--line-height: 1.5;
+--text-lead: 16px; 
+--text-lead--line-height: 1.6;
+--text-title: 17px; 
+--text-title--line-height: 1.4;
+--text-title-lg: 18px; 
+--text-title-lg--line-height: 1.35;
+--text-heading: 22px; 
+--text-heading--line-height: 1.3;
+--text-heading--letter-spacing: -0.02em;
+--text-heading-lg: 28px; 
+--text-heading-lg--line-height: 1.25;
+--text-heading-lg--letter-spacing: -0.02em;
+--text-display-sm: 28px; 
+--text-display-sm--line-height: 1;
+--text-display: 40px; 
+--text-display--line-height: 1.18;
+--text-display-lg: 48px; 
+--text-display-lg--line-height: 1;
+--font-weight-regular: 400;
+--font-weight-medium: 600; 
+--font-weight-bold: 700; 
+--font-weight-heavy: 800; 
+--spacing: 4px;
+--radius-xs: 5px; 
+--radius-sm: 8px; 
+--radius-md: 10px; 
+--radius-lg: 14px; 
+--radius-xl: 16px; 
+--radius-2xl: 22px; 
+--radius-full: 999px;
+--shadow-hairline: 0 1px 2px rgb(21 26 32 / 0.08); 
+--shadow-chip: 0 4px 10px -4px rgb(0 0 0 / 0.45); 
+--shadow-float: 0 6px 16px -6px rgb(0 0 0 / 0.5); 
+--shadow-lift: var(--lift); 
+--shadow-pop: 0 12px 28px -10px rgb(0 0 0 / 0.5); 
+--ease-soft: cubic-bezier(0.2, 0.7, 0.2, 1); 
+--ease-linear: linear;
+--breakpoint-md: 768px; 
+--breakpoint-xl: 1280px; 
+--container-page: 1200px;
+}
+:root,
+[data-theme='light'] {
+color-scheme: light;
+--dark: 0;
+--bg: var(--color-graphite-0);
+--raised: rgb(255 255 255 / 0.7); 
+--raised-hover: var(--color-graphite-0);
+--sunken: var(--color-graphite-50); 
+--sunken-hover: var(--color-graphite-100);
+--line: var(--color-graphite-75);
+--ink-1: var(--color-graphite-950); 
+--ink-2: var(--color-graphite-700); 
+--ink-3: var(--color-graphite-600); 
+--ink-4: var(--color-graphite-400); 
+--surface-ink: var(--color-graphite-950); 
+--on-ink: var(--color-white);
+--scrim: rgb(21 26 32 / 0.66); 
+--scrim-strong: rgb(21 26 32 / 0.78);
+--ok: var(--color-bichwi-500);
+--ok-text: var(--color-bichwi-500);
+--ok-tint: var(--color-bichwi-50);
+--ok-on-ink: var(--color-bichwi-400);
+--danger: var(--color-dahong-500);
+--danger-strong: var(--color-dahong-600);
+--danger-text: var(--color-dahong-500);
+--danger-tint: var(--color-dahong-50);
+--rank-up: var(--color-dahong-500); 
+--rank-down: var(--color-jjok-600); 
+--lift: 0 12px 26px -12px rgb(21 26 32 / 0.36);
+}
+:root,
+[data-ground='play'] {
+--g-50: var(--color-jjok-50);
+--g-100: var(--color-jjok-100);
+--g-400: var(--color-jjok-400);
+--g-500: var(--color-jjok-500);
+--g-600: var(--color-jjok-600);
+--g-850: var(--color-jjok-850);
+--g-900: var(--color-jjok-900);
+}
+[data-ground='make'] {
+--g-50: var(--color-inju-50);
+--g-100: var(--color-inju-100);
+--g-400: var(--color-inju-400);
+--g-500: var(--color-inju-500);
+--g-600: var(--color-inju-600);
+--g-850: var(--color-inju-850);
+--g-900: var(--color-inju-900);
+}
+:root,
+[data-ground],
+[data-theme] {
+--accent: var(--g-500); 
+--accent-strong: var(--g-600); 
+--accent-text: color-mix(in srgb, var(--g-400) calc(var(--dark) * 100%), var(--g-500)); 
+--accent-tint: color-mix(in srgb, var(--g-900) calc(var(--dark) * 100%), var(--g-50)); 
+--accent-tint-2: color-mix(in srgb, var(--g-850) calc(var(--dark) * 100%), var(--g-100));
+--on-accent: var(--color-white);
+}
+:root {
+--play: var(--color-jjok-500);
+--play-strong: var(--color-jjok-600);
+--make: var(--color-inju-500);
+--make-strong: var(--color-inju-600);
+}
+[data-theme='dark'] {
+color-scheme: dark;
+--dark: 1;
+--bg: var(--color-graphite-975);
+--raised: var(--color-graphite-900);
+--raised-hover: var(--color-graphite-850);
+--sunken: var(--color-graphite-850);
+--sunken-hover: var(--color-graphite-800);
+--line: var(--color-graphite-800);
+--ink-1: var(--color-graphite-60);
+--ink-2: var(--color-graphite-200);
+--ink-3: var(--color-graphite-300);
+--ink-4: var(--color-graphite-500);
+--surface-ink: var(--color-graphite-800);
+--ok-text: var(--color-bichwi-400);
+--ok-tint: var(--color-bichwi-900);
+--danger-text: var(--color-dahong-400);
+--danger-tint: var(--color-dahong-900);
+--rank-up: var(--color-dahong-400);
+--rank-down: var(--color-jjok-400);
+--play-strong: var(--color-jjok-400);
+--make-strong: var(--color-inju-400);
+--lift: 0 12px 26px -12px rgb(0 0 0 / 0.7);
+}
+:root {
+--page-width: 1200px;
+--page-min: 1280px; 
+--header-h: 68px;
+--section-gap: 64px; 
+--section-head-gap: 18px; 
+--footer-gap: 88px;
+--btn-h: 44px;
+--btn-h-sm: 38px;
+--chip-h: 38px;
+--tab-h: 34px;
+--icon-btn: 40px;
+--arrow-btn: 34px;
+--search-w: 240px;
+--badge-h: 24px;
+--tag-h: 20px;
+--art-ratio: 16 / 9;
+--card-lift: translateY(-3px);
+--qplay: 40px;
+--qplay-lg: 46px;
+--pick-w: 296px;
+--rank-art: 96px;
+--overlay-inset: 8px; 
+--face-xs: 20px;
+--face-sm: 26px;
+--face-md: 32px;
+--face-lg: 54px;
+--dur-instant: 120ms; 
+--dur-fast: 180ms; 
+--dur-base: 240ms; 
+--dur-face: 260ms; 
+--delay-tooltip: 120ms;
+--logo-idle: 9s; 
+--z-art-overlay: 3;
+--z-card-hover: 6;
+--z-chip-hover: 8;
+--z-header: 20;
+--z-tooltip: 30;
+--z-dropdown: 40;
+--z-modal: 50;
+--z-toast: 60;
+}
+@media (prefers-reduced-motion: reduce) {
+:root {
+--dur-instant: 0ms;
+--dur-fast: 0ms;
+--dur-base: 0ms;
+--dur-face: 0ms;
+}
+}
+@font-face{font-family:'Pretendard';src:url('fonts/PretendardVariable.woff2') format('woff2');font-weight:45 920;font-display:swap}
+*{box-sizing:border-box}
+body{margin:0;background:#FFFFFF;-webkit-font-smoothing:antialiased}
+.ds{background:var(--bg);color:var(--ink-1);font-family:var(--font-sans);font-size:15px;line-height:1.5;word-break:keep-all;min-height:100%}
+.ds a{color:inherit;text-decoration:none}
+.ds button{font:inherit;color:inherit;cursor:pointer}
+.ds :focus-visible,.is-focus{outline:2px solid var(--accent);outline-offset:2px}
+.page{width:1280px;padding:56px 40px 96px;display:flex;flex-direction:column;gap:72px}
+.num{font-variant-numeric:tabular-nums}
+.disp{font-family:var(--font-display);font-weight:400}
+.mono{font-family:ui-monospace,'SF Mono',Consolas,monospace;font-size:12px;letter-spacing:0}
+.m{font-size:13px;line-height:1.45;color:var(--ink-3)}
+.ic{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.ic16{width:16px;height:16px}.ic20{width:20px;height:20px}.ic12{width:12px;height:12px}
+
+/* 문서 머리 */
+.doc-h h1{margin:0;font-size:30px;line-height:1.25;font-weight:800;letter-spacing:-.02em}
+.doc-h p{margin:10px 0 0;max-width:760px;font-size:16px;line-height:1.65;color:var(--ink-2)}
+.doc-h .crumb{display:flex;gap:8px;margin-bottom:14px;font-size:13px;font-weight:700;color:var(--ink-3)}
+.blk{display:flex;flex-direction:column;gap:22px}
+.blk > header{display:flex;align-items:baseline;gap:14px}
+.blk > header h2{margin:0;font-size:22px;line-height:1.3;font-weight:800;letter-spacing:-.02em;display:flex;align-items:center;gap:10px}
+.blk > header span{font-size:13px;color:var(--ink-3)}
+.sub{margin:0 0 -8px;font-size:14px;font-weight:800;color:var(--ink-2)}
+.note{font-size:13px;line-height:1.55;color:var(--ink-3);margin:0}
+.ear{width:22px;height:12px;flex:none;align-self:flex-start;margin-top:5px}
+.ear path{fill:var(--accent)}
+
+/* 고양이 DmD */
+.logo{display:inline-flex;align-items:flex-end;gap:.04em;font-weight:800;line-height:1;letter-spacing:-.02em;color:var(--ink-1)}
+.cat{position:relative;display:inline-flex;align-items:flex-end;gap:.03em;padding:0 .06em}
+.cat .ears{position:absolute;left:-.1em;top:-.21em;width:calc(100% + .2em);height:.46em;overflow:visible}
+.cat .ears path{fill:none;stroke:var(--ears,var(--accent));stroke-width:2.4;stroke-linecap:round;stroke-linejoin:round;vector-effect:non-scaling-stroke}
+.cat .e{display:inline-block;transform-origin:50% 55%;transition:transform 260ms var(--ease-soft)}
+.cat .mo{font-size:.72em}
+.f-up .e{transform:rotate(-90deg)}
+.f-down .e{transform:rotate(90deg)}
+.f-wow .e{transform:scale(1.12)}
+.f-sleep .e{transform:scaleY(.18) translateY(-.1em)}
+.big-face .cat .ears path{stroke-width:3}
+
+/* 자모 얼굴 */
+.jf{display:inline-flex;align-items:center;justify-content:center;flex:none;width:26px;height:26px;border-radius:7px;color:#FFFFFF;font-weight:800;font-size:10px;letter-spacing:-.06em;line-height:1;white-space:nowrap}
+.jf i{font-style:normal;font-size:.78em;margin:0 .02em;position:relative;top:.06em}
+.jf.xs{width:20px;height:20px;font-size:8.5px;border-radius:5px}
+.jf.md{width:32px;height:32px;font-size:12px;border-radius:9px}
+.jf.lg{width:54px;height:54px;font-size:20px;border-radius:14px}
+.jf.xl{width:96px;height:96px;font-size:36px;border-radius:26px}
+
+/* 버튼 */
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:var(--btn-h);padding:0 20px;border:0;border-radius:var(--radius-md);font-size:15px;font-weight:700;white-space:nowrap;transition:background var(--dur-fast) var(--ease-soft),transform var(--dur-instant) var(--ease-soft)}
+.btn:active,.btn.is-press{transform:translateY(1px)}
+.btn-sm{height:var(--btn-h-sm);padding:0 16px;font-size:14px;border-radius:var(--radius-full)}
+.btn-primary{background:var(--accent);color:var(--on-accent)}
+.btn-primary:hover,.btn-primary.is-hover{background:var(--accent-strong)}
+.btn-secondary{background:var(--sunken);color:var(--ink-1)}
+.btn-secondary:hover,.btn-secondary.is-hover{background:var(--sunken-hover)}
+.btn-on-color{background:#FFFFFF;color:#151A20}
+.btn-on-color:hover,.btn-on-color.is-hover{background:#E8ECF1}
+.btn-glass{background:rgb(255 255 255 / .16);color:#FFFFFF}
+.btn-glass:hover,.btn-glass.is-hover{background:rgb(255 255 255 / .26)}
+.btn-danger{background:var(--danger);color:#FFFFFF}
+.btn-danger:hover,.btn-danger.is-hover{background:var(--danger-strong)}
+.btn-link{height:auto;padding:0;background:none;font-size:14px;color:var(--ink-3)}
+.btn-link:hover,.btn-link.is-hover{color:var(--ink-1)}
+.btn[disabled],.btn.is-disabled{opacity:.4;cursor:default;transform:none}
+.on-dark .is-focus,.on-dark :focus-visible{outline-color:#FFFFFF}
+.icon-btn{display:grid;place-items:center;width:var(--icon-btn);height:var(--icon-btn);border:0;border-radius:999px;background:transparent;position:relative;color:var(--ink-1)}
+.icon-btn:hover,.icon-btn.is-hover{background:var(--sunken)}
+.arw{display:grid;place-items:center;width:var(--arrow-btn);height:var(--arrow-btn);border:0;border-radius:999px;background:var(--sunken);color:var(--ink-1)}
+.arw:hover{background:var(--sunken-hover)}
+.arw[disabled]{opacity:.4;cursor:default}
+.dot-new{position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:999px;background:var(--color-dahong-500);box-shadow:0 0 0 2px var(--bg)}
+
+/* 칩 · 탭 · 태그 */
+.chips{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.chip{display:inline-flex;align-items:center;gap:6px;height:var(--chip-h);padding:0 15px;border:0;border-radius:999px;background:var(--sunken);font-size:14px;font-weight:700;color:var(--ink-2)}
+.chip:hover,.chip.is-hover{background:var(--sunken-hover)}
+.chip[aria-pressed="true"]{background:var(--ink-1);color:var(--bg)}
+.chip .c{font-weight:600;opacity:.6}
+.ptabs{display:inline-flex;gap:4px}
+.ptabs button{height:var(--tab-h);padding:0 12px;border:0;border-radius:999px;background:transparent;font-size:14px;font-weight:700;color:var(--ink-3)}
+.ptabs button:hover{color:var(--ink-1)}
+.ptabs button[aria-selected="true"]{background:var(--raised-hover);color:var(--accent-strong);box-shadow:var(--shadow-hairline)}
+[data-theme="dark"] .ptabs button[aria-selected="true"]{color:var(--accent-text)}
+.utabs{display:flex;gap:4px;border-bottom:1px solid var(--line)}
+.utabs a{display:flex;align-items:center;height:48px;padding:0 14px;font-size:16px;font-weight:700;color:var(--ink-3);box-shadow:inset 0 -3px 0 transparent}
+.utabs a:hover{color:var(--ink-1)}
+.utabs a[aria-current]{color:var(--ink-1);box-shadow:inset 0 -3px 0 var(--accent)}
+.tag{display:inline-flex;align-items:center;height:var(--tag-h);padding:0 6px;border-radius:var(--radius-xs);background:var(--sunken);font-size:12px;font-weight:700;color:var(--ink-2)}
+
+/* 헤더 */
+.hdr{background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid var(--line)}
+.hdr .in{width:1200px;margin:0 auto;height:var(--header-h);display:flex;align-items:center;gap:28px}
+.brand{display:flex;align-items:flex-end;gap:7px;padding-top:8px}
+.brand .word{font-size:14px;font-weight:800;color:var(--ink-2);padding-bottom:1px}
+.gnb{display:flex;gap:2px;align-self:stretch}
+.gnb a{display:flex;align-items:center;padding:0 12px;font-size:16px;font-weight:700;color:var(--ink-3);box-shadow:inset 0 -3px 0 transparent}
+.gnb a:hover{color:var(--ink-1)}
+.gnb a[aria-current]{color:var(--ink-1);box-shadow:inset 0 -3px 0 var(--accent)}
+.hdr .right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.ground{display:flex;padding:3px;background:var(--sunken);border-radius:999px;font-size:13px;font-weight:700}
+.ground a{padding:5px 12px;border-radius:999px;color:var(--ink-3)}
+.ground a.play[aria-current]{background:var(--play);color:#FFFFFF}
+.ground a.make[aria-current]{background:var(--make);color:#FFFFFF}
+.ground a.make:not([aria-current]):hover{color:var(--make-strong)}
+.ground a.play:not([aria-current]):hover{color:var(--play-strong)}
+.search{display:flex;align-items:center;gap:8px;width:var(--search-w);height:40px;padding:0 14px;background:var(--sunken);border-radius:999px;color:var(--ink-3);font-size:14px}
+.search.is-focus{outline:0;background:var(--bg);box-shadow:inset 0 0 0 2px var(--accent);color:var(--ink-1)}
+
+/* 아트 */
+.art{position:relative;display:block;aspect-ratio:16/9;border-radius:var(--radius-md);background:var(--sunken)}
+.art.lg-r{border-radius:var(--radius-lg)}
+.art .shots{position:absolute;inset:0;overflow:hidden;border-radius:inherit}
+.badge{position:absolute;left:var(--overlay-inset);top:var(--overlay-inset);z-index:3;display:inline-flex;align-items:center;gap:5px;height:var(--badge-h);padding:0 9px 0 7px;border-radius:999px;font-size:12px;font-weight:800;color:#FFFFFF;background:var(--accent);box-shadow:var(--shadow-chip)}
+.badge.ink{background:var(--scrim-strong);backdrop-filter:blur(6px)}
+.badge.mk{background:var(--make)}
+.badge.static{position:static}
+.plat{position:absolute;right:var(--overlay-inset);top:var(--overlay-inset);z-index:3;display:flex;align-items:center;gap:6px;height:var(--badge-h);padding:0 8px;border-radius:999px;background:var(--scrim);backdrop-filter:blur(6px);color:#FFFFFF;font-size:12px;font-weight:700}
+.plat .ok{color:var(--ok-on-ink)}
+.maker{position:absolute;left:var(--overlay-inset);bottom:var(--overlay-inset);z-index:3;box-shadow:0 0 0 2px #FFFFFF}
+.qplay{position:absolute;right:var(--overlay-inset);bottom:var(--overlay-inset);z-index:3;width:var(--qplay);height:var(--qplay);border-radius:999px;background:var(--accent);color:#FFFFFF;display:grid;place-items:center;box-shadow:var(--shadow-float)}
+.prog{position:absolute;left:0;right:0;bottom:0;z-index:2;height:4px;background:rgb(21 26 32 / .35);border-radius:0 0 var(--radius-md) var(--radius-md);overflow:hidden}
+.prog i{display:block;height:100%;background:var(--accent)}
+.frames{position:absolute;left:50%;bottom:8px;z-index:3;transform:translateX(-50%);display:flex;gap:3px}
+.frames b{width:16px;height:3px;border-radius:2px;background:rgb(255 255 255 / .45)}
+.frames b:first-child{background:#FFFFFF}
+.tip{position:absolute;right:-6px;top:calc(100% + 9px);z-index:var(--z-tooltip);display:flex;flex-direction:column;gap:7px;padding:10px 12px 10px 11px;border-radius:var(--radius-md);background:var(--surface-ink);color:#FFFFFF;font-size:13px;font-weight:600;line-height:1.3;box-shadow:var(--shadow-pop);white-space:nowrap}
+.tip::before{content:"";position:absolute;right:16px;top:-5px;width:10px;height:10px;border-radius:2px;background:var(--surface-ink);transform:rotate(45deg)}
+.tip > span{display:flex;align-items:center;gap:7px}
+.tip .ic{width:13px;height:13px;color:rgb(255 255 255 / .75)}
+.tip .ok,.tip .ok .ic{color:var(--ok-on-ink)}
+
+/* 진행 · 저장 */
+.bar{height:5px;border-radius:999px;background:var(--sunken-hover);overflow:hidden}
+.bar i{display:block;height:100%;background:var(--accent);border-radius:999px}
+.save{width:28px;height:28px;display:grid;place-items:center;border:0;background:transparent;color:var(--ink-3);border-radius:var(--radius-sm)}
+.save:hover,.save.is-hover{background:var(--sunken);color:var(--ink-1)}
+.save.on{color:var(--accent-text)}
+
+/* 게임 카드(간단) */
+.gc{position:relative;display:flex;flex-direction:column;gap:3px;min-width:0}
+.gc .art{margin-bottom:7px}
+.gc .t{font-size:15px;font-weight:700;line-height:1.4}
+.gc .meta{font-size:13px;color:var(--ink-3)}
+.gc.lift .art{transform:var(--card-lift);box-shadow:var(--shadow-lift)}
+.gc.lift .t{color:var(--accent-text)}
+
+/* 랭킹 줄 */
+.rr{display:grid;grid-template-columns:34px 96px minmax(0,1fr) auto;align-items:center;gap:14px;padding:8px 12px 8px 8px;border-radius:var(--radius-lg);background:var(--raised)}
+.rr .n{font-size:28px;line-height:1;text-align:center;color:var(--ink-2)}
+.rr .n.top{color:var(--accent-text)}
+.rr .art{width:96px;border-radius:9px}
+.rr b{display:block;font-size:15px}
+.rr .by{display:flex;align-items:center;gap:6px;margin-top:3px;font-size:13px;color:var(--ink-3)}
+.rr .k{text-align:right;font-size:12px;font-weight:800;line-height:1.4;color:var(--rank-up)}
+.rr .k.dn{color:var(--rank-down)}
+
+/* 아트 플레이스홀더 */
+.a-loop{background:radial-gradient(circle at 70% 50%,transparent 0 17%,#7CE0B8 17.5% 19%,transparent 19.5%),repeating-linear-gradient(90deg,#FFFFFF10 0 1px,transparent 1px 22px),repeating-linear-gradient(0deg,#FFFFFF10 0 1px,transparent 1px 22px),#173250}
+.a-ash{background:radial-gradient(circle at 20% 30%,#FF8A3D 0 1%,transparent 1.5%),radial-gradient(circle at 45% 18%,#FFB36B 0 .8%,transparent 1.3%),radial-gradient(circle at 75% 26%,#FF8A3D 0 1.2%,transparent 1.7%),linear-gradient(0deg,#2A2523 0 34%,transparent 34%),linear-gradient(#6B4A3A,#C46A3A)}
+.a-tess{background:conic-gradient(from 210deg at 60% 60%,#E9F2FF 0 25%,#9CC3F5 25% 50%,#3C78D8 50% 75%,#1A3F8A 75%)}
+.a-paper{background:linear-gradient(150deg,transparent 46%,#FFFFFF 46% 50%,transparent 50%) 30% 40%/34% 34% no-repeat,linear-gradient(30deg,transparent 46%,#FFE07A 46% 50%,transparent 50%) 70% 60%/30% 30% no-repeat,#167A78}
+.a-grid{background:linear-gradient(#FFFFFF 0 0) 35% 35%/14% 24% no-repeat,linear-gradient(#FFCF33 0 0) 52% 35%/14% 24% no-repeat,linear-gradient(#FFFFFF 0 0) 52% 65%/14% 24% no-repeat,repeating-linear-gradient(90deg,#FFFFFF14 0 2px,transparent 2px 14.28%),#2D3142}
+.a-halcyon{background:radial-gradient(circle at 30% 70%,#FFFFFF55 0 2%,transparent 2.5%),radial-gradient(circle at 38% 58%,#FFFFFF44 0 1.4%,transparent 1.9%),linear-gradient(#0E5A8A,#06243D)}
+.a-demon{background:radial-gradient(circle at 62% 44%,#E8434F 0 6%,transparent 6.5%),radial-gradient(ellipse 40% 20% at 50% 100%,#2E5E3A 0 100%,transparent 100%),linear-gradient(#B9D7A8,#7FAF6C)}
+
+/* 이 페이지 전용 */
+.frame{border-radius:var(--radius-2xl);box-shadow:0 0 0 1px var(--line);overflow:hidden}
+.matrix{display:grid;grid-template-columns:140px repeat(5,minmax(0,1fr));gap:14px 16px;align-items:center}
+.matrix .h{font-size:12px;font-weight:800;color:var(--ink-3)}
+.matrix .rl{font-size:13px;font-weight:700;color:var(--ink-2)}
+.matrix .rl code{display:block;font-size:11.5px;font-weight:500;color:var(--ink-3);font-family:ui-monospace,Consolas,monospace}
+.on-color-row{grid-column:2 / -1;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;padding:16px;border-radius:var(--radius-lg);background:var(--accent)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.cell{display:flex;flex-direction:column;gap:12px}
+.cell > b{font-size:14px}
+.cell > .m{margin-top:-6px}
+.rank-band{padding:20px;border-radius:var(--radius-lg);background:var(--accent-tint);display:flex;flex-direction:column;gap:14px}
+.anat{display:grid;grid-template-columns:440px minmax(0,1fr);gap:48px;align-items:start}
+.anat .art{--overlay-inset:10px}
+.anat .art .jf{width:32px;height:32px;font-size:12px;border-radius:9px}
+.anat .art .qplay{width:var(--qplay-lg);height:var(--qplay-lg)}
+.slots{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;counter-reset:s}
+.slots li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;font-size:14px;line-height:1.5;color:var(--ink-2)}
+.slots li::before{counter-increment:s;content:counter(s);display:grid;place-items:center;width:24px;height:24px;border-radius:999px;background:var(--ink-1);color:var(--bg);font-size:12px;font-weight:800}
+.slots b{color:var(--ink-1)}
+.pin{position:absolute;z-index:9;display:grid;place-items:center;width:20px;height:20px;border-radius:999px;background:#FFD43B;color:#151A20;font-size:11px;font-weight:900;box-shadow:0 0 0 2px #151A20}
+.badges{display:flex;gap:8px;flex-wrap:wrap}
+.sh{display:flex;align-items:center;gap:10px}
+.sh h3{margin:0;font-size:22px;line-height:1.3;font-weight:800;letter-spacing:-.02em}
+.sh .r{margin-left:auto;display:flex;align-items:center;gap:6px}
+.rail{display:flex;gap:16px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent)}
+.rail .gc{flex:0 0 220px}
+.pager{display:inline-flex;align-items:center;gap:2px;padding:4px;border-radius:999px;background:rgb(21 26 32 / .55);backdrop-filter:blur(8px);color:#FFFFFF;font-size:13px;font-weight:700}
+.pager span{width:30px;height:30px;border-radius:999px;display:grid;place-items:center}
+.dots{display:flex;gap:6px}
+.dots i{width:6px;height:6px;border-radius:999px;background:var(--sunken-hover)}
+.dots i.on{width:22px;background:var(--accent)}
+.slide-mini{position:relative;height:150px;border-radius:var(--radius-xl);overflow:hidden;display:grid;grid-template-columns:1fr 200px;color:#FFFFFF}
+.slide-mini .t{padding:20px 22px;display:flex;flex-direction:column;gap:8px}
+.slide-mini .t b{font-family:var(--font-display);font-weight:400;font-size:28px;line-height:1.1}
+.slide-mini .pager{position:absolute;right:10px;bottom:10px}
+.band-login{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:24px;padding:26px 30px;border-radius:var(--radius-2xl);background:var(--accent);color:#FFFFFF}
+.band-login .facerow{display:flex;gap:8px}
+.band-login .jf{box-shadow:0 0 0 3px rgb(255 255 255 / .9)}
+.band-login b{font-size:20px;font-weight:800}
+.band-login p{margin:4px 0 0;font-size:14px;color:rgb(255 255 255 / .82)}
+.band-jam{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:24px;padding:26px 34px;border-radius:var(--radius-2xl);background:var(--surface-ink);color:#FFFFFF}
+.band-jam .big{font-size:48px;line-height:1;color:var(--color-inju-400)}
+.band-jam b{font-size:18px;font-weight:800}
+.band-jam p{margin:4px 0 0;font-size:14px;color:rgb(255 255 255 / .7)}
+.btn-make{background:var(--make);color:#FFFFFF}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:14px;font-weight:700}
+.input{display:flex;align-items:center;gap:8px;height:44px;padding:0 14px;border-radius:var(--radius-md);background:var(--sunken);font-size:15px;color:var(--ink-1)}
+.input.ph{color:var(--ink-3)}
+.input.focus{background:var(--bg);box-shadow:inset 0 0 0 2px var(--accent)}
+.input.err{box-shadow:inset 0 0 0 2px var(--danger)}
+.input .chev{margin-left:auto;color:var(--ink-3)}
+.textarea{height:104px;align-items:flex-start;padding:12px 14px;position:relative}
+.textarea .cnt{position:absolute;right:12px;bottom:10px;font-size:13px;color:var(--ink-3)}
+.help{font-size:13px;color:var(--ink-3)}
+.errmsg{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--danger-text)}
+.checks{display:flex;flex-direction:column;gap:2px}
+.ck{display:flex;align-items:center;gap:10px;min-height:44px;font-size:15px}
+.box{width:20px;height:20px;border-radius:var(--radius-xs);box-shadow:inset 0 0 0 1.5px var(--ink-4);display:grid;place-items:center;color:#FFFFFF;flex:none}
+.box.on{background:var(--accent);box-shadow:none}
+.radio{width:20px;height:20px;border-radius:999px;box-shadow:inset 0 0 0 1.5px var(--ink-4);flex:none}
+.radio.on{box-shadow:inset 0 0 0 6px var(--accent)}
+.switch{width:40px;height:24px;border-radius:999px;background:var(--sunken-hover);position:relative;flex:none}
+.switch::after{content:"";position:absolute;left:2px;top:2px;width:20px;height:20px;border-radius:999px;background:#FFFFFF;box-shadow:var(--shadow-hairline);transition:transform var(--dur-fast) var(--ease-soft)}
+.switch.on{background:var(--accent)}
+.switch.on::after{transform:translateX(16px)}
+.menu{width:240px;padding:6px;border-radius:var(--radius-lg);background:var(--bg);box-shadow:var(--shadow-pop),0 0 0 1px var(--line)}
+[data-theme="dark"] .menu,[data-theme="dark"] .dialog{background:var(--raised)}
+.menu .mh{display:flex;align-items:center;gap:10px;padding:10px 10px 12px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.menu .mh b{display:block;font-size:15px}
+.menu a{display:flex;align-items:center;gap:10px;height:40px;padding:0 10px;border-radius:var(--radius-md);font-size:14px;font-weight:600;color:var(--ink-1)}
+.menu a.hv{background:var(--sunken)}
+.menu a.dg{color:var(--danger-text)}
+.menu hr{border:0;border-top:1px solid var(--line);margin:6px 0}
+.scrim-demo{position:relative;padding:36px;border-radius:var(--radius-2xl);background:rgb(16 19 22 / .5);display:grid;place-items:center}
+.dialog{width:440px;padding:28px;border-radius:var(--radius-2xl);background:var(--bg);box-shadow:var(--shadow-pop);display:flex;flex-direction:column;gap:12px}
+.dialog h4{margin:0;font-size:22px;line-height:1.3;font-weight:800}
+.dialog p{margin:0;font-size:15px;line-height:1.6;color:var(--ink-2)}
+.dialog .acts{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+.toast{display:inline-flex;align-items:center;gap:10px;height:44px;padding:0 18px 0 14px;border-radius:999px;background:var(--surface-ink);color:#FFFFFF;font-size:14px;font-weight:600;box-shadow:var(--shadow-pop)}
+.toast a{color:var(--g-400);font-weight:800;margin-left:6px}
+.toast .ok{color:var(--ok-on-ink)}
+@keyframes shimmer{0%,100%{opacity:1}50%{opacity:.55}}
+.sk{background:var(--sunken);border-radius:4px;animation:shimmer 1.4s var(--ease-soft) infinite}
+@media (prefers-reduced-motion:reduce){.sk{animation:none}}
+.state{display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;padding:56px 24px 48px;border-radius:var(--radius-2xl);background:var(--sunken)}
+.state .logo{font-size:96px}
+.state h4{text-wrap:balance;margin:10px 0 0;font-size:28px;line-height:1.25;font-weight:800;letter-spacing:-.02em}
+.state p{text-wrap:balance;margin:0;font-size:16px;line-height:1.6;color:var(--ink-2);max-width:380px}
+.state .acts{display:flex;gap:8px;margin-top:6px}
+.state .btn-secondary{background:var(--bg)}
+.footer{border-top:3px solid var(--accent);padding:26px 32px 32px;display:flex;flex-direction:column;gap:14px;font-size:13px;color:var(--ink-3)}
+.footer .links{display:flex;gap:18px;color:var(--ink-2);font-weight:600}
+</style>
+</helmet>
+<div class="ds" data-theme="{{ theme }}" data-ground="{{ ground }}">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-web" viewBox="0 0 16 16"><rect x="1.5" y="2.5" width="13" height="11" rx="2"></rect><path d="M1.5 5.5h13"></path><path d="M6.5 8v3.4l3-1.7z"></path></symbol>
+<symbol id="i-dl" viewBox="0 0 16 16"><path d="M8 2v8M4.8 7 8 10.2 11.2 7"></path><path d="M2.5 11v2.5h11V11"></path></symbol>
+<symbol id="i-pc" viewBox="0 0 16 16"><rect x="1.5" y="2.5" width="13" height="8.5" rx="1.5"></rect><path d="M5.5 14h5M8 11v3"></path></symbol>
+<symbol id="i-phone" viewBox="0 0 16 16"><rect x="4.5" y="1.5" width="7" height="13" rx="1.8"></rect><path d="M7 12.2h2"></path></symbol>
+<symbol id="i-pad" viewBox="0 0 16 16"><path d="M4.5 5h7a3 3 0 0 1 3 3.2l-.3 2.6a1.8 1.8 0 0 1-3.2.9L9.8 10H6.2L5 11.7a1.8 1.8 0 0 1-3.2-.9l-.3-2.6A3 3 0 0 1 4.5 5z"></path><path d="M5 7.2v1.8M4.1 8.1h1.8"></path></symbol>
+<symbol id="i-duo" viewBox="0 0 16 16"><circle cx="5.5" cy="5.5" r="2.2"></circle><circle cx="11" cy="6.2" r="1.8"></circle><path d="M1.8 13c.4-2.3 1.9-3.6 3.7-3.6s3.3 1.3 3.7 3.6M10 9.6c1.9 0 3.2 1.1 3.6 3"></path></symbol>
+<symbol id="i-shield" viewBox="0 0 16 16"><path d="M8 1.8 13 3.6v4c0 3-2.1 5.3-5 6.6-2.9-1.3-5-3.6-5-6.6v-4z"></path><path d="M5.8 8 7.4 9.6 10.4 6.6"></path></symbol>
+<symbol id="i-play" viewBox="0 0 16 16"><path d="M5 3.2v9.6L12.6 8z" fill="currentColor"></path></symbol>
+<symbol id="i-crown" viewBox="0 0 16 16"><path d="M2.2 5.2 5 8l3-4.6L11 8l2.8-2.8-1 7H3.2z" fill="currentColor"></path></symbol>
+<symbol id="i-spark" viewBox="0 0 16 16"><path d="M8 1.5c.5 3.2 1.3 4 4.5 4.5-3.2.5-4 1.3-4.5 4.5-.5-3.2-1.3-4-4.5-4.5 3.2-.5 4-1.3 4.5-4.5zM12.5 10.5c.2 1.4.6 1.8 2 2-1.4.2-1.8.6-2 2-.2-1.4-.6-1.8-2-2 1.4-.2 1.8-.6 2-2z" fill="currentColor"></path></symbol>
+<symbol id="i-gem" viewBox="0 0 16 16"><path d="M4 2.5h8l2.5 3.5L8 14 1.5 6z" fill="currentColor"></path></symbol>
+<symbol id="i-clock" viewBox="0 0 16 16"><circle cx="8" cy="8.5" r="5.5"></circle><path d="M8 5.5v3l2 1.5M6.5 1.5h3"></path></symbol>
+<symbol id="i-moon" viewBox="0 0 16 16"><path d="M12.8 10.4A5.6 5.6 0 0 1 5.6 3.2a5.6 5.6 0 1 0 7.2 7.2z" fill="currentColor"></path></symbol>
+<symbol id="i-cmt" viewBox="0 0 16 16"><path d="M2.5 3.5h11v7.5H7l-3 2.5V11H2.5z"></path></symbol>
+<symbol id="i-up" viewBox="0 0 16 16"><path d="M8 13V3M4 7l4-4 4 4"></path></symbol>
+<symbol id="i-bm" viewBox="0 0 16 16"><path d="M4 2h8v12l-4-3-4 3z"></path></symbol>
+<symbol id="i-bmf" viewBox="0 0 16 16"><path d="M4 2h8v12l-4-3-4 3z" fill="currentColor"></path></symbol>
+</svg>
+<div class="page">
+
+<header class="doc-h">
+<div class="crumb"><span>aDmD 디자인 시스템</span><span>·</span><span>컴포넌트</span></div>
+<h1>컴포넌트</h1>
+<p>v10 홈에서 쓴 것과 다음 페이지(게임 상세 · 플레이 화면 · 다운로드 · 라이브러리 · 설정)에 바로 필요한 기본 조작 요소. 명세는 저장소 <b>docs/design/system/03-components.md</b>, 게임 카드 7종은 <b>게임 카드 컴포넌트</b> 페이지.</p>
+</header>
+
+<section class="blk">
+<header><h2><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg>헤더</h2><span>높이 68 · 한 줄 · 스크롤 시 고정</span></header>
+<div class="frame">
+<div class="hdr"><div class="in">
+<a class="brand" href="#"><span class="logo" style="font-size:22px"><span>a</span><span class="cat"><svg class="ears" viewBox="0 0 64 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 19 L8 2 L20 10 Q32 6 44 10 L56 2 L61 19"></path></svg><span class="e">D</span><span class="mo">m</span><span class="e">D</span></span></span><span class="word">PlayGround</span></a>
+<nav class="gnb"><a href="#" aria-current="page">홈</a><a href="#">게임</a><a href="#">랭킹</a><a href="#">같이</a><a href="#">잼</a></nav>
+<div class="right">
+<div class="ground"><a class="play" href="#" aria-current="true">PlayGround</a><a class="make" href="#">MakersGround</a></div>
+<div class="search"><svg class="ic"><circle cx="7" cy="7" r="4.5"></circle><path d="M10.5 10.5 13 13"></path></svg>게임, 메이커 검색</div>
+<span class="btn btn-primary btn-sm">로그인</span>
+</div>
+</div></div>
+<div class="hdr" style="border-bottom:0"><div class="in">
+<a class="brand" href="#"><span class="logo" style="font-size:22px"><span>a</span><span class="cat"><svg class="ears" viewBox="0 0 64 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 19 L8 2 L20 10 Q32 6 44 10 L56 2 L61 19"></path></svg><span class="e">D</span><span class="mo">m</span><span class="e">D</span></span></span><span class="word">PlayGround</span></a>
+<nav class="gnb"><a href="#">홈</a><a href="#" aria-current="page">게임</a><a href="#">랭킹</a><a href="#">같이</a><a href="#">잼</a></nav>
+<div class="right">
+<div class="ground"><a class="play" href="#" aria-current="true">PlayGround</a><a class="make" href="#">MakersGround</a></div>
+<div class="search is-focus"><svg class="ic"><circle cx="7" cy="7" r="4.5"></circle><path d="M10.5 10.5 13 13"></path></svg>루프|</div>
+<button class="icon-btn" aria-label="알림 3개"><svg class="ic ic20" viewBox="0 0 16 16"><path d="M4 11V7a4 4 0 0 1 8 0v4l1 1.5H3z"></path><path d="M6.5 14h3"></path></svg><span class="dot-new"></span></button>
+<span class="jf md" style="background:var(--color-face-pul)">ㅇ<i>ㅅ</i>ㅇ</span>
+</div>
+</div></div>
+</div>
+<p class="note">위: 게스트(로그인 버튼) · 아래: 회원(알림 + 얼굴), 검색 포커스 상태. 현재 메뉴 = ink-1 + 3px 강조색 밑줄. 그라운드 전환의 현재 칸은 그 그라운드 색.</p>
+</section>
+
+<section class="blk">
+<header><h2><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg>버튼</h2><span>기본 44 · 작게 38 · 한 영역에 primary 하나</span></header>
+<div class="matrix">
+<span></span><span class="h">기본</span><span class="h">호버</span><span class="h">포커스</span><span class="h">누름</span><span class="h">비활성</span>
+<span class="rl">primary<code>accent → strong</code></span>
+<span><span class="btn btn-primary"><svg class="ic ic16"><use href="#i-play"></use></svg>플레이</span></span><span><span class="btn btn-primary is-hover"><svg class="ic ic16"><use href="#i-play"></use></svg>플레이</span></span><span><span class="btn btn-primary is-focus"><svg class="ic ic16"><use href="#i-play"></use></svg>플레이</span></span><span><span class="btn btn-primary is-hover is-press"><svg class="ic ic16"><use href="#i-play"></use></svg>플레이</span></span><span><span class="btn btn-primary is-disabled"><svg class="ic ic16"><use href="#i-play"></use></svg>플레이</span></span>
+<span class="rl">secondary<code>sunken</code></span>
+<span><span class="btn btn-secondary">게임 검색</span></span><span><span class="btn btn-secondary is-hover">게임 검색</span></span><span><span class="btn btn-secondary is-focus">게임 검색</span></span><span><span class="btn btn-secondary is-hover is-press">게임 검색</span></span><span><span class="btn btn-secondary is-disabled">게임 검색</span></span>
+<span class="rl">danger<code>대화상자 안에서만</code></span>
+<span><span class="btn btn-danger">신고하기</span></span><span><span class="btn btn-danger is-hover">신고하기</span></span><span><span class="btn btn-danger is-focus">신고하기</span></span><span><span class="btn btn-danger is-hover is-press">신고하기</span></span><span><span class="btn btn-danger is-disabled">신고하기</span></span>
+<span class="rl">작게 · link<code>38 알약 / 글자만</code></span>
+<span><span class="btn btn-primary btn-sm">이어하기</span></span><span><span class="btn btn-secondary btn-sm is-hover">저장</span></span><span><span class="btn btn-link">전체 보기 ›</span></span><span><span class="btn btn-link is-hover">전체 보기 ›</span></span><span style="display:flex;gap:6px"><span class="icon-btn is-hover"><svg class="ic ic20"><use href="#i-bm"></use></svg></span><span class="arw"><svg class="ic"><path d="M10 3 5 8l5 5"></path></svg></span><span class="arw" style="opacity:.4"><svg class="ic"><path d="M6 3l5 5-5 5"></path></svg></span></span>
+<span class="rl">on-color · glass<code>색 띠·배너 위</code></span>
+<div class="on-color-row on-dark"><span><span class="btn btn-on-color">지금 플레이</span></span><span><span class="btn btn-on-color is-hover">지금 플레이</span></span><span><span class="btn btn-on-color is-focus">지금 플레이</span></span><span><span class="btn btn-glass">자세히</span></span><span><span class="btn btn-glass is-hover">자세히</span></span></div>
+</div>
+</section>
+
+<section class="blk">
+<header><h2><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg>칩 · 탭 · 태그</h2><span>필터는 칩, 섹션 안 전환은 알약 탭, 페이지 구획은 밑줄 탭</span></header>
+<div class="two">
+<div class="cell"><b>필터 칩</b><span class="m">38 · 선택 = ink-1 채움(aria-pressed) · 뒤에 개수 · 앞에 실행 아이콘</span>
+<div class="chips"><button class="chip" aria-pressed="true">전체</button><button class="chip is-hover">3분 이하 <span class="c">18</span></button><button class="chip">5~15분 <span class="c">42</span></button><button class="chip"><svg class="ic"><use href="#i-web"></use></svg>바로 플레이</button><button class="chip"><svg class="ic"><use href="#i-duo"></use></svg>같이</button></div></div>
+<div class="cell"><b>태그</b><span class="m">20 · 장르·한 판 시간 · 누를 수 있으면 호버 sunken-hover</span>
+<div class="chips"><span class="tag">퍼즐</span><span class="tag">로그라이크</span><span class="tag">한 판 5분</span><span class="tag">키보드</span></div></div>
+<div class="cell"><b>알약 탭</b><span class="m">34 · 옅은 띠 위 · 선택 = raised + accent-strong + hairline · ←→ 이동</span>
+<div class="rank-band"><div class="ptabs" role="tablist"><button role="tab" aria-selected="true">주간 인기</button><button role="tab">급상승</button><button role="tab">신작</button><button role="tab">완주율</button></div></div></div>
+<div class="cell"><b>밑줄 탭</b><span class="m">페이지 안 큰 구획(게임 상세) · 메뉴와 같은 말투</span>
+<nav class="utabs"><a href="#" aria-current="page">소개</a><a href="#">리뷰 38</a><a href="#">메이커 일지</a><a href="#">업데이트</a></nav></div>
+</div>
+</section>
+
+<section class="blk">
+<header><h2><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg>아트 위 요소 · 툴팁</h2><span>모든 카드에서 자리가 같다 · 아트는 테마와 무관</span></header>
+<div class="anat">
+<div style="position:relative;padding-bottom:110px">
+<span class="art lg-r a-loop"><span class="shots"></span>
+<span class="badge"><svg class="ic ic12" style="stroke:none;fill:currentColor"><use href="#i-crown"></use></svg>PICK</span>
+<span class="plat" tabindex="0" aria-label="브라우저에서 바로 플레이, 휴대폰 지원, 보안 검사 통과" style="z-index:8"><svg class="ic ic12"><use href="#i-web"></use></svg><svg class="ic ic12"><use href="#i-phone"></use></svg><svg class="ic ic12 ok"><use href="#i-shield"></use></svg>
+<span class="tip" role="tooltip"><span><svg class="ic"><use href="#i-web"></use></svg>브라우저에서 바로 플레이</span><span><svg class="ic"><use href="#i-phone"></use></svg>휴대폰에서도 돼요</span><span class="ok"><svg class="ic"><use href="#i-shield"></use></svg>보안 검사 통과</span></span></span>
+<span class="jf maker" style="background:var(--color-face-jjok)">ㅍ<i>ㅅ</i>ㅍ</span>
+<span class="qplay"><svg class="ic ic16"><use href="#i-play"></use></svg></span>
+<span class="frames"><b></b><b></b><b></b></span>
+<span class="prog"><i style="width:45%"></i></span>
+</span>
+<span class="pin" style="left:-8px;top:-8px">1</span><span class="pin" style="right:-8px;top:-8px">2</span><span class="pin" style="left:-8px;top:220px">3</span><span class="pin" style="right:-8px;top:220px">4</span><span class="pin" style="left:210px;top:240px">5</span>
+</div>
+<div class="cell">
+<ol class="slots">
+<li><span><b>배지</b> — 왼쪽 위, 하나만. accent(PICK·신작) · ink(업데이트) · make(잼·일지). 12px 800, 그림자 chip.</span></li>
+<li><span><b>실행 칩</b> — 오른쪽 위, 아이콘 최대 3개. 검사 통과 방패는 비취. 호버·포커스 120ms 뒤 aDmD 툴팁, Esc 로 닫힘. 기본 title 툴팁 금지.</span></li>
+<li><span><b>메이커 얼굴</b> — 왼쪽 아래, 흰 테두리 2px. 26(4열 카드 32).</span></li>
+<li><span><b>빠른 플레이</b> — 오른쪽 아래, 호버·포커스 때만 떠오름. 브라우저 게임만. 40(4열 46).</span></li>
+<li><span><b>진행 막대 · 스크린샷 점</b> — 아래 가장자리 4px, 내가 한 게임만. 점은 호버 때 스크린샷 순환 표시.</span></li>
+</ol>
+<p class="sub" style="margin-top:10px">배지 종류</p>
+<div class="badges"><span class="badge static"><svg class="ic ic12" style="stroke:none;fill:currentColor"><use href="#i-crown"></use></svg>PICK</span><span class="badge static"><svg class="ic ic12" style="stroke:none;fill:currentColor"><use href="#i-spark"></use></svg>신작</span><span class="badge static ink">업데이트</span><span class="badge static mk">잼 3위</span><span class="badge static mk">개발일지</span></div>
+<p class="note">아트는 안쪽 그림 층(.shots)만 잘라 툴팁이 밖으로 나올 수 있게 한다. 칩에 호버 중이면 z 8.</p>
+</div>
+</div>
+</section>
+
+<section class="blk">
+<header><h2><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg>섹션 머리 · 레일 · 배너</h2><span>귀 표식 + 22px 제목 + 오른쪽 조작 · 제목→내용 18</span></header>
+<div class="cell">
+<div class="sh"><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg><h3>이번 주 PICK</h3><div class="r"><span class="arw" style="opacity:.4"><svg class="ic"><path d="M10 3 5 8l5 5"></path></svg></span><span class="arw"><svg class="ic"><path d="M6 3l5 5-5 5"></path></svg></span></div></div>
+<div class="rail" style="margin-top:4px">
+<div class="gc"><span class="art a-loop"><span class="shots"></span><span class="jf maker" style="background:var(--color-face-jjok)">ㅍ<i>ㅅ</i>ㅍ</span></span><span class="t">루프 디버거</span><span class="meta">픽셀상점 · 퍼즐 · 5분</span></div>
+<div class="gc"><span class="art a-tess"><span class="shots"></span><span class="jf maker" style="background:var(--color-face-haneul)">ㄴ<i>ㅅ</i>ㄴ</span></span><span class="t">테셀레이트</span><span class="meta">노을공방 · 퍼즐 · 10분</span></div>
+<div class="gc"><span class="art a-paper"><span class="shots"></span><span class="jf maker" style="background:var(--color-face-cheongnok)">ㅊ<i>ㅅ</i>ㅊ</span></span><span class="t">종이 배</span><span class="meta">청록상회 · 탐험 · 20분</span></div>
+<div class="gc"><span class="art a-grid"><span class="shots"></span><span class="jf maker" style="background:var(--color-face-bora)">ㅂ<i>ㅅ</i>ㅂ</span></span><span class="t">그리드 러너</span><span class="meta">보라네 · 액션 · 3분</span></div>
+<div class="gc"><span class="art a-demon"><span class="shots"></span><span class="jf maker" style="background:var(--color-face-pul)">ㅍ<i>ㅅ</i>ㅍ</span></span><span class="t">들판의 악마</span><span class="meta">풀잎 · 전략 · 30분</span></div>
+<div class="gc"><span class="art a-ash"><span class="shots"></span><span class="jf maker" style="background:var(--color-face-ju)">ㅈ<i>ㅅ</i>ㅈ</span></span><span class="t">재의 도시</span><span class="meta">잿빛토끼 · 생존 · 40분</span></div>
+</div>
+<p class="note">레일: 카드 사이 16, 오른쪽 끝이 흐려져 다음이 있음을 알림. ‹ › 원형 34(끝에서 비활성). 휠·Tab 이동 지원, 스크롤바 숨김.</p>
+</div>
+<div class="two">
+<div class="cell"><b>배너 슬라이드</b><span class="m">380 높이 · 게임색 필드 · Gasoek 40 · 자동 넘김 없음 (축소 견본)</span>
+<div class="slide-mini" style="background:#173250"><div class="t"><span class="badge static" style="align-self:flex-start">에디터 추천</span><b>루프를 벗어나려면</b><span style="font-size:13px;opacity:.8">코드를 고쳐 탈출하는 퍼즐</span></div><span class="a-loop"></span><span class="pager"><span>‹</span><span class="num">1 / 5</span><span>›</span></span></div></div>
+<div class="cell"><b>넘김 점</b><span class="m">활성 = 22px 강조색 막대 · 나머지 6px sunken-hover</span>
+<div style="display:flex;align-items:center;gap:24px;height:150px;justify-content:center;border-radius:var(--radius-xl);background:var(--sunken)"><div class="dots"><i></i><i class="on"></i><i></i><i></i><i></i></div></div></div>
+</div>
+</section>
+
+<section class="blk">
+<header><h2><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg>띠</h2><span>화면 리듬을 바꾸는 덩어리 · 연속 금지 · 페이지당 최대 3개</span></header>
+<div class="rank-band" style="padding:24px">
+<div class="sh"><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg><h3>주간 랭킹</h3><div class="r"><div class="ptabs"><button aria-selected="true">주간 인기</button><button>급상승</button><button>신작</button></div></div></div>
+<div class="three" style="gap:10px 20px">
+<div class="rr"><span class="n top disp">1</span><span class="art a-tess"></span><span><b>테셀레이트</b><span class="by"><span class="jf xs" style="background:var(--color-face-haneul)">ㄴ<i>ㅅ</i>ㄴ</span>노을공방</span></span><span class="k">▲ 3</span></div>
+<div class="rr"><span class="n top disp">2</span><span class="art a-loop"></span><span><b>루프 디버거</b><span class="by"><span class="jf xs" style="background:var(--color-face-jjok)">ㅍ<i>ㅅ</i>ㅍ</span>픽셀상점</span></span><span class="k" style="color:var(--ink-3)">–</span></div>
+<div class="rr"><span class="n disp">4</span><span class="art a-paper"></span><span><b>종이 배</b><span class="by"><span class="jf xs" style="background:var(--color-face-cheongnok)">ㅊ<i>ㅅ</i>ㅊ</span>청록상회</span></span><span class="k dn">▼ 1</span></div>
+</div>
+</div>
+<div class="band-login on-dark">
+<div class="facerow"><span class="jf lg" style="background:var(--color-face-hong)">ㅎ<i>ㅅ</i>ㅎ</span><span class="jf lg" style="background:var(--color-face-olive)">ㅇ<i>ㅅ</i>ㅇ</span><span class="jf lg" style="background:var(--color-face-bora)">ㅁ<i>ㅅ</i>ㅁ</span></div>
+<div><b>로그인하면 내 얼굴이 생겨요</b><p>저장한 게임과 진행 기록이 어느 기기에서나 이어져요.</p></div>
+<span class="btn btn-on-color">로그인</span>
+</div>
+<div class="band-jam on-dark">
+<span class="big disp">D-3</span>
+<div><b>겨울 잼 · 주제 "다시 한 번"</b><p>48시간 동안 만들고, 끝나면 여기서 바로 플레이해요.</p></div>
+<span class="btn btn-make">참가하기</span>
+</div>
+</section>
+
+<section class="blk">
+<header><h2><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg>입력</h2><span>설정 · 게임 올리기 · 신고 · 리뷰에 쓴다 · 레이블은 늘 위에</span></header>
+<div class="three">
+<div class="field"><label>닉네임</label><div class="input ph">2~12자</div><span class="help">다른 사람에게 보이는 이름이에요.</span></div>
+<div class="field"><label>닉네임</label><div class="input focus">픽셀상점|</div><span class="help">다른 사람에게 보이는 이름이에요.</span></div>
+<div class="field"><label>닉네임</label><div class="input err">ㅍ</div><span class="errmsg"><svg class="ic" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"></circle><path d="M8 5v3.5M8 11h0"></path></svg>닉네임은 2~12자로 적어 주세요</span></div>
+<div class="field"><label>신고 이유</label><div class="input">설명과 다른 게임이에요<svg class="ic ic16 chev"><path d="M4 6l4 4 4-4"></path></svg></div></div>
+<div class="field" style="grid-column:span 2"><label>리뷰</label><div class="input textarea ph">어떤 점이 좋았는지 적어 주세요<span class="cnt num">0 / 500</span></div></div>
+</div>
+<div class="three">
+<div class="checks"><span class="ck"><span class="box on"><svg class="ic ic12" style="stroke-width:2.2"><path d="M3 8.5l3 3 7-7"></path></svg></span>새 업데이트 알림 받기</span><span class="ck"><span class="box"></span>메이커 일지 알림 받기</span></div>
+<div class="checks"><span class="ck"><span class="radio on"></span>모두에게 공개</span><span class="ck"><span class="radio"></span>나만 보기</span></div>
+<div class="checks"><span class="ck"><span class="switch on"></span>친구에게 플레이 중인 게임 보이기</span><span class="ck"><span class="switch"></span>움직임 줄이기</span></div>
+</div>
+</section>
+
+<section class="blk">
+<header><h2><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg>떠 있는 것</h2><span>메뉴 · 대화상자 · 토스트 · 불러오는 중</span></header>
+<div class="three" style="align-items:start">
+<div class="cell"><b>메뉴</b><span class="m">lg 반경 · pop · 항목 40 · 위험 항목은 맨 아래</span>
+<div class="menu">
+<div class="mh"><span class="jf md" style="background:var(--color-face-pul)">ㅇ<i>ㅅ</i>ㅇ</span><span><b>오월화</b><span class="m">플레이어</span></span></div>
+<a href="#" class="hv">내 라이브러리</a><a href="#">저장한 게임</a><a href="#">프로필 · 얼굴 바꾸기</a><a href="#">설정</a><hr><a href="#" class="dg">로그아웃</a>
+</div></div>
+<div class="cell" style="grid-column:span 2"><b>대화상자</b><span class="m">확인 440 · 폼 640 · 2xl 반경 · 포커스 가둠 · 파괴적 확인은 바깥 누름 무시</span>
+<div class="scrim-demo"><div class="dialog" role="dialog" aria-modal="true">
+<h4>이 리뷰를 지울까요?</h4>
+<p>지운 리뷰는 되돌릴 수 없어요. 플레이 기록은 그대로 남아요.</p>
+<div class="acts"><span class="btn btn-secondary">취소</span><span class="btn btn-danger">지우기</span></div>
+</div></div></div>
+</div>
+<div class="two">
+<div class="cell"><b>토스트</b><span class="m">아래 가운데 · 4초 · 호버 중 멈춤 · role=status</span>
+<div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start"><span class="toast"><svg class="ic ic16" style="stroke:none;fill:currentColor"><use href="#i-bmf"></use></svg>저장했어요<a href="#">되돌리기</a></span><span class="toast"><svg class="ic ic16 ok"><use href="#i-shield"></use></svg>보안 검사를 통과했어요</span></div></div>
+<div class="cell"><b>불러오는 중</b><span class="m">실제와 같은 크기 · 1.4초 밝기 물결 · 움직임 줄이기면 정지</span>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px"><div style="display:flex;flex-direction:column;gap:8px"><span class="sk" style="aspect-ratio:16/9;border-radius:var(--radius-md)"></span><span class="sk" style="height:15px;width:70%"></span><span class="sk" style="height:13px;width:45%"></span></div><div style="display:flex;flex-direction:column;gap:8px"><span class="sk" style="aspect-ratio:16/9;border-radius:var(--radius-md)"></span><span class="sk" style="height:15px;width:60%"></span><span class="sk" style="height:13px;width:50%"></span></div></div></div>
+</div>
+</section>
+
+<section class="blk">
+<header><h2><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg>상태 화면</h2><span>표정 + 제목 + 원인과 할 일 + 버튼 — 404 · 오류 · 빈 상태 · 점검 같은 틀</span></header>
+<div class="three">
+<div class="state"><span class="logo f-down big-face"><span class="cat"><svg class="ears" viewBox="0 0 64 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 19 L8 2 L20 10 Q32 6 44 10 L56 2 L61 19"></path></svg><span class="e">D</span><span class="mo">n</span><span class="e">D</span></span></span><h4>찾는 페이지가 없어요</h4><p>주소가 바뀌었거나, 메이커가 게임을 내렸을 수 있어요.</p><div class="acts"><span class="btn btn-primary">홈으로</span><span class="btn btn-secondary">게임 검색</span></div></div>
+<div class="state"><span class="logo f-down big-face"><span class="cat"><svg class="ears" viewBox="0 0 64 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 19 L8 2 L20 10 Q32 6 44 10 L56 2 L61 19"></path></svg><span class="e">D</span><span class="mo">n</span><span class="e">D</span></span></span><h4>게임을 불러오지 못했어요</h4><p>잠시 후 다시 해 보세요. 계속 안 되면 메이커에게 알려 주세요.</p><div class="acts"><span class="btn btn-primary">다시 시도</span><span class="btn btn-secondary">문제 알리기</span></div></div>
+<div class="state"><span class="logo f-sleep big-face"><span class="cat"><svg class="ears" viewBox="0 0 64 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 19 L8 2 L20 10 Q32 6 44 10 L56 2 L61 19"></path></svg><span class="e">D</span><span class="mo">z</span><span class="e">D</span></span></span><h4>아직 플레이한 게임이 없어요</h4><p>한 판 3분짜리부터 가볍게 시작해 보세요.</p><div class="acts"><span class="btn btn-primary">게임 둘러보기</span></div></div>
+</div>
+</section>
+
+<section class="blk">
+<header><h2><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg>푸터</h2><span>위 3px 강조색 선 · 마지막 섹션에서 88 아래</span></header>
+<div class="frame"><div class="footer">
+<div style="display:flex;align-items:center;gap:10px"><b style="color:var(--ink-2)">공지</b><a href="#">12월 정기 점검 안내 (12/3 02:00~04:00)</a><span>·</span><a href="#">설치형 게임 보안 검사를 시작했어요</a></div>
+<div class="links"><a href="#">이용약관</a><a href="#"><b>개인정보처리방침</b></a><a href="#">운영정책</a><a href="#">저작권 신고</a><a href="#">고객센터</a><a href="#" style="color:var(--make-strong)">게임 올리기</a></div>
+<div style="display:flex;align-items:flex-end;gap:10px"><span class="logo" style="font-size:18px;color:var(--ink-3);--ears:var(--ink-4)"><span>a</span><span class="cat"><svg class="ears" viewBox="0 0 64 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 19 L8 2 L20 10 Q32 6 44 10 L56 2 L61 19"></path></svg><span class="e">D</span><span class="mo">m</span><span class="e">D</span></span></span><span>aDmD Games · 광고 없는 인디 게임 플랫폼</span></div>
+</div></div>
+</section>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":5600},"theme":{"editor":"enum","default":"light","options":["light","dark"],"tsType":"string"},"ground":{"editor":"enum","default":"play","options":["play","make"],"tsType":"string"}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { theme: this.props.theme ?? 'light', ground: this.props.ground ?? 'play' };
+  }
+}
+</script>
+</body>
+</html>

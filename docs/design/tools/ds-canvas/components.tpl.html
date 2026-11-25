@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>디자인 시스템 · 컴포넌트</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Gasoek+One&display=swap" rel="stylesheet">
+<style>
+/*TOKENS*/
+/*COMMON*/
+/* 이 페이지 전용 */
+.frame{border-radius:var(--radius-2xl);box-shadow:0 0 0 1px var(--line);overflow:hidden}
+.matrix{display:grid;grid-template-columns:140px repeat(5,minmax(0,1fr));gap:14px 16px;align-items:center}
+.matrix .h{font-size:12px;font-weight:800;color:var(--ink-3)}
+.matrix .rl{font-size:13px;font-weight:700;color:var(--ink-2)}
+.matrix .rl code{display:block;font-size:11.5px;font-weight:500;color:var(--ink-3);font-family:ui-monospace,Consolas,monospace}
+.on-color-row{grid-column:2 / -1;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px;padding:16px;border-radius:var(--radius-lg);background:var(--accent)}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.three{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px}
+.cell{display:flex;flex-direction:column;gap:12px}
+.cell > b{font-size:14px}
+.cell > .m{margin-top:-6px}
+.rank-band{padding:20px;border-radius:var(--radius-lg);background:var(--accent-tint);display:flex;flex-direction:column;gap:14px}
+.anat{display:grid;grid-template-columns:440px minmax(0,1fr);gap:48px;align-items:start}
+.anat .art{--overlay-inset:10px}
+.anat .art .jf{width:32px;height:32px;font-size:12px;border-radius:9px}
+.anat .art .qplay{width:var(--qplay-lg);height:var(--qplay-lg)}
+.slots{list-style:none;margin:0;padding:0;display:flex;flex-direction:column;gap:12px;counter-reset:s}
+.slots li{display:grid;grid-template-columns:28px minmax(0,1fr);gap:10px;font-size:14px;line-height:1.5;color:var(--ink-2)}
+.slots li::before{counter-increment:s;content:counter(s);display:grid;place-items:center;width:24px;height:24px;border-radius:999px;background:var(--ink-1);color:var(--bg);font-size:12px;font-weight:800}
+.slots b{color:var(--ink-1)}
+.pin{position:absolute;z-index:9;display:grid;place-items:center;width:20px;height:20px;border-radius:999px;background:#FFD43B;color:#151A20;font-size:11px;font-weight:900;box-shadow:0 0 0 2px #151A20}
+.badges{display:flex;gap:8px;flex-wrap:wrap}
+.sh{display:flex;align-items:center;gap:10px}
+.sh h3{margin:0;font-size:22px;line-height:1.3;font-weight:800;letter-spacing:-.02em}
+.sh .r{margin-left:auto;display:flex;align-items:center;gap:6px}
+.rail{display:flex;gap:16px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,#000 88%,transparent);mask-image:linear-gradient(90deg,#000 88%,transparent)}
+.rail .gc{flex:0 0 220px}
+.pager{display:inline-flex;align-items:center;gap:2px;padding:4px;border-radius:999px;background:rgb(21 26 32 / .55);backdrop-filter:blur(8px);color:#FFFFFF;font-size:13px;font-weight:700}
+.pager span{width:30px;height:30px;border-radius:999px;display:grid;place-items:center}
+.dots{display:flex;gap:6px}
+.dots i{width:6px;height:6px;border-radius:999px;background:var(--sunken-hover)}
+.dots i.on{width:22px;background:var(--accent)}
+.slide-mini{position:relative;height:150px;border-radius:var(--radius-xl);overflow:hidden;display:grid;grid-template-columns:1fr 200px;color:#FFFFFF}
+.slide-mini .t{padding:20px 22px;display:flex;flex-direction:column;gap:8px}
+.slide-mini .t b{font-family:var(--font-display);font-weight:400;font-size:28px;line-height:1.1}
+.slide-mini .pager{position:absolute;right:10px;bottom:10px}
+.band-login{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:24px;padding:26px 30px;border-radius:var(--radius-2xl);background:var(--accent);color:#FFFFFF}
+.band-login .facerow{display:flex;gap:8px}
+.band-login .jf{box-shadow:0 0 0 3px rgb(255 255 255 / .9)}
+.band-login b{font-size:20px;font-weight:800}
+.band-login p{margin:4px 0 0;font-size:14px;color:rgb(255 255 255 / .82)}
+.band-jam{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:24px;padding:26px 34px;border-radius:var(--radius-2xl);background:var(--surface-ink);color:#FFFFFF}
+.band-jam .big{font-size:48px;line-height:1;color:var(--color-inju-400)}
+.band-jam b{font-size:18px;font-weight:800}
+.band-jam p{margin:4px 0 0;font-size:14px;color:rgb(255 255 255 / .7)}
+.btn-make{background:var(--make);color:#FFFFFF}
+.field{display:flex;flex-direction:column;gap:6px}
+.field label{font-size:14px;font-weight:700}
+.input{display:flex;align-items:center;gap:8px;height:44px;padding:0 14px;border-radius:var(--radius-md);background:var(--sunken);font-size:15px;color:var(--ink-1)}
+.input.ph{color:var(--ink-3)}
+.input.focus{background:var(--bg);box-shadow:inset 0 0 0 2px var(--accent)}
+.input.err{box-shadow:inset 0 0 0 2px var(--danger)}
+.input .chev{margin-left:auto;color:var(--ink-3)}
+.textarea{height:104px;align-items:flex-start;padding:12px 14px;position:relative}
+.textarea .cnt{position:absolute;right:12px;bottom:10px;font-size:13px;color:var(--ink-3)}
+.help{font-size:13px;color:var(--ink-3)}
+.errmsg{display:flex;align-items:center;gap:6px;font-size:13px;font-weight:600;color:var(--danger-text)}
+.checks{display:flex;flex-direction:column;gap:2px}
+.ck{display:flex;align-items:center;gap:10px;min-height:44px;font-size:15px}
+.box{width:20px;height:20px;border-radius:var(--radius-xs);box-shadow:inset 0 0 0 1.5px var(--ink-4);display:grid;place-items:center;color:#FFFFFF;flex:none}
+.box.on{background:var(--accent);box-shadow:none}
+.radio{width:20px;height:20px;border-radius:999px;box-shadow:inset 0 0 0 1.5px var(--ink-4);flex:none}
+.radio.on{box-shadow:inset 0 0 0 6px var(--accent)}
+.switch{width:40px;height:24px;border-radius:999px;background:var(--sunken-hover);position:relative;flex:none}
+.switch::after{content:"";position:absolute;left:2px;top:2px;width:20px;height:20px;border-radius:999px;background:#FFFFFF;box-shadow:var(--shadow-hairline);transition:transform var(--dur-fast) var(--ease-soft)}
+.switch.on{background:var(--accent)}
+.switch.on::after{transform:translateX(16px)}
+.menu{width:240px;padding:6px;border-radius:var(--radius-lg);background:var(--bg);box-shadow:var(--shadow-pop),0 0 0 1px var(--line)}
+[data-theme="dark"] .menu,[data-theme="dark"] .dialog{background:var(--raised)}
+.menu .mh{display:flex;align-items:center;gap:10px;padding:10px 10px 12px;border-bottom:1px solid var(--line);margin-bottom:6px}
+.menu .mh b{display:block;font-size:15px}
+.menu a{display:flex;align-items:center;gap:10px;height:40px;padding:0 10px;border-radius:var(--radius-md);font-size:14px;font-weight:600;color:var(--ink-1)}
+.menu a.hv{background:var(--sunken)}
+.menu a.dg{color:var(--danger-text)}
+.menu hr{border:0;border-top:1px solid var(--line);margin:6px 0}
+.scrim-demo{position:relative;padding:36px;border-radius:var(--radius-2xl);background:rgb(16 19 22 / .5);display:grid;place-items:center}
+.dialog{width:440px;padding:28px;border-radius:var(--radius-2xl);background:var(--bg);box-shadow:var(--shadow-pop);display:flex;flex-direction:column;gap:12px}
+.dialog h4{margin:0;font-size:22px;line-height:1.3;font-weight:800}
+.dialog p{margin:0;font-size:15px;line-height:1.6;color:var(--ink-2)}
+.dialog .acts{display:flex;justify-content:flex-end;gap:8px;margin-top:12px}
+.toast{display:inline-flex;align-items:center;gap:10px;height:44px;padding:0 18px 0 14px;border-radius:999px;background:var(--surface-ink);color:#FFFFFF;font-size:14px;font-weight:600;box-shadow:var(--shadow-pop)}
+.toast a{color:var(--g-400);font-weight:800;margin-left:6px}
+.toast .ok{color:var(--ok-on-ink)}
+@keyframes shimmer{0%,100%{opacity:1}50%{opacity:.55}}
+.sk{background:var(--sunken);border-radius:4px;animation:shimmer 1.4s var(--ease-soft) infinite}
+@media (prefers-reduced-motion:reduce){.sk{animation:none}}
+.state{display:flex;flex-direction:column;align-items:center;gap:14px;text-align:center;padding:56px 24px 48px;border-radius:var(--radius-2xl);background:var(--sunken)}
+.state .logo{font-size:96px}
+.state h4{text-wrap:balance;margin:10px 0 0;font-size:28px;line-height:1.25;font-weight:800;letter-spacing:-.02em}
+.state p{text-wrap:balance;margin:0;font-size:16px;line-height:1.6;color:var(--ink-2);max-width:380px}
+.state .acts{display:flex;gap:8px;margin-top:6px}
+.state .btn-secondary{background:var(--bg)}
+.footer{border-top:3px solid var(--accent);padding:26px 32px 32px;display:flex;flex-direction:column;gap:14px;font-size:13px;color:var(--ink-3)}
+.footer .links{display:flex;gap:18px;color:var(--ink-2);font-weight:600}
+</style>
+</helmet>
+<div class="ds" data-theme="{{ theme }}" data-ground="{{ ground }}">
+[[SPRITE]]
+<div class="page">
+
+<header class="doc-h">
+<div class="crumb"><span>aDmD 디자인 시스템</span><span>·</span><span>컴포넌트</span></div>
+<h1>컴포넌트</h1>
+<p>v10 홈에서 쓴 것과 다음 페이지(게임 상세 · 플레이 화면 · 다운로드 · 라이브러리 · 설정)에 바로 필요한 기본 조작 요소. 명세는 저장소 <b>docs/design/system/03-components.md</b>, 게임 카드 7종은 <b>게임 카드 컴포넌트</b> 페이지.</p>
+</header>
+
+<section class="blk">
+<header><h2><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg>헤더</h2><span>높이 68 · 한 줄 · 스크롤 시 고정</span></header>
+<div class="frame">
+<div class="hdr"><div class="in">
+<a class="brand" href="#"><span class="logo" style="font-size:22px">[[LOGO m]]</span><span class="word">PlayGround</span></a>
+<nav class="gnb"><a href="#" aria-current="page">홈</a><a href="#">게임</a><a href="#">랭킹</a><a href="#">같이</a><a href="#">잼</a></nav>
+<div class="right">
+<div class="ground"><a class="play" href="#" aria-current="true">PlayGround</a><a class="make" href="#">MakersGround</a></div>
+<div class="search"><svg class="ic"><circle cx="7" cy="7" r="4.5"></circle><path d="M10.5 10.5 13 13"></path></svg>게임, 메이커 검색</div>
+<span class="btn btn-primary btn-sm">로그인</span>
+</div>
+</div></div>
+<div class="hdr" style="border-bottom:0"><div class="in">
+<a class="brand" href="#"><span class="logo" style="font-size:22px">[[LOGO m]]</span><span class="word">PlayGround</span></a>
+<nav class="gnb"><a href="#">홈</a><a href="#" aria-current="page">게임</a><a href="#">랭킹</a><a href="#">같이</a><a href="#">잼</a></nav>
+<div class="right">
+<div class="ground"><a class="play" href="#" aria-current="true">PlayGround</a><a class="make" href="#">MakersGround</a></div>
+<div class="search is-focus"><svg class="ic"><circle cx="7" cy="7" r="4.5"></circle><path d="M10.5 10.5 13 13"></path></svg>루프|</div>
+<button class="icon-btn" aria-label="알림 3개"><svg class="ic ic20" viewBox="0 0 16 16"><path d="M4 11V7a4 4 0 0 1 8 0v4l1 1.5H3z"></path><path d="M6.5 14h3"></path></svg><span class="dot-new"></span></button>
+<span class="jf md" style="background:var(--color-face-pul)">ㅇ<i>ㅅ</i>ㅇ</span>
+</div>
+</div></div>
+</div>
+<p class="note">위: 게스트(로그인 버튼) · 아래: 회원(알림 + 얼굴), 검색 포커스 상태. 현재 메뉴 = ink-1 + 3px 강조색 밑줄. 그라운드 전환의 현재 칸은 그 그라운드 색.</p>
+</section>
+
+<section class="blk">
+<header><h2><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg>버튼</h2><span>기본 44 · 작게 38 · 한 영역에 primary 하나</span></header>
+<div class="matrix">
+<span></span><span class="h">기본</span><span class="h">호버</span><span class="h">포커스</span><span class="h">누름</span><span class="h">비활성</span>
+<span class="rl">primary<code>accent → strong</code></span>
+<span><span class="btn btn-primary"><svg class="ic ic16"><use href="#i-play"></use></svg>플레이</span></span><span><span class="btn btn-primary is-hover"><svg class="ic ic16"><use href="#i-play"></use></svg>플레이</span></span><span><span class="btn btn-primary is-focus"><svg class="ic ic16"><use href="#i-play"></use></svg>플레이</span></span><span><span class="btn btn-primary is-hover is-press"><svg class="ic ic16"><use href="#i-play"></use></svg>플레이</span></span><span><span class="btn btn-primary is-disabled"><svg class="ic ic16"><use href="#i-play"></use></svg>플레이</span></span>
+<span class="rl">secondary<code>sunken</code></span>
+<span><span class="btn btn-secondary">게임 검색</span></span><span><span class="btn btn-secondary is-hover">게임 검색</span></span><span><span class="btn btn-secondary is-focus">게임 검색</span></span><span><span class="btn btn-secondary is-hover is-press">게임 검색</span></span><span><span class="btn btn-secondary is-disabled">게임 검색</span></span>
+<span class="rl">danger<code>대화상자 안에서만</code></span>
+<span><span class="btn btn-danger">신고하기</span></span><span><span class="btn btn-danger is-hover">신고하기</span></span><span><span class="btn btn-danger is-focus">신고하기</span></span><span><span class="btn btn-danger is-hover is-press">신고하기</span></span><span><span class="btn btn-danger is-disabled">신고하기</span></span>
+<span class="rl">작게 · link<code>38 알약 / 글자만</code></span>
+<span><span class="btn btn-primary btn-sm">이어하기</span></span><span><span class="btn btn-secondary btn-sm is-hover">저장</span></span><span><span class="btn btn-link">전체 보기 ›</span></span><span><span class="btn btn-link is-hover">전체 보기 ›</span></span><span style="display:flex;gap:6px"><span class="icon-btn is-hover"><svg class="ic ic20"><use href="#i-bm"></use></svg></span><span class="arw"><svg class="ic"><path d="M10 3 5 8l5 5"></path></svg></span><span class="arw" style="opacity:.4"><svg class="ic"><path d="M6 3l5 5-5 5"></path></svg></span></span>
+<span class="rl">on-color · glass<code>색 띠·배너 위</code></span>
+<div class="on-color-row on-dark"><span><span class="btn btn-on-color">지금 플레이</span></span><span><span class="btn btn-on-color is-hover">지금 플레이</span></span><span><span class="btn btn-on-color is-focus">지금 플레이</span></span><span><span class="btn btn-glass">자세히</span></span><span><span class="btn btn-glass is-hover">자세히</span></span></div>
+</div>
+</section>
+
+<section class="blk">
+<header><h2><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg>칩 · 탭 · 태그</h2><span>필터는 칩, 섹션 안 전환은 알약 탭, 페이지 구획은 밑줄 탭</span></header>
+<div class="two">
+<div class="cell"><b>필터 칩</b><span class="m">38 · 선택 = ink-1 채움(aria-pressed) · 뒤에 개수 · 앞에 실행 아이콘</span>
+<div class="chips"><button class="chip" aria-pressed="true">전체</button><button class="chip is-hover">3분 이하 <span class="c">18</span></button><button class="chip">5~15분 <span class="c">42</span></button><button class="chip"><svg class="ic"><use href="#i-web"></use></svg>바로 플레이</button><button class="chip"><svg class="ic"><use href="#i-duo"></use></svg>같이</button></div></div>
+<div class="cell"><b>태그</b><span class="m">20 · 장르·한 판 시간 · 누를 수 있으면 호버 sunken-hover</span>
+<div class="chips"><span class="tag">퍼즐</span><span class="tag">로그라이크</span><span class="tag">한 판 5분</span><span class="tag">키보드</span></div></div>
+<div class="cell"><b>알약 탭</b><span class="m">34 · 옅은 띠 위 · 선택 = raised + accent-strong + hairline · ←→ 이동</span>
+<div class="rank-band"><div class="ptabs" role="tablist"><button role="tab" aria-selected="true">주간 인기</button><button role="tab">급상승</button><button role="tab">신작</button><button role="tab">완주율</button></div></div></div>
+<div class="cell"><b>밑줄 탭</b><span class="m">페이지 안 큰 구획(게임 상세) · 메뉴와 같은 말투</span>
+<nav class="utabs"><a href="#" aria-current="page">소개</a><a href="#">리뷰 38</a><a href="#">메이커 일지</a><a href="#">업데이트</a></nav></div>
+</div>
+</section>
+
+<section class="blk">
+<header><h2><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg>아트 위 요소 · 툴팁</h2><span>모든 카드에서 자리가 같다 · 아트는 테마와 무관</span></header>
+<div class="anat">
+<div style="position:relative;padding-bottom:110px">
+<span class="art lg-r a-loop"><span class="shots"></span>
+<span class="badge"><svg class="ic ic12" style="stroke:none;fill:currentColor"><use href="#i-crown"></use></svg>PICK</span>
+<span class="plat" tabindex="0" aria-label="브라우저에서 바로 플레이, 휴대폰 지원, 보안 검사 통과" style="z-index:8"><svg class="ic ic12"><use href="#i-web"></use></svg><svg class="ic ic12"><use href="#i-phone"></use></svg><svg class="ic ic12 ok"><use href="#i-shield"></use></svg>
+<span class="tip" role="tooltip"><span><svg class="ic"><use href="#i-web"></use></svg>브라우저에서 바로 플레이</span><span><svg class="ic"><use href="#i-phone"></use></svg>휴대폰에서도 돼요</span><span class="ok"><svg class="ic"><use href="#i-shield"></use></svg>보안 검사 통과</span></span></span>
+<span class="jf maker" style="background:var(--color-face-jjok)">ㅍ<i>ㅅ</i>ㅍ</span>
+<span class="qplay"><svg class="ic ic16"><use href="#i-play"></use></svg></span>
+<span class="frames"><b></b><b></b><b></b></span>
+<span class="prog"><i style="width:45%"></i></span>
+</span>
+<span class="pin" style="left:-8px;top:-8px">1</span><span class="pin" style="right:-8px;top:-8px">2</span><span class="pin" style="left:-8px;top:220px">3</span><span class="pin" style="right:-8px;top:220px">4</span><span class="pin" style="left:210px;top:240px">5</span>
+</div>
+<div class="cell">
+<ol class="slots">
+<li><span><b>배지</b> — 왼쪽 위, 하나만. accent(PICK·신작) · ink(업데이트) · make(잼·일지). 12px 800, 그림자 chip.</span></li>
+<li><span><b>실행 칩</b> — 오른쪽 위, 아이콘 최대 3개. 검사 통과 방패는 비취. 호버·포커스 120ms 뒤 aDmD 툴팁, Esc 로 닫힘. 기본 title 툴팁 금지.</span></li>
+<li><span><b>메이커 얼굴</b> — 왼쪽 아래, 흰 테두리 2px. 26(4열 카드 32).</span></li>
+<li><span><b>빠른 플레이</b> — 오른쪽 아래, 호버·포커스 때만 떠오름. 브라우저 게임만. 40(4열 46).</span></li>
+<li><span><b>진행 막대 · 스크린샷 점</b> — 아래 가장자리 4px, 내가 한 게임만. 점은 호버 때 스크린샷 순환 표시.</span></li>
+</ol>
+<p class="sub" style="margin-top:10px">배지 종류</p>
+<div class="badges"><span class="badge static"><svg class="ic ic12" style="stroke:none;fill:currentColor"><use href="#i-crown"></use></svg>PICK</span><span class="badge static"><svg class="ic ic12" style="stroke:none;fill:currentColor"><use href="#i-spark"></use></svg>신작</span><span class="badge static ink">업데이트</span><span class="badge static mk">잼 3위</span><span class="badge static mk">개발일지</span></div>
+<p class="note">아트는 안쪽 그림 층(.shots)만 잘라 툴팁이 밖으로 나올 수 있게 한다. 칩에 호버 중이면 z 8.</p>
+</div>
+</div>
+</section>
+
+<section class="blk">
+<header><h2><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg>섹션 머리 · 레일 · 배너</h2><span>귀 표식 + 22px 제목 + 오른쪽 조작 · 제목→내용 18</span></header>
+<div class="cell">
+<div class="sh"><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg><h3>이번 주 PICK</h3><div class="r"><span class="arw" style="opacity:.4"><svg class="ic"><path d="M10 3 5 8l5 5"></path></svg></span><span class="arw"><svg class="ic"><path d="M6 3l5 5-5 5"></path></svg></span></div></div>
+<div class="rail" style="margin-top:4px">
+<div class="gc"><span class="art a-loop"><span class="shots"></span><span class="jf maker" style="background:var(--color-face-jjok)">ㅍ<i>ㅅ</i>ㅍ</span></span><span class="t">루프 디버거</span><span class="meta">픽셀상점 · 퍼즐 · 5분</span></div>
+<div class="gc"><span class="art a-tess"><span class="shots"></span><span class="jf maker" style="background:var(--color-face-haneul)">ㄴ<i>ㅅ</i>ㄴ</span></span><span class="t">테셀레이트</span><span class="meta">노을공방 · 퍼즐 · 10분</span></div>
+<div class="gc"><span class="art a-paper"><span class="shots"></span><span class="jf maker" style="background:var(--color-face-cheongnok)">ㅊ<i>ㅅ</i>ㅊ</span></span><span class="t">종이 배</span><span class="meta">청록상회 · 탐험 · 20분</span></div>
+<div class="gc"><span class="art a-grid"><span class="shots"></span><span class="jf maker" style="background:var(--color-face-bora)">ㅂ<i>ㅅ</i>ㅂ</span></span><span class="t">그리드 러너</span><span class="meta">보라네 · 액션 · 3분</span></div>
+<div class="gc"><span class="art a-demon"><span class="shots"></span><span class="jf maker" style="background:var(--color-face-pul)">ㅍ<i>ㅅ</i>ㅍ</span></span><span class="t">들판의 악마</span><span class="meta">풀잎 · 전략 · 30분</span></div>
+<div class="gc"><span class="art a-ash"><span class="shots"></span><span class="jf maker" style="background:var(--color-face-ju)">ㅈ<i>ㅅ</i>ㅈ</span></span><span class="t">재의 도시</span><span class="meta">잿빛토끼 · 생존 · 40분</span></div>
+</div>
+<p class="note">레일: 카드 사이 16, 오른쪽 끝이 흐려져 다음이 있음을 알림. ‹ › 원형 34(끝에서 비활성). 휠·Tab 이동 지원, 스크롤바 숨김.</p>
+</div>
+<div class="two">
+<div class="cell"><b>배너 슬라이드</b><span class="m">380 높이 · 게임색 필드 · Gasoek 40 · 자동 넘김 없음 (축소 견본)</span>
+<div class="slide-mini" style="background:#173250"><div class="t"><span class="badge static" style="align-self:flex-start">에디터 추천</span><b>루프를 벗어나려면</b><span style="font-size:13px;opacity:.8">코드를 고쳐 탈출하는 퍼즐</span></div><span class="a-loop"></span><span class="pager"><span>‹</span><span class="num">1 / 5</span><span>›</span></span></div></div>
+<div class="cell"><b>넘김 점</b><span class="m">활성 = 22px 강조색 막대 · 나머지 6px sunken-hover</span>
+<div style="display:flex;align-items:center;gap:24px;height:150px;justify-content:center;border-radius:var(--radius-xl);background:var(--sunken)"><div class="dots"><i></i><i class="on"></i><i></i><i></i><i></i></div></div></div>
+</div>
+</section>
+
+<section class="blk">
+<header><h2><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg>띠</h2><span>화면 리듬을 바꾸는 덩어리 · 연속 금지 · 페이지당 최대 3개</span></header>
+<div class="rank-band" style="padding:24px">
+<div class="sh"><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg><h3>주간 랭킹</h3><div class="r"><div class="ptabs"><button aria-selected="true">주간 인기</button><button>급상승</button><button>신작</button></div></div></div>
+<div class="three" style="gap:10px 20px">
+<div class="rr"><span class="n top disp">1</span><span class="art a-tess"></span><span><b>테셀레이트</b><span class="by"><span class="jf xs" style="background:var(--color-face-haneul)">ㄴ<i>ㅅ</i>ㄴ</span>노을공방</span></span><span class="k">▲ 3</span></div>
+<div class="rr"><span class="n top disp">2</span><span class="art a-loop"></span><span><b>루프 디버거</b><span class="by"><span class="jf xs" style="background:var(--color-face-jjok)">ㅍ<i>ㅅ</i>ㅍ</span>픽셀상점</span></span><span class="k" style="color:var(--ink-3)">–</span></div>
+<div class="rr"><span class="n disp">4</span><span class="art a-paper"></span><span><b>종이 배</b><span class="by"><span class="jf xs" style="background:var(--color-face-cheongnok)">ㅊ<i>ㅅ</i>ㅊ</span>청록상회</span></span><span class="k dn">▼ 1</span></div>
+</div>
+</div>
+<div class="band-login on-dark">
+<div class="facerow"><span class="jf lg" style="background:var(--color-face-hong)">ㅎ<i>ㅅ</i>ㅎ</span><span class="jf lg" style="background:var(--color-face-olive)">ㅇ<i>ㅅ</i>ㅇ</span><span class="jf lg" style="background:var(--color-face-bora)">ㅁ<i>ㅅ</i>ㅁ</span></div>
+<div><b>로그인하면 내 얼굴이 생겨요</b><p>저장한 게임과 진행 기록이 어느 기기에서나 이어져요.</p></div>
+<span class="btn btn-on-color">로그인</span>
+</div>
+<div class="band-jam on-dark">
+<span class="big disp">D-3</span>
+<div><b>겨울 잼 · 주제 "다시 한 번"</b><p>48시간 동안 만들고, 끝나면 여기서 바로 플레이해요.</p></div>
+<span class="btn btn-make">참가하기</span>
+</div>
+</section>
+
+<section class="blk">
+<header><h2><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg>입력</h2><span>설정 · 게임 올리기 · 신고 · 리뷰에 쓴다 · 레이블은 늘 위에</span></header>
+<div class="three">
+<div class="field"><label>닉네임</label><div class="input ph">2~12자</div><span class="help">다른 사람에게 보이는 이름이에요.</span></div>
+<div class="field"><label>닉네임</label><div class="input focus">픽셀상점|</div><span class="help">다른 사람에게 보이는 이름이에요.</span></div>
+<div class="field"><label>닉네임</label><div class="input err">ㅍ</div><span class="errmsg"><svg class="ic" viewBox="0 0 16 16"><circle cx="8" cy="8" r="6"></circle><path d="M8 5v3.5M8 11h0"></path></svg>닉네임은 2~12자로 적어 주세요</span></div>
+<div class="field"><label>신고 이유</label><div class="input">설명과 다른 게임이에요<svg class="ic ic16 chev"><path d="M4 6l4 4 4-4"></path></svg></div></div>
+<div class="field" style="grid-column:span 2"><label>리뷰</label><div class="input textarea ph">어떤 점이 좋았는지 적어 주세요<span class="cnt num">0 / 500</span></div></div>
+</div>
+<div class="three">
+<div class="checks"><span class="ck"><span class="box on"><svg class="ic ic12" style="stroke-width:2.2"><path d="M3 8.5l3 3 7-7"></path></svg></span>새 업데이트 알림 받기</span><span class="ck"><span class="box"></span>메이커 일지 알림 받기</span></div>
+<div class="checks"><span class="ck"><span class="radio on"></span>모두에게 공개</span><span class="ck"><span class="radio"></span>나만 보기</span></div>
+<div class="checks"><span class="ck"><span class="switch on"></span>친구에게 플레이 중인 게임 보이기</span><span class="ck"><span class="switch"></span>움직임 줄이기</span></div>
+</div>
+</section>
+
+<section class="blk">
+<header><h2><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg>떠 있는 것</h2><span>메뉴 · 대화상자 · 토스트 · 불러오는 중</span></header>
+<div class="three" style="align-items:start">
+<div class="cell"><b>메뉴</b><span class="m">lg 반경 · pop · 항목 40 · 위험 항목은 맨 아래</span>
+<div class="menu">
+<div class="mh"><span class="jf md" style="background:var(--color-face-pul)">ㅇ<i>ㅅ</i>ㅇ</span><span><b>오월화</b><span class="m">플레이어</span></span></div>
+<a href="#" class="hv">내 라이브러리</a><a href="#">저장한 게임</a><a href="#">프로필 · 얼굴 바꾸기</a><a href="#">설정</a><hr><a href="#" class="dg">로그아웃</a>
+</div></div>
+<div class="cell" style="grid-column:span 2"><b>대화상자</b><span class="m">확인 440 · 폼 640 · 2xl 반경 · 포커스 가둠 · 파괴적 확인은 바깥 누름 무시</span>
+<div class="scrim-demo"><div class="dialog" role="dialog" aria-modal="true">
+<h4>이 리뷰를 지울까요?</h4>
+<p>지운 리뷰는 되돌릴 수 없어요. 플레이 기록은 그대로 남아요.</p>
+<div class="acts"><span class="btn btn-secondary">취소</span><span class="btn btn-danger">지우기</span></div>
+</div></div></div>
+</div>
+<div class="two">
+<div class="cell"><b>토스트</b><span class="m">아래 가운데 · 4초 · 호버 중 멈춤 · role=status</span>
+<div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start"><span class="toast"><svg class="ic ic16" style="stroke:none;fill:currentColor"><use href="#i-bmf"></use></svg>저장했어요<a href="#">되돌리기</a></span><span class="toast"><svg class="ic ic16 ok"><use href="#i-shield"></use></svg>보안 검사를 통과했어요</span></div></div>
+<div class="cell"><b>불러오는 중</b><span class="m">실제와 같은 크기 · 1.4초 밝기 물결 · 움직임 줄이기면 정지</span>
+<div style="display:grid;grid-template-columns:1fr 1fr;gap:16px"><div style="display:flex;flex-direction:column;gap:8px"><span class="sk" style="aspect-ratio:16/9;border-radius:var(--radius-md)"></span><span class="sk" style="height:15px;width:70%"></span><span class="sk" style="height:13px;width:45%"></span></div><div style="display:flex;flex-direction:column;gap:8px"><span class="sk" style="aspect-ratio:16/9;border-radius:var(--radius-md)"></span><span class="sk" style="height:15px;width:60%"></span><span class="sk" style="height:13px;width:50%"></span></div></div></div>
+</div>
+</section>
+
+<section class="blk">
+<header><h2><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg>상태 화면</h2><span>표정 + 제목 + 원인과 할 일 + 버튼 — 404 · 오류 · 빈 상태 · 점검 같은 틀</span></header>
+<div class="three">
+<div class="state"><span class="logo f-down big-face">[[CAT n]]</span><h4>찾는 페이지가 없어요</h4><p>주소가 바뀌었거나, 메이커가 게임을 내렸을 수 있어요.</p><div class="acts"><span class="btn btn-primary">홈으로</span><span class="btn btn-secondary">게임 검색</span></div></div>
+<div class="state"><span class="logo f-down big-face">[[CAT n]]</span><h4>게임을 불러오지 못했어요</h4><p>잠시 후 다시 해 보세요. 계속 안 되면 메이커에게 알려 주세요.</p><div class="acts"><span class="btn btn-primary">다시 시도</span><span class="btn btn-secondary">문제 알리기</span></div></div>
+<div class="state"><span class="logo f-sleep big-face">[[CAT z]]</span><h4>아직 플레이한 게임이 없어요</h4><p>한 판 3분짜리부터 가볍게 시작해 보세요.</p><div class="acts"><span class="btn btn-primary">게임 둘러보기</span></div></div>
+</div>
+</section>
+
+<section class="blk">
+<header><h2><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg>푸터</h2><span>위 3px 강조색 선 · 마지막 섹션에서 88 아래</span></header>
+<div class="frame"><div class="footer">
+<div style="display:flex;align-items:center;gap:10px"><b style="color:var(--ink-2)">공지</b><a href="#">12월 정기 점검 안내 (12/3 02:00~04:00)</a><span>·</span><a href="#">설치형 게임 보안 검사를 시작했어요</a></div>
+<div class="links"><a href="#">이용약관</a><a href="#"><b>개인정보처리방침</b></a><a href="#">운영정책</a><a href="#">저작권 신고</a><a href="#">고객센터</a><a href="#" style="color:var(--make-strong)">게임 올리기</a></div>
+<div style="display:flex;align-items:flex-end;gap:10px"><span class="logo" style="font-size:18px;color:var(--ink-3);--ears:var(--ink-4)">[[LOGO m]]</span><span>aDmD Games · 광고 없는 인디 게임 플랫폼</span></div>
+</div></div>
+</section>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":5600},"theme":{"editor":"enum","default":"light","options":["light","dark"],"tsType":"string"},"ground":{"editor":"enum","default":"play","options":["play","make"],"tsType":"string"}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { theme: this.props.theme ?? 'light', ground: this.props.ground ?? 'play' };
+  }
+}
+</script>
+</body>
+</html>

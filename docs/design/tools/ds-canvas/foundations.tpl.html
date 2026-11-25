@@ -1,0 +1,318 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>디자인 시스템 · 기초</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Gasoek+One&display=swap" rel="stylesheet">
+<style>
+/*TOKENS*/
+/*COMMON*/
+/* 이 페이지 전용 */
+.layers{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:16px;margin-top:28px}
+.layers > div{padding:18px 20px;border-radius:var(--radius-lg);background:var(--sunken)}
+.layers b{display:block;font-size:15px}
+.layers p{margin:6px 0 0;font-size:13px;line-height:1.55;color:var(--ink-2)}
+.layers code{font-size:12px;color:var(--ink-1)}
+.grounds{display:grid;grid-template-columns:1fr 1fr;gap:24px}
+.gcol{display:flex;flex-direction:column;gap:10px}
+.hero-sw{height:148px;border-radius:var(--radius-lg);padding:20px 22px;color:#FFFFFF;display:flex;flex-direction:column;justify-content:space-between}
+.hero-sw b{font-size:28px;line-height:1;font-weight:800;letter-spacing:-.02em}
+.hero-sw span{font-size:13px;opacity:.85}
+.hero-sw .logo{color:#FFFFFF;font-size:44px;--ears:#FFFFFF;margin-top:12px}
+.ramp{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:6px}
+.sw{display:flex;flex-direction:column;gap:6px}
+.sw i{display:block;height:52px;border-radius:var(--radius-md);box-shadow:inset 0 0 0 1px rgb(21 26 32 / .06)}
+.sw b{font-size:12px;font-weight:800}
+.sw span{font-size:11.5px;color:var(--ink-3);font-family:ui-monospace,Consolas,monospace}
+.state-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px}
+.gray{display:grid;grid-template-columns:repeat(16,minmax(0,1fr));gap:4px}
+.gray .sw i{height:64px;border-radius:8px}
+.gray .sw b{font-size:11px}
+.gray .sw span{font-size:10px}
+.sem{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px}
+.st{display:grid;grid-template-columns:44px minmax(0,1fr);gap:12px;align-items:center;padding:10px;border-radius:var(--radius-md);box-shadow:inset 0 0 0 1px var(--line)}
+.st i{width:44px;height:44px;border-radius:9px;box-shadow:inset 0 0 0 1px rgb(127 127 127 / .18)}
+.st b{display:block;font-size:13px;font-family:ui-monospace,Consolas,monospace}
+.st span{display:block;font-size:12px;color:var(--ink-3);line-height:1.4}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:0;border-radius:var(--radius-2xl);overflow:hidden;box-shadow:0 0 0 1px var(--line)}
+.duo > div{padding:28px;display:flex;flex-direction:column;gap:18px;background:var(--bg);color:var(--ink-1)}
+.duo .cap{font-size:12px;font-weight:800;color:var(--ink-3);letter-spacing:.02em}
+.mini-band{padding:14px;border-radius:var(--radius-lg);background:var(--accent-tint);display:flex;flex-direction:column;gap:10px}
+.mini-cards{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.type{display:flex;flex-direction:column}
+.type > div{display:grid;grid-template-columns:170px 150px minmax(0,1fr);align-items:baseline;gap:20px;padding:14px 0;border-top:1px solid var(--line)}
+.type code{font-size:13px;font-weight:700;color:var(--ink-1);font-family:ui-monospace,Consolas,monospace}
+.type .spec{font-size:12px;color:var(--ink-3)}
+.space{display:flex;align-items:flex-end;gap:14px;flex-wrap:wrap}
+.space .s{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;color:var(--ink-3)}
+.space .s i{display:block;width:22px;background:var(--accent-tint-2);border-radius:3px}
+.space .s.key i{background:var(--accent)}
+.radii{display:grid;grid-template-columns:repeat(7,minmax(0,1fr));gap:14px}
+.radii .r{display:flex;flex-direction:column;gap:8px;font-size:12px;color:var(--ink-3)}
+.radii .r i{display:block;height:80px;background:var(--sunken);box-shadow:inset 0 0 0 1.5px var(--ink-4)}
+.radii .r b{color:var(--ink-1);font-size:13px}
+.shadows{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:20px;padding:28px;border-radius:var(--radius-2xl);background:var(--sunken)}
+.shadows .s{display:flex;flex-direction:column;gap:12px;font-size:12px;color:var(--ink-3)}
+.shadows .s i{display:block;height:84px;border-radius:var(--radius-md);background:var(--bg)}
+.shadows .s b{color:var(--ink-1);font-size:13px}
+.motion{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.mo-card{display:flex;flex-direction:column;gap:10px}
+.mo-card .stage{height:120px;border-radius:var(--radius-lg);background:var(--sunken);display:grid;place-items:center}
+.mo-card b{font-size:14px}
+.mo-card p{margin:0;font-size:13px;color:var(--ink-3);line-height:1.5}
+.demo-lift{width:150px;aspect-ratio:16/9;border-radius:var(--radius-md);transition:transform var(--dur-base) var(--ease-soft),box-shadow var(--dur-base) var(--ease-soft)}
+.mo-card:hover .demo-lift{transform:var(--card-lift);box-shadow:var(--shadow-lift)}
+.demo-q{position:relative;width:150px;aspect-ratio:16/9;border-radius:var(--radius-md)}
+.demo-q .qplay{opacity:0;transform:translateY(6px) scale(.9);transition:opacity var(--dur-fast) var(--ease-soft),transform var(--dur-fast) var(--ease-soft)}
+.mo-card:hover .demo-q .qplay{opacity:1;transform:none}
+.demo-face .logo{font-size:44px}
+.mo-card:hover .demo-face .e{transform:rotate(-90deg)}
+.demo-curve svg{width:150px;height:90px}
+.demo-curve path{fill:none;stroke:var(--accent);stroke-width:2.5}
+.faces{display:grid;grid-template-columns:repeat(12,minmax(0,1fr));gap:10px}
+.faces .f{display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;color:var(--ink-3)}
+.faces .f b{color:var(--ink-1);font-size:12px}
+.face-sizes{display:flex;align-items:flex-end;gap:18px}
+.imprint{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px}
+.imp{display:flex;flex-direction:column;gap:12px;padding:16px;border-radius:var(--radius-lg);box-shadow:inset 0 0 0 1px var(--line)}
+.imp .stage{height:72px;display:flex;align-items:center;justify-content:center;border-radius:var(--radius-md);background:var(--sunken);overflow:hidden;position:relative}
+.imp > b{font-size:14px}
+.imp > span{font-size:12px;color:var(--ink-3);margin-top:-8px}
+.imp .gnb-demo{display:flex;align-self:stretch;gap:2px;background:var(--bg);width:100%;justify-content:center}
+.imp .gnb-demo a{display:flex;align-items:center;padding:0 10px;font-size:14px;font-weight:700;color:var(--ink-3)}
+.imp .gnb-demo a.on{color:var(--ink-1);box-shadow:inset 0 -3px 0 var(--accent)}
+.imp .dots{display:flex;gap:6px}
+.imp .dots i{width:6px;height:6px;border-radius:999px;background:var(--sunken-hover)}
+.imp .dots i.on{width:22px;background:var(--accent)}
+.imp .foot-demo{position:absolute;left:0;right:0;bottom:0;height:36px;border-top:3px solid var(--accent);background:var(--bg)}
+.dont{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}
+.dont > div{padding:16px 18px;border-radius:var(--radius-lg);background:var(--sunken);font-size:13px;line-height:1.55;color:var(--ink-2)}
+.dont b{display:block;margin-bottom:4px;font-size:14px;color:var(--danger-text)}
+.dont b.do{color:var(--ok-text)}
+</style>
+</helmet>
+<div class="ds" data-theme="{{ theme }}" data-ground="{{ ground }}">
+[[SPRITE]]
+<div class="page">
+
+<header class="doc-h">
+<div class="crumb"><span>aDmD 디자인 시스템</span><span>·</span><span>기초</span></div>
+<h1>하나의 시스템, 두 그라운드</h1>
+<p>흑연 무채색 화면 위에 그라운드 색을 정해진 자리에만 쓰고, 표정은 고양이 DmD 와 자모 얼굴이 맡는다. 값의 원본은 저장소 <b>docs/design/system/tokens.css</b>. 오른쪽 Tweaks 에서 테마(라이트·다크)와 그라운드(play·make)를 바꿔 보세요.</p>
+<div class="layers">
+<div><b>1 · 원시</b><p>이름 붙은 값. <code>jjok-500</code> <code>graphite-600</code> <code>radius-lg</code><br>화면 코드에서 직접 쓰지 않는다.</p></div>
+<div><b>2 · 의미</b><p>역할 이름. <code>bg</code> <code>sunken</code> <code>ink-3</code> <code>accent</code><br>테마·그라운드에 따라 값이 바뀐다. 화면은 이것만 쓴다.</p></div>
+<div><b>3 · 컴포넌트</b><p>크기·모양·순서. <code>--btn-h 44</code> <code>--pick-w 296</code> <code>--z-tooltip 30</code></p></div>
+</div>
+</header>
+
+<section class="blk">
+<header><h2><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg>그라운드 색</h2><span>같은 휘도(Y .155) · 최대 채도 — 흰 글자 대비 5.1:1 로 같다</span></header>
+<div class="grounds">
+<div class="gcol">
+<div class="hero-sw" style="background:var(--color-jjok-500)"><span class="logo">[[CAT m]]</span><div><b>쪽빛</b><span> · PlayGround · #046DCE</span></div></div>
+<div class="ramp">
+<div class="sw"><i style="background:var(--color-jjok-50)"></i><b>50</b><span>ECF4FE</span></div>
+<div class="sw"><i style="background:var(--color-jjok-100)"></i><b>100</b><span>D9EAFF</span></div>
+<div class="sw"><i style="background:var(--color-jjok-400)"></i><b>400</b><span>3A96FE</span></div>
+<div class="sw"><i style="background:var(--color-jjok-500)"></i><b>500</b><span>046DCE</span></div>
+<div class="sw"><i style="background:var(--color-jjok-600)"></i><b>600</b><span>0159AA</span></div>
+<div class="sw"><i style="background:var(--color-jjok-850)"></i><b>850</b><span>173456</span></div>
+<div class="sw"><i style="background:var(--color-jjok-900)"></i><b>900</b><span>122741</span></div>
+</div>
+</div>
+<div class="gcol">
+<div class="hero-sw" style="background:var(--color-inju-500)"><span class="logo">[[CAT m]]</span><div><b>인주</b><span> · MakersGround · #D22C02</span></div></div>
+<div class="ramp">
+<div class="sw"><i style="background:var(--color-inju-50)"></i><b>50</b><span>FEF0ED</span></div>
+<div class="sw"><i style="background:var(--color-inju-100)"></i><b>100</b><span>FEE0DA</span></div>
+<div class="sw"><i style="background:var(--color-inju-400)"></i><b>400</b><span>FE6648</span></div>
+<div class="sw"><i style="background:var(--color-inju-500)"></i><b>500</b><span>D22C02</span></div>
+<div class="sw"><i style="background:var(--color-inju-600)"></i><b>600</b><span>AD2201</span></div>
+<div class="sw"><i style="background:var(--color-inju-850)"></i><b>850</b><span>51241A</span></div>
+<div class="sw"><i style="background:var(--color-inju-900)"></i><b>900</b><span>3D1B14</span></div>
+</div>
+</div>
+</div>
+<p class="sub">상태 색 — 의미가 있을 때만</p>
+<div class="state-row">
+<div class="ramp" style="grid-template-columns:repeat(5,minmax(0,1fr))">
+<div class="sw"><i style="background:var(--color-bichwi-50)"></i><b>비취 50</b><span>E5FAEA</span></div>
+<div class="sw"><i style="background:var(--color-bichwi-400)"></i><b>400</b><span>05AE59</span></div>
+<div class="sw"><i style="background:var(--color-bichwi-500)"></i><b>500 통과</b><span>047F3F</span></div>
+<div class="sw"><i style="background:var(--color-bichwi-600)"></i><b>600</b><span>026732</span></div>
+<div class="sw"><i style="background:var(--color-bichwi-900)"></i><b>900</b><span>0E2E19</span></div>
+</div>
+<div class="ramp" style="grid-template-columns:repeat(5,minmax(0,1fr))">
+<div class="sw"><i style="background:var(--color-dahong-50)"></i><b>다홍 50</b><span>FEEFEF</span></div>
+<div class="sw"><i style="background:var(--color-dahong-400)"></i><b>400</b><span>FE6270</span></div>
+<div class="sw"><i style="background:var(--color-dahong-500)"></i><b>500 오류·상승</b><span>DB0240</span></div>
+<div class="sw"><i style="background:var(--color-dahong-600)"></i><b>600</b><span>B40433</span></div>
+<div class="sw"><i style="background:var(--color-dahong-900)"></i><b>900</b><span>3D1A1C</span></div>
+</div>
+</div>
+<p class="sub">흑연 — h255, 채도 거의 0</p>
+<div class="gray">
+<div class="sw"><i style="background:var(--color-graphite-0)"></i><b>0</b><span>FFFFFF</span></div>
+<div class="sw"><i style="background:var(--color-graphite-50)"></i><b>50</b><span>F2F3F5</span></div>
+<div class="sw"><i style="background:var(--color-graphite-60)"></i><b>60</b><span>EEF0F3</span></div>
+<div class="sw"><i style="background:var(--color-graphite-75)"></i><b>75</b><span>ECEEF0</span></div>
+<div class="sw"><i style="background:var(--color-graphite-100)"></i><b>100</b><span>E9EBEE</span></div>
+<div class="sw"><i style="background:var(--color-graphite-200)"></i><b>200</b><span>C4C8CC</span></div>
+<div class="sw"><i style="background:var(--color-graphite-300)"></i><b>300</b><span>A4A8AE</span></div>
+<div class="sw"><i style="background:var(--color-graphite-400)"></i><b>400</b><span>9B9FA3</span></div>
+<div class="sw"><i style="background:var(--color-graphite-500)"></i><b>500</b><span>71757A</span></div>
+<div class="sw"><i style="background:var(--color-graphite-600)"></i><b>600</b><span>65696F</span></div>
+<div class="sw"><i style="background:var(--color-graphite-700)"></i><b>700</b><span>4F5359</span></div>
+<div class="sw"><i style="background:var(--color-graphite-800)"></i><b>800</b><span>272C31</span></div>
+<div class="sw"><i style="background:var(--color-graphite-850)"></i><b>850</b><span>1F2328</span></div>
+<div class="sw"><i style="background:var(--color-graphite-900)"></i><b>900</b><span>191C20</span></div>
+<div class="sw"><i style="background:var(--color-graphite-950)"></i><b>950</b><span>151A20</span></div>
+<div class="sw"><i style="background:var(--color-graphite-975)"></i><b>975</b><span>101316</span></div>
+</div>
+</section>
+
+<section class="blk">
+<header><h2><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg>의미 토큰</h2><span>지금 테마·그라운드 값으로 칠해짐 — 화면 코드는 이 이름만 쓴다</span></header>
+<div class="sem">
+<div class="st"><i style="background:var(--bg)"></i><div><b>bg</b><span>페이지 바탕. 카드에 바탕 깔지 않음</span></div></div>
+<div class="st"><i style="background:var(--sunken)"></i><div><b>sunken</b><span>칩·검색·빈 아트·상태 화면</span></div></div>
+<div class="st"><i style="background:var(--sunken-hover)"></i><div><b>sunken-hover</b><span>위의 호버</span></div></div>
+<div class="st"><i style="background:var(--raised)"></i><div><b>raised</b><span>옅은 띠 위의 줄</span></div></div>
+<div class="st"><i style="background:var(--ink-1)"></i><div><b>ink-1</b><span>제목·본문</span></div></div>
+<div class="st"><i style="background:var(--ink-2)"></i><div><b>ink-2</b><span>보조 글</span></div></div>
+<div class="st"><i style="background:var(--ink-3)"></i><div><b>ink-3</b><span>메타 13px · 최소 글자색</span></div></div>
+<div class="st"><i style="background:var(--ink-4)"></i><div><b>ink-4</b><span>글자 금지 · 아이콘·구분</span></div></div>
+<div class="st"><i style="background:var(--accent)"></i><div><b>accent</b><span>채움 · 흰 글자</span></div></div>
+<div class="st"><i style="background:var(--accent-strong)"></i><div><b>accent-strong</b><span>채움 호버</span></div></div>
+<div class="st"><i style="background:var(--accent-text)"></i><div><b>accent-text</b><span>글자로 쓰는 강조(다크 400)</span></div></div>
+<div class="st"><i style="background:var(--accent-tint)"></i><div><b>accent-tint</b><span>랭킹 띠 바탕</span></div></div>
+<div class="st"><i style="background:var(--surface-ink)"></i><div><b>surface-ink</b><span>툴팁·잼 띠</span></div></div>
+<div class="st"><i style="background:var(--ok)"></i><div><b>ok</b><span>검사 통과·공개</span></div></div>
+<div class="st"><i style="background:var(--danger)"></i><div><b>danger</b><span>오류·차단 — 아이콘+문장과 함께</span></div></div>
+<div class="st"><i style="background:linear-gradient(90deg,var(--rank-up) 50%,var(--rank-down) 50%)"></i><div><b>rank-up / down</b><span>상승 빨강 ▲ · 하락 파랑 ▼</span></div></div>
+</div>
+</section>
+
+<section class="blk">
+<header><h2><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg>라이트 · 다크</h2><span>채움색·아트는 그대로, 바탕·글자·옅은 바탕만 바뀐다</span></header>
+<div class="duo">
+[[DUO light]]
+[[DUO dark]]
+</div>
+<p class="note">다크 모드 기본값(OS 설정을 따를지, 라이트로 시작할지)은 아직 결정 전이다. 토큰은 둘 다 준비돼 있다.</p>
+</section>
+
+<section class="blk">
+<header><h2><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg>글자</h2><span>Pretendard + Gasoek One(28px 이상, 화면당 2~3곳)</span></header>
+<div class="type">
+<div><code>display-lg</code><span class="spec">48 / 1 · Gasoek</span><span class="disp" style="font-size:48px;line-height:1;color:var(--accent-text)">D-3</span></div>
+<div><code>display</code><span class="spec">40 / 1.18 · Gasoek</span><span class="disp" style="font-size:40px;line-height:1.18">루프를 벗어나려면</span></div>
+<div><code>display-sm</code><span class="spec">28 / 1 · Gasoek</span><span class="disp" style="font-size:28px;line-height:1"><span style="color:var(--accent-text)">1</span> 2 3 10</span></div>
+<div><code>heading-lg</code><span class="spec">28 / 1.25 · 800</span><span style="font-size:28px;line-height:1.25;font-weight:800;letter-spacing:-.02em">찾는 페이지가 없어요</span></div>
+<div><code>heading</code><span class="spec">22 / 1.3 · 800</span><span style="font-size:22px;line-height:1.3;font-weight:800;letter-spacing:-.02em">이번 주 PICK</span></div>
+<div><code>title-lg</code><span class="spec">18 / 1.35 · 800</span><span style="font-size:18px;line-height:1.35;font-weight:800">루프 디버거</span></div>
+<div><code>title</code><span class="spec">17 / 1.4 · 700</span><span style="font-size:17px;line-height:1.4;font-weight:700">재의 도시 — 4열 카드 제목</span></div>
+<div><code>lead</code><span class="spec">16 / 1.6 · 400~700</span><span style="font-size:16px;line-height:1.6">주소가 바뀌었거나, 메이커가 게임을 내렸을 수 있어요.</span></div>
+<div><code>body</code><span class="spec">15 / 1.5 · 400~700</span><span style="font-size:15px;line-height:1.5">한 판 5분, 코드를 고쳐 루프를 벗어나는 퍼즐. 레일 카드 제목은 15 · 700.</span></div>
+<div><code>label</code><span class="spec">14 / 1.4 · 700</span><span style="font-size:14px;line-height:1.4;font-weight:700">전체 보기 · 칩 · 탭 · 작은 버튼</span></div>
+<div><code>meta</code><span class="spec">13 / 1.45 · 500~600</span><span class="m">픽셀상점 · 퍼즐 · 한 판 5분 · 추천 92% · 38</span></div>
+<div><code>caption</code><span class="spec">12 / 16 · 700~800</span><span><span class="badge static">PICK</span> <span class="tag">퍼즐</span> <span style="font-size:12px;font-weight:800">짧은 낱말만</span></span></div>
+</div>
+</section>
+
+<section class="blk">
+<header><h2><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg>간격 · 반경 · 그림자</h2><span>4px 단위 · 섹션 사이 64</span></header>
+<div class="space">
+<div class="s"><i style="height:4px"></i>4</div><div class="s"><i style="height:6px"></i>6</div><div class="s"><i style="height:8px"></i>8</div><div class="s"><i style="height:10px"></i>10</div><div class="s"><i style="height:14px"></i>14</div><div class="s key"><i style="height:16px"></i>16<br>레일</div><div class="s key"><i style="height:18px"></i>18<br>제목→내용</div><div class="s"><i style="height:20px"></i>20</div><div class="s key"><i style="height:24px"></i>24<br>4열</div><div class="s"><i style="height:28px"></i>28</div><div class="s"><i style="height:36px"></i>36</div><div class="s"><i style="height:44px"></i>44</div><div class="s"><i style="height:48px"></i>48</div><div class="s key"><i style="height:64px"></i>64<br>섹션</div><div class="s"><i style="height:88px"></i>88<br>푸터</div>
+</div>
+<div class="radii">
+<div class="r"><i style="border-radius:var(--radius-xs)"></i><b>xs 5</b>태그 · 20px 얼굴</div>
+<div class="r"><i style="border-radius:var(--radius-sm)"></i><b>sm 8</b>사각 아이콘 버튼</div>
+<div class="r"><i style="border-radius:var(--radius-md)"></i><b>md 10</b>버튼 · ≤220 아트 · 툴팁</div>
+<div class="r"><i style="border-radius:var(--radius-lg)"></i><b>lg 14</b>≥240 아트 · 랭킹 줄</div>
+<div class="r"><i style="border-radius:var(--radius-xl)"></i><b>xl 16</b>메인 배너</div>
+<div class="r"><i style="border-radius:var(--radius-2xl)"></i><b>2xl 22</b>띠 · 상태 화면</div>
+<div class="r"><i style="border-radius:var(--radius-full)"></i><b>full</b>칩 · 탭 · 배지</div>
+</div>
+<div class="shadows">
+<div class="s"><i style="box-shadow:var(--shadow-hairline)"></i><b>hairline</b>선택된 탭</div>
+<div class="s"><i style="box-shadow:var(--shadow-chip)"></i><b>chip</b>아트 위 배지</div>
+<div class="s"><i style="box-shadow:var(--shadow-float)"></i><b>float</b>빠른 플레이</div>
+<div class="s"><i style="box-shadow:var(--shadow-lift);transform:var(--card-lift)"></i><b>lift</b>호버로 들린 아트</div>
+<div class="s"><i style="box-shadow:var(--shadow-pop)"></i><b>pop</b>툴팁 · 메뉴 · 대화상자</div>
+</div>
+</section>
+
+<section class="blk">
+<header><h2><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg>모션</h2><span>곡선 하나 · 120 / 180 / 240 / 260ms · 각 칸에 마우스를 올려 보세요</span></header>
+<div class="motion">
+<div class="mo-card"><div class="stage demo-curve"><svg viewBox="0 0 150 90" aria-hidden="true"><path d="M4 86 C34 23.6 34 4 146 4"></path></svg></div><b>ease-soft</b><p>cubic-bezier(.2,.7,.2,1) — 빨리 출발해 부드럽게 멈춤. 모든 전환에 이것 하나.</p></div>
+<div class="mo-card"><div class="stage"><i class="demo-lift a-tess"></i></div><b>들림 240ms</b><p>호버 시 아트만 3px 위로 + lift 그림자. 카드 크기는 그대로.</p></div>
+<div class="mo-card"><div class="stage"><div class="demo-q a-loop"><span class="qplay"><svg class="ic ic16"><use href="#i-play"></use></svg></span></div></div><b>등장 180ms</b><p>빠른 플레이가 아래 6px · 90% 에서 떠오름. 브라우저 게임만.</p></div>
+<div class="mo-card"><div class="stage demo-face"><span class="logo">[[LOGO m]]</span></div><b>표정 260ms</b><p>플레이 계열에 호버하면 로고가 장난 표정. 모션 줄이기 설정이면 모두 0.</p></div>
+</div>
+</section>
+
+<section class="blk">
+<header><h2><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg>자모 얼굴</h2><span>초성 눈 + ㅅ 입 · 12색 모두 같은 휘도(흰 글자 5.1:1) · 반경 = 한 변 × 0.27</span></header>
+<div class="faces">
+<div class="f"><span class="jf md" style="background:var(--color-face-hong)">ㅎ<i>ㅅ</i>ㅎ</span><b>홍</b>AC5255</div>
+<div class="f"><span class="jf md" style="background:var(--color-face-ju)">ㅈ<i>ㅅ</i>ㅈ</span><b>주</b>A85831</div>
+<div class="f"><span class="jf md" style="background:var(--color-face-gyul)">ㄱ<i>ㅅ</i>ㄱ</span><b>귤</b>A05E14</div>
+<div class="f"><span class="jf md" style="background:var(--color-face-hwang)">ㅎ<i>ㅅ</i>ㅎ</span><b>황</b>826C01</div>
+<div class="f"><span class="jf md" style="background:var(--color-face-olive)">ㅇ<i>ㅅ</i>ㅇ</span><b>올리브</b>6B7407</div>
+<div class="f"><span class="jf md" style="background:var(--color-face-pul)">ㅍ<i>ㅅ</i>ㅍ</span><b>풀</b>427B35</div>
+<div class="f"><span class="jf md" style="background:var(--color-face-bichwi)">ㅂ<i>ㅅ</i>ㅂ</span><b>비취</b>017E52</div>
+<div class="f"><span class="jf md" style="background:var(--color-face-cheongnok)">ㅊ<i>ㅅ</i>ㅊ</span><b>청록</b>0A7A7B</div>
+<div class="f"><span class="jf md" style="background:var(--color-face-haneul)">ㄴ<i>ㅅ</i>ㄴ</span><b>하늘</b>027797</div>
+<div class="f"><span class="jf md" style="background:var(--color-face-jjok)">ㅉ<i>ㅅ</i>ㅉ</span><b>쪽</b>3870B1</div>
+<div class="f"><span class="jf md" style="background:var(--color-face-bora)">ㅂ<i>ㅅ</i>ㅂ</span><b>보라</b>7063B0</div>
+<div class="f"><span class="jf md" style="background:var(--color-face-jadu)">ㅈ<i>ㅅ</i>ㅈ</span><b>자두</b>9B558D</div>
+</div>
+<div class="face-sizes">
+<span class="jf xs" style="background:var(--color-face-pul)">ㅍ<i>ㅅ</i>ㅍ</span>
+<span class="jf" style="background:var(--color-face-pul)">ㅍ<i>ㅅ</i>ㅍ</span>
+<span class="jf md" style="background:var(--color-face-pul)">ㅍ<i>ㅅ</i>ㅍ</span>
+<span class="jf lg" style="background:var(--color-face-pul)">ㅍ<i>ㅅ</i>ㅍ</span>
+<span class="jf xl" style="background:var(--color-face-pul)">ㅍ<i>ㅅ</i>ㅍ</span>
+<span class="m">xs 20 목록 · sm 26 카드 · md 32 4열 카드 · lg 54 로그인 띠 · 96 프로필. 플레이어는 12색 중 하나, 메이커는 대표 게임색을 같은 휘도로 맞춘 색.</span>
+</div>
+</section>
+
+<section class="blk">
+<header><h2><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg>그라운드 색 각인</h2><span>UI 는 무채색, 강조색은 이 자리에만 — 게임 아트에는 쓰지 않는다</span></header>
+<div class="imprint">
+<div class="imp"><div class="stage" style="background:var(--bg)"><span class="logo" style="font-size:34px">[[LOGO m]]</span></div><b>로고 귀</b><span>귀 선 = 그라운드 색</span></div>
+<div class="imp"><div class="stage" style="background:var(--bg)"><div class="gnb-demo"><a>홈</a><a class="on">게임</a><a>랭킹</a></div></div><b>활성 메뉴</b><span>ink-1 + 3px 밑줄</span></div>
+<div class="imp"><div class="stage"><span class="btn btn-primary btn-sm">로그인</span></div><b>주 버튼</b><span>플레이 · 이어하기 · 로그인</span></div>
+<div class="imp"><div class="stage" style="background:var(--bg);gap:8px"><svg class="ear" viewBox="0 0 22 12" aria-hidden="true" style="margin:0"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg><b style="font-size:18px">이번 주 PICK</b></div><b>섹션 귀 표식</b><span>제목 앞 22×12</span></div>
+<div class="imp"><div class="stage" style="background:none"><span class="a-halcyon" style="position:absolute;inset:0"></span><span class="badge">PICK</span></div><b>배지</b><span>아트 왼쪽 위 큐레이션 배지</span></div>
+<div class="imp"><div class="stage" style="background:var(--bg)"><div class="dots"><i></i><i class="on"></i><i></i><i></i></div></div><b>배너 넘김 · 진행 막대</b><span>활성 점 22px · 진행률</span></div>
+<div class="imp"><div class="stage" style="background:var(--accent-tint)"><span class="disp" style="font-size:30px;color:var(--accent-text)">1</span><span class="disp" style="font-size:30px;color:var(--ink-2);margin-left:14px">4</span></div><b>랭킹 띠 · 로그인 띠</b><span>옅은 바탕 + 1~3위 / 채움 띠</span></div>
+<div class="imp"><div class="stage" style="background:var(--bg)"><div class="foot-demo"></div><span class="btn btn-secondary btn-sm is-focus" style="margin-top:-22px">포커스</span></div><b>포커스 링 · 푸터 윗선</b><span>2px 링 · 3px 선</span></div>
+</div>
+<div class="dont">
+<div><b class="do">이렇게</b>그라운드 색은 표에 적힌 자리에만. 나머지는 흑연. 색만 봐도 어느 그라운드인지 알 수 있다.</div>
+<div><b>이렇게 하지 않는다</b>카드 바탕에 색 깔기, 섹션 제목을 강조색으로, 아이콘마다 강조색, 게임 아트 위에 강조색 칠하기.</div>
+<div><b>이렇게 하지 않는다</b>Tailwind 기본 팔레트(blue-600 등), 원시 색 직접 쓰기(jjok-500), 임의 값(#046DCE 하드코딩).</div>
+</div>
+</section>
+
+</div>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":5200},"theme":{"editor":"enum","default":"light","options":["light","dark"],"tsType":"string"},"ground":{"editor":"enum","default":"play","options":["play","make"],"tsType":"string"}}'>
+class Component extends DCLogic {
+  renderVals() {
+    return { theme: this.props.theme ?? 'light', ground: this.props.ground ?? 'play' };
+  }
+}
+</script>
+</body>
+</html>

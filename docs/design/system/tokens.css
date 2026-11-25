@@ -1,0 +1,391 @@
+/*
+ * aDmD Games 디자인 토큰 — Tailwind CSS 4
+ *
+ * 3층 구조
+ *   1. 원시(primitive)  @theme        — 이름 붙은 값. 화면 코드에서 직접 쓰지 않는다.
+ *   2. 의미(semantic)   :root 변수     — 역할 이름. 테마(라이트·다크)·그라운드(play·make)에 따라 바뀐다.
+ *   3. 컴포넌트          :root 변수     — 크기·모양 같은 컴포넌트 고유 값.
+ *   의미 토큰은 @theme inline 으로 Tailwind 유틸리티(bg-sunken, text-ink-3, bg-accent …)에 연결한다.
+ *
+ * 구현 때 apps/web/src/lib/styles/tokens.css 로 옮기고 routes/layout.css 에서
+ *   @import 'tailwindcss';  @import '#lib/styles/tokens.css';
+ * 순서로 불러온다. 색 계산 근거: docs/design/tools/*.py, 규칙: docs/design/system/01-foundations.md
+ */
+
+/* ───────────── 1. 원시 토큰 ───────────── */
+@theme {
+	/* Tailwind 기본 팔레트를 지운다 — 기본색(blue-600 등)을 쓰지 않는다 */
+	--color-*: initial;
+	--color-white: #ffffff;
+	--color-black: #000000;
+	--color-transparent: transparent;
+	--color-current: currentColor;
+
+	/* 흑연 — h255, 채도 거의 0 */
+	--color-graphite-0: #ffffff;
+	--color-graphite-50: #f2f3f5;
+	--color-graphite-60: #eef0f3;
+	--color-graphite-75: #eceef0;
+	--color-graphite-100: #e9ebee;
+	--color-graphite-200: #c4c8cc;
+	--color-graphite-300: #a4a8ae;
+	--color-graphite-400: #9b9fa3;
+	--color-graphite-500: #71757a;
+	--color-graphite-600: #65696f;
+	--color-graphite-700: #4f5359;
+	--color-graphite-800: #272c31;
+	--color-graphite-850: #1f2328;
+	--color-graphite-900: #191c20;
+	--color-graphite-950: #151a20;
+	--color-graphite-975: #101316;
+
+	/* 쪽빛 — PlayGround (h254) */
+	--color-jjok-50: #ecf4fe;
+	--color-jjok-100: #d9eaff;
+	--color-jjok-400: #3a96fe; /* 다크 바탕 위 글자 */
+	--color-jjok-500: #046dce; /* 기준 · 흰 글자 5.1:1 */
+	--color-jjok-600: #0159aa;
+	--color-jjok-850: #173456; /* 다크 tint-2 */
+	--color-jjok-900: #122741; /* 다크 tint */
+	--color-jjok-950: #0d2b4d; /* deep */
+
+	/* 인주 — MakersGround (h33) */
+	--color-inju-50: #fef0ed;
+	--color-inju-100: #fee0da;
+	--color-inju-400: #fe6648;
+	--color-inju-500: #d22c02;
+	--color-inju-600: #ad2201;
+	--color-inju-850: #51241a;
+	--color-inju-900: #3d1b14;
+	--color-inju-950: #4a1a0c;
+
+	/* 비취 — 통과·공개·증가 (h152) */
+	--color-bichwi-50: #e5faea;
+	--color-bichwi-400: #05ae59;
+	--color-bichwi-500: #047f3f;
+	--color-bichwi-600: #026732;
+	--color-bichwi-900: #0e2e19;
+
+	/* 다홍 — 오류·차단·상승 (h18) */
+	--color-dahong-50: #feefef;
+	--color-dahong-400: #fe6270;
+	--color-dahong-500: #db0240;
+	--color-dahong-600: #b40433; /* 위험 버튼 호버 */
+	--color-dahong-900: #3d1a1c;
+
+	/* 자모 얼굴 타일 12색 — 같은 휘도 Y .155, 흰 글자 5.1:1 (tools/faces.py) */
+	--color-face-hong: #ac5255;
+	--color-face-ju: #a85831;
+	--color-face-gyul: #a05e14;
+	--color-face-hwang: #826c01;
+	--color-face-olive: #6b7407;
+	--color-face-pul: #427b35;
+	--color-face-bichwi: #017e52;
+	--color-face-cheongnok: #0a7a7b;
+	--color-face-haneul: #027797;
+	--color-face-jjok: #3870b1;
+	--color-face-bora: #7063b0;
+	--color-face-jadu: #9b558d;
+
+	/* 글꼴 — Gasoek One 은 28px 이상에서만 */
+	--font-*: initial;
+	--font-sans:
+		'Pretendard Variable', Pretendard, system-ui, -apple-system, 'Apple SD Gothic Neo',
+		'Malgun Gothic', sans-serif;
+	--font-display: 'Gasoek One', 'Pretendard Variable', Pretendard, sans-serif;
+
+	/* 글자 크기 — 이름 = 역할. 기본 text-xs…9xl 은 지운다 */
+	--text-*: initial;
+	--text-caption: 12px; /* 배지·태그·실행 칩. 굵게(700+) 짧은 낱말만 */
+	--text-caption--line-height: 16px;
+	--text-meta: 13px; /* 메타·툴팁·푸터 */
+	--text-meta--line-height: 1.45;
+	--text-label: 14px; /* 칩·탭·작은 버튼·링크 */
+	--text-label--line-height: 1.4;
+	--text-body: 15px; /* 본문·레일 카드 제목 */
+	--text-body--line-height: 1.5;
+	--text-lead: 16px; /* 메뉴·배너 설명·긴 글 */
+	--text-lead--line-height: 1.6;
+	--text-title: 17px; /* 그리드 카드 제목 */
+	--text-title--line-height: 1.4;
+	--text-title-lg: 18px; /* PICK 카드 제목 */
+	--text-title-lg--line-height: 1.35;
+	--text-heading: 22px; /* 섹션 제목 */
+	--text-heading--line-height: 1.3;
+	--text-heading--letter-spacing: -0.02em;
+	--text-heading-lg: 28px; /* 페이지 제목 */
+	--text-heading-lg--line-height: 1.25;
+	--text-heading-lg--letter-spacing: -0.02em;
+	--text-display-sm: 28px; /* Gasoek — 순위 숫자 */
+	--text-display-sm--line-height: 1;
+	--text-display: 40px; /* Gasoek — 배너 헤드라인 */
+	--text-display--line-height: 1.18;
+	--text-display-lg: 48px; /* Gasoek — 잼 D-day */
+	--text-display-lg--line-height: 1;
+
+	--font-weight-*: initial;
+	--font-weight-regular: 400;
+	--font-weight-medium: 600; /* 메타 강조 */
+	--font-weight-bold: 700; /* UI 기본 */
+	--font-weight-heavy: 800; /* 제목·배지 */
+
+	/* 간격 — 4px 단위 (p-4 = 16px). 홀수 단위(6·10·14px)는 1.5·2.5·3.5 */
+	--spacing: 4px;
+
+	/* 반경 */
+	--radius-*: initial;
+	--radius-xs: 5px; /* 태그 · 작은 얼굴(20px) */
+	--radius-sm: 8px; /* 아이콘 버튼(사각) */
+	--radius-md: 10px; /* 버튼 · 작은 아트(≤220px) · 툴팁 */
+	--radius-lg: 14px; /* 큰 아트(≥240px) · 랭킹 줄 */
+	--radius-xl: 16px; /* 배너 */
+	--radius-2xl: 22px; /* 띠(로그인·잼) · 상태 화면 */
+	--radius-full: 999px;
+
+	/* 그림자 — 기본 shadow-sm … 은 지운다 */
+	--shadow-*: initial;
+	--shadow-hairline: 0 1px 2px rgb(21 26 32 / 0.08); /* 선택된 탭 */
+	--shadow-chip: 0 4px 10px -4px rgb(0 0 0 / 0.45); /* 아트 위 배지 */
+	--shadow-float: 0 6px 16px -6px rgb(0 0 0 / 0.5); /* 빠른 플레이 */
+	--shadow-lift: var(--lift); /* 호버로 들린 아트 — 테마별 */
+	--shadow-pop: 0 12px 28px -10px rgb(0 0 0 / 0.5); /* 툴팁·메뉴 */
+
+	/* 모션 */
+	--ease-*: initial;
+	--ease-soft: cubic-bezier(0.2, 0.7, 0.2, 1); /* 모든 전환의 기본 */
+	--ease-linear: linear;
+
+	/* 화면 폭 */
+	--breakpoint-*: initial;
+	--breakpoint-md: 768px; /* 태블릿 */
+	--breakpoint-xl: 1280px; /* PC — PlayGround 현재 기준 */
+	--container-page: 1200px;
+}
+
+/* ───────────── 2. 의미 토큰 ───────────── */
+:root,
+[data-theme='light'] {
+	color-scheme: light;
+	--dark: 0;
+	--bg: var(--color-graphite-0);
+	--raised: rgb(255 255 255 / 0.7); /* 옅은 띠 위 줄 */
+	--raised-hover: var(--color-graphite-0);
+	--sunken: var(--color-graphite-50); /* 칩·검색·빈 아트 */
+	--sunken-hover: var(--color-graphite-100);
+	--line: var(--color-graphite-75);
+	--ink-1: var(--color-graphite-950); /* 제목·본문 */
+	--ink-2: var(--color-graphite-700); /* 보조 글 */
+	--ink-3: var(--color-graphite-600); /* 메타 — 흰 바탕 5.5:1, sunken 5.0:1 */
+	--ink-4: var(--color-graphite-400); /* 글자 금지: 아이콘·구분선·비활성 */
+	--surface-ink: var(--color-graphite-950); /* 먹 바탕: 툴팁·잼 띠 */
+	--on-ink: var(--color-white);
+	--scrim: rgb(21 26 32 / 0.66); /* 아트 위 칩 */
+	--scrim-strong: rgb(21 26 32 / 0.78);
+	--ok: var(--color-bichwi-500);
+	--ok-text: var(--color-bichwi-500);
+	--ok-tint: var(--color-bichwi-50);
+	--ok-on-ink: var(--color-bichwi-400);
+	--danger: var(--color-dahong-500);
+	--danger-strong: var(--color-dahong-600);
+	--danger-text: var(--color-dahong-500);
+	--danger-tint: var(--color-dahong-50);
+	--rank-up: var(--color-dahong-500); /* 한국 관습: 상승 빨강 ▲ */
+	--rank-down: var(--color-jjok-600); /*           하락 파랑 ▼ */
+	--lift: 0 12px 26px -12px rgb(21 26 32 / 0.36);
+}
+
+/* 그라운드 — 각인 장치만 이 색을 쓴다 (02-brand.md §3)
+ * --g-* 는 그라운드 팔레트 참조. 강조 토큰은 [data-ground] 가 붙은 모든 요소에서 다시 계산해
+ * 한 화면 안에 다른 그라운드 영역(예: PlayGround 안의 인주 띠)을 넣어도 테마가 맞게 풀린다. */
+:root,
+[data-ground='play'] {
+	--g-50: var(--color-jjok-50);
+	--g-100: var(--color-jjok-100);
+	--g-400: var(--color-jjok-400);
+	--g-500: var(--color-jjok-500);
+	--g-600: var(--color-jjok-600);
+	--g-850: var(--color-jjok-850);
+	--g-900: var(--color-jjok-900);
+}
+[data-ground='make'] {
+	--g-50: var(--color-inju-50);
+	--g-100: var(--color-inju-100);
+	--g-400: var(--color-inju-400);
+	--g-500: var(--color-inju-500);
+	--g-600: var(--color-inju-600);
+	--g-850: var(--color-inju-850);
+	--g-900: var(--color-inju-900);
+}
+:root,
+[data-ground],
+[data-theme] {
+	/* 테마·그라운드 경계마다 다시 계산 — 다크 안의 라이트 섬, PlayGround 안의 인주 띠도 맞게 풀린다.
+	   --dark 는 테마가 정하는 0/1 스위치 */
+	--accent: var(--g-500); /* 채움 · 흰 글자 5.1:1 — 테마와 무관 */
+	--accent-strong: var(--g-600); /* 채움 호버 · 옅은 바탕 위 글자 */
+	--accent-text: color-mix(in srgb, var(--g-400) calc(var(--dark) * 100%), var(--g-500)); /* 글자로 쓰는 강조색: 라이트 500 · 다크 400 */
+	--accent-tint: color-mix(in srgb, var(--g-900) calc(var(--dark) * 100%), var(--g-50)); /* 랭킹 띠: 라이트 50 · 다크 900 */
+	--accent-tint-2: color-mix(in srgb, var(--g-850) calc(var(--dark) * 100%), var(--g-100));
+	--on-accent: var(--color-white);
+}
+/* 다른 그라운드를 가리키는 고정 색(그라운드 전환 버튼, "게임 올리기" 링크 등) */
+:root {
+	--play: var(--color-jjok-500);
+	--play-strong: var(--color-jjok-600);
+	--make: var(--color-inju-500);
+	--make-strong: var(--color-inju-600);
+}
+
+/* 다크 — 같은 OKLCH 계산(tools/dark.py). 채움색은 라이트와 같고, 글자로 쓸 때만 밝은 톤(400) */
+@media (prefers-color-scheme: dark) {
+	:root:not([data-theme='light']) {
+		color-scheme: dark;
+		--dark: 1;
+		--bg: var(--color-graphite-975);
+		--raised: var(--color-graphite-900);
+		--raised-hover: var(--color-graphite-850);
+		--sunken: var(--color-graphite-850);
+		--sunken-hover: var(--color-graphite-800);
+		--line: var(--color-graphite-800);
+		--ink-1: var(--color-graphite-60);
+		--ink-2: var(--color-graphite-200);
+		--ink-3: var(--color-graphite-300);
+		--ink-4: var(--color-graphite-500);
+		--surface-ink: var(--color-graphite-800);
+		--ok-text: var(--color-bichwi-400);
+		--ok-tint: var(--color-bichwi-900);
+		--danger-text: var(--color-dahong-400);
+		--danger-tint: var(--color-dahong-900);
+		--rank-up: var(--color-dahong-400);
+		--rank-down: var(--color-jjok-400);
+		--play-strong: var(--color-jjok-400);
+		--make-strong: var(--color-inju-400);
+		--lift: 0 12px 26px -12px rgb(0 0 0 / 0.7);
+	}
+}
+[data-theme='dark'] {
+	color-scheme: dark;
+	--dark: 1;
+	--bg: var(--color-graphite-975);
+	--raised: var(--color-graphite-900);
+	--raised-hover: var(--color-graphite-850);
+	--sunken: var(--color-graphite-850);
+	--sunken-hover: var(--color-graphite-800);
+	--line: var(--color-graphite-800);
+	--ink-1: var(--color-graphite-60);
+	--ink-2: var(--color-graphite-200);
+	--ink-3: var(--color-graphite-300);
+	--ink-4: var(--color-graphite-500);
+	--surface-ink: var(--color-graphite-800);
+	--ok-text: var(--color-bichwi-400);
+	--ok-tint: var(--color-bichwi-900);
+	--danger-text: var(--color-dahong-400);
+	--danger-tint: var(--color-dahong-900);
+	--rank-up: var(--color-dahong-400);
+	--rank-down: var(--color-jjok-400);
+	--play-strong: var(--color-jjok-400);
+	--make-strong: var(--color-inju-400);
+	--lift: 0 12px 26px -12px rgb(0 0 0 / 0.7);
+}
+
+/* 의미 토큰 → Tailwind 유틸리티 (bg-sunken, text-ink-3, border-line, bg-accent, text-accent-text …) */
+@theme inline {
+	--color-bg: var(--bg);
+	--color-raised: var(--raised);
+	--color-raised-hover: var(--raised-hover);
+	--color-sunken: var(--sunken);
+	--color-sunken-hover: var(--sunken-hover);
+	--color-line: var(--line);
+	--color-ink-1: var(--ink-1);
+	--color-ink-2: var(--ink-2);
+	--color-ink-3: var(--ink-3);
+	--color-ink-4: var(--ink-4);
+	--color-surface-ink: var(--surface-ink);
+	--color-on-ink: var(--on-ink);
+	--color-scrim: var(--scrim);
+	--color-scrim-strong: var(--scrim-strong);
+	--color-accent: var(--accent);
+	--color-accent-strong: var(--accent-strong);
+	--color-accent-text: var(--accent-text);
+	--color-accent-tint: var(--accent-tint);
+	--color-accent-tint-2: var(--accent-tint-2);
+	--color-on-accent: var(--on-accent);
+	--color-play: var(--play);
+	--color-play-strong: var(--play-strong);
+	--color-make: var(--make);
+	--color-make-strong: var(--make-strong);
+	--color-ok: var(--ok);
+	--color-ok-text: var(--ok-text);
+	--color-ok-tint: var(--ok-tint);
+	--color-ok-on-ink: var(--ok-on-ink);
+	--color-danger: var(--danger);
+	--color-danger-strong: var(--danger-strong);
+	--color-danger-text: var(--danger-text);
+	--color-danger-tint: var(--danger-tint);
+	--color-rank-up: var(--rank-up);
+	--color-rank-down: var(--rank-down);
+}
+
+/* ───────────── 3. 컴포넌트 토큰 ───────────── */
+:root {
+	/* 레이아웃 */
+	--page-width: 1200px;
+	--page-min: 1280px; /* PC PlayGround. 모바일 디자인 전까지 */
+	--header-h: 68px;
+	--section-gap: 64px; /* 섹션 사이 */
+	--section-head-gap: 18px; /* 섹션 제목 → 내용 */
+	--footer-gap: 88px;
+
+	/* 조작 요소 높이 — 터치 목표 44px 은 버튼에서, 칩·탭은 PC 기준 */
+	--btn-h: 44px;
+	--btn-h-sm: 38px;
+	--chip-h: 38px;
+	--tab-h: 34px;
+	--icon-btn: 40px;
+	--arrow-btn: 34px;
+	--search-w: 240px;
+	--badge-h: 24px;
+	--tag-h: 20px;
+
+	/* 카드 */
+	--art-ratio: 16 / 9;
+	--card-lift: translateY(-3px);
+	--qplay: 40px;
+	--qplay-lg: 46px;
+	--pick-w: 296px;
+	--rank-art: 96px;
+	--overlay-inset: 8px; /* 아트 위 자리 여백 (큰 카드 10px) */
+
+	/* 얼굴 — 반경은 한 변 × 0.27 */
+	--face-xs: 20px;
+	--face-sm: 26px;
+	--face-md: 32px;
+	--face-lg: 54px;
+
+	/* 모션 */
+	--dur-instant: 120ms; /* 색 · 툴팁 */
+	--dur-fast: 180ms; /* 배경 · 빠른 플레이 등장 */
+	--dur-base: 240ms; /* 아트 들림 */
+	--dur-face: 260ms; /* 표정 바꿈 */
+	--delay-tooltip: 120ms;
+	--logo-idle: 9s; /* 로고가 저절로 눈 굴리는 주기 */
+
+	/* 쌓임 순서 */
+	--z-art-overlay: 3;
+	--z-card-hover: 6;
+	--z-chip-hover: 8;
+	--z-header: 20;
+	--z-tooltip: 30;
+	--z-dropdown: 40;
+	--z-modal: 50;
+	--z-toast: 60;
+}
+
+@media (prefers-reduced-motion: reduce) {
+	:root {
+		--dur-instant: 0ms;
+		--dur-fast: 0ms;
+		--dur-base: 0ms;
+		--dur-face: 0ms;
+	}
+}
