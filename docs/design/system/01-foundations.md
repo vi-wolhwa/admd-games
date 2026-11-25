@@ -11,7 +11,7 @@
 | 의미 | `:root` 변수 + `@theme inline` | `--sunken` → `bg-sunken`, `--accent` → `bg-accent` | 테마(라이트·다크)와 그라운드(play·make)에 따라 값이 바뀐다 |
 | 컴포넌트 | `:root` 변수 | `--btn-h`, `--pick-w`, `--z-tooltip` | 크기·모양·순서. 컴포넌트 CSS 안에서만 |
 
-- 테마: `<html data-theme="light|dark">`, 없으면 OS 설정(`prefers-color-scheme`)을 따른다. **MVP 는 라이트만(ADR 0008)** — 구현 땐 `<html data-theme="light">` 로 고정하고 다크 토큰은 남겨 둔다.
+- 테마: `<html data-theme="light|dark">`, 없으면 OS 설정(`prefers-color-scheme`)을 따른다. **다크 모드도 MVP 에 포함(ADR 0008 개정)** — 모든 화면을 두 테마로 검증한다.
 - 그라운드: `<html data-ground="play|make">`. 한 화면 안 일부만 다른 그라운드로 칠할 때도 그 요소에 `data-ground` 를 단다.
 - Tailwind 기본 팔레트·글자 크기·그림자·반경은 `initial` 로 지웠다. `text-xl`, `shadow-md`, `bg-blue-600` 은 만들어지지 않는다 — 실수로 기본값을 쓰는 것을 막는다.
 
