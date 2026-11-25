@@ -19,6 +19,7 @@
 | `aDmD 고양이 얼굴` | 고양이 DmD 표정 5종 · 그라운드 색 · 404 예시 |
 | `디자인 시스템 · 기초` · `디자인 시스템 · 컴포넌트` | 디자인 시스템 견본. **생성물** — `docs/design/tools/ds-canvas/build.py <받은 project 폴더>` 로 만들어 게시. 직접 고치지 말고 템플릿을 고친다 |
 | `MakersGround 홈 A` · `홈 B` · `MakersGround 모바일` | MakersGround 홈 시안 — 생성물(`tools/ds-canvas/mg.py`, `mg_mobile.py`) |
+| `게임 상세 A` · `B` · `플레이 화면` · `플레이 종료` · `다운로드 안내` · `보안 검사 리포트` · `내 라이브러리` | PlayGround 페이지 시안 — 생성물(`detail.py`, `play.py`, `pages2.py`) |
 | `PlayGround v3 ~ v9` | 반복 이력 (참고용) |
 | `콘셉트 A 판` · `B 놀이터` · `C 크레딧` | 채택하지 않은 시안 |
 | `PlayGround v2` · `MakersGround v2` · `components/` · `docs/` | 사용자 원본 (Claude Design 에서 이관) |
@@ -46,6 +47,7 @@
 | Gasoek One 작은 글자가 안 읽힘 | 두꺼운 디스플레이 서체 | **28px 이상에서만** |
 | 설명 칸의 로고·버튼·배지가 작게 · 회색으로 | `.imp span{font-size:12px}` 같은 자손 선택자가 안쪽 모든 span 에 적용 (범례 문제와 같은 원인) | **설명 글 선택자는 항상 자식 선택자 `>`** |
 | 다크 안의 라이트 견본이 어두운 옅은 바탕으로 | `[data-theme='dark'] [data-ground]` 가 안쪽 라이트 섬의 그라운드 요소까지 덮음 | 테마별 `--dark` 0/1 + `color-mix` 로 경계마다 재계산(tokens.css) |
+| 큰 자모 얼굴(`.jf.lg`)이 세로로 쌓임 | 컴포넌트 클래스 `.lg`(일지 카드, flex column)와 크기 클래스 이름 충돌 | **크기 클래스와 겹치는 짧은 이름(lg·md·sm) 을 컴포넌트에 쓰지 않는다** → `.logc` |
 | 아트 클래스(`.a-halcyon`)가 안 보임 | `.imp .stage{background}` 가 우선순위로 덮음 | 아트는 안쪽 별도 요소에 칠한다 |
 
 ## 형식 메모

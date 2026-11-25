@@ -101,14 +101,14 @@ body{min-width:1280px}
 /* 개발일지 */
 .band{padding:44px 0 48px;background:var(--accent-tint)}
 .logs{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:28px 24px}
-.lg{position:relative;display:flex;flex-direction:column;gap:8px;min-width:0}
-.lg .art{border-radius:var(--radius-lg);transition:transform var(--dur-base) var(--ease-soft),box-shadow var(--dur-base) var(--ease-soft)}
-.lg:hover .art{transform:var(--card-lift);box-shadow:var(--shadow-lift)}
-.lg:hover b{color:var(--accent-text)}
-.lg b{font-size:16px;line-height:1.45;font-weight:800}
-.lg p{margin:0;font-size:14px;line-height:1.55;color:var(--ink-2)}
-.lg .by{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink-3)}
-.lg .by .g{color:var(--ink-2);font-weight:700}
+.logc{position:relative;display:flex;flex-direction:column;gap:8px;min-width:0}
+.logc .art{border-radius:var(--radius-lg);transition:transform var(--dur-base) var(--ease-soft),box-shadow var(--dur-base) var(--ease-soft)}
+.logc:hover .art{transform:var(--card-lift);box-shadow:var(--shadow-lift)}
+.logc:hover b{color:var(--accent-text)}
+.logc b{font-size:16px;line-height:1.45;font-weight:800}
+.logc p{margin:0;font-size:14px;line-height:1.55;color:var(--ink-2)}
+.logc .by{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink-3)}
+.logc .by .g{color:var(--ink-2);font-weight:700}
 .react{display:flex;align-items:center;gap:10px;font-size:13px;color:var(--ink-3);margin-left:auto}
 .react span{display:flex;align-items:center;gap:4px}
 .react .ic{width:13px;height:13px}
@@ -260,7 +260,7 @@ LOGS = [
 def log_card(l, show_excerpt=True):
     art, t, ex, ch, col, who, game, like, cmt = l
     p = f"<p class='two-line'>{ex}</p>" if show_excerpt else ""
-    return f'''<article class="lg"><span class="art {art}"><span class="shots"></span></span>
+    return f'''<article class="logc"><span class="art {art}"><span class="shots"></span></span>
 <b>{t}</b>{p}<span class="by">{face(ch, col, "xs")}{who} · <span class="g">{game}</span><span class="react"><span>{ic("heart")}{like}</span><span>{ic("cmt")}{cmt}</span></span></span></article>'''
 
 QS = [
