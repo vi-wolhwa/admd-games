@@ -514,13 +514,14 @@ body{margin:0;background:#FFFFFF;-webkit-font-smoothing:antialiased}
 .dont > div{padding:16px 18px;border-radius:var(--radius-lg);background:var(--sunken);font-size:13px;line-height:1.55;color:var(--ink-2)}
 .dont b{display:block;margin-bottom:4px;font-size:14px;color:var(--danger-text)}
 .dont b.do{color:var(--ok-text)}
-
-/* 자모 얼굴 = 고양이 얼굴 실루엣 (S2) — 색은 --f, 모양은 마스크 */
-.jf{background:none!important;border-radius:0!important;box-shadow:none!important;isolation:isolate;box-sizing:border-box;padding-top:.62em;overflow:visible}
+/* 자모 얼굴 = 고양이 얼굴 실루엣 */
+.jf{background:none!important;border-radius:0!important;box-shadow:none!important;isolation:isolate;box-sizing:border-box;padding-top:.5em;overflow:visible}
 .jf:not(.maker):not([class*="maker"]){position:relative}
-.jf::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--f,#3870B1);-webkit-mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M8 44 Q8 24 11 8 Q12 2 17 5 L36 20 Q50 16 64 20 L83 5 Q88 2 89 8 Q92 24 92 44 Q99 56 97 69 Q93 97 50 97 Q7 97 3 69 Q1 56 8 44 Z'/%3E%3C/svg%3E") center/100% 100% no-repeat;mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M8 44 Q8 24 11 8 Q12 2 17 5 L36 20 Q50 16 64 20 L83 5 Q88 2 89 8 Q92 24 92 44 Q99 56 97 69 Q93 97 50 97 Q7 97 3 69 Q1 56 8 44 Z'/%3E%3C/svg%3E") center/100% 100% no-repeat}
-.jf.maker::after,.facerow .jf::after,.band-login .jf::after,.mk-hero .jf::after,.onb .left > .jf::after,.jf.ring::after{content:"";position:absolute;inset:-9%;z-index:-2;background:#FFFFFF;-webkit-mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M8 44 Q8 24 11 8 Q12 2 17 5 L36 20 Q50 16 64 20 L83 5 Q88 2 89 8 Q92 24 92 44 Q99 56 97 69 Q93 97 50 97 Q7 97 3 69 Q1 56 8 44 Z'/%3E%3C/svg%3E") center/100% 100% no-repeat;mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M8 44 Q8 24 11 8 Q12 2 17 5 L36 20 Q50 16 64 20 L83 5 Q88 2 89 8 Q92 24 92 44 Q99 56 97 69 Q93 97 50 97 Q7 97 3 69 Q1 56 8 44 Z'/%3E%3C/svg%3E") center/100% 100% no-repeat}
+.jf::before{content:"";position:absolute;inset:-14% -12% -4%;z-index:-1;background:var(--f,#3870B1);-webkit-mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M8 44 Q8 24 11 8 Q12 2 17 5 L36 20 Q50 16 64 20 L83 5 Q88 2 89 8 Q92 24 92 44 Q99 56 97 69 Q93 97 50 97 Q7 97 3 69 Q1 56 8 44 Z'/%3E%3C/svg%3E") center/100% 100% no-repeat;mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M8 44 Q8 24 11 8 Q12 2 17 5 L36 20 Q50 16 64 20 L83 5 Q88 2 89 8 Q92 24 92 44 Q99 56 97 69 Q93 97 50 97 Q7 97 3 69 Q1 56 8 44 Z'/%3E%3C/svg%3E") center/100% 100% no-repeat}
+.jf.maker::after,.facerow .jf::after,.band-login .jf::after,.mk-hero .jf::after,.onb .left > .jf::after,.jf.ring::after{content:"";position:absolute;inset:-22% -19% -11%;z-index:-2;background:#FFFFFF;-webkit-mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M8 44 Q8 24 11 8 Q12 2 17 5 L36 20 Q50 16 64 20 L83 5 Q88 2 89 8 Q92 24 92 44 Q99 56 97 69 Q93 97 50 97 Q7 97 3 69 Q1 56 8 44 Z'/%3E%3C/svg%3E") center/100% 100% no-repeat;mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M8 44 Q8 24 11 8 Q12 2 17 5 L36 20 Q50 16 64 20 L83 5 Q88 2 89 8 Q92 24 92 44 Q99 56 97 69 Q93 97 50 97 Q7 97 3 69 Q1 56 8 44 Z'/%3E%3C/svg%3E") center/100% 100% no-repeat}
+.jfg{display:inline-flex;align-items:center;font-size:.8em;letter-spacing:-.1em;line-height:1;white-space:nowrap}
 .jf i{top:.02em}
+/* /자모 얼굴 */
 </style>
 </helmet>
 <div class="ds" data-theme="{{ theme }}" data-ground="{{ ground }}">
@@ -651,12 +652,12 @@ body{margin:0;background:#FFFFFF;-webkit-font-smoothing:antialiased}
 <span class="cap">라이트</span>
 <div class="chips"><button class="chip" aria-pressed="true">전체</button><button class="chip">퍼즐 <span class="c">24</span></button><span class="btn btn-primary btn-sm"><svg class="ic"><use href="#i-play"></use></svg>플레이</span><span class="btn btn-secondary btn-sm">저장</span></div>
 <div class="mini-cards">
-<div class="gc lift"><span class="art a-loop"><span class="shots"></span><span class="badge">PICK</span><span class="plat"><svg class="ic ic12"><use href="#i-web"></use></svg></span><span class="jf maker" style="--f:var(--color-face-jjok)">ㅍ<i>ㅅ</i>ㅍ</span></span><span class="t">루프 디버거</span><span class="meta">픽셀상점 · 퍼즐 · 5분</span></div>
-<div class="gc"><span class="art a-ash"><span class="shots"></span><span class="badge ink">업데이트</span><span class="plat"><svg class="ic ic12"><use href="#i-dl"></use></svg><svg class="ic ic12 ok"><use href="#i-shield"></use></svg></span><span class="jf maker" style="--f:var(--color-face-ju)">ㅈ<i>ㅅ</i>ㅈ</span><span class="prog"><i style="width:45%"></i></span></span><span class="t">재의 도시</span><span class="meta">잿빛토끼 · 진행 45%</span></div>
+<div class="gc lift"><span class="art a-loop"><span class="shots"></span><span class="badge">PICK</span><span class="plat"><svg class="ic ic12"><use href="#i-web"></use></svg></span><span class="jf maker" style="--f:var(--color-face-jjok)"><b class="jfg">ㅍ<i>ㅅ</i>ㅍ</b></span></span><span class="t">루프 디버거</span><span class="meta">픽셀상점 · 퍼즐 · 5분</span></div>
+<div class="gc"><span class="art a-ash"><span class="shots"></span><span class="badge ink">업데이트</span><span class="plat"><svg class="ic ic12"><use href="#i-dl"></use></svg><svg class="ic ic12 ok"><use href="#i-shield"></use></svg></span><span class="jf maker" style="--f:var(--color-face-ju)"><b class="jfg">ㅈ<i>ㅅ</i>ㅈ</b></span><span class="prog"><i style="width:45%"></i></span></span><span class="t">재의 도시</span><span class="meta">잿빛토끼 · 진행 45%</span></div>
 </div>
 <div class="mini-band">
-<div class="rr"><span class="n top disp">1</span><span class="art a-tess"></span><span><b>테셀레이트</b><span class="by"><span class="jf xs" style="--f:var(--color-face-haneul)">ㄴ<i>ㅅ</i>ㄴ</span>노을공방</span></span><span class="k">▲ 3</span></div>
-<div class="rr"><span class="n disp">4</span><span class="art a-paper"></span><span><b>종이 배</b><span class="by"><span class="jf xs" style="--f:var(--color-face-cheongnok)">ㅊ<i>ㅅ</i>ㅊ</span>청록상회</span></span><span class="k dn">▼ 1</span></div>
+<div class="rr"><span class="n top disp">1</span><span class="art a-tess"></span><span><b>테셀레이트</b><span class="by"><span class="jf xs" style="--f:var(--color-face-haneul)"><b class="jfg">ㄴ<i>ㅅ</i>ㄴ</b></span>노을공방</span></span><span class="k">▲ 3</span></div>
+<div class="rr"><span class="n disp">4</span><span class="art a-paper"></span><span><b>종이 배</b><span class="by"><span class="jf xs" style="--f:var(--color-face-cheongnok)"><b class="jfg">ㅊ<i>ㅅ</i>ㅊ</b></span>청록상회</span></span><span class="k dn">▼ 1</span></div>
 </div>
 <p class="m" style="margin:0">메타 글자 ink-3 · <span style="color:var(--accent-text);font-weight:700">강조 글자 accent-text</span> · <span style="color:var(--ok-text);font-weight:700">검사 통과</span> · <span style="color:var(--danger-text);font-weight:700">오류</span></p>
 </div>
@@ -664,12 +665,12 @@ body{margin:0;background:#FFFFFF;-webkit-font-smoothing:antialiased}
 <span class="cap">다크</span>
 <div class="chips"><button class="chip" aria-pressed="true">전체</button><button class="chip">퍼즐 <span class="c">24</span></button><span class="btn btn-primary btn-sm"><svg class="ic"><use href="#i-play"></use></svg>플레이</span><span class="btn btn-secondary btn-sm">저장</span></div>
 <div class="mini-cards">
-<div class="gc lift"><span class="art a-loop"><span class="shots"></span><span class="badge">PICK</span><span class="plat"><svg class="ic ic12"><use href="#i-web"></use></svg></span><span class="jf maker" style="--f:var(--color-face-jjok)">ㅍ<i>ㅅ</i>ㅍ</span></span><span class="t">루프 디버거</span><span class="meta">픽셀상점 · 퍼즐 · 5분</span></div>
-<div class="gc"><span class="art a-ash"><span class="shots"></span><span class="badge ink">업데이트</span><span class="plat"><svg class="ic ic12"><use href="#i-dl"></use></svg><svg class="ic ic12 ok"><use href="#i-shield"></use></svg></span><span class="jf maker" style="--f:var(--color-face-ju)">ㅈ<i>ㅅ</i>ㅈ</span><span class="prog"><i style="width:45%"></i></span></span><span class="t">재의 도시</span><span class="meta">잿빛토끼 · 진행 45%</span></div>
+<div class="gc lift"><span class="art a-loop"><span class="shots"></span><span class="badge">PICK</span><span class="plat"><svg class="ic ic12"><use href="#i-web"></use></svg></span><span class="jf maker" style="--f:var(--color-face-jjok)"><b class="jfg">ㅍ<i>ㅅ</i>ㅍ</b></span></span><span class="t">루프 디버거</span><span class="meta">픽셀상점 · 퍼즐 · 5분</span></div>
+<div class="gc"><span class="art a-ash"><span class="shots"></span><span class="badge ink">업데이트</span><span class="plat"><svg class="ic ic12"><use href="#i-dl"></use></svg><svg class="ic ic12 ok"><use href="#i-shield"></use></svg></span><span class="jf maker" style="--f:var(--color-face-ju)"><b class="jfg">ㅈ<i>ㅅ</i>ㅈ</b></span><span class="prog"><i style="width:45%"></i></span></span><span class="t">재의 도시</span><span class="meta">잿빛토끼 · 진행 45%</span></div>
 </div>
 <div class="mini-band">
-<div class="rr"><span class="n top disp">1</span><span class="art a-tess"></span><span><b>테셀레이트</b><span class="by"><span class="jf xs" style="--f:var(--color-face-haneul)">ㄴ<i>ㅅ</i>ㄴ</span>노을공방</span></span><span class="k">▲ 3</span></div>
-<div class="rr"><span class="n disp">4</span><span class="art a-paper"></span><span><b>종이 배</b><span class="by"><span class="jf xs" style="--f:var(--color-face-cheongnok)">ㅊ<i>ㅅ</i>ㅊ</span>청록상회</span></span><span class="k dn">▼ 1</span></div>
+<div class="rr"><span class="n top disp">1</span><span class="art a-tess"></span><span><b>테셀레이트</b><span class="by"><span class="jf xs" style="--f:var(--color-face-haneul)"><b class="jfg">ㄴ<i>ㅅ</i>ㄴ</b></span>노을공방</span></span><span class="k">▲ 3</span></div>
+<div class="rr"><span class="n disp">4</span><span class="art a-paper"></span><span><b>종이 배</b><span class="by"><span class="jf xs" style="--f:var(--color-face-cheongnok)"><b class="jfg">ㅊ<i>ㅅ</i>ㅊ</b></span>청록상회</span></span><span class="k dn">▼ 1</span></div>
 </div>
 <p class="m" style="margin:0">메타 글자 ink-3 · <span style="color:var(--accent-text);font-weight:700">강조 글자 accent-text</span> · <span style="color:var(--ok-text);font-weight:700">검사 통과</span> · <span style="color:var(--danger-text);font-weight:700">오류</span></p>
 </div>
@@ -731,25 +732,25 @@ body{margin:0;background:#FFFFFF;-webkit-font-smoothing:antialiased}
 <section class="blk">
 <header><h2><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg>자모 얼굴</h2><span>초성 눈 + ㅅ 입 · 12색 모두 같은 휘도(흰 글자 5.1:1) · 반경 = 한 변 × 0.27</span></header>
 <div class="faces">
-<div class="f"><span class="jf md" style="--f:var(--color-face-hong)">ㅎ<i>ㅅ</i>ㅎ</span><b>홍</b>AC5255</div>
-<div class="f"><span class="jf md" style="--f:var(--color-face-ju)">ㅈ<i>ㅅ</i>ㅈ</span><b>주</b>A85831</div>
-<div class="f"><span class="jf md" style="--f:var(--color-face-gyul)">ㄱ<i>ㅅ</i>ㄱ</span><b>귤</b>A05E14</div>
-<div class="f"><span class="jf md" style="--f:var(--color-face-hwang)">ㅎ<i>ㅅ</i>ㅎ</span><b>황</b>826C01</div>
-<div class="f"><span class="jf md" style="--f:var(--color-face-olive)">ㅇ<i>ㅅ</i>ㅇ</span><b>올리브</b>6B7407</div>
-<div class="f"><span class="jf md" style="--f:var(--color-face-pul)">ㅍ<i>ㅅ</i>ㅍ</span><b>풀</b>427B35</div>
-<div class="f"><span class="jf md" style="--f:var(--color-face-bichwi)">ㅂ<i>ㅅ</i>ㅂ</span><b>비취</b>017E52</div>
-<div class="f"><span class="jf md" style="--f:var(--color-face-cheongnok)">ㅊ<i>ㅅ</i>ㅊ</span><b>청록</b>0A7A7B</div>
-<div class="f"><span class="jf md" style="--f:var(--color-face-haneul)">ㄴ<i>ㅅ</i>ㄴ</span><b>하늘</b>027797</div>
-<div class="f"><span class="jf md" style="--f:var(--color-face-jjok)">ㅉ<i>ㅅ</i>ㅉ</span><b>쪽</b>3870B1</div>
-<div class="f"><span class="jf md" style="--f:var(--color-face-bora)">ㅂ<i>ㅅ</i>ㅂ</span><b>보라</b>7063B0</div>
-<div class="f"><span class="jf md" style="--f:var(--color-face-jadu)">ㅈ<i>ㅅ</i>ㅈ</span><b>자두</b>9B558D</div>
+<div class="f"><span class="jf md" style="--f:var(--color-face-hong)"><b class="jfg">ㅎ<i>ㅅ</i>ㅎ</b></span><b>홍</b>AC5255</div>
+<div class="f"><span class="jf md" style="--f:var(--color-face-ju)"><b class="jfg">ㅈ<i>ㅅ</i>ㅈ</b></span><b>주</b>A85831</div>
+<div class="f"><span class="jf md" style="--f:var(--color-face-gyul)"><b class="jfg">ㄱ<i>ㅅ</i>ㄱ</b></span><b>귤</b>A05E14</div>
+<div class="f"><span class="jf md" style="--f:var(--color-face-hwang)"><b class="jfg">ㅎ<i>ㅅ</i>ㅎ</b></span><b>황</b>826C01</div>
+<div class="f"><span class="jf md" style="--f:var(--color-face-olive)"><b class="jfg">ㅇ<i>ㅅ</i>ㅇ</b></span><b>올리브</b>6B7407</div>
+<div class="f"><span class="jf md" style="--f:var(--color-face-pul)"><b class="jfg">ㅍ<i>ㅅ</i>ㅍ</b></span><b>풀</b>427B35</div>
+<div class="f"><span class="jf md" style="--f:var(--color-face-bichwi)"><b class="jfg">ㅂ<i>ㅅ</i>ㅂ</b></span><b>비취</b>017E52</div>
+<div class="f"><span class="jf md" style="--f:var(--color-face-cheongnok)"><b class="jfg">ㅊ<i>ㅅ</i>ㅊ</b></span><b>청록</b>0A7A7B</div>
+<div class="f"><span class="jf md" style="--f:var(--color-face-haneul)"><b class="jfg">ㄴ<i>ㅅ</i>ㄴ</b></span><b>하늘</b>027797</div>
+<div class="f"><span class="jf md" style="--f:var(--color-face-jjok)"><b class="jfg">ㅉ<i>ㅅ</i>ㅉ</b></span><b>쪽</b>3870B1</div>
+<div class="f"><span class="jf md" style="--f:var(--color-face-bora)"><b class="jfg">ㅂ<i>ㅅ</i>ㅂ</b></span><b>보라</b>7063B0</div>
+<div class="f"><span class="jf md" style="--f:var(--color-face-jadu)"><b class="jfg">ㅈ<i>ㅅ</i>ㅈ</b></span><b>자두</b>9B558D</div>
 </div>
 <div class="face-sizes">
-<span class="jf xs" style="--f:var(--color-face-pul)">ㅍ<i>ㅅ</i>ㅍ</span>
-<span class="jf" style="--f:var(--color-face-pul)">ㅍ<i>ㅅ</i>ㅍ</span>
-<span class="jf md" style="--f:var(--color-face-pul)">ㅍ<i>ㅅ</i>ㅍ</span>
-<span class="jf lg" style="--f:var(--color-face-pul)">ㅍ<i>ㅅ</i>ㅍ</span>
-<span class="jf xl" style="--f:var(--color-face-pul)">ㅍ<i>ㅅ</i>ㅍ</span>
+<span class="jf xs" style="--f:var(--color-face-pul)"><b class="jfg">ㅍ<i>ㅅ</i>ㅍ</b></span>
+<span class="jf" style="--f:var(--color-face-pul)"><b class="jfg">ㅍ<i>ㅅ</i>ㅍ</b></span>
+<span class="jf md" style="--f:var(--color-face-pul)"><b class="jfg">ㅍ<i>ㅅ</i>ㅍ</b></span>
+<span class="jf lg" style="--f:var(--color-face-pul)"><b class="jfg">ㅍ<i>ㅅ</i>ㅍ</b></span>
+<span class="jf xl" style="--f:var(--color-face-pul)"><b class="jfg">ㅍ<i>ㅅ</i>ㅍ</b></span>
 <span class="m">xs 20 목록 · sm 26 카드 · md 32 4열 카드 · lg 54 로그인 띠 · 96 프로필. 플레이어는 12색 중 하나, 메이커는 대표 게임색을 같은 휘도로 맞춘 색.</span>
 </div>
 </section>

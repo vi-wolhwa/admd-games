@@ -527,13 +527,14 @@ body{margin:0;background:#FFFFFF;-webkit-font-smoothing:antialiased}
 .state .btn-secondary{background:var(--bg)}
 .footer{border-top:3px solid var(--accent);padding:26px 32px 32px;display:flex;flex-direction:column;gap:14px;font-size:13px;color:var(--ink-3)}
 .footer .links{display:flex;gap:18px;color:var(--ink-2);font-weight:600}
-
-/* 자모 얼굴 = 고양이 얼굴 실루엣 (S2) — 색은 --f, 모양은 마스크 */
-.jf{background:none!important;border-radius:0!important;box-shadow:none!important;isolation:isolate;box-sizing:border-box;padding-top:.62em;overflow:visible}
+/* 자모 얼굴 = 고양이 얼굴 실루엣 */
+.jf{background:none!important;border-radius:0!important;box-shadow:none!important;isolation:isolate;box-sizing:border-box;padding-top:.5em;overflow:visible}
 .jf:not(.maker):not([class*="maker"]){position:relative}
-.jf::before{content:"";position:absolute;inset:0;z-index:-1;background:var(--f,#3870B1);-webkit-mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M8 44 Q8 24 11 8 Q12 2 17 5 L36 20 Q50 16 64 20 L83 5 Q88 2 89 8 Q92 24 92 44 Q99 56 97 69 Q93 97 50 97 Q7 97 3 69 Q1 56 8 44 Z'/%3E%3C/svg%3E") center/100% 100% no-repeat;mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M8 44 Q8 24 11 8 Q12 2 17 5 L36 20 Q50 16 64 20 L83 5 Q88 2 89 8 Q92 24 92 44 Q99 56 97 69 Q93 97 50 97 Q7 97 3 69 Q1 56 8 44 Z'/%3E%3C/svg%3E") center/100% 100% no-repeat}
-.jf.maker::after,.facerow .jf::after,.band-login .jf::after,.mk-hero .jf::after,.onb .left > .jf::after,.jf.ring::after{content:"";position:absolute;inset:-9%;z-index:-2;background:#FFFFFF;-webkit-mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M8 44 Q8 24 11 8 Q12 2 17 5 L36 20 Q50 16 64 20 L83 5 Q88 2 89 8 Q92 24 92 44 Q99 56 97 69 Q93 97 50 97 Q7 97 3 69 Q1 56 8 44 Z'/%3E%3C/svg%3E") center/100% 100% no-repeat;mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M8 44 Q8 24 11 8 Q12 2 17 5 L36 20 Q50 16 64 20 L83 5 Q88 2 89 8 Q92 24 92 44 Q99 56 97 69 Q93 97 50 97 Q7 97 3 69 Q1 56 8 44 Z'/%3E%3C/svg%3E") center/100% 100% no-repeat}
+.jf::before{content:"";position:absolute;inset:-14% -12% -4%;z-index:-1;background:var(--f,#3870B1);-webkit-mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M8 44 Q8 24 11 8 Q12 2 17 5 L36 20 Q50 16 64 20 L83 5 Q88 2 89 8 Q92 24 92 44 Q99 56 97 69 Q93 97 50 97 Q7 97 3 69 Q1 56 8 44 Z'/%3E%3C/svg%3E") center/100% 100% no-repeat;mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M8 44 Q8 24 11 8 Q12 2 17 5 L36 20 Q50 16 64 20 L83 5 Q88 2 89 8 Q92 24 92 44 Q99 56 97 69 Q93 97 50 97 Q7 97 3 69 Q1 56 8 44 Z'/%3E%3C/svg%3E") center/100% 100% no-repeat}
+.jf.maker::after,.facerow .jf::after,.band-login .jf::after,.mk-hero .jf::after,.onb .left > .jf::after,.jf.ring::after{content:"";position:absolute;inset:-22% -19% -11%;z-index:-2;background:#FFFFFF;-webkit-mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M8 44 Q8 24 11 8 Q12 2 17 5 L36 20 Q50 16 64 20 L83 5 Q88 2 89 8 Q92 24 92 44 Q99 56 97 69 Q93 97 50 97 Q7 97 3 69 Q1 56 8 44 Z'/%3E%3C/svg%3E") center/100% 100% no-repeat;mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M8 44 Q8 24 11 8 Q12 2 17 5 L36 20 Q50 16 64 20 L83 5 Q88 2 89 8 Q92 24 92 44 Q99 56 97 69 Q93 97 50 97 Q7 97 3 69 Q1 56 8 44 Z'/%3E%3C/svg%3E") center/100% 100% no-repeat}
+.jfg{display:inline-flex;align-items:center;font-size:.8em;letter-spacing:-.1em;line-height:1;white-space:nowrap}
 .jf i{top:.02em}
+/* /자모 얼굴 */
 </style>
 </helmet>
 <div class="ds" data-theme="{{ theme }}" data-ground="{{ ground }}">
@@ -583,7 +584,7 @@ body{margin:0;background:#FFFFFF;-webkit-font-smoothing:antialiased}
 <div class="ground"><a class="play" href="#" aria-current="true">플레이</a><a class="make" href="#">메이커스</a></div>
 <div class="search is-focus"><svg class="ic"><circle cx="7" cy="7" r="4.5"></circle><path d="M10.5 10.5 13 13"></path></svg>루프|</div><button class="icon-btn theme-btn" aria-label="다크 모드 전환" onClick="{{ toggleTheme }}"><svg class="ic ic20 t-moon"><use href="#i-moon"></use></svg><svg class="ic ic20 t-sun" viewBox="0 0 16 16"><circle cx="8" cy="8" r="3"></circle><path d="M8 1.5v1.6M8 12.9v1.6M1.5 8h1.6M12.9 8h1.6M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1M3.4 12.6l1.1-1.1M11.5 4.5l1.1-1.1"></path></svg></button>
 <button class="icon-btn" aria-label="알림 3개"><svg class="ic ic20" viewBox="0 0 16 16"><path d="M4 11V7a4 4 0 0 1 8 0v4l1 1.5H3z"></path><path d="M6.5 14h3"></path></svg><span class="dot-new"></span></button>
-<span class="jf md" style="--f:var(--color-face-pul)">ㅇ<i>ㅅ</i>ㅇ</span>
+<span class="jf md" style="--f:var(--color-face-pul)"><b class="jfg">ㅇ<i>ㅅ</i>ㅇ</b></span>
 </div>
 </div></div>
 </div>
@@ -629,7 +630,7 @@ body{margin:0;background:#FFFFFF;-webkit-font-smoothing:antialiased}
 <span class="badge"><svg class="ic ic12" style="stroke:none;fill:currentColor"><use href="#i-crown"></use></svg>PICK</span>
 <span class="plat" tabindex="0" aria-label="브라우저에서 바로 플레이, 휴대폰 지원, 보안 검사 통과" style="z-index:8"><svg class="ic ic12"><use href="#i-web"></use></svg><svg class="ic ic12"><use href="#i-phone"></use></svg><svg class="ic ic12 ok"><use href="#i-shield"></use></svg>
 <span class="tip" role="tooltip"><span><svg class="ic"><use href="#i-web"></use></svg>브라우저에서 바로 플레이</span><span><svg class="ic"><use href="#i-phone"></use></svg>휴대폰에서도 돼요</span><span class="ok"><svg class="ic"><use href="#i-shield"></use></svg>보안 검사 통과</span></span></span>
-<span class="jf maker" style="--f:var(--color-face-jjok)">ㅍ<i>ㅅ</i>ㅍ</span>
+<span class="jf maker" style="--f:var(--color-face-jjok)"><b class="jfg">ㅍ<i>ㅅ</i>ㅍ</b></span>
 <span class="qplay"><svg class="ic ic16"><use href="#i-play"></use></svg></span>
 <span class="frames"><b></b><b></b><b></b></span>
 <span class="prog"><i style="width:45%"></i></span>
@@ -656,12 +657,12 @@ body{margin:0;background:#FFFFFF;-webkit-font-smoothing:antialiased}
 <div class="cell">
 <div class="sh"><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg><h3>이번 주 PICK</h3><div class="r"><span class="arw" style="opacity:.4"><svg class="ic"><path d="M10 3 5 8l5 5"></path></svg></span><span class="arw"><svg class="ic"><path d="M6 3l5 5-5 5"></path></svg></span></div></div>
 <div class="rail" style="margin-top:4px">
-<div class="gc"><span class="art a-loop"><span class="shots"></span><span class="jf maker" style="--f:var(--color-face-jjok)">ㅍ<i>ㅅ</i>ㅍ</span></span><span class="t">루프 디버거</span><span class="meta">픽셀상점 · 퍼즐 · 5분</span></div>
-<div class="gc"><span class="art a-tess"><span class="shots"></span><span class="jf maker" style="--f:var(--color-face-haneul)">ㄴ<i>ㅅ</i>ㄴ</span></span><span class="t">테셀레이트</span><span class="meta">노을공방 · 퍼즐 · 10분</span></div>
-<div class="gc"><span class="art a-paper"><span class="shots"></span><span class="jf maker" style="--f:var(--color-face-cheongnok)">ㅊ<i>ㅅ</i>ㅊ</span></span><span class="t">종이 배</span><span class="meta">청록상회 · 탐험 · 20분</span></div>
-<div class="gc"><span class="art a-grid"><span class="shots"></span><span class="jf maker" style="--f:var(--color-face-bora)">ㅂ<i>ㅅ</i>ㅂ</span></span><span class="t">그리드 러너</span><span class="meta">보라네 · 액션 · 3분</span></div>
-<div class="gc"><span class="art a-demon"><span class="shots"></span><span class="jf maker" style="--f:var(--color-face-pul)">ㅍ<i>ㅅ</i>ㅍ</span></span><span class="t">들판의 악마</span><span class="meta">풀잎 · 전략 · 30분</span></div>
-<div class="gc"><span class="art a-ash"><span class="shots"></span><span class="jf maker" style="--f:var(--color-face-ju)">ㅈ<i>ㅅ</i>ㅈ</span></span><span class="t">재의 도시</span><span class="meta">잿빛토끼 · 생존 · 40분</span></div>
+<div class="gc"><span class="art a-loop"><span class="shots"></span><span class="jf maker" style="--f:var(--color-face-jjok)"><b class="jfg">ㅍ<i>ㅅ</i>ㅍ</b></span></span><span class="t">루프 디버거</span><span class="meta">픽셀상점 · 퍼즐 · 5분</span></div>
+<div class="gc"><span class="art a-tess"><span class="shots"></span><span class="jf maker" style="--f:var(--color-face-haneul)"><b class="jfg">ㄴ<i>ㅅ</i>ㄴ</b></span></span><span class="t">테셀레이트</span><span class="meta">노을공방 · 퍼즐 · 10분</span></div>
+<div class="gc"><span class="art a-paper"><span class="shots"></span><span class="jf maker" style="--f:var(--color-face-cheongnok)"><b class="jfg">ㅊ<i>ㅅ</i>ㅊ</b></span></span><span class="t">종이 배</span><span class="meta">청록상회 · 탐험 · 20분</span></div>
+<div class="gc"><span class="art a-grid"><span class="shots"></span><span class="jf maker" style="--f:var(--color-face-bora)"><b class="jfg">ㅂ<i>ㅅ</i>ㅂ</b></span></span><span class="t">그리드 러너</span><span class="meta">보라네 · 액션 · 3분</span></div>
+<div class="gc"><span class="art a-demon"><span class="shots"></span><span class="jf maker" style="--f:var(--color-face-pul)"><b class="jfg">ㅍ<i>ㅅ</i>ㅍ</b></span></span><span class="t">들판의 악마</span><span class="meta">풀잎 · 전략 · 30분</span></div>
+<div class="gc"><span class="art a-ash"><span class="shots"></span><span class="jf maker" style="--f:var(--color-face-ju)"><b class="jfg">ㅈ<i>ㅅ</i>ㅈ</b></span></span><span class="t">재의 도시</span><span class="meta">잿빛토끼 · 생존 · 40분</span></div>
 </div>
 <p class="note">레일: 카드 사이 16, 오른쪽 끝이 흐려져 다음이 있음을 알림. ‹ › 원형 34(끝에서 비활성). 휠·Tab 이동 지원, 스크롤바 숨김.</p>
 </div>
@@ -678,13 +679,13 @@ body{margin:0;background:#FFFFFF;-webkit-font-smoothing:antialiased}
 <div class="rank-band" style="padding:24px">
 <div class="sh"><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg><h3>주간 랭킹</h3><div class="r"><div class="ptabs"><button aria-selected="true">주간 인기</button><button>급상승</button><button>신작</button></div></div></div>
 <div class="three" style="gap:10px 20px">
-<div class="rr"><span class="n top disp">1</span><span class="art a-tess"></span><span><b>테셀레이트</b><span class="by"><span class="jf xs" style="--f:var(--color-face-haneul)">ㄴ<i>ㅅ</i>ㄴ</span>노을공방</span></span><span class="k">▲ 3</span></div>
-<div class="rr"><span class="n top disp">2</span><span class="art a-loop"></span><span><b>루프 디버거</b><span class="by"><span class="jf xs" style="--f:var(--color-face-jjok)">ㅍ<i>ㅅ</i>ㅍ</span>픽셀상점</span></span><span class="k" style="color:var(--ink-3)">–</span></div>
-<div class="rr"><span class="n disp">4</span><span class="art a-paper"></span><span><b>종이 배</b><span class="by"><span class="jf xs" style="--f:var(--color-face-cheongnok)">ㅊ<i>ㅅ</i>ㅊ</span>청록상회</span></span><span class="k dn">▼ 1</span></div>
+<div class="rr"><span class="n top disp">1</span><span class="art a-tess"></span><span><b>테셀레이트</b><span class="by"><span class="jf xs" style="--f:var(--color-face-haneul)"><b class="jfg">ㄴ<i>ㅅ</i>ㄴ</b></span>노을공방</span></span><span class="k">▲ 3</span></div>
+<div class="rr"><span class="n top disp">2</span><span class="art a-loop"></span><span><b>루프 디버거</b><span class="by"><span class="jf xs" style="--f:var(--color-face-jjok)"><b class="jfg">ㅍ<i>ㅅ</i>ㅍ</b></span>픽셀상점</span></span><span class="k" style="color:var(--ink-3)">–</span></div>
+<div class="rr"><span class="n disp">4</span><span class="art a-paper"></span><span><b>종이 배</b><span class="by"><span class="jf xs" style="--f:var(--color-face-cheongnok)"><b class="jfg">ㅊ<i>ㅅ</i>ㅊ</b></span>청록상회</span></span><span class="k dn">▼ 1</span></div>
 </div>
 </div>
 <div class="band-login on-dark">
-<div class="facerow"><span class="jf lg" style="--f:var(--color-face-hong)">ㅎ<i>ㅅ</i>ㅎ</span><span class="jf lg" style="--f:var(--color-face-olive)">ㅇ<i>ㅅ</i>ㅇ</span><span class="jf lg" style="--f:var(--color-face-bora)">ㅁ<i>ㅅ</i>ㅁ</span></div>
+<div class="facerow"><span class="jf lg" style="--f:var(--color-face-hong)"><b class="jfg">ㅎ<i>ㅅ</i>ㅎ</b></span><span class="jf lg" style="--f:var(--color-face-olive)"><b class="jfg">ㅇ<i>ㅅ</i>ㅇ</b></span><span class="jf lg" style="--f:var(--color-face-bora)"><b class="jfg">ㅁ<i>ㅅ</i>ㅁ</b></span></div>
 <div><b>로그인하면 내 얼굴이 생겨요</b><p>저장한 게임과 진행 기록이 어느 기기에서나 이어져요.</p></div>
 <span class="btn btn-on-color">로그인</span>
 </div>
@@ -716,7 +717,7 @@ body{margin:0;background:#FFFFFF;-webkit-font-smoothing:antialiased}
 <div class="three" style="align-items:start">
 <div class="cell"><b>메뉴</b><span class="m">lg 반경 · pop · 항목 40 · 위험 항목은 맨 아래</span>
 <div class="menu">
-<div class="mh"><span class="jf md" style="--f:var(--color-face-pul)">ㅇ<i>ㅅ</i>ㅇ</span><span><b>오렌지맛</b><span class="m">플레이어</span></span></div>
+<div class="mh"><span class="jf md" style="--f:var(--color-face-pul)"><b class="jfg">ㅇ<i>ㅅ</i>ㅇ</b></span><span><b>오렌지맛</b><span class="m">플레이어</span></span></div>
 <a href="#" class="hv">내 라이브러리</a><a href="#">저장한 게임</a><a href="#">프로필 · 얼굴 바꾸기</a><a href="#">설정</a><hr><a href="#" class="dg">로그아웃</a>
 </div></div>
 <div class="cell" style="grid-column:span 2"><b>대화상자</b><span class="m">확인 440 · 폼 640 · 2xl 반경 · 포커스 가둠 · 파괴적 확인은 바깥 누름 무시</span>
