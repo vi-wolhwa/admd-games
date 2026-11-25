@@ -11,3 +11,6 @@
 | [0003](0003-database-d1-behind-ports.md) | DB: D1 + Drizzle, 포트/어댑터 뒤에 격리 | 승인 |
 | [0004](0004-auth-better-auth.md) | 인증: better-auth (게스트 → OAuth) | 승인 (미구현) |
 | [0005](0005-repository-and-workflow.md) | 저장소·모노레포·브랜치·커밋 규칙 | 승인 |
+| [0006](0006-file-storage-behind-port.md) | 설치 파일 저장: R2, 파일 저장 포트 뒤에 격리 | 승인 (미구현) |
+| [0007](0007-scan-and-approval-gate.md) | 보안 검사(셀프 호스트 러너) + 운영자 승인 필수 | 승인 (미구현) |
+| [0008](0008-mvp-product-defaults.md) | MVP 기본값: 라이트만 · 스크린샷 미리보기 · 활동 기본 공개 | 승인 |

@@ -38,7 +38,7 @@ CSS = r'''
 .onb .left .m{color:rgb(255 255 255/.75);font-size:14px}
 .onb .left .where{display:flex;gap:10px;margin-top:18px;align-items:center;font-size:12.5px;color:rgb(255 255 255/.8)}
 .onb .left .where span{display:flex;align-items:center;gap:6px;height:32px;padding:0 10px 0 4px;border-radius:999px;background:rgb(255 255 255/.14)}
-.onb .right{padding:40px 48px;display:flex;flex-direction:column;gap:22px;overflow:hidden}
+.onb .right{padding:32px 48px;display:flex;flex-direction:column;gap:16px;overflow:hidden}
 .onb .step{font-size:13px;font-weight:800;color:var(--accent-text)}
 .onb h2{margin:4px 0 0;font-size:28px;font-weight:800;letter-spacing:-.02em}
 .fld{display:flex;flex-direction:column;gap:8px}
@@ -53,6 +53,13 @@ CSS = r'''
 .colors{display:flex;gap:8px}
 .colors span{width:36px;height:36px;border-radius:10px}
 .colors span.on{box-shadow:0 0 0 2px var(--bg),0 0 0 4px var(--ink-1)}
+.vis{display:grid;grid-template-columns:auto minmax(0,1fr);gap:12px;align-items:center;padding:12px 14px;border-radius:12px;background:var(--sunken);font-size:14px}
+.vis b{display:block;font-size:14px}
+.vis .m{display:block}
+.switch{width:40px;height:24px;border-radius:999px;background:var(--sunken-hover);position:relative;flex:none}
+.switch::after{content:"";position:absolute;left:2px;top:2px;width:20px;height:20px;border-radius:999px;background:#FFFFFF;box-shadow:var(--shadow-hairline)}
+.switch.on{background:var(--accent)}
+.switch.on::after{transform:translateX(16px)}
 .onb .foot{margin-top:auto;display:flex;align-items:center;gap:10px}
 .onb .foot .skip{font-size:14px;font-weight:700;color:var(--ink-3)}
 .input2{display:flex;align-items:center;height:48px;padding:0 14px;border-radius:12px;background:var(--bg);box-shadow:inset 0 0 0 2px var(--accent);font-size:16px;font-weight:700}
@@ -145,6 +152,7 @@ def onboard_frame():
 <div class="fld"><label>눈</label><div class="pick-grid">{eg}</div></div>
 <div class="fld"><label>입</label><div class="mouths">{mouths}</div></div>
 <div class="fld"><label>색</label><div class="colors">{cg}</div><span class="help">12색 모두 같은 밝기라 어떤 색을 골라도 얼굴이 또렷해요</span></div>
+<div class="vis"><span class="switch on" role="switch" aria-checked="true" aria-label="친구에게 지금 하는 게임 보이기"></span><span><b>친구에게 지금 하는 게임이 보여요</b><span class="m">서로 친구인 사람에게만 · 설정에서 언제든 끌 수 있어요</span></span></div>
 <div class="foot"><span class="skip">건너뛰기 — 닉네임 첫 글자로 자동으로 만들어요</span><span class="btn btn-primary" style="margin-left:auto">이 얼굴로 시작</span></div>
 </div></div></div>'''
 
