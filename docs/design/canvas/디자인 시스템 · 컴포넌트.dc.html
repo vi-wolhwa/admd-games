@@ -428,6 +428,10 @@ body{margin:0;background:#FFFFFF;-webkit-font-smoothing:antialiased}
 .a-halcyon{background:radial-gradient(circle at 30% 70%,#FFFFFF55 0 2%,transparent 2.5%),radial-gradient(circle at 38% 58%,#FFFFFF44 0 1.4%,transparent 1.9%),linear-gradient(#0E5A8A,#06243D)}
 .a-demon{background:radial-gradient(circle at 62% 44%,#E8434F 0 6%,transparent 6.5%),radial-gradient(ellipse 40% 20% at 50% 100%,#2E5E3A 0 100%,transparent 100%),linear-gradient(#B9D7A8,#7FAF6C)}
 
+.theme-btn .t-sun{display:none}
+[data-theme="dark"] .theme-btn .t-sun{display:block}
+[data-theme="dark"] .theme-btn .t-moon{display:none}
+
 /* 이 페이지 전용 */
 .frame{border-radius:var(--radius-2xl);box-shadow:0 0 0 1px var(--line);overflow:hidden}
 .matrix{display:grid;grid-template-columns:140px repeat(5,minmax(0,1fr));gap:14px 16px;align-items:center}
@@ -561,7 +565,7 @@ body{margin:0;background:#FFFFFF;-webkit-font-smoothing:antialiased}
 <nav class="gnb"><a href="#" aria-current="page">홈</a><a href="#">게임</a><a href="#">랭킹</a><a href="#">같이</a><a href="#">잼</a></nav>
 <div class="right">
 <div class="ground"><a class="play" href="#" aria-current="true">플레이</a><a class="make" href="#">메이커스</a></div>
-<div class="search"><svg class="ic"><circle cx="7" cy="7" r="4.5"></circle><path d="M10.5 10.5 13 13"></path></svg>게임, 메이커 검색</div>
+<div class="search"><svg class="ic"><circle cx="7" cy="7" r="4.5"></circle><path d="M10.5 10.5 13 13"></path></svg>게임, 메이커 검색</div><button class="icon-btn theme-btn" aria-label="다크 모드 전환" onClick="{{ toggleTheme }}"><svg class="ic ic20 t-moon"><use href="#i-moon"></use></svg><svg class="ic ic20 t-sun" viewBox="0 0 16 16"><circle cx="8" cy="8" r="3"></circle><path d="M8 1.5v1.6M8 12.9v1.6M1.5 8h1.6M12.9 8h1.6M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1M3.4 12.6l1.1-1.1M11.5 4.5l1.1-1.1"></path></svg></button>
 <span class="btn btn-primary btn-sm">로그인</span>
 </div>
 </div></div>
@@ -570,7 +574,7 @@ body{margin:0;background:#FFFFFF;-webkit-font-smoothing:antialiased}
 <nav class="gnb"><a href="#">홈</a><a href="#" aria-current="page">게임</a><a href="#">랭킹</a><a href="#">같이</a><a href="#">잼</a></nav>
 <div class="right">
 <div class="ground"><a class="play" href="#" aria-current="true">플레이</a><a class="make" href="#">메이커스</a></div>
-<div class="search is-focus"><svg class="ic"><circle cx="7" cy="7" r="4.5"></circle><path d="M10.5 10.5 13 13"></path></svg>루프|</div>
+<div class="search is-focus"><svg class="ic"><circle cx="7" cy="7" r="4.5"></circle><path d="M10.5 10.5 13 13"></path></svg>루프|</div><button class="icon-btn theme-btn" aria-label="다크 모드 전환" onClick="{{ toggleTheme }}"><svg class="ic ic20 t-moon"><use href="#i-moon"></use></svg><svg class="ic ic20 t-sun" viewBox="0 0 16 16"><circle cx="8" cy="8" r="3"></circle><path d="M8 1.5v1.6M8 12.9v1.6M1.5 8h1.6M12.9 8h1.6M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1M3.4 12.6l1.1-1.1M11.5 4.5l1.1-1.1"></path></svg></button>
 <button class="icon-btn" aria-label="알림 3개"><svg class="ic ic20" viewBox="0 0 16 16"><path d="M4 11V7a4 4 0 0 1 8 0v4l1 1.5H3z"></path><path d="M6.5 14h3"></path></svg><span class="dot-new"></span></button>
 <span class="jf md" style="background:var(--color-face-pul)">ㅇ<i>ㅅ</i>ㅇ</span>
 </div>
@@ -747,7 +751,8 @@ body{margin:0;background:#FFFFFF;-webkit-font-smoothing:antialiased}
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":5600},"theme":{"editor":"enum","default":"light","options":["light","dark"],"tsType":"string"},"ground":{"editor":"enum","default":"play","options":["play","make"],"tsType":"string"}}'>
 class Component extends DCLogic {
   renderVals() {
-    return { theme: this.props.theme ?? 'light', ground: this.props.ground ?? 'play' };
+    const th = this.state.theme ?? (this.props.theme ?? 'light');
+    return { theme: th, ground: this.props.ground ?? 'play', toggleTheme: () => this.setState({ theme: th === 'dark' ? 'light' : 'dark' }) };
   }
 }
 </script>

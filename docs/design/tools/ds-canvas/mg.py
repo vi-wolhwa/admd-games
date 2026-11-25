@@ -17,6 +17,7 @@ def ic(name, cls="ic"): return f'<svg class="{cls}"><use href="#i-{name}"></use>
 def face(ch, color, size=""): return f'<span class="jf {size}" style="background:var(--color-face-{color})">{ch}<i>ㅅ</i>{ch}</span>'
 # 추가 아이콘(16 격자, 1.7px 선)
 EXTRA_ICONS = '''<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-sun" viewBox="0 0 16 16"><circle cx="8" cy="8" r="3"></circle><path d="M8 1.5v1.6M8 12.9v1.6M1.5 8h1.6M12.9 8h1.6M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1M3.4 12.6l1.1-1.1M11.5 4.5l1.1-1.1"></path></symbol>
 <symbol id="i-plus" viewBox="0 0 16 16"><path d="M8 3v10M3 8h10"></path></symbol>
 <symbol id="i-pen" viewBox="0 0 16 16"><path d="M10.5 2.5l3 3L6 13H3v-3z"></path><path d="M9 4l3 3"></path></symbol>
 <symbol id="i-bug" viewBox="0 0 16 16"><rect x="5" y="5" width="6" height="8" rx="3"></rect><path d="M8 5V3.5M6 3.2 5 2M10 3.2 11 2M5 8H2.5M13.5 8H11M5 11l-2 1.5M11 11l2 1.5"></path></symbol>
@@ -35,7 +36,11 @@ EXTRA_ICONS = '''<svg width="0" height="0" style="position:absolute" aria-hidden
 <symbol id="i-up2" viewBox="0 0 16 16"><path d="M8 13V4M4.5 7.5 8 4l3.5 3.5"></path><path d="M3 2.5h10"></path></symbol>
 </svg>'''
 
+THEME_BTN = '<button class="icon-btn theme-btn" aria-label="다크 모드 전환" onClick="{{ toggleTheme }}"><svg class="ic ic20 t-moon"><use href="#i-moon"></use></svg><svg class="ic ic20 t-sun"><use href="#i-sun"></use></svg></button>'
 MG_CSS = r'''
+.theme-btn .t-sun{display:none}
+[data-theme="dark"] .theme-btn .t-sun{display:block}
+[data-theme="dark"] .theme-btn .t-moon{display:none}
 body{min-width:1280px}
 .hdr .search{width:220px}
 .two-line{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
@@ -184,7 +189,7 @@ footer.ft .links{display:flex;gap:18px;color:var(--ink-2);font-weight:600}
 
 def header(signed):
     right_g = '''<div class="ground"><a class="play" href="#">플레이</a><a class="make" href="#" aria-current="true">메이커스</a></div>
-<div class="search">''' + ic("search") + '''게임, 메이커, 글 검색</div>'''
+<div class="search">''' + ic("search") + '''게임, 메이커, 글 검색</div>''' + THEME_BTN
     if signed:
         right = right_g + f'''<span class="btn btn-primary btn-sm">{ic("up2")}게임 올리기</span>
 <button class="icon-btn" aria-label="알림 2개">{ic("bell","ic ic20")}<span class="dot-new"></span></button>
@@ -358,7 +363,7 @@ def page(title, body, height, memo, width=1440):
 class Component extends DCLogic {{
   renderVals() {{
     const signed = this.state.signed ?? (this.props.startSignedIn ?? true);
-    return {{ signedIn: signed, guest: !signed, theme: this.props.theme ?? 'light', showMemo: this.props.showMemo ?? true, toggle: () => this.setState({{ signed: !signed }}) }};
+    return {{ signedIn: signed, guest: !signed, theme: this.state.theme ?? (this.props.theme ?? 'light'), showMemo: this.props.showMemo ?? true, toggle: () => this.setState({{ signed: !signed }}), toggleTheme: () => this.setState({{ theme: (this.state.theme ?? (this.props.theme ?? 'light')) === 'dark' ? 'light' : 'dark' }}) }};
   }}
 }}
 </script>

@@ -94,7 +94,7 @@ def phone(inner, tab_active=0):
     return f'<div class="phone"><div class="sbar"><span>9:41</span><span>5G</span></div><div class="pscroll">{inner}</div><nav class="tabbar">{"".join(tb)}</nav></div>'
 
 def mtop(signed=True):
-    right = f'<button class="icon-btn" aria-label="검색">{ic("search", "ic ic20")}</button>'
+    right = mg.THEME_BTN + f'<button class="icon-btn" aria-label="검색">{ic("search", "ic ic20")}</button>'
     if signed:
         right += f'<button class="icon-btn" aria-label="알림 2개">{ic("bell", "ic ic20")}<span class="dot-new"></span></button>'
     else:

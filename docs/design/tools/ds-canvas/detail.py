@@ -128,7 +128,7 @@ CSS = r'''
 
 def pg_header(signed=True):
     right = '<div class="ground"><a class="play" href="#" aria-current="true">플레이</a><a class="make" href="#">메이커스</a></div>'
-    right += f'<div class="search">{ic("search")}게임, 메이커 검색</div>'
+    right += f'<div class="search">{ic("search")}게임, 메이커 검색</div>' + mg.THEME_BTN
     right += (f'<button class="icon-btn" aria-label="알림">{ic("bell","ic ic20")}</button>{face("ㅇ","olive","md")}' if signed else '<span class="btn btn-primary btn-sm">로그인</span>')
     return f'''<header class="hdr"><div class="in">
 <a class="brand" href="#"><span class="logo" style="font-size:22px">{logo()}</span><span class="word">PlayGround</span></a>
@@ -260,7 +260,8 @@ def page(title, body, height, memo):
 class Component extends DCLogic {{
   renderVals() {{
     const s = this.props.state ?? '처음';
-    return {{ theme: this.props.theme ?? 'light', showMemo: this.props.showMemo ?? true,
+    const th = this.state.theme ?? (this.props.theme ?? 'light');
+    return {{ theme: th, toggleTheme: () => this.setState({{ theme: th === 'dark' ? 'light' : 'dark' }}), showMemo: this.props.showMemo ?? true,
       sFirst: s === '처음', sProg: s === '진행 중', sDone: s === '완료', sDl: s === '다운로드', sNo: s === '이 기기 불가',
       isWeb: s !== '다운로드', isWebOk: s !== '다운로드' && s !== '이 기기 불가', isDl: s === '다운로드' }};
   }}

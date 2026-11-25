@@ -310,7 +310,8 @@
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":5200},"theme":{"editor":"enum","default":"light","options":["light","dark"],"tsType":"string"},"ground":{"editor":"enum","default":"play","options":["play","make"],"tsType":"string"}}'>
 class Component extends DCLogic {
   renderVals() {
-    return { theme: this.props.theme ?? 'light', ground: this.props.ground ?? 'play' };
+    const th = this.state.theme ?? (this.props.theme ?? 'light');
+    return { theme: th, ground: this.props.ground ?? 'play', toggleTheme: () => this.setState({ theme: th === 'dark' ? 'light' : 'dark' }) };
   }
 }
 </script>

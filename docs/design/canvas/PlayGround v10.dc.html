@@ -287,10 +287,35 @@ footer .links{display:flex;gap:18px;color:var(--ink-2);font-weight:600}
 .g4c .gc .plat{right:10px;top:10px}
 .g4c .gc .qplay{width:46px;height:46px;right:10px;bottom:10px}
 @media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* 다크 모드 (ADR 0008 개정) — 라이트 모습은 그대로, [data-theme="dark"] 에서만 바뀜 */
+.pg-root{background:var(--bg);color:var(--ink-1);min-height:100vh}
+.theme-btn .t-sun{display:none}
+[data-theme="dark"] .theme-btn .t-sun{display:block}
+[data-theme="dark"] .theme-btn .t-moon{display:none}
+[data-theme="dark"]{--bg:#101316;--sunken:#1F2328;--sunken-2:#272C31;--line:#272C31;--ink-1:#EEF0F3;--ink-2:#C4C8CC;--ink-3:#A4A8AE;--ink-4:#71757A;--ok-tint:#0E2E19;--up:#FE6270;--down:#3A96FE;--lift:0 12px 26px -12px rgb(0 0 0 / .7);--make-strong:#FE6648;color-scheme:dark}
+[data-theme="dark"][data-ground="play"],[data-theme="dark"] [data-ground="play"]{--accent-strong:#3A96FE;--accent-tint:#122741;--accent-tint-2:#173456}
+[data-theme="dark"][data-ground="make"],[data-theme="dark"] [data-ground="make"]{--accent-strong:#FE6648;--accent-tint:#3D1B14;--accent-tint-2:#51241A}
+[data-theme="dark"] .btn-acc:hover{background:#0159AA}
+[data-theme="dark"] .btn-w{color:#151A20}
+[data-theme="dark"] [style*="background:var(--ink-1)"]{background:#272C31 !important}
+[data-theme="dark"] .btn-w:hover{background:#E8ECF1}
+[data-theme="dark"][data-ground="make"] .btn-acc:hover{background:#AD2201}
+[data-theme="dark"] .hdr{background:rgb(16 19 22 / .94)}
+[data-theme="dark"] .search:focus-within{background:var(--bg)}
+[data-theme="dark"] .hbadge{box-shadow:0 0 0 2px var(--bg)}
+[data-theme="dark"] .rtabs button[aria-selected="true"]{background:#191C20;box-shadow:none}
+[data-theme="dark"] .rr{background:#191C20}
+[data-theme="dark"] .rr:hover{background:#1F2328}
+[data-theme="dark"] .chip[aria-pressed="true"]{color:var(--bg)}
+[data-theme="dark"] .jam{background:#272C31}
+[data-theme="dark"] .tip,[data-theme="dark"] .tip::before{background:#272C31}
+[data-theme="dark"] svg[stroke="#151A20"]{stroke:var(--ink-1)}
+[data-theme="dark"] .rank li:nth-child(-n+3) .n{color:#3A96FE}
 </style>
 </helmet>
 
-<div data-ground="{{ ground }}">
+<div class="pg-root" data-ground="{{ ground }}" data-theme="{{ theme }}">
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
 <symbol id="i-web" viewBox="0 0 16 16"><rect x="1.5" y="2.5" width="13" height="11" rx="2"></rect><path d="M1.5 5.5h13"></path><path d="M6.5 8v3.4l3-1.7z"></path></symbol>
 <symbol id="i-dl" viewBox="0 0 16 16"><path d="M8 2v8M4.8 7 8 10.2 11.2 7"></path><path d="M2.5 11v2.5h11V11"></path></symbol>
@@ -318,7 +343,7 @@ footer .links{display:flex;gap:18px;color:var(--ink-2);font-weight:600}
 <nav class="gnb" aria-label="주요 메뉴"><a href="#" aria-current="page">홈</a><a href="#">전체 게임</a><a href="#">랭킹</a><a href="#">신작</a><a href="#">큐레이션</a><a href="#">잼 아케이드</a></nav>
 <div class="right">
 <nav class="ground" aria-label="그라운드 전환"><a href="#" class="play" aria-current="page">플레이</a><a href="#" class="make">메이커스</a></nav>
-<label class="search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="7" cy="7" r="5"></circle><path d="M11 11l3.2 3.2"></path></svg><input type="search" aria-label="게임, 메이커, 태그 검색" placeholder="게임, 메이커, 태그"></label>
+<label class="search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="7" cy="7" r="5"></circle><path d="M11 11l3.2 3.2"></path></svg><input type="search" aria-label="게임, 메이커, 태그 검색" placeholder="게임, 메이커, 태그"></label><button type="button" class="icon-btn theme-btn" aria-label="다크 모드 전환" onClick="{{ toggleTheme }}"><svg class="t-moon" width="20" height="20" viewBox="0 0 16 16" aria-hidden="true"><path d="M12.8 10.4A5.6 5.6 0 0 1 5.6 3.2a5.6 5.6 0 1 0 7.2 7.2z" fill="currentColor"></path></svg><svg class="t-sun" width="20" height="20" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="3"></circle><path d="M8 1.5v1.6M8 12.9v1.6M1.5 8h1.6M12.9 8h1.6M3.4 3.4l1.1 1.1M11.5 11.5l1.1 1.1M3.4 12.6l1.1-1.1M11.5 4.5l1.1-1.1"></path></svg></button>
 <sc-if value="{{ guest }}" hint-placeholder-val="{{ true }}"><button type="button" class="btn btn-acc btn-sm" onClick="{{ toggle }}">로그인</button></sc-if>
 <sc-if value="{{ signedIn }}" hint-placeholder-val="{{ false }}">
 <button type="button" class="icon-btn" aria-label="알림 2개"><span class="hbadge"></span><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#151A20" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8a5 5 0 0 1 10 0v4l1.5 2.5h-13L5 12z"></path><path d="M8.5 17a1.6 1.6 0 0 0 3 0"></path></svg></button>
@@ -471,11 +496,12 @@ footer .links{display:flex;gap:18px;color:var(--ink-2);font-weight:600}
 </div></footer>
 </div>
 </x-dc>
-<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":3200},"startSignedIn":{"editor":"boolean","default":false,"tsType":"boolean"},"ground":{"editor":"enum","default":"play","options":["play","make"],"tsType":"string"}}'>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":3200},"startSignedIn":{"editor":"boolean","default":false,"tsType":"boolean"},"ground":{"editor":"enum","default":"play","options":["play","make"],"tsType":"string"},"theme":{"editor":"enum","default":"light","options":["light","dark"],"tsType":"string"}}'>
 class Component extends DCLogic {
   renderVals() {
     const signed = this.state.signed ?? (this.props.startSignedIn ?? false);
-    return { signedIn: signed, guest: !signed, ground: this.props.ground ?? 'play', toggle: () => this.setState({ signed: !signed }) };
+    const th = this.state.theme ?? (this.props.theme ?? 'light');
+    return { signedIn: signed, guest: !signed, ground: this.props.ground ?? 'play', theme: th, toggle: () => this.setState({ signed: !signed }), toggleTheme: () => this.setState({ theme: th === 'dark' ? 'light' : 'dark' }) };
   }
 }
 </script>

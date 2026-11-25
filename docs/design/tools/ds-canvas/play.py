@@ -87,7 +87,7 @@ def bar(title="루프 디버거", hv=None):
     return f'''<div class="pbar"><span class="ib" aria-label="뒤로"><svg class="ic ic16" viewBox="0 0 16 16"><path d="M10 3 5 8l5 5"></path></svg></span>
 <span class="logo" style="font-size:15px;color:#FFFFFF">{logo()}</span><span class="sep"></span>
 <span class="t">{title}</span>{face("ㅍ","jjok","xs")}<span class="m">픽셀상점</span>
-<span class="sp"><span class="ib" aria-label="소리">{snd}</span><span class="ib" aria-label="조작 방법">{ic("q","ic ic16")}</span><span class="ib" aria-label="문제 알리기">{ic("alert","ic ic16")}</span><span class="ib" aria-label="전체 화면">{full}</span><span class="sep"></span><span class="exit">나가기 <kbd style="font:700 11px/1 var(--font-sans);opacity:.6">Esc 두 번</kbd></span></span></div>'''
+<span class="sp"><span class="ib" aria-label="소리">{snd}</span><span class="ib" aria-label="조작 방법">{ic("q","ic ic16")}</span><span class="ib" aria-label="문제 알리기">{ic("alert","ic ic16")}</span><span class="ib" aria-label="전체 화면">{full}</span><span class="sep"></span><span class="exit">나가기</span></span></div>'''
 
 def screen_loading():
     return f'''<div class="screen">{bar()}<div class="loading"><span class="logo f-wow big-face">{logo("o")}</span><span class="lbar"><i></i></span><span class="m">불러오는 중 · 9.2MB 중 5.7MB</span>
@@ -117,10 +117,10 @@ def screen_error():
 def play_page():
     frames = [("불러오는 중", "놀란 얼굴(o) + 진행 막대 + 조작 요령. 용량을 숫자로", screen_loading()),
               ("플레이 중", "얇은 바(48px)만 남기고 게임을 최대로. 처음 들어오면 키보드 안내를 4초 보여 주고 사라짐. 도전과제는 오른쪽 위 토스트(L2)", screen_play()),
-              ("일시정지 (Esc)", "계속하기 · 조작 방법 · 소리 · 문제 알리기 · 나가기. 나가기는 Esc 두 번 또는 여기서", screen_pause()),
+              ("일시정지 (Esc)", "계속하기 · 조작 방법 · 소리 · 문제 알리기 · 나가기. 나가기는 위 바의 나가기 버튼 또는 Esc → 여기서", screen_pause()),
               ("오류", "시무룩 얼굴 + 원인과 할 일 + 다시 불러오기 · 문제 알리기(환경 정보 자동 첨부, 무엇이 가는지 보여 줌)", screen_error())]
     body = '<div class="frames-page">' + "".join(f'<div class="fr"><div class="cap"><b>{t}</b><span>{d}</span></div>{s}</div>' for t, d, s in frames) + "</div>"
-    memo = "PG-PLAY. 게임 영역이 주인공 — 플랫폼 UI 는 얇은 먹색 바 하나. 다크 고정(게임 테마와 무관). 키 입력 가두기 · Esc 일시정지 · 다른 탭으로 가면 자동 일시정지(SDK 게임)."
+    memo = "PG-PLAY. 게임 영역이 주인공 — 플랫폼 UI 는 얇은 먹색 바 하나. 다크 고정(사이트 테마와 무관). 키 입력 가두기 · Esc 일시정지 · 다른 탭이면 자동 일시정지(SDK 게임). 나가기 = 바의 나가기 버튼 한 번, 또는 Esc 일시정지 → 나가기(P2 결정)."
     html = dt.page("플레이 화면", body, 3200, memo)
     return html.replace("</style>", CSS + "\n</style>", 1)
 
