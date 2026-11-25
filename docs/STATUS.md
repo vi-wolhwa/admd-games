@@ -11,13 +11,13 @@
 - 킥오프 인터뷰 → `docs/product/kickoff.md`, 시나리오 23개·요구사항 → `docs/product/scenarios.md`, 페이지 44개 → `docs/design/pages.md`
 - 디자인 리서치 3종 → `docs/design/research/`
 - 콘셉트: 기존 Ground 콘셉트 계승·발전 확정 → `docs/design/02-concept-ground.md`
-  - PC 홈 기준 레이아웃 확정(v6 → v7 → v8 → **v9**): 사이드바 없는 한 열, 배너 캐러셀, 레일, 탭 랭킹, 촘촘한 그리드
+  - PC 홈 기준 레이아웃 확정(v6 → … → **v10**): 사이드바 없는 한 열, 배너 캐러셀, 레일, 탭 랭킹, 촘촘한 그리드
   - 브랜드: 고양이 DmD(귀 + 이마 윤곽, D 회전 표정), 자모 얼굴 아바타, 쪽빛(Play)/인주(Make) 각인
-- 게임 카드 컴포넌트 7종 → `docs/design/03-game-cards.md`, 캔버스 `게임 카드 컴포넌트`, 홈 v9 에 적용
+- 게임 카드 컴포넌트 7종 → `docs/design/03-game-cards.md`, 캔버스 `게임 카드 컴포넌트`, 홈 v10 에 적용
 
 ## 진행 중
 
-- 없음 (사용자 피드백 대기: 홈 v9)
+- 없음 (사용자 피드백 대기: 홈 v10)
 
 ## 다음 할 일
 
