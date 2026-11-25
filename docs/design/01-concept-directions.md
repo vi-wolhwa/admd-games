@@ -1,5 +1,7 @@
 # 콘셉트 방향 — 시안 3개
 
+> **상태: 채택하지 않음 (2026-11-26).** 사용자가 세 시안 모두 애매하다고 판단했고, 기존 Ground 콘셉트를 계승·발전하기로 결정했다 → [02-concept-ground.md](02-concept-ground.md). 아래의 공통 토대(DmD 글자 얼굴, 고정 원칙)와 시안별 시그니처(보안 검사 도장, 플레이 종료 크레딧, 도장판)는 계승안에 선택적으로 가져간다.
+
 근거: [킥오프](../product/kickoff.md) · [시나리오](../product/scenarios.md) · [감사](00-audit.md) · [리서치 01](research/01-platforms-and-trends.md) · [리서치 02](research/02-craft-principles.md)
 
 ## 세 시안이 공유하는 토대 (어느 쪽을 골라도 유지)
