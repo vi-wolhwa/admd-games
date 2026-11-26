@@ -28,3 +28,8 @@
 | 2026-11-27 | UI 컴포넌트 `apps/web/src/lib/ui` · 갤러리 Storybook(호환 안 되면 `/design`) · 데이터 `load` + form actions | 사용자 결정(1-2~1-4) |
 | 2026-11-27 | 이름: 컴포넌트 PascalCase.svelte · 그 외 kebab-case.ts · camelCase · 타입 PascalCase · 상수 UPPER_SNAKE · is/has/can. 주석 · 테스트 이름 한국어. 스타일 = Tailwind 유틸리티 + 의미 토큰 + 자체 변형 헬퍼 | 사용자 결정(2-1 · 2-2 · 2-4) |
 | 2026-11-27 | 컴포넌트 구조 = 가벼운 FSD + 패턴 층(primitives → patterns → entities → features → widgets → 라우트, 아래로만 import), 변형 규칙(docs/dev/component-architecture.md 5절), 헤드리스는 Bits UI 를 primitives 안에서만 | 사용자 결정(2-5). 도메인이 달라도 같은 뼈대를 patterns 에서 공유 |
+| 2026-11-27 | Svelte 5 규칙 세트(runes · 콜백 props · snippet · $effect 최소 · .svelte.ts + context · interface Props), 한국어만(Intl), TS strict + noUncheckedIndexedAccess 등, ESLint strictTypeChecked | 사용자 결정(2-3 · 2-6 · 3-1 · 3-2) |
+| 2026-11-27 | 구조 린트(층 방향 · 포트 경계 · 원시 색/임의 값 금지 · import 정렬), simple-git-hooks(포맷 · 린트 · 커밋 메시지), knip CI 실패, Worker 크기 70% 경고 · 90% 실패 | 사용자 결정(3-3~3-6). 크기 한도는 무료 플랜의 제약 — 최적화 후에도 넘으면 플랜 · 방안 검토를 사용자에게 |
+| 2026-11-27 | 테스트: 단위 · 컴포넌트 · 캡처 비교 · E2E 핵심 · axe, 쓸모없는 테스트 금지, CI 는 변경 관련 테스트만. 순서: 도메인 테스트 먼저 · UI 이야기 먼저 · 버그 재현부터. 기준: 도메인 · 권한 분기 100%, UI 상태마다 이야기. 브랜치: design/redesign 을 PR 로 병합, 병합된 브랜치는 삭제 | 사용자 결정(4-1~4-3 · 5-1). 중요 도메인 규칙 · 기획은 사용자와 상의 |
+| 2026-11-27 | 작업 = 이슈(중복 금지 · 같은 주제는 기존 이슈 갱신), PR = 페이지 단위 세로 조각(공통 컴포넌트 · 환경 변경은 별도), 피드백 끝나기 전 병합 금지, 완료 기준 ①~⑦, 버전은 v1.0.0 부터 · 묶음 단위 | 사용자 결정 · 위임(5-2~5-4 · 6-1) |
+| 2026-11-27 | 변경 기록 v1.0 부터 release-please + 다듬기 · 환경 = 로컬 · PR 미리보기(별도 Worker + 별도 D1) · 운영 · main 병합 = 자동 배포 · 의존성 = Dependabot 보안 즉시 + 월 1회 묶음 + 메이저 제외 | 사용자 결정 · 위임(6-3~6-6) |
