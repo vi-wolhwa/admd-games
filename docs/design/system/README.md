@@ -4,7 +4,7 @@
 
 | 문서 | 내용 |
 | --- | --- |
-| [`tokens.css`](tokens.css) | **값의 원본.** Tailwind 4 `@theme` — 원시 → 의미 → 컴포넌트 3층, 라이트·다크, play·make |
+| [`tokens.css`](../../../apps/web/src/lib/styles/tokens.css) | **값의 원본**(앱 안 `apps/web/src/lib/styles/` — 코드가 원본, ADR 0012). Tailwind 4 `@theme` — 원시 → 의미 → 컴포넌트 3층, 라이트·다크, play·make |
 | [`01-foundations.md`](01-foundations.md) | 색 · 글자 · 간격 · 반경 · 그림자 · 모션 · 아이콘 · 화면 폭, v10 대비 정리 |
 | [`02-brand.md`](02-brand.md) | 고양이 DmD 표정 · 자모 얼굴 · 그라운드 색 각인 · 게임색 필드 |
 | [`03-components.md`](03-components.md) | 헤더 · 버튼 · 칩/탭 · 아트 위 요소 · 툴팁 · 섹션/레일/배너/띠 · 입력 · 메뉴/대화상자/토스트 · 상태 화면 · 푸터 · **§11 시안에서 생긴 컴포넌트 40여 개**(상태 · 커뮤니티 · 메이커 도구 · 신뢰 · 탐색/알림/설정 · 플레이 · 모바일) |

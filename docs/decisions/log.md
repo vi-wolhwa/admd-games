@@ -37,3 +37,6 @@
 | 2026-11-27 | 구조 경계는 ESLint 플러그인 대신 자체 스크립트 `scripts/check-boundaries.mjs`(층 · 같은 층 다른 묶음 · 어댑터 · 가짜 데이터 규칙) | eslint-plugin-boundaries 가 `#lib` 패키지 import 경로를 안정적으로 해석하지 못함. 자체 스크립트는 Claude 가 완전히 통제 · 시험 가능하고 의존성 0 |
 | 2026-11-27 | Tailwind 제한은 **색**만: 원시 팔레트(`bg-jjok-500`) · 임의 색(`bg-[#…]`) 금지, 없는 클래스(`no-unknown-classes`)도 오류. 크기 · 배치의 임의 값(`grid-cols-[…]`)은 허용 | 다크 · 그라운드 전환을 깨는 건 색. 배치 임의 값까지 막으면 토큰에 없는 레이아웃마다 우회가 생김 |
 | 2026-11-27 | CI 는 PR 에서만(`verify` 한 작업, 문서만 바뀌면 앱 검사 생략, 테스트는 `vitest --changed`, 의존성 바뀌면 전체). develop · main push 에선 다시 돌리지 않음 | 이미 PR 에서 검사한 커밋. 규칙 세트 필수 검사 이름 `verify` 를 항상 남기기 위해 작업을 나누지 않음 |
+| 2026-11-27 | 디자인 토큰 원본을 `apps/web/src/lib/styles/tokens.css` 로 옮김(문서 쪽 사본 삭제, 캔버스 생성기도 이 파일을 읽음). Zod · 폰트는 처음 쓰는 곳(폼 · PG03)에서 추가 | 원본은 하나(ADR 0012). 안 쓰는 의존성은 knip 이 막음 |
+| 2026-11-27 | hooks 는 SvelteKit `sequence` 대신 자체 `chain`(lib/server/handle.ts) | 개발 서버에서 sequence 가 'Could not get the request store' 오류 — 같은 계열 문제로 `redirect()` 도 개발 서버에서만 실패(운영 빌드 · wrangler dev 는 정상). 이슈로 추적 |
+| 2026-11-27 | wrangler compatibility_date 2026-11-25 → 2026-11-20 | 설치된 workerd 가 11-24 까지만 지원해 wrangler dev 가 시작되지 않았음 |
