@@ -6,7 +6,7 @@ if (!base) {
 	console.error('::error::배포 주소를 찾지 못했어요.');
 	process.exit(1);
 }
-const CHECKS = ['/api/health', '/play'];
+const CHECKS = ['/api/health', '/play/games'];
 for (let attempt = 1; attempt <= 5; attempt++) {
 	const codes = await Promise.all(CHECKS.map(async (p) => (await fetch(base + p, { redirect: 'manual' })).status));
 	if (codes.every((c) => c === 200)) {

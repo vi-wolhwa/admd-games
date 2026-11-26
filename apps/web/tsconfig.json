@@ -10,6 +10,7 @@
 	},
 	"include": [
 		"src",
+		"scripts/*.ts",
 		".storybook/*.ts",
 		"vite.config.ts",
 		"prettier.config.js",

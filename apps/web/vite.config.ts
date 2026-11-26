@@ -44,7 +44,7 @@ export default defineConfig({
 		ssr: {
 			optimizeDeps: {
 				exclude: ['@sveltejs/kit'],
-				include: ['drizzle-orm', 'drizzle-orm/d1']
+				include: ['drizzle-orm', 'drizzle-orm/d1', 'drizzle-orm/sqlite-core', 'bits-ui']
 			}
 		}
 	},

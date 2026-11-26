@@ -13,3 +13,5 @@ bun.lockb
 build
 worker-configuration.d.ts
 migrations/meta
+storybook-static
+.vitest-attachments

@@ -1,0 +1,38 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="270" viewBox="0 0 480 270">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="hsl(316 55% 26%)"/><stop offset="1" stop-color="hsl(66 60% 52%)"/></linearGradient></defs>
+<rect width="480" height="270" fill="url(#g)"/>
+<rect x="0" y="211.8" width="480" height="58.2" fill="hsl(296 45% 18%)" opacity="0.55"/>
+<circle cx="253.3" cy="178" r="78" fill="hsl(356 85% 70%)" opacity="0.9"/>
+<rect x="277.7" y="154" width="59.7" height="66.5" rx="10.7" fill="hsl(116 55% 50%)" transform="rotate(-8.3 307.6 187.2)"/>
+<rect x="362.1" y="143.9" width="34.9" height="79.7" rx="8.8" fill="hsl(141 55% 58%)" transform="rotate(-3.3 379.6 183.8)"/>
+<rect x="245.7" y="181" width="64.7" height="62.2" rx="12.5" fill="hsl(166 55% 49%)" transform="rotate(-3.4 278 212.1)"/>
+<rect x="87.1" y="194.1" width="102.3" height="33.1" rx="4.9" fill="hsl(191 55% 47%)" transform="rotate(-1.4 138.3 210.7)"/>
+<rect x="326.2" y="146.7" width="97.7" height="75.8" rx="11" fill="hsl(216 55% 57%)" transform="rotate(-10.6 375.1 184.6)"/>
+<circle cx="355.3" cy="61.2" r="2.8" fill="hsl(16 90% 92%)" opacity="0.8"/>
+<circle cx="368.1" cy="61.3" r="2.9" fill="hsl(16 90% 92%)" opacity="0.9"/>
+<circle cx="86.8" cy="67.5" r="3.1" fill="hsl(16 90% 92%)" opacity="0.5"/>
+<circle cx="240.1" cy="106.2" r="1.6" fill="hsl(16 90% 92%)" opacity="0.4"/>
+<circle cx="148.7" cy="125.3" r="3.1" fill="hsl(16 90% 92%)" opacity="0.6"/>
+<circle cx="256.3" cy="38.2" r="2.9" fill="hsl(16 90% 92%)" opacity="0.7"/>
+<circle cx="470.7" cy="113.9" r="2.9" fill="hsl(16 90% 92%)" opacity="0.8"/>
+<circle cx="240.2" cy="13.1" r="3" fill="hsl(16 90% 92%)" opacity="0.5"/>
+<circle cx="245.6" cy="168.4" r="2.6" fill="hsl(16 90% 92%)" opacity="1"/>
+<circle cx="413.8" cy="37.4" r="2" fill="hsl(16 90% 92%)" opacity="0.5"/>
+<circle cx="88" cy="51.6" r="1.9" fill="hsl(16 90% 92%)" opacity="0.6"/>
+<circle cx="169.3" cy="130.5" r="1.9" fill="hsl(16 90% 92%)" opacity="0.7"/>
+<circle cx="79.4" cy="99.3" r="2.1" fill="hsl(16 90% 92%)" opacity="0.9"/>
+<circle cx="168.9" cy="84.7" r="1.4" fill="hsl(16 90% 92%)" opacity="0.8"/>
+<circle cx="75.9" cy="169.2" r="1" fill="hsl(16 90% 92%)" opacity="0.9"/>
+<circle cx="89.3" cy="8.3" r="1.7" fill="hsl(16 90% 92%)" opacity="0.9"/>
+<circle cx="286.9" cy="182.7" r="2.9" fill="hsl(16 90% 92%)" opacity="0.8"/>
+<circle cx="363" cy="102.6" r="2.1" fill="hsl(16 90% 92%)" opacity="0.6"/>
+<circle cx="66.3" cy="9.9" r="1.3" fill="hsl(16 90% 92%)" opacity="0.4"/>
+<circle cx="14" cy="114.9" r="3.4" fill="hsl(16 90% 92%)" opacity="0.4"/>
+<circle cx="179" cy="155.5" r="2" fill="hsl(16 90% 92%)" opacity="0.6"/>
+<circle cx="138" cy="30" r="1.3" fill="hsl(16 90% 92%)" opacity="0.5"/>
+<circle cx="165.3" cy="156.5" r="1.4" fill="hsl(16 90% 92%)" opacity="0.9"/>
+<circle cx="353.6" cy="6.2" r="1.6" fill="hsl(16 90% 92%)" opacity="1"/>
+<circle cx="403.8" cy="149.3" r="1.9" fill="hsl(16 90% 92%)" opacity="0.7"/>
+<circle cx="212.2" cy="132.8" r="2.7" fill="hsl(16 90% 92%)" opacity="0.8"/>
+<circle cx="194" cy="109.5" r="3.5" fill="hsl(16 90% 92%)" opacity="0.7"/>
+</svg>

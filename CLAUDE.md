@@ -48,13 +48,14 @@
 ## 명령어 (저장소 루트에서)
 
 ```sh
-npm run setup                  # 최초 1회: 의존성 + Playwright Chromium + 로컬 D1 마이그레이션 (+ 커밋 훅 설치)
+npm run setup                  # 최초 1회: 의존성 + Playwright Chromium + 로컬 D1 마이그레이션 · 가짜 데이터 (+ 커밋 훅 설치)
 npm run dev                    # 개발 서버 http://localhost:5173
 npm run storybook -w web       # 갤러리 http://localhost:6006
 npm run verify                 # lint(+구조 경계) → check → test → knip → build → Worker 크기 (PR 전)
 npm run design:build -w web    # 갤러리 정적 빌드 → apps/web/storybook-static (아티팩트 게시용)
 npm run db:generate -w web     # 스키마 변경 → 마이그레이션 SQL 생성
 npm run db:migrate:local -w web
+npm run db:seed:local -w web    # 로컬 D1 에 가짜 게임 24개(lib/fixtures) — 미리보기는 배포 때 자동
 ```
 
 운영 빌드 확인: `npm run build -w web && cd apps/web && npx wrangler dev`.

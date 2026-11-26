@@ -5,6 +5,8 @@ const config: StorybookConfig = {
 	framework: '@storybook/sveltekit',
 	stories: ['../src/**/*.stories.@(svelte|ts)'],
 	addons: ['@storybook/addon-svelte-csf', '@storybook/addon-a11y', '@storybook/addon-vitest'],
+	// 가짜 게임 그림(static/sample) 등 정적 파일
+	staticDirs: ['../static'],
 	core: { disableTelemetry: true }
 };
 

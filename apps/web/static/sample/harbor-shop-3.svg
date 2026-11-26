@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="270" viewBox="0 0 480 270">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="hsl(302 55% 26%)"/><stop offset="1" stop-color="hsl(28 60% 52%)"/></linearGradient></defs>
+<rect width="480" height="270" fill="url(#g)"/>
+<rect x="0" y="171.8" width="480" height="98.2" fill="hsl(282 45% 18%)" opacity="0.55"/>
+<circle cx="259" cy="111.3" r="56.7" fill="hsl(342 85% 70%)" opacity="0.9"/>
+<rect x="72.7" y="139.7" width="96" height="59.9" rx="9.8" fill="hsl(102 55% 49%)" transform="rotate(-1.8 120.7 169.7)"/>
+<rect x="180.7" y="112.5" width="63.6" height="64.7" rx="9.5" fill="hsl(127 55% 55%)" transform="rotate(14.7 212.5 144.9)"/>
+<rect x="335.8" y="145.8" width="112.6" height="30.6" rx="8.9" fill="hsl(152 55% 62%)" transform="rotate(-6 392.1 161.1)"/>
+<circle cx="262.9" cy="22.2" r="1.9" fill="hsl(2 90% 92%)" opacity="0.5"/>
+<circle cx="28.5" cy="138.9" r="2.6" fill="hsl(2 90% 92%)" opacity="0.5"/>
+<circle cx="243.6" cy="54.9" r="3.4" fill="hsl(2 90% 92%)" opacity="1"/>
+<circle cx="459" cy="20.3" r="3" fill="hsl(2 90% 92%)" opacity="0.6"/>
+<circle cx="286.5" cy="151.1" r="2.5" fill="hsl(2 90% 92%)" opacity="0.6"/>
+<circle cx="344" cy="55.6" r="1.1" fill="hsl(2 90% 92%)" opacity="0.5"/>
+<circle cx="119.5" cy="31.1" r="2.4" fill="hsl(2 90% 92%)" opacity="0.4"/>
+<circle cx="283.6" cy="13.4" r="2.1" fill="hsl(2 90% 92%)" opacity="0.5"/>
+<circle cx="356.5" cy="37.6" r="2.7" fill="hsl(2 90% 92%)" opacity="0.5"/>
+<circle cx="242.4" cy="140.9" r="2.1" fill="hsl(2 90% 92%)" opacity="0.4"/>
+<circle cx="351.4" cy="115.3" r="2.8" fill="hsl(2 90% 92%)" opacity="0.6"/>
+<circle cx="53.5" cy="27.2" r="2.1" fill="hsl(2 90% 92%)" opacity="0.6"/>
+</svg>

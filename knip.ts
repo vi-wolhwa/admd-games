@@ -12,8 +12,8 @@ const config: KnipConfig = {
 			ignoreBinaries: ['wrangler']
 		},
 		'apps/web': {
-			entry: ['src/routes/**/+*.{ts,svelte}'],
-			project: ['src/**/*.{ts,svelte}'],
+			entry: ['src/routes/**/+*.{ts,svelte}', 'scripts/*.ts'],
+			project: ['src/**/*.{ts,svelte}', 'scripts/*.ts'],
 			// vitest-browser-svelte: 4단계(컴포넌트 테스트)에서 사용 시작 — 그때 이 줄을 지운다
 			ignoreDependencies: ['vitest-browser-svelte']
 		}
