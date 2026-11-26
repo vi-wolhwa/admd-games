@@ -4,7 +4,8 @@
 import { execFileSync } from 'node:child_process';
 import { appendFileSync } from 'node:fs';
 
-const base = process.env.GITHUB_BASE_REF ? `origin/${process.env.GITHUB_BASE_REF}` : 'origin/develop';
+// CI_SCOPE_BASE: 비교 기준을 직접 지정(develop 병합 뒤 미리보기는 'HEAD^' — 이번 커밋만)
+const base = process.env.CI_SCOPE_BASE ?? (process.env.GITHUB_BASE_REF ? `origin/${process.env.GITHUB_BASE_REF}` : 'origin/develop');
 const mergeBase = execFileSync('git', ['merge-base', base, 'HEAD'], { encoding: 'utf8' }).trim();
 const files = execFileSync('git', ['diff', '--name-only', mergeBase, 'HEAD'], { encoding: 'utf8' })
 	.split('\n')

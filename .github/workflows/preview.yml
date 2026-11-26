@@ -1,13 +1,17 @@
-# PR 미리보기 배포(setup-agenda 6-4): 앱 코드가 바뀐 PR 만, 별도 Worker(admd-games-preview) + 별도 D1 로.
-# 주소는 PR 댓글 하나에 계속 갱신. Cloudflare 시크릿이나 D1 ID 가 아직 없으면 조용히 건너뜀.
+# 미리보기 배포(setup-agenda 6-4): 별도 Worker(admd-games-preview) + 별도 D1, 앱 코드가 바뀔 때만.
+#   develop 에 병합 → 고정 주소 admd-games-preview.vi-wolhwa.workers.dev 를 develop 최신으로(중간 결과 확인용)
+#   develop 으로의 PR → 버전만 올리고 pr-<번호> 별칭 주소를 PR 댓글에(고정 주소는 그대로)
+# Cloudflare 시크릿이나 D1 ID 가 아직 없으면 조용히 건너뜀.
 name: preview
 
 on:
   pull_request:
     branches: [develop]
+  push:
+    branches: [develop]
 
 concurrency:
-  group: preview-${{ github.event.pull_request.number }}
+  group: preview-${{ github.event.pull_request.number || 'develop' }}
   cancel-in-progress: true
 
 permissions:
@@ -44,9 +48,13 @@ jobs:
         if: steps.gate.outputs.go == 'true'
         working-directory: apps/web
         run: npx wrangler d1 migrations apply DB --env preview --remote
+      - name: develop 고정 주소 갱신
+        if: steps.gate.outputs.go == 'true' && github.event_name == 'push'
+        working-directory: apps/web
+        run: npx wrangler deploy --env preview
       - name: 미리보기 버전 올리기
         id: upload
-        if: steps.gate.outputs.go == 'true'
+        if: steps.gate.outputs.go == 'true' && github.event_name == 'pull_request'
         working-directory: apps/web
         run: |
           set -o pipefail
