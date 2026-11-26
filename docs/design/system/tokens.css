@@ -27,12 +27,14 @@
 	--color-graphite-60: #eef0f3;
 	--color-graphite-75: #eceef0;
 	--color-graphite-100: #e9ebee;
+	--color-graphite-150: #d3d6da; /* 조작 요소 테두리 */
 	--color-graphite-200: #c4c8cc;
 	--color-graphite-300: #a4a8ae;
 	--color-graphite-400: #9b9fa3;
 	--color-graphite-500: #71757a;
 	--color-graphite-600: #65696f;
 	--color-graphite-700: #4f5359;
+	--color-graphite-750: #3b4046; /* 다크 조작 요소 테두리 */
 	--color-graphite-800: #272c31;
 	--color-graphite-850: #1f2328;
 	--color-graphite-900: #191c20;
@@ -173,6 +175,7 @@
 	--sunken: var(--color-graphite-50); /* 칩·검색·빈 아트 */
 	--sunken-hover: var(--color-graphite-100);
 	--line: var(--color-graphite-75);
+	--line-strong: var(--color-graphite-150); /* 누를 수 있는 것의 테두리 */
 	--ink-1: var(--color-graphite-950); /* 제목·본문 */
 	--ink-2: var(--color-graphite-700); /* 보조 글 */
 	--ink-3: var(--color-graphite-600); /* 메타 — 흰 바탕 5.5:1, sunken 5.0:1 */
@@ -247,6 +250,7 @@
 		--sunken: var(--color-graphite-850);
 		--sunken-hover: var(--color-graphite-800);
 		--line: var(--color-graphite-800);
+		--line-strong: var(--color-graphite-750);
 		--ink-1: var(--color-graphite-60);
 		--ink-2: var(--color-graphite-200);
 		--ink-3: var(--color-graphite-300);
@@ -272,6 +276,7 @@
 	--sunken: var(--color-graphite-850);
 	--sunken-hover: var(--color-graphite-800);
 	--line: var(--color-graphite-800);
+	--line-strong: var(--color-graphite-750);
 	--ink-1: var(--color-graphite-60);
 	--ink-2: var(--color-graphite-200);
 	--ink-3: var(--color-graphite-300);

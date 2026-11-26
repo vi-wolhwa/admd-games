@@ -139,8 +139,8 @@ body{min-width:1280px}
 .rail{display:flex;gap:16px;overflow:hidden;-webkit-mask-image:linear-gradient(90deg,#000 93%,transparent);mask-image:linear-gradient(90deg,#000 93%,transparent);padding:4px 0 12px;margin:-4px 0 -12px}
 .rail .gc{flex:0 0 227px}
 .gc .t a::after{content:"";position:absolute;inset:0;z-index:1}
-.gc:hover .art{transform:var(--card-lift);box-shadow:var(--shadow-lift)}
-.gc .art{transition:transform var(--dur-base) var(--ease-soft),box-shadow var(--dur-base) var(--ease-soft)}
+.gc:hover .art{top:-3px;box-shadow:var(--shadow-lift)}
+.gc .art{top:0;transition:top var(--dur-base) var(--ease-soft),box-shadow var(--dur-base) var(--ease-soft)}
 .gc:hover .t{color:var(--accent-text)}
 /* 잼 띠 */
 .jam{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:28px;padding:30px 40px;border-radius:var(--radius-2xl);background:var(--surface-ink);color:#FFFFFF}
@@ -299,13 +299,22 @@ def qa_block():
 </div>'''
 
 NEWG = [("a-tess", "테셀레이트", "노을공방", "ㄴ", "haneul", "퍼즐 · 10분", "web"), ("a-demon", "들판의 악마", "풀잎", "ㅍ", "pul", "전략 · 30분", "dl"), ("a-halcyon", "할시온 바다", "하늘섬", "ㅎ", "haneul", "탐험 · 20분", "web"), ("a-ash", "재의 도시", "잿빛토끼", "ㅈ", "ju", "생존 · 40분", "dl"), ("a-paper", "종이 배", "청록상회", "ㅊ", "cheongnok", "탐험 · 20분", "web"), ("a-grid", "그리드 러너", "보라네", "ㅂ", "bora", "액션 · 3분", "web")]
+CARD_COUNTS = {"테셀레이트": (342, 54), "들판의 악마": (129, 19), "할시온 바다": (405, 63), "재의 도시": (233, 35), "종이 배": (147, 21), "그리드 러너": (61, 6)}
 def game_card(a):
+    """게임 카드 공통 — 실행 칩(툴팁) · 호버 플레이/다운로드 · 추천/리뷰 수 (ADR 0009)"""
     art, t, who, ch, col, meta, plat = a
-    pl = ic("web", "ic ic12") if plat == "web" else ic("dl", "ic ic12") + '<svg class="ic ic12 ok"><use href="#i-shield"></use></svg>'
-    return f'''<div class="gc"><span class="art {art}"><span class="shots"></span><span class="plat">{pl}</span><span class="jf maker" style="background:var(--color-face-{col})">{ch}<i>ㅅ</i>{ch}</span></span><span class="t"><a href="#">{t}</a></span><span class="meta">{who} · {meta}</span></div>'''
+    if plat == "web":
+        pl = ic("web", "ic ic12"); tip = f'<span>{ic("web")}브라우저에서 바로 플레이</span>'; q = "play"; lab = "브라우저에서 바로 플레이"
+    else:
+        pl = ic("dl", "ic ic12") + '<svg class="ic ic12 ok"><use href="#i-shield"></use></svg>'
+        tip = f'<span>{ic("dl")}설치형 · 다운로드</span><span class="ok">{ic("shield")}보안 검사 통과</span>'; q = "dl"; lab = "설치형, 보안 검사 통과"
+    rec, rv = CARD_COUNTS.get(t, (88, 12))
+    return (f'<div class="gc"><span class="art {art}"><span class="shots"></span><span class="plat" tabindex="0" aria-label="{lab}">{pl}<span class="tip" role="tooltip">{tip}</span></span>'
+            f'<span class="jf maker" style="background:var(--color-face-{col})">{ch}<i>ㅅ</i>{ch}</span><span class="qplay" aria-hidden="true">{ic(q, "ic ic16")}</span></span>'
+            f'<span class="t"><a href="#">{t}</a></span><span class="meta">{who} · {meta}</span>{counts(rec, rv)}</div>')
 
 def new_games():
-    return f'''<section class="sec wrap"><div class="sh">{EAR}<h2>이번 주 공개된 게임</h2><span class="sub">다른 메이커들의 새 게임</span><div class="r"><span class="arw" style="opacity:.4">{ic("chev","ic")}</span><span class="arw">{ic("chev","ic")}</span></div></div>
+    return f'''<section class="sec wrap"><div class="sh">{EAR}<h2>이번 주 공개된 게임</h2><span class="sub">다른 메이커들의 새 게임</span><div class="r"><span class="arw" style="opacity:.4"><svg class="ic" style="transform:rotate(180deg)"><use href="#i-chev"></use></svg></span><span class="arw">{ic("chev","ic")}</span></div></div>
 <div class="rail">{"".join(game_card(a) for a in NEWG)}</div></section>'''
 
 def jam():

@@ -110,8 +110,8 @@ GAL_CSS = r"""
 .cat-head .m{padding-bottom:5px;font-size:14px}
 .cat-head .r{margin-left:auto}
 .gtags{display:flex;flex-wrap:wrap;gap:8px;margin-top:20px}
-.gtag{display:inline-flex;align-items:center;gap:5px;height:36px;padding:0 14px;border:0;font-family:inherit;border-radius:999px;background:var(--sunken);font-size:14px;font-weight:700;color:var(--ink-2)}
-.gtag:hover{background:var(--sunken-hover)}
+.gtag{display:inline-flex;align-items:center;gap:5px;height:36px;padding:0 14px;border:0;font-family:inherit;border-radius:999px;background:var(--bg);box-shadow:inset 0 0 0 1px var(--line-strong);font-size:14px;font-weight:700;color:var(--ink-2)}
+.gtag:hover{background:var(--sunken)}
 .gtag .ic{width:13px;height:13px}
 .gtag[aria-pressed="true"]{background:var(--accent-tint);color:var(--accent-text);box-shadow:inset 0 0 0 1.5px var(--accent)}
 .gtag .n{font-weight:600;font-size:12.5px;opacity:.65}
@@ -120,9 +120,9 @@ GAL_CSS = r"""
 .cat-tools .sum b{color:var(--ink-1)}
 .cat-tools .clear{font-size:13.5px;font-weight:700;color:var(--ink-3);text-decoration:underline;text-underline-offset:3px}
 .cat-tools .r{margin-left:auto;display:flex;align-items:center;gap:8px}
-.dd{position:relative;display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 12px 0 14px;border-radius:999px;background:var(--sunken);font-size:13.5px;font-weight:700;color:var(--ink-3);white-space:nowrap}
+.dd{position:relative;display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 12px 0 14px;border-radius:999px;background:var(--bg);box-shadow:inset 0 0 0 1px var(--line-strong);font-size:13.5px;font-weight:700;color:var(--ink-3);white-space:nowrap}
 .dd b{color:var(--ink-1)}
-.dd.on{background:var(--accent-tint);color:var(--accent-text)}
+.dd.on{background:var(--accent-tint);color:var(--accent-text);box-shadow:inset 0 0 0 1.5px var(--accent)}
 .dd.on b{color:var(--accent-text)}
 .dd .ic{width:12px;height:12px}
 .dd .dn{transform:rotate(90deg)}
@@ -246,7 +246,7 @@ NOTI = [
     (True, "face", ("ㅍ", "jjok"), "cmt", '<b>픽셀상점</b>이 내 리뷰에 답글을 달았어요 “15스테이지 구간은 다음 업데이트에서…”', "1시간 전", None),
     (True, "face", ("ㅅ", "hong"), "duo", '<b>새벽코딩</b>님이 친구 신청을 보냈어요', "3시간 전", None),
     (False, "face", ("ㄴ", "haneul"), "pen", '<b>노을공방</b>의 새 개발일지 — 웹 빌드 40MB를 9MB로 줄인 방법', "어제", "a-tess"),
-    (False, "sys", None, "check", '저장한 <b>재의 도시</b>에 업데이트가 있어요 (설치형 v1.2)', "어제", "a-ash"),
+    (False, "sys", None, "check", '즐겨찾기한 <b>재의 도시</b>에 업데이트가 있어요 (설치형 v1.2)', "어제", "a-ash"),
     (False, "sys", None, "alert", '<b>공지</b> 12월 정기 점검 — 12/3 02:00~04:00', "2일 전", None),
 ]
 def ni(n):
@@ -284,7 +284,7 @@ def settings_page():
 <div class="srow"><span><b>팔로우한 메이커의 새 게임 · 업데이트 · 일지</b></span>{sw()}</div>
 <div class="srow"><span><b>내 리뷰 · 글에 달린 답글</b></span>{sw()}</div>
 <div class="srow"><span><b>친구 신청</b></span>{sw()}</div>
-<div class="srow"><span><b>저장한 게임의 업데이트</b></span>{sw(False)}</div></section>
+<div class="srow"><span><b>즐겨찾기한 게임의 업데이트</b></span>{sw(False)}</div></section>
 <section class="sset"><h2>공개 범위</h2><p>무엇을 누구에게 보일지 정해요.</p>
 <div class="srow"><span><b>지금 하는 게임 · 최근 플레이</b><span class="m">친구에게만 보여요 · 끄면 바로 사라져요</span></span>{sw()}</div>
 <div class="srow"><span><b>라이브러리</b><span class="m">플레이한 게임 목록</span></span><span class="seg"><span>모두</span><span class="on">친구만</span><span>나만</span></span></div>

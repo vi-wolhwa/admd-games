@@ -148,15 +148,15 @@ def lib_page():
 <span class="p">{bar}<span>{"진행 " + str(pct) + "% · " if 0 < pct < 100 else ""}{last}</span></span><span class="p"><span>플레이 {total}</span>{up}</span>
 <span class="acts"><span class="btn btn-{k} btn-sm"{" data-play" if lab in ("이어하기","다시 하기") else ""}>{lab}</span><button class="save" aria-label="더 보기"><svg class="ic ic16" viewBox="0 0 16 16"><circle cx="3.5" cy="8" r=".8"></circle><circle cx="8" cy="8" r=".8"></circle><circle cx="12.5" cy="8" r=".8"></circle></svg></button></span></div>'''
     body = dt.pg_header() + f'''<main class="wrap">
-<div class="lib-h">{face("ㅇ","olive","lg")}<h1>내 라이브러리</h1><div class="stats"><span><b>12</b>플레이한 게임</span><span><b>7</b>저장함</span><span><b>2</b>받은 설치형</span><span><b>31시간</b>이번 달</span></div></div>
-<nav class="utabs" style="margin-top:24px"><a href="#" aria-current="page">이어하기 5</a><a href="#">저장함 7</a><a href="#">다운로드함 2</a><a href="#">플레이 기록</a></nav>
+<div class="lib-h">{face("ㅇ","olive","lg")}<h1>내 라이브러리</h1><div class="stats"><span><b>12</b>플레이한 게임</span><span><b>7</b>즐겨찾기</span><span><b>2</b>받은 설치형</span><span><b>31시간</b>이번 달</span></div></div>
+<nav class="utabs" style="margin-top:24px"><a href="#" aria-current="page">이어하기 5</a><a href="#">즐겨찾기 7</a><a href="#">다운로드함 2</a><a href="#">플레이 기록</a></nav>
 <div class="lib-tools"><div class="search">{ic("search")}내 게임에서 찾기</div><div class="chips"><button class="chip" aria-pressed="true">최근 플레이 순</button><button class="chip">진행률 순</button><button class="chip">브라우저</button><button class="chip">설치형</button></div></div>
 <div class="mg-rows">{rows}</div>
-<section class="sec"><div class="sh">{EAR}<h2>저장함에서 아직 안 한 게임</h2><div class="r"><a class="link" href="#">저장함 전체</a></div></div>
+<section class="sec"><div class="sh">{EAR}<h2>즐겨찾기에서 아직 안 한 게임</h2><div class="r"><a class="link" href="#">즐겨찾기 전체</a></div></div>
 <div class="rail">{"".join(mg.game_card(a) for a in mg.NEWG)}</div></section>
 <section class="sec"><div class="empty-mini">{ic("q","ic ic20")}<span>다른 기기에서 하던 게임이 안 보이나요? 같은 계정으로 로그인하면 진행이 이어져요. 설치형 게임의 세이브는 메이커가 지원할 때만 옮겨져요.</span></div></section>
 </main>''' + dt.footer()
-    memo = "PG-LIB. 탭 4개(이어하기 · 저장함 · 다운로드함 · 기록). 줄마다 진행 · 마지막 플레이 · 총 시간 · 설치형 업데이트 표시와 주 버튼 하나. 아래엔 ‘저장만 하고 안 한 게임’으로 다음 행동 제안."
+    memo = "PG-LIB. 탭 4개(이어하기 · 즐겨찾기 · 다운로드함 · 기록). 줄마다 진행 · 마지막 플레이 · 총 시간 · 설치형 업데이트 표시와 주 버튼 하나. 아래엔 ‘저장만 하고 안 한 게임’으로 다음 행동 제안."
     html = dt.page("내 라이브러리", body, 1700, memo)
     return html.replace("</style>", CSS + "\n</style>", 1)
 

@@ -161,13 +161,13 @@ def browse():
 def detail(ok=True):
     if ok:
         chips = f'<span class="okc">{ic("phone","ic ic12")}이 휴대폰에서 돼요 · 가로</span><span>{ic("clock","ic ic12")}한 판 5분</span><span>{ic("duo","ic ic12")}혼자</span><span>{ic("thumb","ic ic12")}추천 214 · 리뷰 38</span>'
-        bar = f'<div class="cta-bar"><span class="sq" aria-label="저장">{ic("bm","ic ic20")}</span><span class="sq" aria-label="공유">{ic("up2","ic ic20")}</span><span class="main" data-play>{ic("play","ic ic16")}지금 플레이</span></div>'
+        bar = f'<div class="cta-bar"><span class="sq" aria-label="즐겨찾기">{ic("bm","ic ic20")}</span><span class="sq" aria-label="공유">{ic("up2","ic ic20")}</span><span class="main" data-play>{ic("play","ic ic16")}지금 플레이</span></div>'
         extra = ""
         art = "a-loop"; title = "루프 디버거"; who = ("ㅍ", "jjok", "픽셀상점")
     else:
         chips = f'<span class="noc">{ic("pc","ic ic12")}PC 전용 · 키보드</span><span>{ic("clock","ic ic12")}한 판 3분</span><span>{ic("thumb","ic ic12")}추천 135 · 리뷰 22</span>'
-        bar = f'<div class="cta-bar"><span class="sq" aria-label="저장">{ic("bm","ic ic20")}</span><span class="sq" aria-label="공유">{ic("up2","ic ic20")}</span><span class="main alt">{ic("pc","ic ic16")}PC 로 링크 보내기</span><span class="note">내 다른 기기 알림으로 보내요 · 로그인 필요</span></div>'
-        extra = f'<div class="nodev"><b>{ic("alert")}이 휴대폰에서는 할 수 없어요</b>키보드가 필요한 게임이에요. 저장해 두면 PC 라이브러리에 바로 보여요.</div>'
+        bar = f'<div class="cta-bar"><span class="sq" aria-label="즐겨찾기">{ic("bm","ic ic20")}</span><span class="sq" aria-label="공유">{ic("up2","ic ic20")}</span><span class="main alt">{ic("pc","ic ic16")}PC 로 링크 보내기</span><span class="note">내 다른 기기 알림으로 보내요 · 로그인 필요</span></div>'
+        extra = f'<div class="nodev"><b>{ic("alert")}이 휴대폰에서는 할 수 없어요</b>키보드가 필요한 게임이에요. 즐겨찾기해 두면 PC 라이브러리에 바로 보여요.</div>'
         art = "a-grid"; title = "그리드 러너"; who = ("ㅂ", "bora", "보라네")
     inner = f'''<div class="dmedia"><span class="art {art}" style="display:block"></span><span class="back">{ic("chev","ic ic16")}</span><span class="cnt3">1 / 6</span></div>
 <div class="dhead"><h1>{title}</h1><div class="by">{face(who[0], who[1], "")}{who[2]}<span class="btn btn-secondary btn-sm">팔로우</span></div></div>
@@ -187,9 +187,9 @@ def rotate_prompt():
     return f'<div class="phone"><div class="sbar"><span>9:41</span><span>5G</span></div><div class="rotate"><span class="ph"></span><b>휴대폰을 가로로 돌려 주세요</b><span class="m">이 게임은 가로 화면에서 해요</span><span class="btn btn-glass btn-sm" style="margin-top:10px">세로로 그냥 하기</span></div></div>'
 
 def library():
-    rows = "".join(f'<div class="lrow"><span class="art {a}"></span><span><b>{t}</b><span class="m">{m}</span>{"<span class=\"bar\"><i style=\"width:%d%%\"></i></span>" % p if p else ""}</span><span class="go{" sec" if sec else ""}">{lab}</span></div>' for a, t, m, p, lab, sec in [("a-loop", "루프 디버거", "진행 45% · 어제", 45, "이어하기", False), ("a-tess", "테셀레이트", "완주 · 최고 03:42", 0, "다시 하기", True), ("a-grid", "그리드 러너", "PC 전용 · 저장함", 0, "PC 로", True), ("a-ash", "재의 도시", "설치형 · PC 에서 받기", 0, "PC 로", True), ("a-halcyon", "할시온 바다", "진행 8% · 1주 전", 8, "이어하기", False)])
+    rows = "".join(f'<div class="lrow"><span class="art {a}"></span><span><b>{t}</b><span class="m">{m}</span>{"<span class=\"bar\"><i style=\"width:%d%%\"></i></span>" % p if p else ""}</span><span class="go{" sec" if sec else ""}">{lab}</span></div>' for a, t, m, p, lab, sec in [("a-loop", "루프 디버거", "진행 45% · 어제", 45, "이어하기", False), ("a-tess", "테셀레이트", "완주 · 최고 03:42", 0, "다시 하기", True), ("a-grid", "그리드 러너", "PC 전용 · 즐겨찾기", 0, "PC 로", True), ("a-ash", "재의 도시", "설치형 · PC 에서 받기", 0, "PC 로", True), ("a-halcyon", "할시온 바다", "진행 8% · 1주 전", 8, "이어하기", False)])
     inner = f'''<div class="mtop"><span style="font-size:19px;font-weight:800">라이브러리</span><span class="sp">{mg.THEME_BTN}</span></div>
-<div class="mchips2" style="margin:0 0 6px;padding:0 18px"><button class="chip" aria-pressed="true">이어하기 5</button><button class="chip">저장함 7</button><button class="chip">설치형 2</button><button class="chip">기록</button></div>
+<div class="mchips2" style="margin:0 0 6px;padding:0 18px"><button class="chip" aria-pressed="true">이어하기 5</button><button class="chip">즐겨찾기 7</button><button class="chip">설치형 2</button><button class="chip">기록</button></div>
 <div class="msec" style="margin-top:6px">{rows}</div>'''
     return phone(inner, 2)
 
@@ -206,9 +206,9 @@ def page_home():
     return page("PlayGround 모바일 · 홈", cols, memo, 1000)
 
 def page_game():
-    cols = [("게임 상세 · 이 휴대폰에서 됨", "위 미디어(넘김) · 제목 · 메이커 · 실행 조건 칩(되는지 맨 앞, 비취) · 탭. 아래 고정: 저장 · 공유 · 지금 플레이", detail(True), False),
+    cols = [("게임 상세 · 이 휴대폰에서 됨", "위 미디어(넘김) · 제목 · 메이커 · 실행 조건 칩(되는지 맨 앞, 비취) · 탭. 아래 고정: 즐겨찾기 · 공유 · 지금 플레이", detail(True), False),
             ("게임 상세 · 이 기기에서 불가", "PC 전용이면 칩과 안내 상자로 먼저 알리고, 주 버튼은 ‘PC 로 링크 보내기’", detail(False), False),
-            ("라이브러리", "이어하기 · 저장함 · 설치형 · 기록. 휴대폰에서 못 하는 건 ‘PC 로’", library(), False),
+            ("라이브러리", "이어하기 · 즐겨찾기 · 설치형 · 기록. 휴대폰에서 못 하는 건 ‘PC 로’", library(), False),
             ("세로로 들고 있을 때", "가로 게임은 돌려 달라고 안내(세로로 그냥 하기 선택 가능)", rotate_prompt(), False),
             ("플레이 · 가로 터치", "플랫폼 UI 는 반투명 버튼 두 개(일시정지 · 나가기)뿐. 처음 4초 조작 안내. 가상 패드는 게임이 SDK 로 요청할 때만", play_land(), True)]
     memo = "PlayGround 모바일 · 게임. 핵심은 ‘이 휴대폰에서 되나’를 숨기지 않는 것 — PC 전용도 보이되 카드에 ‘PC 에서’ 표시(PM2), 원하면 ‘되는 게임만 보기’, 상세의 비취/쪽빛 칩, 불가 시 ‘PC 로 링크 보내기’. 플레이는 전체 화면 · 가로 우선."

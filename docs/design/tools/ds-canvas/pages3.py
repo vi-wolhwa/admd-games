@@ -138,7 +138,7 @@ def login_frame():
 <h2 id="lg-t">로그인하고 내 얼굴 만들기</h2><p>비밀번호는 만들지 않아요. 쓰던 계정으로 바로 들어와요.</p>
 <span class="prov"><span class="mk">G</span>Google 로 계속하기</span>
 <span class="prov"><span class="mk" style="border-radius:999px">{ic("user","ic ic12")}</span>GitHub 로 계속하기</span>
-<div class="keep">{ic("check")}<span>로그인 전에 한 기록은 그대로 옮겨져요 — 진행 2개, 저장 3개.</span></div>
+<div class="keep">{ic("check")}<span>로그인 전에 한 기록은 그대로 옮겨져요 — 진행 2개, 즐겨찾기 3개.</span></div>
 <p class="fine">계속하면 <a href="#">이용약관</a>과 <a href="#">개인정보처리방침</a>에 동의하는 것으로 봐요. 광고용으로 정보를 쓰지 않아요.</p>
 </div></div></div>'''
 

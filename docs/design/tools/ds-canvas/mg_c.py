@@ -201,13 +201,13 @@ def post_view():
     body = mg.header2(True, "커뮤니티") + f'''<main class="post">
 <div class="crumb2"><a href="#">커뮤니티</a>{ic("chev")}<a href="#">피드백</a></div>
 <h1>타이틀 화면 두 가지 중 뭐가 나아요?</h1>
-<div class="by">{face("ㅂ","bora","md")}<span><b>보라네</b> <span class="mkb2">메이커 · 게임 2</span><br>25분 전 · 조회 230</span><span class="sp"><button class="icon-btn" aria-label="저장">{ic("bm","ic ic16")}</button><button class="icon-btn" aria-label="공유">{ic("up2","ic ic16")}</button><button class="icon-btn" aria-label="신고">{ic("alert","ic ic16")}</button></span></div>
+<div class="by">{face("ㅂ","bora","md")}<span><b>보라네</b> <span class="mkb2">메이커 · 게임 2</span><br>25분 전 · 조회 230</span><span class="sp"><button class="icon-btn" aria-label="즐겨찾기">{ic("bm","ic ic16")}</button><button class="icon-btn" aria-label="공유">{ic("up2","ic ic16")}</button><button class="icon-btn" aria-label="신고">{ic("alert","ic ic16")}</button></span></div>
 <div class="body"><p>‘그리드 러너’ 정식판 타이틀을 두 가지로 만들어 봤어요. A 는 잼 때 쓰던 걸 다듬은 거고, B 는 새로 그렸어요. 첫인상으로 어느 쪽이 더 해 보고 싶나요?</p>
 <div class="imgs"><figure><span class="art a-grid"></span>A · 잼 버전 다듬기</figure><figure><span class="art a-tess"></span>B · 새로 그림</figure></div>
 <div class="poll"><span class="q">어느 쪽이 더 해 보고 싶나요? · 83명 참여 · 2일 남음</span><span class="opt"><i style="width:38%"></i><span>A · 잼 버전</span><span>38%</span></span><span class="opt me"><i style="width:62%"></i><span>B · 새로 그림 {ic("check","ic ic12")}</span><span>62%</span></span></div>
 <p>글자 크기나 색 의견도 환영이에요!</p></div>
 <a class="gamelink" href="#"><span class="art a-grid"></span><span><b>그리드 러너</b><span class="m">보라네 · 액션 · 3분 · PlayGround 에서 플레이</span></span>{ic("chev","ic ic16")}</a>
-<div class="reacts"><span class="btn btn-secondary on">{ic("heart","ic ic16")}좋아요 <span class="n">31</span></span><span class="btn btn-secondary">{ic("bm","ic ic16")}저장</span></div>
+<div class="reacts"><span class="btn btn-secondary on">{ic("heart","ic ic16")}좋아요 <span class="n">31</span></span><span class="btn btn-secondary">{ic("bm","ic ic16")}즐겨찾기</span></div>
 <section class="cmts"><h3>댓글 <span style="color:var(--accent-text)">27</span><span style="margin-left:auto" class="cm-sort"><span class="on">등록순</span><span>최신순</span></span></h3>
 <div class="cmt-in">{face("ㅇ","olive","md")}<span>따뜻한 말로 의견을 남겨 주세요</span><span class="btn btn-primary btn-sm">등록</span></div>
 <div class="cmt">{face("ㅍ","jjok","md")}<span><span class="hd"><b>픽셀상점</b><span class="mkb2">메이커</span>· 20분 전</span><p>B 요! 캐릭터 실루엣이 바로 읽혀요. 다만 로고 아래 그림자가 조금 무거운 느낌이라 한 단계만 연하게 하면 좋겠어요.</p><span class="ac"><span>좋아요 12</span><span>답글</span><span>신고</span></span></span></div>

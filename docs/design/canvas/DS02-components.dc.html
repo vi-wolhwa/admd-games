@@ -20,12 +20,14 @@
 --color-graphite-60: #eef0f3;
 --color-graphite-75: #eceef0;
 --color-graphite-100: #e9ebee;
+--color-graphite-150: #d3d6da; 
 --color-graphite-200: #c4c8cc;
 --color-graphite-300: #a4a8ae;
 --color-graphite-400: #9b9fa3;
 --color-graphite-500: #71757a;
 --color-graphite-600: #65696f;
 --color-graphite-700: #4f5359;
+--color-graphite-750: #3b4046; 
 --color-graphite-800: #272c31;
 --color-graphite-850: #1f2328;
 --color-graphite-900: #191c20;
@@ -132,6 +134,7 @@ color-scheme: light;
 --sunken: var(--color-graphite-50); 
 --sunken-hover: var(--color-graphite-100);
 --line: var(--color-graphite-75);
+--line-strong: var(--color-graphite-150); 
 --ink-1: var(--color-graphite-950); 
 --ink-2: var(--color-graphite-700); 
 --ink-3: var(--color-graphite-600); 
@@ -196,6 +199,7 @@ color-scheme: dark;
 --sunken: var(--color-graphite-850);
 --sunken-hover: var(--color-graphite-800);
 --line: var(--color-graphite-800);
+--line-strong: var(--color-graphite-750);
 --ink-1: var(--color-graphite-60);
 --ink-2: var(--color-graphite-200);
 --ink-3: var(--color-graphite-300);
@@ -316,8 +320,8 @@ body{margin:0;background:#FFFFFF;-webkit-font-smoothing:antialiased}
 .btn-sm{height:var(--btn-h-sm);padding:0 16px;font-size:14px;border-radius:var(--radius-full)}
 .btn-primary{background:var(--accent);color:var(--on-accent)}
 .btn-primary:hover,.btn-primary.is-hover{background:var(--accent-strong)}
-.btn-secondary{background:var(--sunken);color:var(--ink-1)}
-.btn-secondary:hover,.btn-secondary.is-hover{background:var(--sunken-hover)}
+.btn-secondary{background:var(--bg);color:var(--ink-1);box-shadow:inset 0 0 0 1px var(--line-strong)}
+.btn-secondary:hover,.btn-secondary.is-hover{background:var(--sunken)}
 .btn-on-color{background:#FFFFFF;color:#151A20}
 .btn-on-color:hover,.btn-on-color.is-hover{background:#E8ECF1}
 .btn-glass{background:rgb(255 255 255 / .16);color:#FFFFFF}
@@ -337,9 +341,9 @@ body{margin:0;background:#FFFFFF;-webkit-font-smoothing:antialiased}
 
 /* 칩 · 탭 · 태그 */
 .chips{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
-.chip{display:inline-flex;align-items:center;gap:6px;height:var(--chip-h);padding:0 15px;border:0;border-radius:999px;background:var(--sunken);font-size:14px;font-weight:700;color:var(--ink-2)}
-.chip:hover,.chip.is-hover{background:var(--sunken-hover)}
-.chip[aria-pressed="true"]{background:var(--ink-1);color:var(--bg)}
+.chip{display:inline-flex;align-items:center;gap:6px;height:var(--chip-h);padding:0 15px;border:0;border-radius:999px;background:var(--bg);box-shadow:inset 0 0 0 1px var(--line-strong);font-size:14px;font-weight:700;color:var(--ink-2)}
+.chip:hover,.chip.is-hover{background:var(--sunken)}
+.chip[aria-pressed="true"]{background:var(--ink-1);color:var(--bg);box-shadow:none}
 .chip .c{font-weight:600;opacity:.6}
 .ptabs{display:inline-flex;gap:4px}
 .ptabs button{height:var(--tab-h);padding:0 12px;border:0;border-radius:999px;background:transparent;font-size:14px;font-weight:700;color:var(--ink-3)}
@@ -448,6 +452,15 @@ body{margin:0;background:#FFFFFF;-webkit-font-smoothing:antialiased}
 .gc:hover .shots::before{animation:hovshots 12.5s .3s steps(1,end) infinite}
 @keyframes hovshots{0%{opacity:0;transform:none}20%{opacity:1;transform:scale(1.25) translate(-6%,4%);filter:saturate(1.2)}40%{opacity:1;transform:scale(1.5) translate(10%,-6%);filter:brightness(1.08)}60%{opacity:1;transform:scale(1.35) translate(8%,8%) rotate(-2deg);filter:hue-rotate(-12deg)}80%{opacity:1;transform:scale(1.8) translate(-12%,-4%);filter:contrast(1.1)}100%{opacity:0;transform:none}}
 @media (prefers-reduced-motion:reduce){.gc:hover .shots::before{animation:none}}
+/* ── 2026-11-27 3차 ── 카드 실행 칩 툴팁: 마우스를 올릴 때만 (공통) */
+.gc:hover,.gc:focus-within{z-index:6}
+.gc .plat{cursor:help}
+.gc .plat .tip{opacity:0;visibility:hidden;transform:translateY(-4px);transition:opacity var(--dur-fast) var(--ease-soft),transform var(--dur-fast) var(--ease-soft),visibility 0s linear var(--dur-fast);pointer-events:none}
+.gc .plat:hover .tip,.gc .plat:focus-visible .tip{opacity:1;visibility:visible;transform:none;transition-delay:120ms,120ms,0s}
+.gc .qplay{opacity:0;transform:translateY(6px) scale(.9);transition:opacity var(--dur-fast) var(--ease-soft),transform var(--dur-fast) var(--ease-soft)}
+.gc:hover .qplay,.gc:focus-within .qplay{opacity:1;transform:none}
+.gc .t a::after{content:"";position:absolute;inset:0;z-index:1}
+.gc .plat,.gc .qplay,.gc .badge{z-index:3}
 
 /* 이 페이지 전용 */
 .frame{border-radius:var(--radius-2xl);box-shadow:0 0 0 1px var(--line);overflow:hidden}
@@ -572,8 +585,10 @@ body{margin:0;background:#FFFFFF;-webkit-font-smoothing:antialiased}
 <symbol id="i-cmt" viewBox="0 0 16 16"><path d="M2.5 3.5h11v7.5H7l-3 2.5V11H2.5z"></path></symbol>
 <symbol id="i-up" viewBox="0 0 16 16"><path d="M8 13V3M4 7l4-4 4 4"></path></symbol>
 <symbol id="i-thumb" viewBox="0 0 16 16"><path d="M5 7.2v6.3H2.6V7.2z"></path><path d="M5 7.2 7.7 2.6c.9 0 1.6.8 1.4 1.7l-.4 2.5h3.6c1 0 1.7.9 1.5 1.8l-.9 4c-.2.6-.7.9-1.3.9H5"></path></symbol>
-<symbol id="i-bm" viewBox="0 0 16 16"><path d="M4 2h8v12l-4-3-4 3z"></path></symbol>
-<symbol id="i-bmf" viewBox="0 0 16 16"><path d="M4 2h8v12l-4-3-4 3z" fill="currentColor"></path></symbol>
+<symbol id="i-share" viewBox="0 0 16 16"><path d="M8 10V2.5M5 5.2 8 2.3l3 2.9"></path><path d="M3 8.5v4.5h10V8.5"></path></symbol>
+<symbol id="i-flag" viewBox="0 0 16 16"><path d="M3.5 14V2.5"></path><path d="M3.5 3h8.2l-1.6 3 1.6 3H3.5"></path></symbol>
+<symbol id="i-bm" viewBox="0 0 16 16"><path d="M8 1.9l1.85 3.8 4.15.6-3 2.95.7 4.15L8 11.45 4.3 13.4l.7-4.15-3-2.95 4.15-.6z"></path></symbol>
+<symbol id="i-bmf" viewBox="0 0 16 16"><path d="M8 1.9l1.85 3.8 4.15.6-3 2.95.7 4.15L8 11.45 4.3 13.4l.7-4.15-3-2.95 4.15-.6z" fill="currentColor"></path></symbol>
 </svg>
 <div class="page">
 
@@ -620,7 +635,7 @@ body{margin:0;background:#FFFFFF;-webkit-font-smoothing:antialiased}
 <span class="rl">danger<code>대화상자 안에서만</code></span>
 <span><span class="btn btn-danger">신고하기</span></span><span><span class="btn btn-danger is-hover">신고하기</span></span><span><span class="btn btn-danger is-focus">신고하기</span></span><span><span class="btn btn-danger is-hover is-press">신고하기</span></span><span><span class="btn btn-danger is-disabled">신고하기</span></span>
 <span class="rl">작게 · link<code>38 알약 / 글자만</code></span>
-<span><span class="btn btn-primary btn-sm">이어하기</span></span><span><span class="btn btn-secondary btn-sm is-hover">저장</span></span><span><span class="btn btn-link">전체 보기 ›</span></span><span><span class="btn btn-link is-hover">전체 보기 ›</span></span><span style="display:flex;gap:6px"><span class="icon-btn is-hover"><svg class="ic ic20"><use href="#i-bm"></use></svg></span><span class="arw"><svg class="ic"><path d="M10 3 5 8l5 5"></path></svg></span><span class="arw" style="opacity:.4"><svg class="ic"><path d="M6 3l5 5-5 5"></path></svg></span></span>
+<span><span class="btn btn-primary btn-sm">이어하기</span></span><span><span class="btn btn-secondary btn-sm is-hover">즐겨찾기</span></span><span><span class="btn btn-link">전체 보기 ›</span></span><span><span class="btn btn-link is-hover">전체 보기 ›</span></span><span style="display:flex;gap:6px"><span class="icon-btn is-hover"><svg class="ic ic20"><use href="#i-bm"></use></svg></span><span class="arw"><svg class="ic"><path d="M10 3 5 8l5 5"></path></svg></span><span class="arw" style="opacity:.4"><svg class="ic"><path d="M6 3l5 5-5 5"></path></svg></span></span>
 <span class="rl">on-color · glass<code>색 띠·배너 위</code></span>
 <div class="on-color-row on-dark"><span><span class="btn btn-on-color">지금 플레이</span></span><span><span class="btn btn-on-color is-hover">지금 플레이</span></span><span><span class="btn btn-on-color is-focus">지금 플레이</span></span><span><span class="btn btn-glass">자세히</span></span><span><span class="btn btn-glass is-hover">자세히</span></span></div>
 </div>
@@ -704,7 +719,7 @@ body{margin:0;background:#FFFFFF;-webkit-font-smoothing:antialiased}
 </div>
 <div class="band-login on-dark">
 <div class="facerow"><span class="jf lg" style="--f:var(--color-face-hong)"><b class="jfg">ㅎ<i>ㅅ</i>ㅎ</b></span><span class="jf lg" style="--f:var(--color-face-olive)"><b class="jfg">ㅇ<i>ㅅ</i>ㅇ</b></span><span class="jf lg" style="--f:var(--color-face-bora)"><b class="jfg">ㅁ<i>ㅅ</i>ㅁ</b></span></div>
-<div><b>로그인하면 내 얼굴이 생겨요</b><p>저장한 게임과 진행 기록이 어느 기기에서나 이어져요.</p></div>
+<div><b>로그인하면 내 얼굴이 생겨요</b><p>즐겨찾기한 게임과 진행 기록이 어느 기기에서나 이어져요.</p></div>
 <span class="btn btn-on-color">로그인</span>
 </div>
 <div class="band-jam on-dark">
@@ -736,7 +751,7 @@ body{margin:0;background:#FFFFFF;-webkit-font-smoothing:antialiased}
 <div class="cell"><b>메뉴</b><span class="m">lg 반경 · pop · 항목 40 · 위험 항목은 맨 아래</span>
 <div class="menu">
 <div class="mh"><span class="jf md" style="--f:var(--color-face-pul)"><b class="jfg">ㅇ<i>ㅅ</i>ㅇ</b></span><span><b>오렌지맛</b><span class="m">플레이어</span></span></div>
-<a href="#" class="hv">내 라이브러리</a><a href="#">저장한 게임</a><a href="#">프로필 · 얼굴 바꾸기</a><a href="#">설정</a><hr><a href="#" class="dg">로그아웃</a>
+<a href="#" class="hv">내 라이브러리</a><a href="#">즐겨찾기</a><a href="#">프로필 · 얼굴 바꾸기</a><a href="#">설정</a><hr><a href="#" class="dg">로그아웃</a>
 </div></div>
 <div class="cell" style="grid-column:span 2"><b>대화상자</b><span class="m">확인 440 · 폼 640 · 2xl 반경 · 포커스 가둠 · 파괴적 확인은 바깥 누름 무시</span>
 <div class="scrim-demo"><div class="dialog" role="dialog" aria-modal="true">
@@ -747,7 +762,7 @@ body{margin:0;background:#FFFFFF;-webkit-font-smoothing:antialiased}
 </div>
 <div class="two">
 <div class="cell"><b>토스트</b><span class="m">아래 가운데 · 4초 · 호버 중 멈춤 · role=status</span>
-<div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start"><span class="toast"><svg class="ic ic16" style="stroke:none;fill:currentColor"><use href="#i-bmf"></use></svg>저장했어요<a href="#">되돌리기</a></span><span class="toast"><svg class="ic ic16 ok"><use href="#i-shield"></use></svg>보안 검사를 통과했어요</span></div></div>
+<div style="display:flex;flex-direction:column;gap:10px;align-items:flex-start"><span class="toast"><svg class="ic ic16" style="stroke:none;fill:currentColor"><use href="#i-bmf"></use></svg>즐겨찾기에 넣었어요<a href="#">되돌리기</a></span><span class="toast"><svg class="ic ic16 ok"><use href="#i-shield"></use></svg>보안 검사를 통과했어요</span></div></div>
 <div class="cell"><b>불러오는 중</b><span class="m">실제와 같은 크기 · 1.4초 밝기 물결 · 움직임 줄이기면 정지</span>
 <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px"><div style="display:flex;flex-direction:column;gap:8px"><span class="sk" style="aspect-ratio:16/9;border-radius:var(--radius-md)"></span><span class="sk" style="height:15px;width:70%"></span><span class="sk" style="height:13px;width:45%"></span></div><div style="display:flex;flex-direction:column;gap:8px"><span class="sk" style="aspect-ratio:16/9;border-radius:var(--radius-md)"></span><span class="sk" style="height:15px;width:60%"></span><span class="sk" style="height:13px;width:50%"></span></div></div></div>
 </div>

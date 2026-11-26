@@ -237,6 +237,11 @@ G_CSS = r'''
 .viewer .vp{position:absolute;left:0;right:0;bottom:0;z-index:2;height:3px;background:rgb(255 255 255 / .25)}
 .viewer .vp i{display:block;height:100%;background:#FFFFFF;transform-origin:left}
 .viewer .badge,.viewer .plat{z-index:4}
+.viewer .stage{overflow:visible}
+.viewer .stage > .ly{border-radius:var(--radius-xl);overflow:hidden}
+.viewer .plat{cursor:help}
+.viewer .plat .tip{opacity:0;visibility:hidden;transform:translateY(-4px);transition:opacity var(--dur-fast) var(--ease-soft),transform var(--dur-fast) var(--ease-soft),visibility 0s linear var(--dur-fast);pointer-events:none}
+.viewer .plat:hover .tip,.viewer .plat:focus-visible .tip{opacity:1;visibility:visible;transform:none;transition-delay:120ms,120ms,0s}
 .viewer .plat{height:28px;padding:0 10px;font-size:12.5px;gap:7px;right:12px;top:12px}
 .viewer .badge{left:12px;top:12px}
 .viewer:hover .ly,.viewer:hover .ly *,.viewer:hover .strip *{animation-play-state:paused}
@@ -266,6 +271,7 @@ G_CSS = r'''
 .recl .n .ic{color:var(--accent-text)}
 .recl .t{font-size:14px;color:var(--ink-2);white-space:nowrap}
 .recl .btn{margin-left:auto}
+.lastp{margin:2px 0 0;font-size:13px;color:var(--ink-3);text-align:center}
 .recl-note{margin:-8px 0 0;font-size:12.5px;color:var(--ink-3);text-align:right}
 .btn.pressed{background:var(--accent-tint);color:var(--accent-text);box-shadow:inset 0 0 0 1.5px var(--accent)}
 .btn.locked{opacity:.5;cursor:not-allowed}
@@ -298,7 +304,8 @@ G_CSS = r'''
 .infobox dd{margin:0;color:var(--ink-1);font-weight:600}
 .infobox .sep{height:1px;background:var(--line);margin:12px 0}
 .infobox .okt{color:var(--ok-text);font-weight:800}
-.rpt{align-self:flex-start}
+.rpt{display:flex;flex-direction:column;align-items:flex-start;gap:6px}
+.rpt .m{font-size:12.5px}
 .rvsum{display:grid;grid-template-columns:1fr 1fr;border-radius:var(--radius-lg);background:var(--sunken)}
 .rvsum > div{padding:16px 18px;display:flex;flex-direction:column;gap:2px}
 .rvsum > div + div{box-shadow:inset 1px 0 0 var(--line)}
@@ -338,11 +345,12 @@ G_CSS = r'''
 .help.on{background:var(--accent-tint);color:var(--accent-text);box-shadow:inset 0 0 0 1.5px var(--accent)}
 .help.on b{color:var(--accent-text)}
 .help .ic{width:14px;height:14px}
-.ri-reply{margin-top:4px;padding:14px 16px;border-radius:var(--radius-md);background:var(--sunken);box-shadow:inset 3px 0 0 var(--accent)}
-.ri-reply .hd{display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-3)}
-.ri-reply .hd b{color:var(--ink-1);font-size:14px}
-.ri-reply .fix{display:inline-flex;align-items:center;height:20px;padding:0 7px;border-radius:5px;background:var(--ok-tint);color:var(--ok-text);font-size:12px;font-weight:800}
-.ri-reply p{margin:6px 0 0;font-size:15px;line-height:1.7;color:var(--ink-1)}
+.ri-reply{display:grid;grid-template-columns:auto minmax(0,1fr);gap:10px;margin:6px 0 0 52px}
+.ri-reply .jf{width:28px;height:28px;font-size:11px}
+.ri-reply .hd{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink-3)}
+.ri-reply .hd b{color:var(--ink-1);font-size:14px;font-weight:800}
+.ri-reply .mk{height:20px;padding:0 7px;border-radius:999px;background:var(--accent-tint);color:var(--accent-text);font-size:11.5px;font-weight:800;display:inline-flex;align-items:center}
+.ri-reply p{margin:4px 0 0;font-size:15px;line-height:1.7;color:var(--ink-1)}
 .logs2{display:flex;flex-direction:column;max-width:880px}
 .logs2 a{display:grid;grid-template-columns:220px minmax(0,1fr);gap:22px;padding:20px 0;border-top:1px solid var(--line);align-items:center}
 .logs2 a:first-child{border-top:0;padding-top:0}
@@ -351,16 +359,15 @@ G_CSS = r'''
 .logs2 b{display:block;margin-top:4px;font-size:18px;line-height:1.4}
 .logs2 p{margin:6px 0 0;font-size:14.5px;line-height:1.6;color:var(--ink-2)}
 .logs2 .m{display:flex;gap:10px;margin-top:8px;font-size:13px}
-.seg{display:inline-flex;padding:3px;border-radius:999px;background:var(--sunken)}
+.seg{display:inline-flex;padding:3px;border-radius:999px;background:var(--bg);box-shadow:inset 0 0 0 1px var(--line-strong)}
 .seg span{height:32px;padding:0 12px;border-radius:999px;display:inline-flex;align-items:center;font-size:13px;font-weight:700;color:var(--ink-3)}
-.seg span.on{background:var(--bg);color:var(--ink-1);box-shadow:var(--shadow-hairline)}
-[data-theme="dark"] .seg span.on{background:var(--sunken-hover)}
+.seg span.on{background:var(--ink-1);color:var(--bg)}
 .simsec{margin-top:72px;padding-top:40px;border-top:1px solid var(--line)}
 ''' + _kf()
 
 def g_media():
-    plat_web = f'<span class="plat">{ic("web","ic ic12")}브라우저 {ic("phone","ic ic12")}휴대폰</span>'
-    plat_dl = f'<span class="plat">{ic("dl","ic ic12")}설치형 <svg class="ic ic12 ok"><use href="#i-shield"></use></svg>검사 통과</span>'
+    plat_web = f'<span class="plat" tabindex="0" aria-label="브라우저에서 바로 플레이, 휴대폰 가능">{ic("web","ic ic12")}브라우저 {ic("phone","ic ic12")}휴대폰<span class="tip" role="tooltip"><span>{ic("web")}브라우저에서 바로 플레이 · 설치 없음</span><span>{ic("phone")}휴대폰에서도 가능(가로)</span></span></span>'
+    plat_dl = f'<span class="plat" tabindex="0" aria-label="설치형, 보안 검사 통과">{ic("dl","ic ic12")}설치형 <svg class="ic ic12 ok"><use href="#i-shield"></use></svg>검사 통과<span class="tip" role="tooltip"><span>{ic("dl")}설치형 · 내려받아 설치</span><span class="ok">{ic("shield")}보안 검사 통과 · 11/24</span></span></span>'
     layers, items = "", ""
     img_no = 0
     for i, m in enumerate(MEDIA):
@@ -388,23 +395,22 @@ def keyf(rows):
 def rec_line():
     head = f'<span class="n">{ic("thumb","ic ic20")}214</span><span class="t">명이 추천 · 리뷰 38개</span>'
     guest = f'<div class="recl">{head}<span class="btn btn-secondary btn-sm">로그인하고 추천</span></div>'
-    locked = f'<div class="recl">{head}<span class="btn btn-secondary btn-sm locked" aria-disabled="true">{ic("thumb","ic ic16")}추천하기</span></div><p class="recl-note">한 판 해 보면 추천할 수 있어요</p>'
     can = f'<div class="recl">{head}<span class="btn btn-secondary btn-sm">{ic("thumb","ic ic16")}추천하기</span></div>'
-    done = f'<div class="recl">{head}<span class="btn btn-sm pressed" aria-pressed="true">{ic("thumb","ic ic16")}추천함</span></div>'
-    return sif("guest", guest) + sif("recLocked", locked, True) + sif("recCan", can) + sif("recDone", done)
+    return sif("guest", guest) + sif("signedIn", can, True)
 
 def g_panel():
-    first = f'''<div class="cta"><span class="btn btn-primary big" data-play>{ic("play","ic ic16")}지금 플레이</span><div class="pair"><span class="btn btn-secondary">{ic("bm","ic ic16")}저장</span><span class="btn btn-secondary">친구에게 도전장</span></div></div>'''
+    first = f'''<div class="cta"><span class="btn btn-primary big" data-play>{ic("play","ic ic16")}지금 플레이</span><div class="pair"><span class="btn btn-secondary">{ic("bm","ic ic16")}즐겨찾기</span><span class="btn btn-secondary">{ic("share","ic ic16")}친구에게 보내기</span></div></div>'''
+    pair = f'<div class="pair"><span class="btn btn-secondary">{ic("bm","ic ic16")}즐겨찾기</span><span class="btn btn-secondary">{ic("share","ic ic16")}친구에게 보내기</span></div>'
+    played = f'''<div class="cta"><span class="btn btn-primary big" data-play>{ic("play","ic ic16")}플레이</span><p class="lastp">어제 마지막으로 함 · 모두 1시간 12분</p>{pair}</div>'''
     prog = f'''<div class="cta"><span class="btn btn-primary big" data-play>{ic("play","ic ic16")}이어하기</span>
-<div class="prog-box"><div class="row"><span><b>진행 45%</b></span><span>어제 · 1시간 12분 플레이</span></div><div class="bar"><i style="width:45%"></i></div></div></div>'''
-    done = f'''<div class="cta"><span class="btn btn-primary big" data-play>{ic("play","ic ic16")}다시 하기</span>
-<div class="prog-box"><div class="row"><span><b>끝까지 함</b> · 11/20</span><span>총 2시간 14분</span></div></div></div>'''
+<div class="prog-box"><div class="row"><span><b>진행 45%</b></span><span>어제 · 모두 1시간 12분</span></div><div class="bar"><i style="width:45%"></i></div><div class="row"><span class="m" style="font-size:12px">이 게임이 진행도를 알려 줘요(SDK)</span></div></div>{pair}</div>'''
     dl = f'''<div class="cta"><div class="files"><div class="file on">{ic("pc")}<span><b>Windows</b><span class="m">v1.2 · 312MB · .exe</span></span>{ic("check","ic ic16")}</div><div class="file">{ic("pc")}<span><b>macOS</b><span class="m">v1.2 · 298MB · .dmg · Apple 서명 없음</span></span><span></span></div></div>
 <span class="btn btn-primary big">{ic("dl","ic ic16")}다운로드 · Windows</span>
+<div class="pair" style="display:grid;grid-template-columns:1fr;gap:8px"><span class="btn btn-secondary">{ic("bm","ic ic16")}즐겨찾기</span></div>
 <div class="scan">{ic("shield")}<span>보안 검사 통과 · 11/24</span><a href="#">리포트</a></div></div>'''
     no = f'''<div class="notice"><span class="qr" aria-hidden="true"></span><span><b>휴대폰에서 열어 주세요</b>터치 전용이라 PC 에서는 할 수 없어요. QR 을 찍거나 링크를 보내 보세요.</span></div>
-<div class="pair" style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><span class="btn btn-secondary">내 휴대폰으로 링크 보내기</span><span class="btn btn-secondary">{ic("bm","ic ic16")}저장</span></div>'''
-    states = sif("sFirst", first, True) + sif("sProg", prog) + sif("sDone", done) + sif("sDl", dl) + sif("sNo", no)
+<div class="pair" style="display:grid;grid-template-columns:1fr 1fr;gap:8px"><span class="btn btn-secondary">내 휴대폰으로 링크 보내기</span><span class="btn btn-secondary">{ic("bm","ic ic16")}즐겨찾기</span></div>'''
+    states = sif("sFirst", first, True) + sif("sPlayed", played) + sif("sProg", prog) + sif("sDl", dl) + sif("sNo", no)
     kf = sif("isWebOk", keyf(KEYF_WEB), True) + sif("isDl", keyf(KEYF_DL)) + sif("sNo", keyf(KEYF_NO))
     return f'''<aside class="idp" aria-label="게임 요약과 플레이">
 <div><h1>루프 디버거</h1><p class="pitch">모든 방이 하나의 함수인 프로그래밍 퍼즐. 루프를 고쳐 갇힌 로봇을 꺼내 주세요.</p></div>
@@ -439,7 +445,7 @@ def t_about():
 </div>
 <aside>{maker_card()}
 <div class="infobox"><h3>플레이</h3>{sif("isWebOk", web, True)}{sif("isDl", dlr)}{sif("sNo", no)}<div class="sep"></div><h3>정보</h3>{info}</div>
-<span class="btn btn-secondary btn-sm rpt">{ic("alert","ic ic16")}게임 신고</span>
+<div class="rpt"><span class="btn btn-secondary btn-sm">{ic("flag","ic ic16")}문제 알리기</span><span class="m">실행이 안 돼요 · 버그 · 설명과 달라요 · 부적절한 내용</span></div>
 </aside></div>'''
 
 # (얼굴, 색, 이름, 쓴 리뷰 수, 추천함, 지금 플레이, 쓸 때 플레이, 버전, 날짜, 고른 말, 본문, 도움, 내가 누름, 답글(본문, 날짜, 고침 표시))
@@ -452,7 +458,7 @@ RV = [
      ("튜토리얼을 한 스테이지로 줄였어요. 다시 한 번 봐 주세요!", "11월 23일", "v1.2 에서 고침")),
     ("ㅂ", "bichwi", "비취색", 28, True, "5.0시간", "5.0시간", "v1.2", "11월 25일", ("퍼즐 좋아하면",),
      "마지막까지 다 해 봤어요. 후반 다섯 개는 정말 머리가 아팠지만, 힌트 두 번째 단계에서 딱 풀리게 돼 있어서 억지스럽지 않았어요. 편집기로 만든 문제를 친구한테 보냈더니 밤새 풀더라고요. 공유 링크 덕분에 같이 노는 맛이 생겼어요. 다음 게임도 이런 식이면 바로 할 것 같아요.", 9, False, None),
-    ("ㄱ", "gyul", "귤껍질", 1, True, "48분", "48분", "v1.2", "11월 26일", ("한 손으로", "짧고 굵음"),
+    ("ㄱ", "gyul", "귤껍질", 1, True, "", "", "v1.2", "11월 26일", ("한 손으로", "짧고 굵음"),
      "출퇴근길에 한 판씩 하기 딱 좋아요. 휴대폰 가로 모드에서도 블록이 작지 않아요.", 2, False, None),
 ]
 
@@ -460,13 +466,14 @@ def review_item(r, i):
     ch, col, who, nrev, rec, now, at, ver, date, tags, body, helpn, mine, reply = r
     recb = f'<span class="rec">{ic("thumb")}추천함</span>' if rec else ""
     menu = f'<span class="ri-menu" role="menu"><span role="menuitem">링크 복사</span><span role="menuitem" class="danger">{ic("alert")}리뷰 신고</span></span>' if i == 1 else ""
-    ctx = f'<b>플레이 {now}</b>' + (f'<span>(쓸 때 {at})</span>' if at != now else "") + f'<span>· {ver} 에서 씀</span><span>· {date}</span>'
+    play = (f'<b>플레이 {now}</b>' + (f'<span>(쓸 때 {at})</span>' if at != now else "")) if now else '<b>플레이 기록 없음</b>'
+    ctx = play + f'<span>· {ver} 에서 씀</span><span>· {date}</span>'
     tg = "".join(f"<span>{t}</span>" for t in tags)
     long = len(body) > 150
     more = '<a class="ri-moretxt" href="#">더 보기</a>' if long else ""
     rep = ""
     if reply:
-        rep = f'<div class="ri-reply"><div class="hd">{face("ㅍ","jjok","xs")}<b>픽셀상점</b><span>메이커 답글 · {reply[1]}</span><span class="fix">{reply[2]}</span></div><p>{reply[0]}</p></div>'
+        rep = f'<div class="ri-reply">{face("ㅍ","jjok","sm")}<div><div class="hd"><b>픽셀상점</b><span class="mk">메이커</span><span>{reply[1]}</span><span>· {reply[2]}</span></div><p>{reply[0]}</p></div></div>'
     return f'''<article class="ri"><header class="ri-h">{face(ch, col, "md")}<span class="who"><b>{who}</b><span class="m">리뷰 {nrev}개{" · " if rec else ""}{recb}</span></span><button class="ri-more" aria-label="{who} 리뷰 메뉴" aria-haspopup="menu">···</button>{menu}</header>
 <p class="ri-ctx">{ctx}</p>
 <div class="ri-tags">{tg}</div>
@@ -478,15 +485,13 @@ def t_reviews():
     items = "".join(review_item(r, i) for i, r in enumerate(RV))
     tags = "".join(f'<button class="chip">{t} <span class="c">{n}</span></button>' for t, n in [("짧고 굵음", 21), ("퍼즐 좋아하면", 18), ("한 손으로", 9), ("힌트가 친절해요", 8), ("튜토리얼이 길어요", 4)])
     acts_guest = f'<div class="rvacts one"><span class="btn btn-primary">로그인하고 추천 · 리뷰 쓰기</span></div>'
-    acts_locked = f'<div class="rvacts"><span class="btn btn-secondary locked">{ic("thumb","ic ic16")}추천하기</span><span class="btn btn-secondary locked">{ic("pen","ic ic16")}리뷰 쓰기</span></div><p class="rvnote">한 판 해 보면 추천하고 리뷰를 쓸 수 있어요.</p>'
     acts_can = f'<div class="rvacts"><span class="btn btn-secondary">{ic("thumb","ic ic16")}추천하기</span><span class="btn btn-primary">{ic("pen","ic ic16")}리뷰 쓰기</span></div>'
-    acts_done = f'<div class="rvacts"><span class="btn pressed">{ic("thumb","ic ic16")}추천함</span><span class="btn btn-primary">{ic("pen","ic ic16")}리뷰 쓰기</span></div>'
-    acts = sif("guest", acts_guest) + sif("recLocked", acts_locked, True) + sif("recCan", acts_can) + sif("recDone", acts_done)
+    acts = sif("guest", acts_guest) + sif("signedIn", acts_can, True)
     side = f'''<aside><div class="rvsum"><div><b>214</b><span>명이 추천</span></div><div><b>38</b><span>개 리뷰</span></div></div>
 {acts}
 <div class="rvf"><b>자주 고른 말로 보기</b><div class="chips">{tags}</div></div>
 <div class="rvf"><b>정렬</b><div class="seg"><span class="on">도움 많은</span><span>최신</span><span>오래 한 사람</span></div></div>
-<p class="rvnote">추천과 리뷰는 이 게임을 해 본 사람만 남길 수 있어요. 싫어요는 없어요 — 아쉬운 점은 리뷰로 알려 주세요.</p></aside>'''
+<p class="rvnote">로그인하면 누구나 추천하고 리뷰를 쓸 수 있어요. 싫어요는 없어요 — 아쉬운 점은 리뷰로 알려 주세요.</p></aside>'''
     return f'''<div class="two"><div class="rlist">{items}<div style="padding-top:8px"><span class="btn btn-secondary">리뷰 34개 더 보기</span></div></div>{side}</div>'''
 
 def t_logs():
@@ -502,12 +507,12 @@ def t_updates():
     return f'<div class="upd" style="max-width:880px">{r}</div>'
 
 def page_game(title, body, height, memo):
-    props = '{"$preview":{"width":1440,"height":%d},"state":{"editor":"enum","default":"처음","options":["처음","진행 중","완료","다운로드","이 기기 불가"],"tsType":"string"},"tab":{"editor":"enum","default":"소개","options":["소개","리뷰","개발일지","업데이트"],"tsType":"string"},"login":{"editor":"boolean","default":true,"tsType":"boolean"},"theme":{"editor":"enum","default":"light","options":["light","dark"],"tsType":"string"},"showMemo":{"editor":"boolean","default":true,"tsType":"boolean"}}' % height
-    html = _page_html(title, body, height, memo, props)
+    props = '{"$preview":{"width":1440,"height":%d},"state":{"editor":"enum","default":"처음","options":["처음","해 본 적 있음","진행 중 (SDK)","다운로드","이 기기 불가"],"tsType":"string"},"tab":{"editor":"enum","default":"소개","options":["소개","리뷰","개발일지","업데이트"],"tsType":"string"},"login":{"editor":"boolean","default":true,"tsType":"boolean"},"theme":{"editor":"enum","default":"light","options":["light","dark"],"tsType":"string"},"showMemo":{"editor":"boolean","default":true,"tsType":"boolean"}}' % height
+    html = _page_html(title, body, height, memo, props).replace("sProg: s === '진행 중', sDone: s === '완료', ", "", 1)
     old = "isWeb: s !== '다운로드', isWebOk: s !== '다운로드' && s !== '이 기기 불가', isDl: s === '다운로드' };"
     assert old in html, "renderVals"
     new = ("isWeb: s !== '다운로드', isWebOk: s !== '다운로드' && s !== '이 기기 불가', isDl: s === '다운로드',\n"
-           "      signedIn: li, guest: !li, recLocked: li && !played, recCan: li && s === '진행 중', recDone: li && s === '완료',\n"
+           "      signedIn: li, guest: !li, sPlayed: s === '해 본 적 있음', sProg: s === '진행 중 (SDK)',\n"
            "      tAbout: t === '소개', tRev: t === '리뷰', tLog: t === '개발일지', tUpd: t === '업데이트',\n"
            "      goAbout: () => this.setState({ tab: '소개' }), goRev: () => this.setState({ tab: '리뷰' }), goLog: () => this.setState({ tab: '개발일지' }), goUpd: () => this.setState({ tab: '업데이트' }) };")
     html = html.replace(old, new, 1)
@@ -523,10 +528,10 @@ def page_a():
 <div class="g5">{g_media()}{g_panel()}</div></main>
 {g_tabs()}
 <div class="wrap"><section class="tpanel" role="tabpanel">{panels}</section>
-<section class="simsec"><div class="sh">{EAR}<h2>비슷한 게임</h2><div class="r"><span class="arw" style="opacity:.4">{ic("chev","ic")}</span><span class="arw">{ic("chev","ic")}</span></div></div>
+<section class="simsec"><div class="sh">{EAR}<h2>비슷한 게임</h2><div class="r"><span class="arw" style="opacity:.4"><svg class="ic" style="transform:rotate(180deg)"><use href="#i-chev"></use></svg></span><span class="arw">{ic("chev","ic")}</span></div></div>
 <div class="rail">{"".join(mg.game_card(a) for a in mg.NEWG)}</div></section></div>''' + footer()
-    memo = ("v4(11/27 2차). 미리보기는 대표 → 영상 → 이미지 순서로 " + str(SLOT) + "초마다 자동으로 넘어가고(영상은 소리 끈 채 자동 재생 · 실제로는 끝까지 본 뒤 다음), 마우스를 올리면 멈춤, 썸네일을 누르면 그 항목으로 · 자동 넘김 끝. 오른쪽 = 제목 · 한 줄 소개 · 태그 · 핵심 4칸 · 상태별 버튼 · 추천. "
-            "추천 · 리뷰는 로그인 + 해 본 사람만(Tweaks login 을 끄면 게스트, state 처음 = 아직 안 해 봄 → 잠김). 탭은 내용 전환. 소개 탭 오른쪽 = 메이커 카드 → 플레이 · 정보 → 게임 신고. 리뷰 = 한 열 목록 + 오른쪽 요약 · 거르기(설계: docs/design/research/04-reviews.md).")
+    memo = ("v5(11/27 3차). state = 처음 / 해 본 적 있음(플랫폼이 아는 것: 마지막 날 · 시간 — 버튼은 그냥 ‘플레이’, 저장은 게임 몫) / 진행 중 (SDK — 게임이 알려 줄 때만 ‘이어하기’) / 다운로드 / 이 기기 불가. ‘다시 하기 · 완료’ 는 없음(엔딩을 플랫폼이 모름). 미리보기는 대표 → 영상 → 이미지 순서로 " + str(SLOT) + "초마다 자동으로 넘어가고(영상은 소리 끈 채 자동 재생 · 실제로는 끝까지 본 뒤 다음), 마우스를 올리면 멈춤, 썸네일을 누르면 그 항목으로 · 자동 넘김 끝. 오른쪽 = 제목 · 한 줄 소개 · 태그 · 핵심 4칸 · 상태별 버튼 · 추천. "
+            "추천 · 리뷰는 로그인한 사람 누구나(Tweaks login 을 끄면 게스트). 탭은 내용 전환. 소개 탭 오른쪽 = 메이커 카드 → 플레이 · 정보 → 문제 알리기(실행 안 됨 · 버그 → 메이커 피드백함, 부적절 · 저작권 → 운영자). 리뷰 = 한 열 목록 + 오른쪽 요약 · 거르기(설계: docs/design/research/04-reviews.md).")
     return page_game("게임 상세", body, 2700, memo)
 
 if __name__ == "__main__":

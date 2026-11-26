@@ -34,7 +34,7 @@ def duo(theme):
     label = "라이트" if theme == "light" else "다크"
     return f'''<div data-theme="{theme}" data-ground="{{{{ ground }}}}">
 <span class="cap">{label}</span>
-<div class="chips"><button class="chip" aria-pressed="true">전체</button><button class="chip">퍼즐 <span class="c">24</span></button><span class="btn btn-primary btn-sm"><svg class="ic"><use href="#i-play"></use></svg>플레이</span><span class="btn btn-secondary btn-sm">저장</span></div>
+<div class="chips"><button class="chip" aria-pressed="true">전체</button><button class="chip">퍼즐 <span class="c">24</span></button><span class="btn btn-primary btn-sm"><svg class="ic"><use href="#i-play"></use></svg>플레이</span><span class="btn btn-secondary btn-sm">즐겨찾기</span></div>
 <div class="mini-cards">
 <div class="gc lift"><span class="art a-loop"><span class="shots"></span><span class="badge">PICK</span><span class="plat"><svg class="ic ic12"><use href="#i-web"></use></svg></span><span class="jf maker" style="background:var(--color-face-jjok)">ㅍ<i>ㅅ</i>ㅍ</span></span><span class="t">루프 디버거</span><span class="meta">픽셀상점 · 퍼즐 · 5분</span></div>
 <div class="gc"><span class="art a-ash"><span class="shots"></span><span class="badge ink">업데이트</span><span class="plat"><svg class="ic ic12"><use href="#i-dl"></use></svg><svg class="ic ic12 ok"><use href="#i-shield"></use></svg></span><span class="jf maker" style="background:var(--color-face-ju)">ㅈ<i>ㅅ</i>ㅈ</span><span class="prog"><i style="width:45%"></i></span></span><span class="t">재의 도시</span><span class="meta">잿빛토끼 · 진행 45%</span></div>
