@@ -8,9 +8,9 @@ import type { HealthProbe } from './ports/health';
  * 요청마다 hooks.server.ts 에서 만들어 event.locals.services 에 넣는다.
  * (Cloudflare 바인딩은 요청 안에서만 존재하므로 모듈 최상단에서 만들지 않는다.)
  */
-export type Services = {
+export interface Services {
 	health: HealthProbe;
-};
+}
 
 export function createServices(env: Partial<Env> | undefined): Services {
 	if (env?.DB) {

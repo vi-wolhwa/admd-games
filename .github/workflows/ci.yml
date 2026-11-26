@@ -1,9 +1,11 @@
+# PR 검사. 규칙 세트의 필수 검사 이름은 job 이름 `verify` — 항상 끝까지 돌며(건너뛸 단계는 건너뜀) 결과를 남긴다.
+# 바뀐 것과 관련된 것만 돌린다(docs/dev/setup-agenda.md 4-1): 문서만 바뀌면 앱 검사 생략,
+# 테스트는 vitest --changed(모듈 그래프 기준 관련 테스트만), 의존성이 바뀌면 전체.
+# develop · main 으로의 push 는 이미 PR 에서 검사한 것이라 다시 돌리지 않는다.
 name: CI
 
 on:
   pull_request:
-  push:
-    branches: [main]
 
 concurrency:
   group: ci-${{ github.ref }}
@@ -15,29 +17,61 @@ permissions:
 jobs:
   verify:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: 검사 범위 판단
+        id: scope
+        run: node scripts/ci-scope.mjs
 
       - uses: actions/setup-node@v4
+        if: steps.scope.outputs.app == 'true'
         with:
           node-version-file: .nvmrc
           cache: npm
 
-      - name: Install
+      - name: 의존성 설치
+        if: steps.scope.outputs.app == 'true'
         run: npm ci
 
-      - name: Install Playwright Chromium
+      - name: Playwright 브라우저 캐시
+        if: steps.scope.outputs.app == 'true'
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/ms-playwright
+          key: playwright-${{ runner.os }}-${{ hashFiles('package-lock.json') }}
+
+      - name: Playwright Chromium
+        if: steps.scope.outputs.app == 'true'
         run: npx playwright install --with-deps chromium
 
-      - name: Lint
+      - name: 린트 · 구조 경계
+        if: steps.scope.outputs.app == 'true'
         run: npm run lint
 
-      - name: Type check
+      - name: 타입 검사
+        if: steps.scope.outputs.app == 'true'
         run: npm run check
 
-      - name: Test
+      - name: 테스트 (바뀐 것 관련만)
+        if: steps.scope.outputs.app == 'true' && steps.scope.outputs.deps != 'true'
+        run: npm run test -w web -- --changed ${{ steps.scope.outputs.base }} --passWithNoTests
+
+      - name: 테스트 (전체 — 의존성 바뀜)
+        if: steps.scope.outputs.app == 'true' && steps.scope.outputs.deps == 'true'
         run: npm run test
 
-      - name: Build
+      - name: 안 쓰는 코드 · 의존성 (knip)
+        if: steps.scope.outputs.app == 'true'
+        run: npm run knip
+
+      - name: 빌드
+        if: steps.scope.outputs.app == 'true'
         run: npm run build
+
+      - name: Worker 크기
+        if: steps.scope.outputs.app == 'true'
+        run: npm run size

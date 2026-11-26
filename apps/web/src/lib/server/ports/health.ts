@@ -8,8 +8,8 @@ export interface HealthProbe {
 	check(): Promise<HealthStatus>;
 }
 
-export type HealthStatus = {
+export interface HealthStatus {
 	storage: 'ok' | 'error';
 	/** 어떤 어댑터가 응답했는지 (예: 'd1', 'memory') */
 	adapter: string;
-};
+}
