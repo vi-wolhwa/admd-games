@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+.hpTitle{transition:color 200ms cubic-bezier(.2,.7,.2,1)}
+.hpRow:hover .hpTitle{color:#EA580C}
+</style>
+</helmet>
+
+<div style="height:100%;background:#FFFFFF;padding:20px 24px 18px;display:flex;flex-direction:column;min-height:460px">
+<dc-import name="PanelHeadline" count="{{ count }}" prefix="건의 새 글이 " highlight="주목" suffix="받습니다" chip="최근 7일" note="{{ note }}" accent="#EA580C" hint-size="100%,90px"></dc-import>
+<div style="flex:1;min-height:0;display:flex;flex-direction:column;margin-top:16px">
+<sc-for list="{{ posts }}" as="p" hint-placeholder-count="5">
+<a class="hpRow" onMouseEnter="{{ p.enter }}" onMouseLeave="{{ p.leave }}" style="flex-grow:{{ p.grow }};flex-basis:0;min-height:0;display:grid;grid-template-columns:26px minmax(0,1fr);gap:12px;align-items:center;padding:0 14px;margin:0 -14px;border-top:1px solid {{ p.divider }};background:{{ p.bg }};box-shadow:{{ p.shadow }};transition:flex-grow 320ms cubic-bezier(.2,.7,.2,1),box-shadow 200ms cubic-bezier(.2,.7,.2,1),border-color 320ms cubic-bezier(.2,.7,.2,1)">
+<dc-import name="Body" as="span" size="xs" weight="bold" tabular="{{ true }}" sx="display:grid;place-items:center;width:22px;height:22px;background:{{ p.indexBg }};transition:background 120ms cubic-bezier(.2,.7,.2,1),color 120ms cubic-bezier(.2,.7,.2,1);letter-spacing:.06em;color:{{ p.indexColor }}" hint-size="120px,18px">{{ p.index }}</dc-import>
+<div style="min-width:0;display:flex;flex-direction:column;justify-content:center;padding:{{ p.padY }} 0">
+<div style="display:flex;align-items:center;gap:10px;min-width:0">
+<dc-import name="Body" as="span" size="{{ p.titleSize }}" weight="bold" class="hpTitle" sx="min-width:0;color:{{ p.titleColor }};white-space:nowrap;overflow:hidden;text-overflow:ellipsis;transition:font-size 320ms cubic-bezier(.2,.7,.2,1),color 200ms cubic-bezier(.2,.7,.2,1)" hint-size="220px,24px">{{ p.title }}</dc-import>
+<dc-import name="Body" as="span" size="xs" weight="bold" sx="flex:none;width:34px;text-align:right;color:{{ p.trendColor }}" hint-size="120px,18px">{{ p.trend }}</dc-import>
+</div>
+<div style="max-height:{{ p.detailH }};opacity:{{ p.detailOp }};overflow:hidden;transition:max-height 320ms cubic-bezier(.2,.7,.2,1),opacity 320ms cubic-bezier(.2,.7,.2,1)">
+<dc-import name="Body" as="p" size="xs" color="secondary" sx="margin:8px 0 0;text-wrap:pretty" hint-size="120px,18px">{{ p.excerpt }}</dc-import>
+<div style="margin-top:11px;display:flex;align-items:center;gap:9px">
+<dc-import name="Body" as="span" size="xs" weight="bold" color="inverse" sx="width:22px;height:22px;flex:none;border-radius:999px;background:{{ p.authorColor }};display:grid;place-items:center" hint-size="120px,18px">{{ p.initial }}</dc-import>
+<dc-import name="Body" as="span" size="xs" weight="semibold" hint-size="120px,18px">{{ p.author }}</dc-import>
+<dc-import name="Body" as="span" size="xs" weight="bold" sx="padding:2px 7px;background:{{ p.boardBg }};color:{{ p.boardFg }}" hint-size="120px,18px">{{ p.board }}</dc-import>
+<dc-import name="Body" as="span" size="xs" color="tertiary" hint-size="120px,18px">추천 {{ p.votes }} · 댓글 {{ p.comments }}</dc-import>
+<dc-import name="Body" as="span" size="xs" weight="bold" sx="margin-left:auto;color:#EA580C" hint-size="120px,18px">읽기 &#8594;</dc-import>
+</div>
+</div>
+</div>
+</a>
+</sc-for>
+</div>
+<div style="display:grid;grid-template-columns:minmax(0,1fr) auto minmax(0,1fr);gap:12px;align-items:center;padding-top:16px">
+<dc-import name="Body" as="span" size="xs" color="tertiary" hint-size="120px,18px">{{ footerLabel }}</dc-import>
+<div style="display:flex;align-items:center;gap:4px">
+<sc-for list="{{ dots }}" as="d" hint-placeholder-count="10">
+<button type="button" onClick="{{ d.go }}" aria-label="글 강조" style="border:0;padding:0;height:3px;transition:width 320ms cubic-bezier(.2,.7,.2,1),background 320ms cubic-bezier(.2,.7,.2,1);width:{{ d.w }};background:{{ d.bg }}"></button>
+</sc-for>
+</div>
+<dc-import name="Body" as="span" size="xs" weight="semibold" color="tertiary" tabular="{{ true }}" sx="text-align:right;letter-spacing:.06em" hint-size="120px,18px">{{ counter }}</dc-import>
+</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:440,&quot;height&quot;:460},&quot;count&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;428&quot;,&quot;tsType&quot;:&quot;string | number&quot;},&quot;note&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;인기순 · 오늘 14:20 갱신&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;posts&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;HotPost[]&quot;},&quot;dots&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Dot[]&quot;},&quot;counter&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;01 / 10&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;footerLabel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;상위 10건&quot;,&quot;tsType&quot;:&quot;string&quot;}}"></script>
+</body>
+</html>

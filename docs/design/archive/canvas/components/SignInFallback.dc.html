@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="position:absolute;inset:{{ inset }};display:flex;flex-direction:column;align-items:center;justify-content:center;gap:{{ gap }};text-align:center;padding:0 {{ padX }};background:rgba(255,255,255,{{ veil }});backdrop-filter:blur(7px);-webkit-backdrop-filter:blur(7px)">
+<dc-import name="Body" as="div" weight="bold" size="md" hint-size="160px,24px">{{ line1 }}</dc-import>
+<dc-import name="Body" as="div" weight="bold" size="md" sx="margin-top:-4px" hint-size="160px,24px">{{ line2 }}</dc-import>
+<button style="width:{{ buttonWidth }};max-width:100%;height:{{ buttonHeight }};margin-top:{{ buttonGap }};padding:0 22px;background:{{ accent }};border:0;transition:background 200ms cubic-bezier(.2,.7,.2,1)" type="button" onClick="{{ onSignIn }}" style-hover="filter:brightness(.92)"><dc-import name="Body" as="span" size="sm" weight="bold" color="inverse" hint-size="140px,21px">{{ label }}</dc-import></button>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:420,&quot;height&quot;:220},&quot;line1&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;라이브러리에 담은 게임의&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;line2&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;플레이 기록과 도전과제를 모아 보여드려요&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;label&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;로그인&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;onSignIn&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;},&quot;inset&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;0&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;veil&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;.55&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;gap&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;12px&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;padX&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;32px&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;buttonWidth&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;auto&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;buttonHeight&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;42px&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;buttonGap&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;2px&quot;,&quot;tsType&quot;:&quot;string&quot;}}">class Component extends DCLogic {
+  renderVals() {
+    const p = this.props;
+    return {
+      label: p.label ?? "로그인",
+      inset: p.inset ?? "0",
+      veil: p.veil ?? ".55",
+      gap: p.gap ?? "12px",
+      padX: p.padX ?? "32px",
+      buttonWidth: p.buttonWidth ?? "auto",
+      buttonHeight: p.buttonHeight ?? "42px",
+      buttonGap: p.buttonGap ?? "2px",
+      accent: p.accent ?? "#2563EB"
+    };
+  }
+}
+</script>
+</body>
+</html>

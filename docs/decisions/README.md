@@ -11,3 +11,11 @@
 | [0003](0003-database-d1-behind-ports.md) | DB: D1 + Drizzle, 포트/어댑터 뒤에 격리 | 승인 |
 | [0004](0004-auth-better-auth.md) | 인증: better-auth (게스트 → OAuth) | 승인 (미구현) |
 | [0005](0005-repository-and-workflow.md) | 저장소·모노레포·브랜치·커밋 규칙 | 승인 |
+| [0006](0006-file-storage-behind-port.md) | 설치 파일 저장: R2, 파일 저장 포트 뒤에 격리 | 승인 (미구현) |
+| [0007](0007-scan-and-approval-gate.md) | 보안 검사(셀프 호스트 러너) + 운영자 승인 필수 | 승인 (미구현) |
+| [0008](0008-mvp-product-defaults.md) | MVP 기본값: 라이트·다크(개정) · 스크린샷 미리보기 · 활동 기본 공개 | 승인 |
+| [0009](0009-positive-feedback-and-card-media.md) | 추천은 개수만(싫어요 없음) · 카드 호버 미디어 · 미디어 5개 이상 | 승인 (2026-11-27) |
+| [0010](0010-tags-and-catalog-loading.md) | 태그는 공개된 게임에서 생김(빈 태그 숨김) · 전체 게임은 무한 스크롤(커서) | 승인 (2026-11-27) |
+| [0011](0011-play-states-favorites-and-control-borders.md) | 플랫폼이 아는 것만 약속(이어하기 · 다시 하기) · 추천/리뷰 로그인만 · 즐겨찾기(별) · 누를 수 있는 것은 테두리 · 문제 알리기 | 승인 (2026-11-27) |
+| [0012](0012-design-source-of-truth.md) | 디자인 원본 = 코드 + 컴포넌트 갤러리, 페이지 단위 진행 · 컴포넌트 변경은 함께 검토 | 승인 (2026-11-27) |
+| [0013](0013-branches-deploy-public-repo.md) | develop → main 브랜치 모델 · main 병합 = 자동 배포 · 저장소 공개(규칙 세트로 강제) · 공개 전 참고 그림 이력 제거 | 승인 (2026-11-27) |

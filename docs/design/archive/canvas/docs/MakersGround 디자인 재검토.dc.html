@@ -1,0 +1,584 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#F8F9FA;font-family:"Pretendard Variable",Pretendard,-apple-system,'Apple SD Gothic Neo','Malgun Gothic',sans-serif;-webkit-font-smoothing:antialiased;word-break:keep-all}
+a{color:#EA580C;text-decoration:none}
+a:hover{color:#C2410C}
+.rvBad{transition:box-shadow 160ms ease-out}
+.rvBad:hover{box-shadow:0 6px 18px rgba(15,23,42,.16)}
+.rvGood{transition:box-shadow 200ms cubic-bezier(.2,.7,.2,1)}
+.rvGood:hover{box-shadow:0 0 16px 0 rgba(0,0,0,.16)}
+.rvGood:active{box-shadow:0 0 16px 0 rgba(0,0,0,.16)}
+.rvZoom{transition:transform 320ms cubic-bezier(.2,.7,.2,1)}
+.rvGood:hover .rvZoom{transform:scale(1.06)}
+.rvBad:hover .rvZoom{transform:scale(1.06)}
+.rvT{transition:color 120ms ease}
+.rvGood:hover .rvT{color:#EA580C}
+.rvRowBad{transition:background 160ms ease}
+.rvRowBad:hover{background:#F8FAFB}
+.rvRowBad:hover .rvTealT{color:#0D9488}
+.rvTealT{transition:color 160ms ease}
+.rvQuickBad{background:#FFFFFF;transition:background 180ms ease}
+.rvQuickBad:hover{background:#0F172A}
+.rvQuickBad:hover .rvQName{color:#FFFFFF}
+.rvQuickBad:hover .rvQDesc{color:rgba(255,255,255,.82)}
+.rvQName,.rvQDesc{transition:color 180ms ease}
+.rvQuickGood{background:#FFFFFF;transition:box-shadow 200ms cubic-bezier(.2,.7,.2,1)}
+.rvQuickGood:hover{box-shadow:0 0 16px 0 rgba(0,0,0,.16)}
+.rvQuickGood:hover .rvQMark{background:#EA580C;color:#FFFFFF}
+.rvQMark{transition:background 120ms ease,color 120ms ease}
+.rvFlip{animation:rvFlip 1.6s cubic-bezier(.3,.7,.2,1) infinite both}
+.rvFade{animation:rvFade 1.6s cubic-bezier(.2,.7,.2,1) infinite both}
+@keyframes rvFlip{0%{transform:rotateX(90deg);opacity:0}40%,100%{transform:rotateX(0);opacity:1}}
+@keyframes rvFade{0%{transform:translateY(8px);opacity:0}40%,100%{transform:none;opacity:1}}
+</style>
+</helmet>
+
+<div style="width:1200px;margin:0 auto;padding:56px 0 96px;color:#0F172A">
+
+<div style="background:#0F172A;color:#FFFFFF;padding:34px 38px 32px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.14em;color:#94A3B8">DESIGN RE-REVIEW · MAKERS GROUND v2</div>
+<h1 style="margin:13px 0 0;font-size:32px;font-weight:700;letter-spacing:-.038em;line-height:1.2">확정 컨셉 기준 · 메이커스 고유 요소 전수 재검토</h1>
+<p style="margin:15px 0 0;max-width:720px;font-size:13px;line-height:1.8;color:#CBD5E1;letter-spacing:-.014em;text-wrap:pretty">플레이 그라운드에서 확정한 10개 규칙은 두 사이트의 공통 헌법입니다. 이 문서는 그 규칙을 <b style="color:#FFFFFF;font-weight:700">메이커스에만 있는 요소</b>(마감 카운트다운 · 접수 공고 · 출시 파이프라인 · 뉴스 레일 · 퀵액션 · 질문 카드 · 캘린더 스트립)에 적용해 남은 위반을 찾고, 실제 렌더로 Before/After를 대조한 결과입니다. 공통 컴포넌트는 이미 검토가 끝났으므로 제외했습니다. 모든 토큰 값은 <b style="color:#FFFFFF;font-weight:700">플레이 그라운드 v2에 실제로 구현된 값</b>을 기준으로 다시 맞췄습니다 — 그림자는 2단(REST·LIFT)이고 :active는 hover와 같은 값을 씁니다.</p>
+<div style="margin-top:24px;display:flex;flex-wrap:wrap;gap:6px">
+<sc-for list="{{ concept }}" as="c" hint-placeholder-count="9">
+<span style="padding:5px 10px;background:{{ c.bg }};color:{{ c.fg }};font-size:11px;font-weight:700;letter-spacing:-.01em">{{ c.name }}</span>
+</sc-for>
+</div>
+<div style="margin-top:22px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:rgba(255,255,255,.14)">
+<sc-for list="{{ summary }}" as="s" hint-placeholder-count="4">
+<div style="background:#0F172A;padding:16px 18px 17px">
+<div style="font-size:26px;font-weight:700;letter-spacing:-.04em;color:{{ s.color }};font-variant-numeric:tabular-nums">{{ s.value }}</div>
+<div style="margin-top:6px;font-size:11.5px;font-weight:700;letter-spacing:-.014em;color:#FFFFFF">{{ s.label }}</div>
+<div style="margin-top:4px;font-size:10.5px;line-height:1.55;color:#94A3B8;letter-spacing:-.012em">{{ s.desc }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:28px 32px 30px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">01 — 이론 · 컨셉을 규칙으로 번역</div>
+<p style="margin:14px 0 0;max-width:860px;font-size:12.5px;line-height:1.8;color:#64748B;letter-spacing:-.013em;text-wrap:pretty">R1–R10은 플레이 그라운드 재검토에서 확정한 공통 규칙입니다. 메이커스는 “정보 밀도가 플레이 그라운드보다 2배 높고, 시간(마감·일정)이 1급 정보”라는 차이가 있어 M1–M3을 덧붙였습니다.</p>
+<div style="margin-top:18px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:#EEF0F3">
+<sc-for list="{{ rules }}" as="r" hint-placeholder-count="13">
+<div style="background:#FFFFFF;padding:17px 18px 18px;grid-column:{{ r.span }}">
+<div style="display:flex;align-items:center;gap:8px">
+<span style="padding:2px 7px;background:{{ r.noBg }};color:#FFFFFF;font-size:9px;font-weight:700;letter-spacing:.03em">{{ r.no }}</span>
+<span style="font-size:12.5px;font-weight:700;letter-spacing:-.02em">{{ r.name }}</span>
+</div>
+<p style="margin:9px 0 0;font-size:12px;line-height:1.75;color:#64748B;letter-spacing:-.012em;text-wrap:pretty">{{ r.desc }}</p>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:28px 32px 30px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">02 — 메이커스 고유 요소의 위반 목록</div>
+<div style="margin-top:18px;display:grid;grid-template-columns:40px minmax(0,1.05fr) minmax(0,1fr) 96px;gap:1px;background:#EEF0F3">
+<div style="background:#F8F9FA;padding:9px 12px;font-size:10.5px;font-weight:700;letter-spacing:.04em;color:#64748B">#</div>
+<div style="background:#F8F9FA;padding:9px 12px;font-size:10.5px;font-weight:700;letter-spacing:.04em;color:#64748B">위반 지점 (메이커스 전용)</div>
+<div style="background:#F8F9FA;padding:9px 12px;font-size:10.5px;font-weight:700;letter-spacing:.04em;color:#64748B">수정 방향</div>
+<div style="background:#F8F9FA;padding:9px 12px;font-size:10.5px;font-weight:700;letter-spacing:.04em;color:#64748B;text-align:right">규칙</div>
+<sc-for list="{{ violations }}" as="v" hint-placeholder-count="18">
+<div style="background:#FFFFFF;padding:13px 12px;font-size:11.5px;font-weight:700;color:#CBD5E1;font-variant-numeric:tabular-nums">{{ v.no }}</div>
+<div style="background:#FFFFFF;padding:13px 12px">
+<div style="font-size:12.5px;font-weight:700;letter-spacing:-.02em">{{ v.where }}</div>
+<div style="margin-top:4px;font-size:11.5px;line-height:1.6;color:#94A3B8;letter-spacing:-.012em">{{ v.now }}</div>
+</div>
+<div style="background:#FFFFFF;padding:13px 12px;font-size:12px;line-height:1.7;color:#475569;letter-spacing:-.012em">{{ v.fix }}</div>
+<div style="background:#FFFFFF;padding:13px 12px;text-align:right">
+<span style="padding:2px 7px;background:{{ v.tagBg }};color:{{ v.tagFg }};font-size:9.5px;font-weight:700;letter-spacing:.02em">{{ v.rule }}</span>
+</div>
+</sc-for>
+</div>
+<div style="margin-top:20px;padding-top:18px;border-top:1px solid #EEF0F3">
+<div style="font-size:11.5px;font-weight:700;letter-spacing:-.016em">예외로 승인 — 위반이 아님</div>
+<div style="margin-top:12px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:#EEF0F3">
+<sc-for list="{{ allowed }}" as="a" hint-placeholder-count="6">
+<div style="background:#FFFFFF;padding:14px 16px 15px">
+<div style="font-size:12px;font-weight:700;letter-spacing:-.018em">{{ a.name }}</div>
+<div style="margin-top:5px;font-size:11.5px;line-height:1.65;color:#94A3B8;letter-spacing:-.012em">{{ a.why }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:28px 32px 32px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">03 — Before / After (실제 렌더 · 마우스를 올려보세요)</div>
+<p style="margin:14px 0 0;max-width:860px;font-size:12.5px;line-height:1.8;color:#64748B;letter-spacing:-.013em;text-wrap:pretty">왼쪽은 현재 메이커스 v2의 동작을 그대로 옮긴 것이고, 오른쪽은 규칙을 적용한 결과입니다. 값 차이가 작아 보이지만 hover를 해보면 감각이 다릅니다.</p>
+
+<div style="margin-top:22px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px">
+
+<div>
+<div style="display:flex;align-items:center;gap:8px;padding-bottom:11px">
+<span style="padding:2px 7px;background:#BE123C;color:#FFFFFF;font-size:9.5px;font-weight:700;letter-spacing:.04em">BEFORE</span>
+<span style="font-size:11.5px;font-weight:700;letter-spacing:-.016em">B1 · 정지 그림자 + 오프셋 hover</span>
+</div>
+<div style="background:#F8F9FA;padding:20px">
+<div class="rvBad" style="background:#FFFFFF;box-shadow:0 18px 44px -22px rgba(15,23,42,.34)">
+<div style="position:relative;width:100%;height:112px;background:#F1F3F5;overflow:hidden">
+<div class="rvZoom" style="position:absolute;inset:0;display:grid;place-items:center"><span style="font-size:10px;color:#94A3B8">썸네일</span></div>
+<span style="position:absolute;top:0;left:0;padding:4px 8px;background:#EA580C;color:#FFFFFF;font-size:9.5px;font-weight:700;letter-spacing:.03em">오늘의 개발일지</span>
+</div>
+<div style="padding:14px 16px 16px">
+<div style="font-size:15px;font-weight:700;letter-spacing:-.028em">레벨 툴을 하루 만에 만든 이야기</div>
+<div style="margin-top:6px;font-size:12px;color:#64748B;letter-spacing:-.013em">픽셀상점 · 추천 128 · 댓글 34</div>
+<div style="margin-top:12px;height:3px;background:#F1F3F5"><div style="width:64%;height:3px;background:linear-gradient(90deg,#EA580C,#D97706)"></div></div>
+</div>
+</div>
+</div>
+<p style="margin:11px 0 0;font-size:11.5px;line-height:1.7;color:#94A3B8;letter-spacing:-.012em">정지 상태에 <b style="color:#BE123C;font-weight:700">0 18px 44px -22px</b> 드롭섀도가 떠 있어 “반응 중”이 상시 참. hover는 <b style="color:#BE123C;font-weight:700">0 6px 18px</b> 오프셋 그림자라 카드가 아래로 밀려 보이고, 진행 바는 오렌지→앰버 그라디언트.</p>
+</div>
+
+<div>
+<div style="display:flex;align-items:center;gap:8px;padding-bottom:11px">
+<span style="padding:2px 7px;background:#0F172A;color:#FFFFFF;font-size:9.5px;font-weight:700;letter-spacing:.04em">AFTER</span>
+<span style="font-size:11.5px;font-weight:700;letter-spacing:-.016em">A1 · REST 0 → LIFT 균일 확산</span>
+</div>
+<div style="background:#F8F9FA;padding:20px">
+<div class="rvGood" style="background:#FFFFFF">
+<div style="position:relative;width:100%;height:112px;background:#F1F3F5;overflow:hidden">
+<div class="rvZoom" style="position:absolute;inset:0;display:grid;place-items:center"><span style="font-size:10px;color:#94A3B8">썸네일</span></div>
+<span style="position:absolute;top:0;left:0;padding:4px 8px;background:#EA580C;color:#FFFFFF;font-size:9.5px;font-weight:700;letter-spacing:.03em">오늘의 개발일지</span>
+</div>
+<div style="padding:14px 16px 16px">
+<div class="rvT" style="font-size:15px;font-weight:700;letter-spacing:-.028em">레벨 툴을 하루 만에 만든 이야기</div>
+<div style="margin-top:6px;font-size:12px;color:#64748B;letter-spacing:-.013em">픽셀상점 · 추천 128 · 댓글 34</div>
+<div style="margin-top:12px;height:3px;background:#F1F3F5"><div style="width:64%;height:3px;background:#EA580C"></div></div>
+</div>
+</div>
+</div>
+<p style="margin:11px 0 0;font-size:11.5px;line-height:1.7;color:#94A3B8;letter-spacing:-.012em">정지 그림자 0. hover에서만 <b style="color:#0F172A;font-weight:700">0 0 16px 0 rgba(0,0,0,.16)</b>로 사방 균일하게 부상 + 썸네일 줌 + 제목 오렌지. 진행 바는 단색 오렌지.</p>
+</div>
+
+<div>
+<div style="display:flex;align-items:center;gap:8px;padding-bottom:11px">
+<span style="padding:2px 7px;background:#BE123C;color:#FFFFFF;font-size:9.5px;font-weight:700;letter-spacing:.04em">BEFORE</span>
+<span style="font-size:11.5px;font-weight:700;letter-spacing:-.016em">B2 · 색 레일 + 틸 hover + 배경 채움</span>
+</div>
+<div style="background:#F8F9FA;padding:20px;display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ newsRows }}" as="n" hint-placeholder-count="3">
+<div class="rvRowBad" style="background:#FFFFFF;display:grid;grid-template-columns:52px minmax(0,1fr) auto;gap:12px;align-items:center;padding:11px 14px 11px 11px;border-left:3px solid {{ n.rail }}">
+<div style="text-align:center">
+<div style="font-size:11.5px;font-weight:700;letter-spacing:-.02em;color:#0F172A;font-variant-numeric:tabular-nums">{{ n.when }}</div>
+<div style="margin-top:2px;font-size:8.5px;font-weight:700;letter-spacing:.02em;color:{{ n.rail }}">{{ n.cat }}</div>
+</div>
+<div class="rvTealT" style="min-width:0;font-size:12.5px;font-weight:700;letter-spacing:-.022em;color:#0F172A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ n.title }}</div>
+<span style="font-size:10px;font-weight:700;color:#64748B;font-variant-numeric:tabular-nums">{{ n.reads }}</span>
+</div>
+</sc-for>
+</div>
+<p style="margin:11px 0 0;font-size:11.5px;line-height:1.7;color:#94A3B8;letter-spacing:-.012em">3px 좌측 색 레일이 테두리로 의미를 말하고, 카테고리 라벨이 <b style="color:#BE123C;font-weight:700">8.5px</b>, hover 제목은 틸(#0D9488)로 변해 액센트가 둘이 됩니다. hover 신호가 배경 채움이라 그림자 체계와 어긋남.</p>
+</div>
+
+<div>
+<div style="display:flex;align-items:center;gap:8px;padding-bottom:11px">
+<span style="padding:2px 7px;background:#0F172A;color:#FFFFFF;font-size:9.5px;font-weight:700;letter-spacing:.04em">AFTER</span>
+<span style="font-size:11.5px;font-weight:700;letter-spacing:-.016em">A2 · 배지 · 11px 하한 · LIFT</span>
+</div>
+<div style="background:#F8F9FA;padding:20px;display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ newsRows }}" as="n" hint-placeholder-count="3">
+<div class="rvGood" style="background:#FFFFFF;display:grid;grid-template-columns:56px minmax(0,1fr) auto;gap:12px;align-items:center;padding:11px 14px">
+<div>
+<div style="font-size:11.5px;font-weight:700;letter-spacing:-.02em;color:#0F172A;font-variant-numeric:tabular-nums">{{ n.when }}</div>
+<div style="margin-top:3px;display:inline-flex;padding:1px 5px;background:#0F172A;font-size:9.5px;font-weight:700;letter-spacing:.02em;color:#FFFFFF">{{ n.cat }}</div>
+</div>
+<div class="rvT" style="min-width:0;font-size:12.5px;font-weight:700;letter-spacing:-.022em;color:#0F172A;white-space:nowrap;overflow:hidden;text-overflow:ellipsis">{{ n.title }}</div>
+<span style="font-size:11px;font-weight:700;color:#64748B;font-variant-numeric:tabular-nums">{{ n.reads }}</span>
+</div>
+</sc-for>
+</div>
+<p style="margin:11px 0 0;font-size:11.5px;line-height:1.7;color:#94A3B8;letter-spacing:-.012em">레일 제거 → 카테고리는 블랙 정보 배지. 라벨·수치 11px 하한. hover는 그림자 부상 + 제목 오렌지 1종으로 통일.</p>
+</div>
+
+<div>
+<div style="display:flex;align-items:center;gap:8px;padding-bottom:11px">
+<span style="padding:2px 7px;background:#BE123C;color:#FFFFFF;font-size:9.5px;font-weight:700;letter-spacing:.04em">BEFORE</span>
+<span style="font-size:11.5px;font-weight:700;letter-spacing:-.016em">B3 · 퀵액션 다크 반전</span>
+</div>
+<div style="background:#F8F9FA;padding:20px;display:flex;flex-direction:column;gap:10px">
+<sc-for list="{{ quick }}" as="k" hint-placeholder-count="3">
+<div class="rvQuickBad" style="display:grid;grid-template-columns:minmax(0,1fr) 24px;gap:12px;align-items:center;padding:14px 16px">
+<div style="min-width:0">
+<div class="rvQName" style="font-size:13px;font-weight:700;letter-spacing:-.022em;color:#0F172A">{{ k.name }}</div>
+<div class="rvQDesc" style="margin-top:4px;font-size:11px;color:#94A3B8;letter-spacing:-.012em">{{ k.desc }}</div>
+</div>
+<span style="display:grid;place-items:center;width:24px;height:24px;font-size:13px;color:#CBD5E1">&#8594;</span>
+</div>
+</sc-for>
+</div>
+<p style="margin:11px 0 0;font-size:11.5px;line-height:1.7;color:#94A3B8;letter-spacing:-.012em">hover에서 카드 전체가 <b style="color:#BE123C;font-weight:700">#0F172A로 반전</b>됩니다. 색 반전은 CTA의 언어인데 목록 항목이 CTA처럼 소리쳐, 한 화면에서 가장 강한 요소가 계속 바뀝니다.</p>
+</div>
+
+<div>
+<div style="display:flex;align-items:center;gap:8px;padding-bottom:11px">
+<span style="padding:2px 7px;background:#0F172A;color:#FFFFFF;font-size:9.5px;font-weight:700;letter-spacing:.04em">AFTER</span>
+<span style="font-size:11.5px;font-weight:700;letter-spacing:-.016em">A3 · 부상 + 마크만 채움</span>
+</div>
+<div style="background:#F8F9FA;padding:20px;display:flex;flex-direction:column;gap:10px">
+<sc-for list="{{ quick }}" as="k" hint-placeholder-count="3">
+<div class="rvQuickGood" style="display:grid;grid-template-columns:minmax(0,1fr) 24px;gap:12px;align-items:center;padding:14px 16px">
+<div style="min-width:0">
+<div class="rvT" style="font-size:13px;font-weight:700;letter-spacing:-.022em;color:#0F172A">{{ k.name }}</div>
+<div style="margin-top:4px;font-size:11px;color:#94A3B8;letter-spacing:-.012em">{{ k.desc }}</div>
+</div>
+<span class="rvQMark" style="display:grid;place-items:center;width:24px;height:24px;background:#F1F3F5;font-size:13px;color:#64748B">&#8594;</span>
+</div>
+</sc-for>
+</div>
+<p style="margin:11px 0 0;font-size:11.5px;line-height:1.7;color:#94A3B8;letter-spacing:-.012em">표면은 흰색을 유지하고 그림자로만 부상. 액센트는 24px 화살표 마크(면적 1% 이하)에만 들어가 배지 예외 안에 머뭅니다.</p>
+</div>
+
+<div>
+<div style="display:flex;align-items:center;gap:8px;padding-bottom:11px">
+<span style="padding:2px 7px;background:#BE123C;color:#FFFFFF;font-size:9.5px;font-weight:700;letter-spacing:.04em">BEFORE</span>
+<span style="font-size:11.5px;font-weight:700;letter-spacing:-.016em">B4 · 3D 플립 · 620ms · 테두리 칩</span>
+</div>
+<div style="background:#F8F9FA;padding:20px;perspective:1000px">
+<div class="rvFlip" style="background:#FFFFFF;display:grid;grid-template-columns:26px minmax(0,1fr);gap:11px;align-items:center;padding:13px 14px">
+<span style="display:grid;place-items:center;width:26px;height:26px;background:#FFF1E5;font-size:12px;font-weight:800;color:#EA580C">?</span>
+<div style="min-width:0">
+<div style="font-size:13px;font-weight:700;line-height:1.42;letter-spacing:-.022em">WebGL 텍스처 압축, 어디까지 줄여야 하나요?</div>
+<div style="margin-top:6px;display:flex;align-items:center;gap:6px">
+<span style="padding:2px 6px;background:#FFFFFF;box-shadow:inset 0 0 0 1px #E8ECF1;font-size:9px;font-weight:700;color:#475569">Unity</span>
+<span style="font-size:9.5px;color:#94A3B8">2시간 전 · 조회 210</span>
+</div>
+</div>
+</div>
+</div>
+<p style="margin:11px 0 0;font-size:11.5px;line-height:1.7;color:#94A3B8;letter-spacing:-.012em">rotateX(90°) 플립이 620ms 동안 카드를 공간에서 넘깁니다. 3D 깊이는 flat 컨셉과 정면 충돌하고, 태그 칩은 inset 그림자로 가짜 테두리를 만듭니다.</p>
+</div>
+
+<div>
+<div style="display:flex;align-items:center;gap:8px;padding-bottom:11px">
+<span style="padding:2px 7px;background:#0F172A;color:#FFFFFF;font-size:9.5px;font-weight:700;letter-spacing:.04em">AFTER</span>
+<span style="font-size:11.5px;font-weight:700;letter-spacing:-.016em">A4 · 8px 상승 페이드 · 200ms</span>
+</div>
+<div style="background:#F8F9FA;padding:20px">
+<div class="rvFade rvGood" style="background:#FFFFFF;display:grid;grid-template-columns:26px minmax(0,1fr);gap:11px;align-items:center;padding:13px 14px">
+<span class="rvQMark" style="display:grid;place-items:center;width:26px;height:26px;background:#F1F3F5;font-size:12px;font-weight:800;color:#475569">?</span>
+<div style="min-width:0">
+<div class="rvT" style="font-size:13px;font-weight:700;line-height:1.42;letter-spacing:-.022em">WebGL 텍스처 압축, 어디까지 줄여야 하나요?</div>
+<div style="margin-top:6px;display:flex;align-items:center;gap:6px">
+<span style="padding:2px 6px;background:#F1F3F5;font-size:11px;font-weight:700;color:#475569">Unity</span>
+<span style="font-size:11px;color:#94A3B8">2시간 전 · 조회 210</span>
+</div>
+</div>
+</div>
+</div>
+<p style="margin:11px 0 0;font-size:11.5px;line-height:1.7;color:#94A3B8;letter-spacing:-.012em">평면 안에서 8px 올라오며 페이드. 칩은 면 채움(#F1F3F5)으로 테두리 없이 구분되고, 마크는 hover에서만 오렌지로 채워집니다.</p>
+</div>
+
+</div>
+
+<div style="margin-top:26px">
+<div style="display:flex;align-items:baseline;gap:9px;padding-bottom:11px;border-bottom:1px solid #E8ECF1">
+<span style="font-size:13.5px;font-weight:700;letter-spacing:-.022em">B5 · 마이크로 타이포 · 시간 표기</span>
+<span style="font-size:11px;color:#94A3B8;letter-spacing:-.012em">메이커스는 D-day · 요일 · 카테고리가 전부 8.5–10px에 몰려 있습니다</span>
+</div>
+<div style="margin-top:16px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:24px">
+<div style="background:#F8F9FA;padding:20px">
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:#EEF0F3">
+<sc-for list="{{ dayBefore }}" as="d" hint-placeholder-count="4">
+<div style="background:#FFFFFF;padding:12px;border-top:2px solid {{ d.top }}">
+<div style="display:flex;align-items:baseline;gap:5px">
+<span style="font-size:15px;font-weight:700;letter-spacing:-.03em;color:#0F172A;font-variant-numeric:tabular-nums">{{ d.day }}</span>
+<span style="font-size:9.5px;font-weight:600;color:{{ d.dowColor }}">{{ d.dow }}</span>
+</div>
+<div style="margin-top:9px;font-size:10px;line-height:1.4;color:#64748B">{{ d.event }}</div>
+</div>
+</sc-for>
+</div>
+<p style="margin:11px 0 0;font-size:11.5px;line-height:1.7;color:#94A3B8;letter-spacing:-.012em">요일 9.5px · 행사명 10px · 상단 2px 색선 3색. 스캔은 되지만 읽히지 않고, 색선이 배지 팔레트와 별개 의미 체계를 만듭니다.</p>
+</div>
+<div style="background:#F8F9FA;padding:20px">
+<div style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:#EEF0F3">
+<sc-for list="{{ dayAfter }}" as="d" hint-placeholder-count="4">
+<div class="rvGood" style="background:{{ d.bg }};padding:12px">
+<div style="display:flex;align-items:baseline;gap:5px">
+<span style="font-size:15px;font-weight:700;letter-spacing:-.03em;color:{{ d.dayColor }};font-variant-numeric:tabular-nums">{{ d.day }}</span>
+<span style="font-size:11px;font-weight:600;color:{{ d.dowColor }}">{{ d.dow }}</span>
+</div>
+<div style="margin-top:9px;font-size:11px;line-height:1.45;font-weight:{{ d.weight }};color:{{ d.evColor }}">{{ d.event }}</div>
+</div>
+</sc-for>
+</div>
+<p style="margin:11px 0 0;font-size:11.5px;line-height:1.7;color:#94A3B8;letter-spacing:-.012em">11px 하한 준수. 오늘·마감일은 색선이 아니라 <b style="color:#0F172A;font-weight:700">면 채움 + 굵기</b>로 구분 — 채우기로 말하는 flat 문법.</p>
+</div>
+</div>
+</div>
+
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:28px 32px 32px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">04 — 토큰 (메이커스 적용값)</div>
+<div style="margin-top:20px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:26px">
+<sc-for list="{{ tokens }}" as="t" hint-placeholder-count="4">
+<div>
+<div style="display:flex;align-items:baseline;gap:9px;padding-bottom:10px;border-bottom:1px solid #E8ECF1">
+<span style="font-size:13.5px;font-weight:700;letter-spacing:-.022em">{{ t.name }}</span>
+<span style="font-size:11px;color:#94A3B8;letter-spacing:-.012em">{{ t.rule }}</span>
+</div>
+<div style="margin-top:12px;display:flex;flex-direction:column;gap:9px">
+<sc-for list="{{ t.rows }}" as="r" hint-placeholder-count="5">
+<div style="display:flex;align-items:baseline;gap:12px">
+<span style="flex:none;width:96px;font-size:11px;font-weight:600;letter-spacing:.02em;color:#94A3B8">{{ r.k }}</span>
+<span style="min-width:0;font-size:12px;line-height:1.6;color:#334155;letter-spacing:-.012em">{{ r.v }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+
+<div style="margin-top:26px">
+<div style="display:flex;align-items:baseline;gap:9px;padding-bottom:11px;border-bottom:1px solid #E8ECF1">
+<span style="font-size:13.5px;font-weight:700;letter-spacing:-.022em">그림자 2단 · 메이커스 현재값 대조</span>
+<span style="font-size:11px;color:#94A3B8;letter-spacing:-.012em">현재 5종 → 1종으로 축약 · 플레이 그라운드는 :active에도 LIFT 동일값을 쓰므로 별도 PRESS 그림자가 없습니다</span>
+</div>
+<div style="margin-top:16px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px">
+<sc-for list="{{ shadows }}" as="s" hint-placeholder-count="3">
+<div>
+<div style="height:64px;background:#FFFFFF;box-shadow:{{ s.value }}"></div>
+<div style="margin-top:11px;font-size:11.5px;font-weight:700;letter-spacing:.02em">{{ s.name }}</div>
+<div style="margin-top:5px;font-size:11px;color:#94A3B8;letter-spacing:-.012em">{{ s.use }}</div>
+<div style="margin-top:5px;font-size:11px;color:#334155;letter-spacing:-.008em;font-variant-numeric:tabular-nums">{{ s.value }}</div>
+<div style="margin-top:4px;font-size:11px;color:#BE123C;letter-spacing:-.008em">현재: {{ s.now }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="margin-top:26px">
+<div style="display:flex;align-items:baseline;gap:9px;padding-bottom:11px;border-bottom:1px solid #E8ECF1">
+<span style="font-size:13.5px;font-weight:700;letter-spacing:-.022em">배지 팔레트 · 메이커스 (60-30-10 예외)</span>
+<span style="font-size:11px;color:#94A3B8;letter-spacing:-.012em">오렌지=브랜드 · 나머지는 의미 1:1 · 34px 대형 수치에는 사용 금지</span>
+</div>
+<div style="margin-top:16px;display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:1px;background:#EEF0F3">
+<sc-for list="{{ badges }}" as="b" hint-placeholder-count="6">
+<div style="background:#FFFFFF;padding:14px 14px 16px">
+<span style="display:inline-flex;padding:4px 8px;background:{{ b.bg }};color:#FFFFFF;font-size:9.5px;font-weight:700;letter-spacing:.03em">{{ b.label }}</span>
+<div style="margin-top:10px;font-size:11.5px;font-weight:700;letter-spacing:-.016em">{{ b.meaning }}</div>
+<div style="margin-top:5px;font-size:11px;color:#94A3B8;letter-spacing:.02em;font-variant-numeric:tabular-nums">{{ b.bg }}</div>
+</div>
+</sc-for>
+</div>
+<p style="margin:14px 0 0;font-size:12px;line-height:1.75;color:#64748B;letter-spacing:-.013em;text-wrap:pretty">현재 메이커스에는 오렌지 계열이 <b style="color:#0F172A;font-weight:700">5종</b>(#EA580C · #C2410C · #F97316 · #FB923C · #D97706) 섞여 있습니다. 브랜드 #EA580C, hover #C2410C, 다크 표면 위 #F97316 <b style="color:#0F172A;font-weight:700">3종</b>으로 고정하고 #FB923C · #D97706은 폐기합니다.</p>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:28px 32px 32px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">05 — 적용 순서</div>
+<div style="margin-top:18px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:#EEF0F3">
+<sc-for list="{{ phases }}" as="ph" hint-placeholder-count="3">
+<div style="background:#FFFFFF;padding:20px 20px 22px">
+<div style="display:flex;align-items:center;gap:8px">
+<span style="padding:2px 8px;background:#0F172A;color:#FFFFFF;font-size:9.5px;font-weight:700;letter-spacing:.03em">{{ ph.step }}</span>
+<span style="font-size:13px;font-weight:700;letter-spacing:-.022em">{{ ph.name }}</span>
+</div>
+<div style="margin-top:12px;display:flex;flex-direction:column;gap:7px">
+<sc-for list="{{ ph.items }}" as="x" hint-placeholder-count="4">
+<div style="display:flex;gap:8px">
+<span style="flex:none;width:4px;height:4px;margin-top:7px;background:#CBD5E1"></span>
+<span style="min-width:0;font-size:12px;line-height:1.65;color:#475569;letter-spacing:-.012em">{{ x.t }}</span>
+</div>
+</sc-for>
+</div>
+<div style="margin-top:14px;padding-top:11px;border-top:1px solid #F1F3F5;font-size:11px;color:#94A3B8;letter-spacing:-.012em">{{ ph.cost }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#0F172A;padding:22px 26px 24px;color:#FFFFFF">
+<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#F97316">APPLIED · MakersGround v2</div>
+<div style="margin-top:11px;font-size:15px;font-weight:700;letter-spacing:-.026em">02의 19건 전부가 파일에 적용되었습니다</div>
+<p style="margin:10px 0 0;max-width:900px;font-size:12px;line-height:1.8;color:#94A3B8;letter-spacing:-.012em;text-wrap:pretty">그림자는 REST 0 · LIFT 1종으로, 모션은 120/200/320/480ms · 이징 1종(루프만 linear)으로, 타이포는 11/12/13/15/21/34px(+히어로 46px)로 정리했습니다. 테두리 · inset 가짜 테두리 · 뉴스 색 레일 · 캘린더 색선 · hover 배경 채움 · 3D 플립 · 그라디언트 · 오렌지 글로우는 전면 삭제했고, prefers-reduced-motion 보호 문구와 사장 코드(mgHue · mgRoll · commStats · glow) 정리가 뒤따랐습니다. mgPulse는 히어로 활동 점에서 사용 중이므로 유지합니다. 이어서 색 인벤토리를 39종 → 22종으로 줄였습니다: 아바타 해시 6색·카테고리 파스텔 칩 8종·역할별 마크 색·지표 색을 잉크와 #F1F3F5 뉴트럴로 내리고, 배지는 마감 #E11D48 · 참여 #0D9488 · 잼 #D97706 · 완료 #16A34A · 행동 #EA580C · 정보 #0F172A 6종으로 고정했습니다. 히어로의 컬러 워시(복숭아색 겹)와 뉴스 150px 장식 숫자, 이번 주 메이커의 세 번째 다크 표면도 제거했습니다.</p>
+</div>
+
+<p style="margin:28px 0 0;font-size:12px;line-height:1.8;color:#94A3B8;letter-spacing:-.012em">되돌리고 싶은 항목이 있으면 02의 번호로 알려주세요.</p>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1260,&quot;height&quot;:1500}}">
+class Component extends DCLogic {
+  renderVals() {
+    const R = (no, name, desc, makers, span) => ({ no, name, desc, noBg: makers ? "#EA580C" : "#0F172A", span: span ? "span 2" : "auto" });
+    return {
+      concept: ["square", "flat", "hover-shadow", "no container border", "simple", "modern", "animation", "60-30-10", "visual feedback"]
+        .map((name, i) => ({ name, bg: i === 2 || i === 3 ? "#EA580C" : "rgba(255,255,255,.1)", fg: "#FFFFFF" })),
+
+      summary: [
+        { value: "19", label: "남은 위반", desc: "메이커스 전용 요소에서만 집계", color: "#F97316" },
+        { value: "5→1", label: "그림자 값", desc: "REST 0 + LIFT 1종 (hover=active=툴팁 공용)", color: "#FFFFFF" },
+        { value: "12→4", label: "모션 지속시간", desc: ".16~.7s 12종 → 120/200/320/480ms (루프 3종 별도)", color: "#FFFFFF" },
+        { value: "8.5→11", label: "타이포 하한(px)", desc: "D-day · 요일 · 카테고리 라벨 전부", color: "#FFFFFF" }
+      ],
+
+      rules: [
+        R("R1", "직각", "카드 · 패널 · 버튼 · 칩 · 배지는 radius 0. 아바타 · 상태 점 · 페이지 도트 · 검색창만 예외."),
+        R("R2", "컨테이너 테두리 금지", "border/ring 없이 표면 대비(#F8F9FA vs #FFFFFF)로 구분. 목록 내부 1px 헤어라인만 허용. inset 그림자로 만든 가짜 테두리도 금지."),
+        R("R3", "그림자는 반응에만", "정지 상태 그림자 0. hover · active · 시스템 포커스에서만 부상. 화면에서 그림자를 가진 요소는 항상 하나."),
+        R("R4", "부상은 확산 그림자만", "hover = 0 0 16px 0 rgba(0,0,0,.16) 고정 + 썸네일 줌 + 제목 액센트 + 메타 후퇴. 오프셋 그림자와 translateY 이동은 쓰지 않음. :active와 오버레이(툴팁)도 같은 값을 재사용하며, 눌림 전용 그림자는 두지 않는다 — 플레이 그라운드 v2 구현 확정값."),
+        R("R5", "플랫 = 채우기로 말한다", "그라디언트 · 글로우 · 3D 회전 금지. 상태는 면 채움과 굵기로. 그림자는 깊이가 아니라 반응 신호."),
+        R("R6", "정보는 시각으로", "수치 tabular-nums + 굵기 대비, 진행은 2–3px 단색 바, 순위는 오도미터. 문장 설명 대신 형태."),
+        R("R7", "모션 4단 · 이징 1종", "120/200/320/480ms, cubic-bezier(.2,.7,.2,1). 자동 순환은 hover 정지, prefers-reduced-motion 전면 정지."),
+        R("R8", "60-30-10 + 배지 예외", "표면 60 · 잉크 30 · 액센트 10. 배지는 면적 1% 이하라 다색 허용, 태그 · 수치 · 아이콘은 뉴트럴."),
+        R("R9", "선택 · 정보 배지는 테마 블랙", "필터 · 세그먼트 선택과 중립 정보 배지는 #0F172A 채움. 액센트는 CTA와 '내 것'에만."),
+        R("R10", "테두리 제거 시 border:0", "선언만 지우면 브라우저 기본 베벨이 드러남. 제거할 때 항상 border:0 명시."),
+        R("M1", "시간은 크기로만 말한다", "메이커스에서 D-day · 마감 · 출시일은 1급 정보. 강조는 숫자 크기 · 굵기 · 면 채움으로 하고, 색선(border-top/left)이나 추가 색을 만들지 않는다.", true),
+        R("M2", "다크 표면은 무대 2개까지", "다크(#0F172A)는 '지금 결정해야 하는 것'(마감 카드)과 '전환 CTA' 두 곳만. 세 번째 다크 블록은 위계를 무너뜨린다.", true),
+        R("M3", "밀도는 여백으로 감당한다", "행 높이 46–62px · 12px 이상 내부 패딩을 유지하고, 정보를 늘릴 때 글자를 줄이지 않는다. 11px 하한을 지킬 수 없으면 항목을 뺀다.", true, true)
+      ],
+
+      violations: [
+        { where: "히어로 요약 카드", now: "정지 상태 box-shadow 0 18px 44px -22px", fix: "정지 그림자 제거. 배경 대비만으로 띄우고 hover에서 LIFT", rule: "R3" },
+        { where: "히어로 진행 바", now: "linear-gradient(90deg,#EA580C,#D97706)", fix: "브랜드 오렌지 단색 3px", rule: "R5" },
+        { where: "히어로 보조 버튼 · 캐러셀 화살표", now: "border:1px solid #E2E8F0", fix: "테두리 제거 · #F1F3F5 면 채움 · hover에서 오렌지 채움", rule: "R2 · R10" },
+        { where: "히어로 지표 칩(pulse)", now: "rgba(255,255,255,.86) + 1px 테두리", fix: "불투명 흰 면 채움, 테두리 삭제", rule: "R2" },
+        { where: "태그 칩 · 보조 CTA", now: "box-shadow inset 0 0 0 1px로 가짜 테두리", fix: "칩은 #F1F3F5 면 채움, 보조 CTA는 #0F172A 텍스트 + 흰 면", rule: "R2 · R3" },
+        { where: "카드 hover · active", now: "0 6px 18px / 0 3px 10px 오프셋 그림자 2종", fix: "LIFT 0 0 16px 0 rgba(0,0,0,.16) 1종으로 통일 — :active도 같은 값(플레이 그라운드와 동일)", rule: "R4" },
+        { where: "목록 hover(.mgRow · .mgQ · .mgNews)", now: "배경 채움 #F8FAFB · #FCFCFD · active #F1F3F5", fix: "그림자 부상 + 제목 오렌지로 통일. hover · active 모두 배경 채움 폐기", rule: "R3 · R4" },
+        { where: "툴팁(.mgTip)", now: "box-shadow 0 6px 18px rgba(15,23,42,.18)", fix: "오버레이도 LIFT와 같은 0 0 16px 0 rgba(0,0,0,.16)", rule: "R4" },
+        { where: "퀵액션 hover", now: "카드 전체가 #0F172A로 반전", fix: "면은 흰색 유지 · LIFT + 화살표 마크만 오렌지 채움", rule: "R4 · R8" },
+        { where: "뉴스 목록 좌측 레일", now: "border-left:3px solid 카테고리 색", fix: "레일 제거 · 카테고리는 블랙 정보 배지", rule: "R2 · R9" },
+        { where: "뉴스 hover 색", now: "제목 · CTA가 틸 #0D9488로 전환", fix: "hover 액센트는 오렌지 1종", rule: "R8" },
+        { where: "질문 카드 등장", now: "rotateX(90deg) 3D 플립 620ms", fix: "8px 상승 페이드 200ms, 순차 지연 40ms", rule: "R5 · R7" },
+        { where: "커뮤니티 4패널 대형 수치", now: "34px 숫자에 오렌지 · 블루 · 인디고 · 틸 4색", fix: "숫자는 잉크(#0F172A) · 액센트는 패널당 배지 1개로 이전", rule: "R8" },
+        { where: "출시 파이프라인 스테이지", now: "9px 라벨에 스테이지 색 4종 + 흰 링 그림자", fix: "라벨 11px 뉴트럴 · 색은 7px 사각 마크만 · 링은 배경 절단으로 처리", rule: "R6 · R8 · M3" },
+        { where: "캘린더 스트립", now: "border-top:2px solid 3색 + 9.5px 요일 · 10px 행사명", fix: "색선 제거 · 오늘/마감은 면 채움 + 굵기 · 11px 하한", rule: "M1 · M3" },
+        { where: "마이크로 라벨 전반", now: "8.5px · 9px · 9.5px · 10px 라벨 40곳 이상", fix: "11px 하한 · 타이포 6단(11/12/13/15/21/34)으로 축약", rule: "R6 · M3" },
+        { where: "D-day 숫자 60px", now: "타이포 스케일 밖의 단독 크기", fix: "display 34px로 내리고 굵기 · 여백으로 존재감 유지", rule: "R6 · M1" },
+        { where: "모션 값", now: ".16 / .18 / .2 / .26 / .28 / .3 / .38 / .45 / .55 / .6 / .62 / .7s + 이징 4종", fix: "120/200/320/480ms · cubic-bezier(.2,.7,.2,1) 단일", rule: "R7" },
+        { where: "감속 모드 · 사장 코드", now: "prefers-reduced-motion 미대응(플레이 그라운드도 공통 미구현) · mgHue · mgRoll 정의만 남고 사용처 없음", fix: "reduced-motion 전면 정지 블록 추가 · mgHue · mgRoll 삭제. mgPulse는 히어로 '활동 중' 점에서 사용 중이므로 유지(정지 대상에만 포함)", rule: "R7" }
+      ].map((v, i) => ({
+        ...v,
+        no: String(i + 1).padStart(2, "0"),
+        tagBg: v.rule.indexOf("R3") === 0 || v.rule.indexOf("R4") === 0 || v.rule.indexOf("M") === 0 ? "#FEF2F2" : "#F1F5F9",
+        tagFg: v.rule.indexOf("R3") === 0 || v.rule.indexOf("R4") === 0 || v.rule.indexOf("M") === 0 ? "#BE123C" : "#475569"
+      })),
+
+      allowed: [
+        { name: "마감 카드 · 하단 CTA 다크면", why: "다크는 '결정'과 '전환' 2개 무대까지 허용(M2). 이번 주 메이커 카드가 세 번째라 흰 면으로 내리는 것만 필요." },
+        { name: "썸네일 위 스크림 그라디언트", why: "텍스트 가독을 위한 마스크. 장식 그라디언트가 아니므로 R5 예외." },
+        { name: "스크롤 영역 흰 페이드", why: "더 있음을 알리는 경계 신호. 목록 스크롤 컨테이너에만 허용." },
+        { name: "히어로 흰 마스크 + 컬러 워시", why: "플레이 그라운드와 동일 결론 — 히어로는 액센트 무대라 1겹씩 유지." },
+        { name: "오도미터 · 티커 · 마퀴", why: "animation 컨셉의 핵심. hover 정지가 붙어 있으면 유지." },
+        { name: "포커스 링 2px #EA580C", why: "버튼 · 링크에만 적용되고 검색 필드는 제외 — 이미 규칙대로." }
+      ],
+
+      newsRows: [
+        { when: "08.26", cat: "정책", rail: "#EA580C", title: "심의 간소화 시범 시행, 인디 대상 확대", reads: "5.8천" },
+        { when: "08.25", cat: "플랫폼", rail: "#0D9488", title: "WebGL 빌드 용량 제한 300MB로 상향", reads: "4.1천" },
+        { when: "08.24", cat: "지원", rail: "#4F46E5", title: "가을 창작지원 공고 접수 시작", reads: "3.6천" }
+      ],
+
+      quick: [
+        { name: "새 개발일지 쓰기", desc: "임시저장 2개" },
+        { name: "빌드 올리기", desc: "WebGL · Windows · macOS" },
+        { name: "팀원 모집 공고", desc: "지난 공고 복제 가능" }
+      ],
+
+      dayBefore: [
+        { day: "23", dow: "토", dowColor: "#94A3B8", top: "#EEF0F3", event: "인디 잼 킥오프" },
+        { day: "24", dow: "일", dowColor: "#94A3B8", top: "#EEF0F3", event: "" },
+        { day: "25", dow: "월", dowColor: "#EA580C", top: "#EA580C", event: "창작지원 마감" },
+        { day: "26", dow: "화", dowColor: "#0D9488", top: "#0D9488", event: "쇼케이스 방송" }
+      ],
+
+      dayAfter: [
+        { day: "23", dow: "토", dowColor: "#94A3B8", dayColor: "#0F172A", bg: "#FFFFFF", event: "인디 잼 킥오프", evColor: "#64748B", weight: 500 },
+        { day: "24", dow: "일", dowColor: "#94A3B8", dayColor: "#94A3B8", bg: "#FFFFFF", event: "—", evColor: "#CBD5E1", weight: 500 },
+        { day: "25", dow: "월", dowColor: "#FFFFFF", dayColor: "#FFFFFF", bg: "#0F172A", event: "창작지원 마감", evColor: "#FFFFFF", weight: 700 },
+        { day: "26", dow: "화", dowColor: "#94A3B8", dayColor: "#0F172A", bg: "#FFFFFF", event: "쇼케이스 방송", evColor: "#64748B", weight: 500 }
+      ],
+
+      tokens: [
+        { name: "형태", rule: "radius 0 · 테두리 없음", rows: [
+          { k: "컨테이너", v: "0px · border 없음 · 표면 대비로 구분" },
+          { k: "컨트롤", v: "0px · 비선택 배경 없음 · 선택은 #0F172A 채움" },
+          { k: "divider", v: "목록 내부 1px #F1F3F5만" },
+          { k: "가짜 테두리", v: "inset 그림자 금지 → 면 채움 #F1F3F5" },
+          { k: "원형 예외", v: "아바타 · 상태 점 · 파이프라인 노드 · 도트" }
+        ] },
+        { name: "모션", rule: "4단 · 이징 1종", rows: [
+          { k: "instant", v: "120ms — 색 전환 · 마크 채움" },
+          { k: "base", v: "200ms — 그림자 · 디밍 · 상태" },
+          { k: "layout", v: "320ms — 줌 · 아코디언 · 캐러셀 이동" },
+          { k: "scene", v: "480ms — 히어로 전환 · 카드 등장" },
+          { k: "loop", v: "티커 38s · 마퀴 46s · 진행 5.6s (hover 정지)" }
+        ] },
+        { name: "표면 · 잉크", rule: "5단 + 다크 2무대", rows: [
+          { k: "SURFACE", v: "#FFFFFF — 카드 · 패널" },
+          { k: "BASE", v: "#F8F9FA — 페이지 배경" },
+          { k: "TINT", v: "#F1F3F5 — 칩 · active · 스켈레톤" },
+          { k: "HAIRLINE", v: "#F1F3F5 — divider / #EEF0F3 — 그리드 갭" },
+          { k: "DARK", v: "#0F172A — 마감 카드 · 전환 CTA 2곳만" },
+          { k: "DIM", v: "형제 항목 opacity .4 — 목록 hover 시(플레이 그라운드 구현값)" }
+        ] },
+        { name: "타이포", rule: "6단 · 11px 하한", rows: [
+          { k: "hero", v: "46 / 700 / -.05em — 히어로 제목 1곳만" },
+          { k: "display", v: "34 / 700 / -.038em (D-day · 대형 수치)" },
+          { k: "title", v: "21 / 700 / -.034em" },
+          { k: "card", v: "15 / 700 / -.028em" },
+          { k: "body", v: "13 / 400 / -.014em" },
+          { k: "caption", v: "12 / 500 / -.012em" },
+          { k: "micro", v: "11 / 600 / .03em — 하한, 이하 금지" }
+        ] }
+      ],
+
+      shadows: [
+        { name: "REST", use: "정지 상태 — 그림자 없음", value: "none", now: "0 18px 44px -22px (히어로 카드)" },
+        { name: "LIFT", use: "hover · 자동 포커스", value: "0 0 16px 0 rgba(0,0,0,.16)", now: "0 6px 18px rgba(15,23,42,.16)" },
+        { name: "LIFT 재사용", use: "active · 툴팁 — 눌림 전용 그림자 없음", value: "0 0 16px 0 rgba(0,0,0,.16)", now: "0 3px 10px / 0 6px 18px 2종" }
+      ],
+
+      badges: [
+        { label: "마감", meaning: "시간 압박", bg: "#E11D48" },
+        { label: "접수 중", meaning: "참여 가능", bg: "#0D9488" },
+        { label: "잼", meaning: "기간 한정", bg: "#D97706" },
+        { label: "채택", meaning: "완료 · 보상", bg: "#16A34A" },
+        { label: "글쓰기", meaning: "행동 · 내 것", bg: "#EA580C" },
+        { label: "정책", meaning: "중립 정보", bg: "#0F172A" }
+      ],
+
+      phases: [
+        { step: "STEP 1", name: "그림자 · hover 문법", cost: "반나절 · 체감 가장 큼", items: [
+          { t: "히어로 카드 정지 그림자 제거 (위반 01)" },
+          { t: ".mgCard / .mgRow / .mgQ / .mgNews / .mgTip을 LIFT 1종으로 (06·07·08)" },
+          { t: "퀵액션 다크 반전 → 부상 + 마크 채움 (09)" },
+          { t: ":active도 LIFT 동일값 · hover 배경 채움 전면 폐기 · 형제 디밍 .4" }
+        ] },
+        { step: "STEP 2", name: "테두리 · 색 정리", cost: "하루 · 구조 변화", items: [
+          { t: "버튼 · 칩 테두리와 inset 그림자 제거 (03·04·05)" },
+          { t: "뉴스 색 레일 → 블랙 정보 배지 (10)" },
+          { t: "hover 액센트 오렌지 1종, 틸 폐기 (11)" },
+          { t: "오렌지 5종 → 3종 · 34px 수치는 잉크로 (13)" }
+        ] },
+        { step: "STEP 3", name: "시간 표기 · 모션 · 마감", cost: "하루 · 디테일", items: [
+          { t: "마이크로 라벨 11px 하한 일괄 적용 (16)" },
+          { t: "캘린더 색선 → 면 채움, D-day 34px (15·17)" },
+          { t: "모션 4단 · 이징 1종으로 축약 (18)" },
+          { t: "3D 플립 → 상승 페이드, reduced-motion 대응, 사장 코드 삭제 (12·19)" }
+        ] }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

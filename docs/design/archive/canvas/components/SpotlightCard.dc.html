@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+.spCard{transition:box-shadow 200ms cubic-bezier(.2,.7,.2,1)}
+.spCard:hover,.spCard:active{box-shadow:0 0 16px 0 rgba(0,0,0,.16)}
+.spZoom{position:absolute;inset:0;transition:transform 320ms cubic-bezier(.2,.7,.2,1)}
+.spCard:hover .spZoom{transform:scale(1.06)}
+</style>
+</helmet>
+
+<a class="spCard" style="height:100%;display:flex;flex-direction:column;background:#FFFFFF">
+<div style="position:relative;height:214px;background:#F1F3F5;overflow:hidden">
+<div class="spZoom"><image-slot id="mg-spot-1" shape="rect" placeholder="이번 주 메이커"></image-slot></div>
+<div style="position:absolute;inset:0;pointer-events:none;background:linear-gradient(180deg,rgba(15,23,42,0) 42%,rgba(15,23,42,.82) 100%)"></div>
+<div style="position:absolute;left:20px;right:20px;bottom:16px;z-index:4">
+<dc-import name="Body" as="span" size="xs" weight="bold" color="inverse" sx="display:inline-flex;padding:3px 8px;background:#0F172A;letter-spacing:.06em" hint-size="120px,18px">이번 주 메이커</dc-import>
+<dc-import name="Headline" as="h2" size="sm" color="inverse" sx="margin-top:7px;text-wrap:balance" hint-size="220px,31px">툴을 먼저 만드는 사람</dc-import>
+</div>
+</div>
+<div style="flex:1;padding:18px 20px 20px;display:flex;flex-direction:column">
+<div style="display:flex;align-items:center;gap:10px">
+<dc-import name="Body" as="span" size="xs" weight="bold" color="inverse" sx="width:34px;height:34px;flex:none;border-radius:999px;background:{{ avatarColor }};display:grid;place-items:center" hint-size="120px,18px">픽</dc-import>
+<div style="min-width:0">
+<dc-import name="Body" as="span" weight="bold" size="md" hint-size="160px,24px">픽셀상점</dc-import>
+<dc-import name="Body" as="div" size="xs" color="tertiary" sx="margin-top:2px" hint-size="120px,18px">연재 12회 · 구독 128명 · 답변 64</dc-import>
+</div>
+</div>
+<dc-import name="Body" as="p" size="sm" color="secondary" sx="margin:14px 0 0;text-wrap:pretty" hint-size="140px,21px">“스테이지를 손으로 짜다가 툴을 먼저 만들었어요. 3일 걸리던 일이 반나절이 됐습니다.”</dc-import>
+<dc-import name="Body" as="span" size="xs" weight="bold" sx="margin-top:auto;padding-top:16px;color:#EA580C" hint-size="120px,18px">인터뷰 읽기 &#8594;</dc-import>
+</div>
+</a>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:388,&quot;height&quot;:420},&quot;avatarColor&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#0F172A&quot;,&quot;options&quot;:[&quot;#0F172A&quot;,&quot;#EA580C&quot;,&quot;#008638&quot;],&quot;tsType&quot;:&quot;string&quot;}}"></script>
+</body>
+</html>

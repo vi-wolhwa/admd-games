@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#F6F7F9;font-family:"Pretendard Variable",Pretendard,Inter,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;word-break:keep-all}
+a{color:#2563EB;text-decoration:none}
+a:hover{color:#1D4ED8}
+</style>
+</helmet>
+
+<div style="width:1240px;margin:0 auto;padding:52px 0 96px;color:#0F172A">
+
+<div style="background:#0F172A;color:#FFFFFF;padding:36px 40px 34px">
+<div style="font-size:12px;font-weight:600;letter-spacing:-.008em;color:#94A3B8">TYPOGRAPHY v2 · 컴포넌트 3종</div>
+<h1 style="margin:14px 0 0;font-size:32px;font-weight:700;letter-spacing:-.036em;line-height:36px">Display · Heading · Body<br>— 래더를 엇갈려 나눈다</h1>
+<p style="margin:16px 0 0;max-width:860px;font-size:16px;line-height:26px;color:#CBD5E1;letter-spacing:-.02em;text-wrap:pretty">Heading이 문서 구조 전체를 맡으면 16~50px, 즉 9단을 덮어야 합니다. t셔츠 이름 9개는 외울 수 없습니다. 그래서 <span style="font-weight:600;color:#FFFFFF">Heading은 래더의 홀수 칸, Display는 짝수 칸</span>을 갖습니다. 둘은 같은 크기로 만나지 않고, 각자 1.33 비율의 대비 있는 스케일을 얻습니다. Body는 아래쪽 4단을 촘촘히 씁니다.</p>
+<div style="margin-top:28px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:#1E293B">
+<div style="background:#0F172A;padding:17px 19px 16px">
+<div style="font-size:12px;font-weight:600;letter-spacing:-.008em;color:#94A3B8">컴포넌트</div>
+<div style="margin-top:8px;font-size:24px;font-weight:700;letter-spacing:-.03em;line-height:28px;font-variant-numeric:tabular-nums">3<span style="font-size:14px;font-weight:600;color:#94A3B8">종 · 12조합</span></div>
+</div>
+<div style="background:#0F172A;padding:17px 19px 16px">
+<div style="font-size:12px;font-weight:600;letter-spacing:-.008em;color:#94A3B8">Heading 비율</div>
+<div style="margin-top:8px;font-size:24px;font-weight:700;letter-spacing:-.03em;line-height:28px;font-variant-numeric:tabular-nums">1.33<span style="font-size:14px;font-weight:600;color:#94A3B8"> · 5단</span></div>
+</div>
+<div style="background:#0F172A;padding:17px 19px 16px">
+<div style="font-size:12px;font-weight:600;letter-spacing:-.008em;color:#94A3B8">크기 충돌</div>
+<div style="margin-top:8px;font-size:24px;font-weight:700;letter-spacing:-.03em;line-height:28px;font-variant-numeric:tabular-nums">1<span style="font-size:14px;font-weight:600;color:#94A3B8">곳 · 16px만</span></div>
+</div>
+<div style="background:#0F172A;padding:17px 19px 16px">
+<div style="font-size:12px;font-weight:600;letter-spacing:-.008em;color:#94A3B8">굵기 prop</div>
+<div style="margin-top:8px;font-size:24px;font-weight:700;letter-spacing:-.03em;line-height:28px;color:#FCD34D">Body만</div>
+</div>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:30px 34px 34px">
+<div style="font-size:12px;font-weight:600;letter-spacing:-.008em;color:#94A3B8">01 — 컴포넌트 3종 · 4축 확정</div>
+<div style="margin-top:22px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:#E9ECF1">
+<sc-for list="{{ comps }}" as="c" hint-placeholder-count="3">
+<div style="background:#FFFFFF;padding:24px 26px 26px">
+<div style="display:flex;align-items:baseline;gap:10px">
+<span style="padding:4px 11px;background:{{ c.chipBg }};color:{{ c.chipFg }};font-size:16px;font-weight:700;letter-spacing:-.02em;line-height:22px">{{ c.name }}</span>
+<span style="font-size:12px;font-weight:600;letter-spacing:-.008em;color:#94A3B8">{{ c.kicker }}</span>
+</div>
+<p style="margin:13px 0 0;font-size:14px;line-height:22px;color:#475569;letter-spacing:-.014em;text-wrap:pretty">{{ c.use }}</p>
+
+<div style="margin-top:20px;font-size:12px;font-weight:600;letter-spacing:-.008em;color:#94A3B8">사이즈 단계</div>
+<div style="margin-top:8px;display:flex;flex-direction:column;gap:1px;background:#E9ECF1">
+<sc-for list="{{ c.steps }}" as="s" hint-placeholder-count="4">
+<div style="background:#F8FAFC;padding:9px 12px;display:grid;grid-template-columns:52px 1fr 1fr;gap:8px;align-items:baseline">
+<span style="font-size:12px;font-weight:600;letter-spacing:-.008em;color:{{ s.keyColor }}">{{ s.k }}</span>
+<span style="font-size:14px;font-weight:700;letter-spacing:-.014em;font-variant-numeric:tabular-nums">{{ s.px }}<span style="font-size:12px;font-weight:500;color:#94A3B8">px</span></span>
+<span style="font-size:12px;font-weight:500;letter-spacing:-.008em;color:#64748B;font-variant-numeric:tabular-nums">/ {{ s.lh }} 행간</span>
+</div>
+</sc-for>
+</div>
+<div style="margin-top:7px;font-size:12px;line-height:18px;color:#94A3B8;letter-spacing:-.008em">기본값 <span style="font-weight:700;color:#0F172A">{{ c.def }}</span> · {{ c.defWhy }}</div>
+
+<div style="margin-top:18px;display:flex;flex-direction:column;gap:1px;background:#E9ECF1">
+<div style="background:#FFFFFF;padding:13px 0 0">
+<div style="font-size:12px;font-weight:600;letter-spacing:-.008em;color:#94A3B8">as (tag)</div>
+<div style="margin-top:7px;font-size:12px;line-height:20px;font-weight:600;letter-spacing:-.008em;color:#0F172A">{{ c.tags }}</div>
+<div style="margin-top:5px;font-size:12px;line-height:18px;color:#64748B;letter-spacing:-.008em">{{ c.tagNote }}</div>
+</div>
+<div style="background:#FFFFFF;padding:14px 0 0">
+<div style="font-size:12px;font-weight:600;letter-spacing:-.008em;color:#94A3B8">weight</div>
+<div style="margin-top:7px;font-size:12px;line-height:20px;font-weight:600;letter-spacing:-.008em;color:#0F172A">{{ c.weight }}</div>
+<div style="margin-top:5px;font-size:12px;line-height:18px;color:#64748B;letter-spacing:-.008em">{{ c.weightNote }}</div>
+</div>
+<div style="background:#FFFFFF;padding:14px 0 0">
+<div style="font-size:12px;font-weight:600;letter-spacing:-.008em;color:#94A3B8">line-height</div>
+<div style="margin-top:7px;font-size:12px;line-height:20px;font-weight:600;letter-spacing:-.008em;color:#0F172A">{{ c.lh }}</div>
+<div style="margin-top:5px;font-size:12px;line-height:18px;color:#64748B;letter-spacing:-.008em">{{ c.lhNote }}</div>
+</div>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:30px 34px 32px">
+<div style="font-size:12px;font-weight:600;letter-spacing:-.008em;color:#94A3B8">02 — 11단 래더 · 엇갈려 나누기</div>
+<p style="margin:15px 0 0;max-width:920px;font-size:14px;line-height:22px;color:#64748B;letter-spacing:-.014em;text-wrap:pretty">Heading은 한 칸씩 건너뛰며 올라가고, 그 사이 빈칸을 Display가 채웁니다. 결과적으로 <span style="font-weight:600;color:#0F172A">32px 수치 옆에 28px 제목</span>이 있어도 둘의 크기가 겹치지 않아 위계가 읽힙니다. 겹치는 곳은 16px 하나뿐입니다 — 카드 제목(Heading)과 본문 기본(Body)이 만나는 자리이고, 굵기 700/400과 행간 22/26으로 갈립니다.</p>
+<div style="margin-top:22px;display:grid;grid-template-columns:82px 1fr 1fr 1fr 300px;gap:1px;background:#E9ECF1">
+<div style="background:#F6F7F9;padding:10px 13px;font-size:12px;font-weight:600;letter-spacing:-.008em;color:#64748B">크기</div>
+<div style="background:#F6F7F9;padding:10px 13px;font-size:12px;font-weight:600;letter-spacing:-.008em;color:#64748B">Heading</div>
+<div style="background:#F6F7F9;padding:10px 13px;font-size:12px;font-weight:600;letter-spacing:-.008em;color:#64748B">Display</div>
+<div style="background:#F6F7F9;padding:10px 13px;font-size:12px;font-weight:600;letter-spacing:-.008em;color:#64748B">Body</div>
+<div style="background:#F6F7F9;padding:10px 13px;font-size:12px;font-weight:600;letter-spacing:-.008em;color:#64748B">쓰이는 자리</div>
+<sc-for list="{{ ladder }}" as="l" hint-placeholder-count="11">
+<div style="background:#FFFFFF;padding:13px;font-size:16px;font-weight:700;letter-spacing:-.02em;line-height:22px;font-variant-numeric:tabular-nums">{{ l.px }}</div>
+<div style="background:{{ l.hBg }};padding:13px;font-size:12px;font-weight:600;letter-spacing:-.008em;color:{{ l.hFg }}">{{ l.h }}</div>
+<div style="background:{{ l.dBg }};padding:13px;font-size:12px;font-weight:600;letter-spacing:-.008em;color:{{ l.dFg }}">{{ l.d }}</div>
+<div style="background:{{ l.bBg }};padding:13px;font-size:12px;font-weight:600;letter-spacing:-.008em;color:{{ l.bFg }}">{{ l.b }}</div>
+<div style="background:#FFFFFF;padding:13px;font-size:12px;line-height:18px;color:#64748B;letter-spacing:-.008em">{{ l.note }}</div>
+</sc-for>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:30px 34px 34px">
+<div style="font-size:12px;font-weight:600;letter-spacing:-.008em;color:#94A3B8">03 — 견본</div>
+<div style="margin-top:22px;display:flex;flex-direction:column;gap:1px;background:#E9ECF1">
+<div style="background:#FFFFFF;padding:20px;display:flex;align-items:baseline;gap:22px;overflow:hidden">
+<span style="flex:none;width:150px;font-size:12px;font-weight:600;letter-spacing:-.008em;color:#94A3B8">Heading xl · h1</span>
+<span style="font-size:50px;font-weight:700;letter-spacing:-.04em;line-height:56px;white-space:nowrap">오늘의 게임</span>
+</div>
+<div style="background:#FFFFFF;padding:20px;display:flex;align-items:baseline;gap:22px;overflow:hidden">
+<span style="flex:none;width:150px;font-size:12px;font-weight:600;letter-spacing:-.008em;color:#94A3B8">Display lg · span</span>
+<span style="font-size:43px;font-weight:700;letter-spacing:-.04em;line-height:48px;white-space:nowrap;font-variant-numeric:tabular-nums">12,480<span style="font-size:18px;font-weight:600;color:#94A3B8">회 플레이</span></span>
+<span style="font-size:12px;font-weight:600;letter-spacing:-.008em;color:#C2410C">문서 개요에 들어가지 않음</span>
+</div>
+<div style="background:#FFFFFF;padding:20px;display:flex;align-items:baseline;gap:22px;overflow:hidden">
+<span style="flex:none;width:150px;font-size:12px;font-weight:600;letter-spacing:-.008em;color:#94A3B8">Heading md · h2</span>
+<span style="font-size:28px;font-weight:700;letter-spacing:-.034em;line-height:36px;white-space:nowrap">이번 주 마감 임박</span>
+</div>
+<div style="background:#FFFFFF;padding:20px;display:flex;align-items:baseline;gap:22px;overflow:hidden">
+<span style="flex:none;width:150px;font-size:12px;font-weight:600;letter-spacing:-.008em;color:#94A3B8">Display md · span</span>
+<span style="font-size:32px;font-weight:700;letter-spacing:-.036em;line-height:36px;white-space:nowrap;font-variant-numeric:tabular-nums">128<span style="font-size:16px;font-weight:600;color:#94A3B8">개 저장</span></span>
+<span style="font-size:12px;font-weight:600;letter-spacing:-.008em;color:#94A3B8">28px 제목 옆에서도 크기가 겹치지 않음</span>
+</div>
+<div style="background:#FFFFFF;padding:20px;display:flex;align-items:baseline;gap:22px;overflow:hidden">
+<span style="flex:none;width:150px;font-size:12px;font-weight:600;letter-spacing:-.008em;color:#94A3B8">Heading sm · h2</span>
+<span style="font-size:21px;font-weight:700;letter-spacing:-.028em;line-height:28px;white-space:nowrap">지금 플레이할 게임</span>
+<span style="font-size:12px;font-weight:600;letter-spacing:-.008em;color:#94A3B8">기본값 — 가장 흔한 섹션 제목</span>
+</div>
+<div style="background:#FFFFFF;padding:20px;display:flex;align-items:baseline;gap:22px;overflow:hidden">
+<span style="flex:none;width:150px;font-size:12px;font-weight:600;letter-spacing:-.008em;color:#94A3B8">Heading xs · h3</span>
+<span style="font-size:16px;font-weight:700;letter-spacing:-.02em;line-height:22px;white-space:nowrap">별빛 아래 정원사</span>
+<span style="font-size:12px;font-weight:600;letter-spacing:-.008em;color:#94A3B8">카드 제목 — 개요에 남습니다</span>
+</div>
+<div style="background:#FFFFFF;padding:20px;display:flex;align-items:baseline;gap:22px">
+<span style="flex:none;width:150px;font-size:12px;font-weight:600;letter-spacing:-.008em;color:#94A3B8">Body md · p</span>
+<span style="min-width:0;font-size:16px;font-weight:400;letter-spacing:-.02em;line-height:26px;color:#475569;text-wrap:pretty">밤마다 자라는 정원을 돌보며 사라진 별을 되찾는 짧은 이야기 게임입니다. 게임 상세의 소개문이 이 단계이고, <span style="font-weight:600;color:#0F172A">문장 안 강조는 semibold</span>로 처리합니다.</span>
+</div>
+<div style="background:#FFFFFF;padding:20px;display:flex;align-items:center;gap:22px">
+<span style="flex:none;width:150px;font-size:12px;font-weight:600;letter-spacing:-.008em;color:#94A3B8">Body md · sm · xs</span>
+<span style="display:flex;align-items:center;gap:11px;flex-wrap:wrap">
+<span style="padding:12px 20px;background:#0F172A;color:#FFFFFF;font-size:16px;font-weight:600;letter-spacing:-.02em;line-height:26px">지금 플레이</span>
+<span style="padding:9px 15px;background:#F1F5F9;color:#0F172A;font-size:14px;font-weight:600;letter-spacing:-.014em;line-height:22px">최신순</span>
+<span style="font-size:12px;font-weight:500;letter-spacing:-.008em;line-height:18px;color:#64748B">한밤스튜디오 · 퍼즐 · 2026.04</span>
+<span style="padding:3px 8px;background:#0F172A;color:#FFFFFF;font-size:12px;font-weight:700;letter-spacing:.06em;line-height:18px">NEW</span>
+<span style="font-size:12px;font-weight:700;letter-spacing:.06em;line-height:18px;color:#94A3B8">THIS WEEK</span>
+</span>
+</div>
+</div>
+<p style="margin:18px 0 0;font-size:12px;line-height:18px;color:#94A3B8;letter-spacing:-.008em;text-wrap:pretty">버튼 · 탭 · 배지 · 메타 · eyebrow가 전부 Body입니다. 크기(xs·sm·md)와 굵기(medium·semibold·bold), caps 변형으로 갈립니다.</p>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:30px 34px 32px">
+<div style="font-size:12px;font-weight:600;letter-spacing:-.008em;color:#94A3B8">04 — as · weight 규칙</div>
+<div style="margin-top:20px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:#E9ECF1">
+<div style="background:#FFFFFF;padding:24px 26px 26px">
+<div style="font-size:18px;font-weight:700;letter-spacing:-.024em;line-height:24px">레벨은 위치가 정한다</div>
+<p style="margin:11px 0 0;font-size:14px;line-height:22px;color:#64748B;letter-spacing:-.014em;text-wrap:pretty">Heading의 <span style="font-weight:600;color:#0F172A">size와 as는 독립</span>입니다. 히어로가 있는 페이지의 섹션 제목은 <span style="font-weight:600;color:#0F172A">sm + h2</span>, 히어로가 없는 설정 페이지는 <span style="font-weight:600;color:#0F172A">md + h1</span>이 됩니다. 크기가 레벨을 결정하면 얕은 페이지마다 h1이 사라집니다.</p>
+<div style="margin-top:16px;padding:15px 17px;background:#0F172A;color:#E2E8F0;font-size:12px;line-height:22px;letter-spacing:-.008em">&lt;Heading size="xl" as="h1"&gt;오늘의 게임<br>&lt;Heading size="sm" as="h2"&gt;지금 플레이할 게임<br>&lt;Heading size="xs" as="h3"&gt;별빛 아래 정원사<br><span style="color:#94A3B8">&lt;Heading as="span"&gt; — 타입 에러</span></div>
+<div style="margin-top:14px;font-size:12px;line-height:18px;color:#94A3B8;letter-spacing:-.008em">h5 · h6은 없습니다. 4단계보다 깊어지면 태그가 아니라 페이지 구조 문제입니다.</div>
+</div>
+<div style="background:#FFFFFF;padding:24px 26px 26px">
+<div style="font-size:18px;font-weight:700;letter-spacing:-.024em;line-height:24px">굵기 prop은 Body에만</div>
+<p style="margin:11px 0 0;font-size:14px;line-height:22px;color:#64748B;letter-spacing:-.014em;text-wrap:pretty">Display와 Heading은 <span style="font-weight:600;color:#0F172A">700 고정 · prop 없음</span>입니다. 위계는 크기가 만들고 굵기는 관여하지 않습니다. 타입에 없으면 이탈도 없습니다.</p>
+<div style="margin-top:16px;display:flex;flex-direction:column;gap:1px;background:#E9ECF1">
+<sc-for list="{{ weights }}" as="w" hint-placeholder-count="4">
+<div style="background:#F8FAFC;padding:11px 14px;display:grid;grid-template-columns:96px 46px minmax(0,1fr);gap:10px;align-items:baseline">
+<span style="font-size:12px;font-weight:600;letter-spacing:-.008em;color:#0F172A">{{ w.name }}</span>
+<span style="font-size:12px;font-weight:600;letter-spacing:-.008em;color:#94A3B8;font-variant-numeric:tabular-nums">{{ w.px }}</span>
+<span style="font-size:12px;line-height:18px;color:#64748B;letter-spacing:-.008em">{{ w.use }}</span>
+</div>
+</sc-for>
+</div>
+<div style="margin-top:14px;font-size:12px;line-height:18px;color:#94A3B8;letter-spacing:-.008em">금지: 300(한글이 저해상도에서 사라짐) · 800(뭉침) · 450 같은 임의값. 가변 폰트라 가능하지만 화면 간 비교가 불가능해집니다.</div>
+</div>
+</div>
+<div style="margin-top:18px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:#E9ECF1">
+<sc-if value="{{ true }}" hint-placeholder-val="{{ true }}">
+<div style="background:#F8FAFC;padding:18px 20px 19px">
+<div style="font-size:14px;font-weight:700;letter-spacing:-.018em;line-height:22px">Display에 heading 태그 불가</div>
+<p style="margin:8px 0 0;font-size:12px;line-height:18px;color:#64748B;letter-spacing:-.008em;text-wrap:pretty">값이 갱신되는 글자는 제목이 아닙니다. 43px 지표를 h2로 쓰면 스크린리더의 제목 목록에 숫자가 섞입니다. 큰 제목이 필요하면 Heading lg · xl입니다.</p>
+</div>
+<div style="background:#F8FAFC;padding:18px 20px 19px">
+<div style="font-size:14px;font-weight:700;letter-spacing:-.018em;line-height:22px">Body 기본 태그는 span</div>
+<p style="margin:8px 0 0;font-size:12px;line-height:18px;color:#64748B;letter-spacing:-.008em;text-wrap:pretty">p가 기본이면 버튼 안에 p가 들어가 마크업이 깨집니다. UI 글자가 프로즈보다 훨씬 많으므로 span을 기본으로 두고, <span style="font-weight:600;color:#0F172A">문장에는 as="p"를 명시</span>합니다.</p>
+</div>
+<div style="background:#F8FAFC;padding:18px 20px 19px">
+<div style="font-size:14px;font-weight:700;letter-spacing:-.018em;line-height:22px">a · button은 전 컴포넌트 금지</div>
+<p style="margin:8px 0 0;font-size:12px;line-height:18px;color:#64748B;letter-spacing:-.008em;text-wrap:pretty">href · onClick · disabled 타입과 포커스 링, 44px 터치 타겟이 딸려옵니다. 감싸는 형태로 씁니다 — <span style="font-weight:600;color:#0F172A">&lt;Button&gt;&lt;Body&gt;지금 플레이&lt;/Body&gt;&lt;/Button&gt;</span>. strong · em도 제외입니다: 의미이지 크기가 아니고, children에 HTML로 두면 됩니다.</p>
+</div>
+</sc-if>
+</div>
+</div>
+
+<sc-if value="{{ showMigration }}" hint-placeholder-val="{{ true }}">
+<div style="margin-top:16px;background:#FFFFFF;padding:30px 34px 34px">
+<div style="font-size:12px;font-weight:600;letter-spacing:-.008em;color:#94A3B8">05 — 이관표</div>
+<p style="margin:15px 0 0;max-width:920px;font-size:14px;line-height:22px;color:#64748B;letter-spacing:-.014em;text-wrap:pretty">현재 사이트에서 쓰이는 8개 값의 이관 경로입니다. <span style="font-weight:600;color:#0F172A">11px과 34px은 새 래더에 없습니다.</span> 5역할 초안에서 온 매핑도 함께 적었습니다.</p>
+<div style="margin-top:22px;display:grid;grid-template-columns:132px 52px minmax(0,1fr) 200px 84px;gap:1px;background:#E9ECF1">
+<div style="background:#F6F7F9;padding:10px 13px;font-size:12px;font-weight:600;letter-spacing:-.008em;color:#64748B">현재</div>
+<div style="background:#F6F7F9;padding:10px 13px"></div>
+<div style="background:#F6F7F9;padding:10px 13px;font-size:12px;font-weight:600;letter-spacing:-.008em;color:#64748B">새 컴포넌트 · 영향</div>
+<div style="background:#F6F7F9;padding:10px 13px;font-size:12px;font-weight:600;letter-spacing:-.008em;color:#64748B">5역할 초안이었다면</div>
+<div style="background:#F6F7F9;padding:10px 13px;font-size:12px;font-weight:600;letter-spacing:-.008em;color:#64748B;text-align:right">변화</div>
+<sc-for list="{{ migration }}" as="m" hint-placeholder-count="10">
+<div style="background:#FFFFFF;padding:13px">
+<div style="font-size:14px;font-weight:700;letter-spacing:-.018em;line-height:22px;font-variant-numeric:tabular-nums">{{ m.from }}</div>
+<div style="margin-top:2px;font-size:12px;line-height:18px;color:#94A3B8;letter-spacing:-.008em">{{ m.role }}</div>
+</div>
+<div style="background:#FFFFFF;padding:13px;font-size:14px;color:#CBD5E1">→</div>
+<div style="background:#FFFFFF;padding:13px">
+<div style="font-size:12px;font-weight:600;letter-spacing:-.008em;color:#0F172A">{{ m.to }}</div>
+<div style="margin-top:3px;font-size:12px;line-height:18px;color:#64748B;letter-spacing:-.008em">{{ m.impact }}</div>
+</div>
+<div style="background:#FFFFFF;padding:13px;font-size:12px;line-height:18px;color:#94A3B8;letter-spacing:-.008em">{{ m.old }}</div>
+<div style="background:#FFFFFF;padding:13px;text-align:right;font-size:12px;font-weight:700;letter-spacing:-.008em;color:{{ m.color }};font-variant-numeric:tabular-nums">{{ m.delta }}</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showOpen }}" hint-placeholder-val="{{ true }}">
+<div style="margin-top:16px;background:#FFFFFF;padding:30px 34px 32px">
+<div style="font-size:12px;font-weight:600;letter-spacing:-.008em;color:#94A3B8">06 — 3종으로 줄이며 생긴 판단 3건</div>
+<div style="margin-top:20px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:#E9ECF1">
+<sc-for list="{{ open }}" as="o" hint-placeholder-count="3">
+<div style="background:#FFFFFF;padding:22px 24px 24px">
+<div style="display:flex;align-items:center;gap:9px">
+<span style="padding:3px 9px;background:#F1F5F9;color:#475569;font-size:12px;font-weight:700;letter-spacing:-.008em">{{ o.no }}</span>
+<span style="font-size:16px;font-weight:700;letter-spacing:-.02em;line-height:22px">{{ o.name }}</span>
+</div>
+<p style="margin:11px 0 0;font-size:12px;line-height:18px;color:#64748B;letter-spacing:-.008em;text-wrap:pretty">{{ o.desc }}</p>
+<div style="margin-top:13px;padding-top:11px;border-top:1px solid #E9ECF1;font-size:12px;line-height:18px;color:#0F172A;letter-spacing:-.008em"><span style="font-weight:700">내 제안 · </span>{{ o.rec }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showMigration&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;섹션 표시&quot;},&quot;showOpen&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;섹션 표시&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const H = ["#0F172A", "#FFFFFF"], D = ["#FFEDD5", "#C2410C"], B = ["#DBEAFE", "#1D4ED8"], N = ["#FFFFFF", "#E2E8F0"];
+    const row = (px, h, d, b, note) => ({
+      px, note,
+      h: h || "—", hBg: h ? H[0] : N[0], hFg: h ? H[1] : N[1],
+      d: d || "—", dBg: d ? D[0] : N[0], dFg: d ? D[1] : N[1],
+      b: b || "—", bBg: b ? B[0] : N[0], bFg: b ? B[1] : N[1]
+    });
+
+    return {
+      showMigration: this.props.showMigration ?? true,
+      showOpen: this.props.showOpen ?? true,
+
+      comps: [
+        {
+          name: "Display", chipBg: "#FFEDD5", chipFg: "#C2410C", kicker: "강조 · 값",
+          use: "지표 · 평점 · 가격처럼 값이 갱신되는 큰 글자와 풀 쿼트. 문서 개요에 들어가지 않는 큰 글자 전부가 여기입니다.",
+          steps: [{ k: "sm", px: 24, lh: 28, keyColor: "#94A3B8" }, { k: "md", px: 32, lh: 36, keyColor: "#0F172A" }, { k: "lg", px: 43, lh: 48, keyColor: "#94A3B8" }],
+          def: "md 32", defWhy: "카드 안 지표의 기본 크기",
+          tags: "span · p · div · dd · blockquote", tagNote: "heading 태그 불가 — 기본 span",
+          weight: "700 고정 · prop 없음", weightNote: "가벼운 대형 텍스트는 지원하지 않습니다",
+          lh: "28 / 36 / 48 (4px 그리드)", lhNote: "1.17 → 1.12. 한두 단어와 숫자 전제라 조밀합니다"
+        },
+        {
+          name: "Heading", chipBg: "#0F172A", chipFg: "#FFFFFF", kicker: "문서 구조",
+          use: "페이지 · 섹션 · 패널 · 카드 제목. 아래 내용의 이름 노릇을 하는 글자만 해당합니다. 래더의 홀수 칸을 갖습니다.",
+          steps: [{ k: "xs", px: 16, lh: 22, keyColor: "#94A3B8" }, { k: "sm", px: 21, lh: 28, keyColor: "#0F172A" }, { k: "md", px: 28, lh: 36, keyColor: "#94A3B8" }, { k: "lg", px: 37, lh: 44, keyColor: "#94A3B8" }, { k: "xl", px: 50, lh: 56, keyColor: "#94A3B8" }],
+          def: "sm 21", defWhy: "모든 페이지에 있는 섹션 제목",
+          tags: "h1 · h2 · h3 · h4", tagNote: "heading 태그 전용 · 기본 h2 · h5 h6 없음",
+          weight: "700 고정 · prop 없음", weightNote: "위계는 크기가 만듭니다",
+          lh: "22 / 28 / 36 / 44 / 56", lhNote: "1.38 → 1.12. 커질수록 조입니다"
+        },
+        {
+          name: "Body", chipBg: "#DBEAFE", chipFg: "#1D4ED8", kicker: "일반 텍스트",
+          use: "문장 · 버튼 · 탭 · 배지 · 메타 · eyebrow · 폼 라벨. 제목도 대형 강조도 아닌 글자 전부입니다.",
+          steps: [{ k: "xs", px: 12, lh: 18, keyColor: "#94A3B8" }, { k: "sm", px: 14, lh: 22, keyColor: "#94A3B8" }, { k: "md", px: 16, lh: 26, keyColor: "#0F172A" }, { k: "lg", px: 18, lh: 28, keyColor: "#94A3B8" }],
+          def: "md 16", defWhy: "읽기 기준 크기",
+          tags: "span · p · div · li · label · dt · dd · small · caption · blockquote · figcaption", tagNote: "기본 span — 문장에는 as=\"p\" 명시",
+          weight: "regular 400 기본 · medium · semibold · bold", weightNote: "4종 전부 필요한 유일한 컴포넌트",
+          lh: "18 / 22 / 26 / 28", lhNote: "md 16에 가장 넉넉한 1.63 — 읽기 기준이라"
+        }
+      ],
+
+      ladder: [
+        row(50, "xl", null, null, "페이지 제목 — 페이지당 1회"),
+        row(43, null, "lg", null, "대형 지표 · 히어로 수치"),
+        row(37, "lg", null, null, "히어로 제목 · 좁은 폭 대체"),
+        row(32, null, "md", null, "패널 지표 — Display 기본값"),
+        row(28, "md", null, null, "패널 · 모달 제목"),
+        row(24, null, "sm", null, "카드 안 강조 수치 · 평점"),
+        row(21, "sm", null, null, "섹션 제목 — 가장 흔함, Heading 기본값"),
+        row(18, null, null, "lg", "리드 문단 · 상세 소개문"),
+        row(16, "xs", null, "md", "카드 제목(700/22) · 본문 기본(400/26) — 유일한 충돌"),
+        row(14, null, null, "sm", "버튼 · 탭 · 조밀 본문"),
+        row(12, null, null, "xs", "메타 · 배지 · eyebrow — 하한")
+      ],
+
+      weights: [
+        { name: "regular", px: 400, use: "문장 기본. Body의 기본값" },
+        { name: "medium", px: 500, use: "메타 텍스트. 400은 tertiary 색과 겹쳐 흐려집니다" },
+        { name: "semibold", px: 600, use: "버튼 · 탭 · 활성 상태 · 문장 안 강조" },
+        { name: "bold", px: 700, use: "배지 · caps eyebrow. 12px에서 대비 수단이 굵기뿐" }
+      ],
+
+      migration: [
+        { from: "50px", role: "히어로", to: "Heading xl · h1", impact: "그대로", old: "display.lg", delta: "유지", color: "#94A3B8" },
+        { from: "46px", role: "메이커스 히어로", to: "Heading lg 37 · h1", impact: "두 사이트 히어로가 갈립니다 — 50 또는 37", old: "display.md 43", delta: "-9", color: "#BE123C" },
+        { from: "34px", role: "큰 수치", to: "Display md 32 · span", impact: "34px 소멸. 마크업도 h2 → span 교체", old: "headline.lg 32", delta: "-2", color: "#1D4ED8" },
+        { from: "21px", role: "섹션 제목", to: "Heading sm · h2", impact: "그대로 — 이관 부담 없음", old: "title.lg", delta: "유지", color: "#94A3B8" },
+        { from: "15px", role: "카드 제목", to: "Heading xs 16 · h3", impact: "카드 높이 재조판", old: "title.sm 16", delta: "+1", color: "#C2410C" },
+        { from: "13px / 400", role: "본문", to: "Body sm 14 · p", impact: "설명문 영역 높이 증가", old: "body.sm 14", delta: "+1", color: "#C2410C" },
+        { from: "13px / 600", role: "주요 CTA", to: "Body md 16 semibold", impact: "44px 터치 타겟 안에서 14는 작습니다", old: "label.lg 16", delta: "+3", color: "#BE123C" },
+        { from: "13px / 600", role: "탭 · 보조 버튼", to: "Body sm 14 semibold", impact: "버튼 패딩 재산정", old: "label.md 14", delta: "+1", color: "#C2410C" },
+        { from: "12px", role: "메타 · 캡션", to: "Body xs 12 medium", impact: "그대로", old: "label.sm 12", delta: "유지", color: "#94A3B8" },
+        { from: "11px", role: "micro · eyebrow", to: "Body xs 12 bold", impact: "11px 폐기 — 배지 · 스펙마크 전수 수정", old: "label.sm 12", delta: "+1", color: "#BE123C" }
+      ],
+
+      open: [
+        { no: "Q1", name: "히어로 46px의 행선지", desc: "Heading은 37 다음이 바로 50입니다. 현재 46px인 메이커스 히어로가 갈 칸이 없어 37로 내리거나 50으로 올려야 합니다. 43은 Display 소유라 제목으로 쓸 수 없습니다.", rec: "PlayGround 50 · MakersGround 37. 두 사이트의 성격 차이를 크기로 드러내는 편이 낫습니다." },
+        { no: "Q2", name: "Display에 sm 24가 필요한가", desc: "24px 강조는 현재 사이트에 없습니다. 카드 안 평점이나 순위가 커질 때를 위한 예비 칸인데, 안 쓰이면 죽은 토큰이 됩니다.", rec: "남깁니다. Display가 2단이 되면 md/lg만 남아 기본값 규칙이 어색해집니다." },
+        { no: "Q3", name: "Body lg 18의 첫 사용처", desc: "18px는 지금 아무 데도 쓰이지 않습니다. 게임 상세의 리드 문단이 첫 사용처가 될 예정이고, 거기서 검증되지 않으면 Body는 3단으로 줄여도 됩니다.", rec: "게임 상세 설계까지 보류. 그때 판단합니다." }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

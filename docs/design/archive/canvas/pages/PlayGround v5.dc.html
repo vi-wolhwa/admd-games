@@ -1,0 +1,408 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>PlayGround v5 홈 (PC)</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Gasoek+One&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'Pretendard';src:url('fonts/PretendardVariable.woff2') format('woff2');font-weight:45 920;font-display:swap}
+:root{
+--canvas:#F3F4F6;--surface:#FFFFFF;--sunken:#EBEDF0;--sunken-2:#F6F7F8;--line:#E4E6E9;--line-2:#EEF0F2;
+--ink-1:#151A20;--ink-2:#4F5359;--ink-3:#65696F;--ink-4:#9B9FA3;
+--accent:#046DCE;--accent-strong:#0159AA;--accent-tint:#ECF4FE;
+--make:#D22C02;--make-strong:#AD2201;--make-tint:#FEF0ED;
+--ok:#047F3F;--up:#DB0240;--down:#0159AA;
+--lift:0 0 16px 0 rgb(21 26 32 / .14);
+--ease:cubic-bezier(.2,.7,.2,1);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--canvas);color:var(--ink-1);font-family:'Pretendard',system-ui,sans-serif;font-size:14px;line-height:1.5;word-break:keep-all;-webkit-font-smoothing:antialiased;min-width:1240px}
+a{color:inherit;text-decoration:none}
+a:hover{text-decoration:underline;text-underline-offset:2px}
+.card-link:hover,.nohover:hover{text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{width:1240px;margin:0 auto}
+.num{font-variant-numeric:tabular-nums}
+.disp{font-family:'Gasoek One','Pretendard',sans-serif;font-weight:400}
+.m{font-size:13px;color:var(--ink-3)}
+.clip{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+/* faces */
+.face{display:inline-flex;align-items:center;gap:1px;font-weight:800;line-height:1;letter-spacing:-.02em}
+.face .e{display:inline-block;transform:rotate(90deg);transition:transform 240ms var(--ease)}
+.face .mo{font-size:.74em}
+.face .m2{display:none}
+body:has([data-play]:hover) .logo .e{transform:rotate(-90deg)}
+body:has([data-play]:hover) .logo .m1{display:none}
+body:has([data-play]:hover) .logo .m2{display:inline}
+.jf{display:inline-flex;align-items:center;justify-content:center;flex:none;border-radius:5px;color:#FFFFFF;font-weight:800;letter-spacing:-.06em;line-height:1;white-space:nowrap}
+.jf i{font-style:normal;font-size:.78em;margin:0 .02em;position:relative;top:.06em}
+.j16{width:18px;height:18px;font-size:8px;border-radius:4px}
+.j24{width:24px;height:24px;font-size:10px}
+.j32{width:32px;height:32px;font-size:12px}
+/* header */
+.util{height:34px;background:var(--surface);border-bottom:1px solid var(--line-2);font-size:13px}
+.util .wrap{height:100%;display:flex;align-items:center;gap:18px}
+.gtab{display:flex;height:100%}
+.gtab a{display:flex;align-items:center;padding:0 14px;color:var(--ink-3);font-weight:600;border-right:1px solid var(--line-2)}
+.gtab a:first-child{border-left:1px solid var(--line-2)}
+.gtab a[aria-current]{color:var(--accent-strong);font-weight:800;box-shadow:inset 0 -2px 0 var(--accent);background:var(--accent-tint)}
+.gtab a.mk[aria-current]{color:var(--make-strong)}
+.util .r{margin-left:auto;display:flex;gap:14px;color:var(--ink-3)}
+.head{background:var(--surface)}
+.head .wrap{height:76px;display:flex;align-items:center;gap:28px}
+.brand{display:flex;align-items:baseline;gap:8px}
+.brand .word{font-size:15px;font-weight:800;letter-spacing:-.01em}
+.sbox{display:flex;align-items:center;width:520px;height:44px;border:2px solid var(--accent);border-radius:8px;background:#FFFFFF;overflow:hidden}
+.sbox select{height:100%;border:0;background:var(--sunken-2);padding:0 10px;font:inherit;font-size:13px;color:var(--ink-2);border-right:1px solid var(--line)}
+.sbox input{flex:1;min-width:0;height:100%;border:0;outline:0;padding:0 12px;font:inherit;font-size:15px}
+.sbox button{height:100%;width:52px;border:0;background:var(--accent);color:#FFFFFF;display:grid;place-items:center}
+.hot{display:flex;gap:10px;font-size:13px;color:var(--ink-3);margin-top:6px}
+.hot b{color:var(--ink-2);font-weight:700}
+.quick{margin-left:auto;display:flex;gap:6px}
+.quick a{display:flex;flex-direction:column;align-items:center;gap:3px;width:60px;padding:6px 0;border-radius:8px;font-size:12px;font-weight:600;color:var(--ink-2);position:relative}
+.quick a:hover{background:var(--sunken-2);text-decoration:none}
+.quick .dot{position:absolute;top:4px;right:12px;min-width:16px;height:16px;padding:0 4px;border-radius:999px;background:var(--up);color:#FFFFFF;font-size:11px;font-weight:800;display:grid;place-items:center}
+.gnb{background:var(--surface);border-top:1px solid var(--line-2);border-bottom:1px solid var(--line)}
+.gnb .wrap{height:46px;display:flex;align-items:stretch;gap:2px}
+.gnb a{display:flex;align-items:center;padding:0 16px;font-size:15px;font-weight:700;color:var(--ink-2)}
+.gnb a:hover{color:var(--ink-1);text-decoration:none}
+.gnb a[aria-current]{color:var(--ink-1);box-shadow:inset 0 -3px 0 var(--accent)}
+.gnb .sep{width:1px;background:var(--line);margin:14px 8px}
+.gnb .mk{color:var(--make-strong)}
+.notice-bar{margin-left:auto;display:flex;align-items:center;gap:8px;font-size:13px;color:var(--ink-3)}
+/* layout */
+.cols{display:grid;grid-template-columns:196px minmax(0,1fr) 300px;gap:20px;padding-top:20px;align-items:start}
+.box{background:var(--surface);border-radius:8px;padding:14px 16px}
+.box+.box{margin-top:12px}
+.bh{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.bh h2,.bh h3{margin:0;font-size:15px;font-weight:800;letter-spacing:-.01em}
+.bh .more{margin-left:auto;font-size:13px;color:var(--ink-3)}
+.stack{display:flex;flex-direction:column;gap:12px}
+/* left nav */
+.lnav h3{margin:0 0 6px;font-size:13px;font-weight:800;color:var(--ink-1)}
+.lnav ul{list-style:none;margin:0 0 14px;padding:0}
+.lnav li a{display:flex;justify-content:space-between;padding:4px 6px;margin:0 -6px;border-radius:5px;font-size:14px;color:var(--ink-2)}
+.lnav li a:hover{background:var(--sunken-2);text-decoration:none;color:var(--ink-1)}
+.lnav li a span:last-child{font-size:13px;color:var(--ink-4)}
+.lnav li a[aria-current]{background:var(--accent-tint);color:var(--accent-strong);font-weight:700}
+/* feature */
+.feat{display:grid;grid-template-columns:minmax(0,1fr) 380px;border-radius:8px;overflow:hidden;color:#FFFFFF;height:248px}
+.feat .t{padding:22px 24px;display:flex;flex-direction:column}
+.feat h2{margin:8px 0 0;font-size:28px;line-height:1.2;text-wrap:balance}
+.feat p{margin:10px 0 0;font-size:14px;line-height:1.6;color:rgb(255 255 255 / .82)}
+.feat .art{height:100%}
+.fstrip{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));background:var(--surface);border-radius:0 0 8px 8px;margin-top:-1px}
+.fstrip a{display:flex;align-items:center;gap:8px;padding:9px 10px;font-size:13px;color:var(--ink-2);border-top:3px solid transparent}
+.fstrip a[aria-current]{border-top-color:var(--ink-1);color:var(--ink-1);font-weight:700}
+.fstrip a:hover{text-decoration:none;background:var(--sunken-2)}
+.fstrip .sw{width:28px;height:18px;border-radius:3px;flex:none}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:36px;padding:0 16px;border:0;border-radius:6px;font-size:14px;font-weight:700}
+.btn:hover{text-decoration:none}
+.btn-w{background:#FFFFFF;color:var(--ink-1)}
+.btn-w:hover{background:#E6EAF0}
+.btn-a{background:var(--accent);color:#FFFFFF}
+.btn-a:hover{background:var(--accent-strong)}
+.btn-o{background:#FFFFFF;color:var(--ink-1);box-shadow:inset 0 0 0 1px var(--line)}
+.btn-o:hover{background:var(--sunken-2)}
+/* picks */
+.picks{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:12px}
+.pk{display:flex;flex-direction:column;gap:5px}
+.pk .art{aspect-ratio:16/10;border-radius:6px}
+.pk .ctx{font-size:15px;margin-top:3px}
+.pk b{font-size:14px}
+.pk .why{font-size:13px;line-height:1.45;color:var(--ink-3);display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.pk:hover b{color:var(--accent-strong)}
+/* tabs + grid */
+.tabs{display:flex;border-bottom:1px solid var(--line);margin:-2px 0 12px}
+.tabs button{height:36px;padding:0 12px;border:0;background:none;font-size:14px;font-weight:700;color:var(--ink-3);box-shadow:inset 0 -2px 0 transparent}
+.tabs button[aria-selected="true"]{color:var(--ink-1);box-shadow:inset 0 -2px 0 var(--ink-1)}
+.tabs .more{margin-left:auto;align-self:center;font-size:13px;color:var(--ink-3)}
+.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:16px 12px}
+.gc{display:flex;flex-direction:column;gap:5px}
+.gc .art{aspect-ratio:16/9;border-radius:6px;transition:box-shadow 200ms var(--ease)}
+.gc:hover .art{box-shadow:var(--lift)}
+.gc:hover b{color:var(--accent-strong)}
+.gc b{font-size:14px}
+.gc .by{display:flex;align-items:center;gap:5px;font-size:13px;color:var(--ink-2)}
+.flag{position:absolute;left:6px;top:6px;height:20px;padding:0 6px;border-radius:4px;font-size:11px;font-weight:800;background:rgb(21 26 32 / .82);color:#FFFFFF;display:inline-flex;align-items:center}
+.prog{position:absolute;left:0;right:0;bottom:0;height:3px;background:rgb(21 26 32 / .35)}
+.prog i{display:block;height:100%;background:var(--accent)}
+/* boards */
+.two{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.board{list-style:none;margin:0;padding:0}
+.board li{display:flex;align-items:center;gap:8px;height:34px;border-top:1px solid var(--line-2);font-size:14px}
+.board li:first-child{border-top:0}
+.board .tag{flex:none;font-size:12px;font-weight:700;color:var(--ink-3);background:var(--sunken-2);padding:1px 6px;border-radius:4px}
+.board .cmt{flex:none;font-size:12px;font-weight:800;color:var(--up)}
+.board .when{flex:none;margin-left:auto;font-size:12px;color:var(--ink-4)}
+/* time */
+.time{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0}
+.time > div{padding:0 14px;border-left:1px solid var(--line-2)}
+.time > div:first-child{border-left:0;padding-left:0}
+.time .k{display:flex;align-items:baseline;gap:6px;margin-bottom:6px}
+.time .k .disp{font-size:20px}
+.time ul{list-style:none;margin:0;padding:0}
+.time li a{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:14px}
+.time .th{width:30px;height:20px;border-radius:3px;flex:none}
+/* right */
+.login .face-preview{display:flex;align-items:center;gap:12px;margin-bottom:12px}
+.oauth{display:flex;flex-direction:column;gap:6px}
+.oauth .btn{width:100%;height:40px}
+.rank{list-style:none;margin:0;padding:0;counter-reset:r}
+.rank li a{display:grid;grid-template-columns:22px 40px minmax(0,1fr) 30px;align-items:center;gap:8px;padding:5px 0}
+.rank li a:hover{text-decoration:none}
+.rank li a:hover b{text-decoration:underline}
+.rank .n{font-size:15px;text-align:center}
+.rank .th{width:40px;height:26px;border-radius:4px}
+.rank .chg{font-size:12px;font-weight:800;text-align:right}
+.ntc{list-style:none;margin:0;padding:0}
+.ntc li{display:flex;gap:8px;padding:4px 0;font-size:14px}
+.ntc .d{margin-left:auto;flex:none;font-size:12px;color:var(--ink-4)}
+.jam{display:block;padding:14px 16px;border-radius:8px;background:var(--ink-1);color:#FFFFFF}
+.jam:hover{text-decoration:none;background:#232931}
+.faces{display:flex;flex-wrap:wrap;gap:6px}
+footer{margin-top:40px;background:var(--surface);border-top:1px solid var(--line);padding:24px 0 36px;font-size:13px;color:var(--ink-3)}
+footer .links{display:flex;gap:16px;color:var(--ink-2);font-weight:600;margin-bottom:12px}
+/* art placeholders */
+.art{position:relative;overflow:hidden;background:var(--sunken)}
+.a-loop{background:radial-gradient(circle at 70% 50%,transparent 0 17%,#7CE0B8 17.5% 19%,transparent 19.5%),repeating-linear-gradient(90deg,#FFFFFF10 0 1px,transparent 1px 20px),repeating-linear-gradient(0deg,#FFFFFF10 0 1px,transparent 1px 20px),#173250}
+.a-ash{background:radial-gradient(circle at 20% 30%,#FF8A3D 0 1%,transparent 1.5%),radial-gradient(circle at 45% 18%,#FFB36B 0 .8%,transparent 1.3%),radial-gradient(circle at 75% 26%,#FF8A3D 0 1.2%,transparent 1.7%),linear-gradient(0deg,#2A2523 0 34%,transparent 34%),linear-gradient(90deg,transparent 0 10%,#3B3431 10% 18%,transparent 18% 30%,#3B3431 30% 36%,transparent 36% 52%,#3B3431 52% 64%,transparent 64% 80%,#3B3431 80% 86%,transparent 86%) 0 100%/100% 62% no-repeat,linear-gradient(#6B4A3A,#C46A3A)}
+.a-tess{background:conic-gradient(from 210deg at 60% 60%,#E9F2FF 0 25%,#9CC3F5 25% 50%,#3C78D8 50% 75%,#1A3F8A 75%)}
+.a-refac{background:linear-gradient(#F2C14E 0 0) 20% 78%/24% 14% no-repeat,linear-gradient(#E4572E 0 0) 46% 64%/28% 14% no-repeat,linear-gradient(#17BEBB 0 0) 30% 50%/22% 14% no-repeat,linear-gradient(#FFFFFF 0 0) 58% 36%/18% 14% no-repeat,#1E2A33}
+.a-tilt{background:radial-gradient(circle at 58% 40%,#FFFFFF 0 5%,transparent 5.5%),linear-gradient(-12deg,transparent 0 52%,#C9B79C 52% 58%,transparent 58%),#EDE6DA}
+.a-bazaar{background:repeating-linear-gradient(90deg,#D94F30 0 10%,#F6EAD4 10% 20%) 0 0/100% 30% no-repeat,linear-gradient(0deg,#4A3B2C 0 40%,transparent 40%),#F6EAD4}
+.a-paper{background:linear-gradient(150deg,transparent 46%,#FFFFFF 46% 50%,transparent 50%) 30% 40%/34% 34% no-repeat,linear-gradient(30deg,transparent 46%,#FFE07A 46% 50%,transparent 50%) 70% 60%/30% 30% no-repeat,#167A78}
+.a-grid{background:linear-gradient(#FFFFFF 0 0) 35% 35%/14% 24% no-repeat,linear-gradient(#FFCF33 0 0) 52% 35%/14% 24% no-repeat,linear-gradient(#FFFFFF 0 0) 52% 65%/14% 24% no-repeat,repeating-linear-gradient(90deg,#FFFFFF14 0 2px,transparent 2px 14.28%),#2D3142}
+.a-demon{background:radial-gradient(circle at 62% 44%,#E8434F 0 6%,transparent 6.5%),radial-gradient(ellipse 40% 20% at 50% 100%,#2E5E3A 0 100%,transparent 100%),linear-gradient(#B9D7A8,#7FAF6C)}
+.a-halcyon{background:radial-gradient(circle at 30% 70%,#FFFFFF55 0 2%,transparent 2.5%),radial-gradient(circle at 38% 58%,#FFFFFF44 0 1.4%,transparent 1.9%),linear-gradient(#0E5A8A,#06243D)}
+.a-null{background:linear-gradient(45deg,transparent 46%,#7CFF6B 46% 54%,transparent 54%) 50% 50%/18% 18% no-repeat,repeating-linear-gradient(0deg,#FFFFFF08 0 2px,transparent 2px 6px),#0B0D10}
+.a-solvent{background:radial-gradient(ellipse 14% 20% at 50% 54%,#5FD0E8 0 100%,transparent 100%),linear-gradient(0deg,#5FD0E8 0 18%,transparent 18%),#E7F4F6}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</helmet>
+
+<div>
+<!-- 유틸 줄 -->
+<div class="util"><div class="wrap">
+<nav class="gtab" aria-label="그라운드 전환"><a href="#" aria-current="page" class="nohover">플레이 그라운드</a><a href="#" class="mk nohover">메이커스 그라운드</a></nav>
+<span class="m">광고 없는 인디 게임 놀이터 · 게임 12개 · 메이커 11팀</span>
+<div class="r"><a href="#">공지사항</a><a href="#">고객센터</a><sc-if value="{{ guest }}" hint-placeholder-val="{{ true }}"><button type="button" onClick="{{ toggle }}" style="border:0;background:none;padding:0;font-size:13px;font-weight:700;color:var(--ink-1)">로그인</button></sc-if><sc-if value="{{ signedIn }}" hint-placeholder-val="{{ false }}"><button type="button" onClick="{{ toggle }}" style="border:0;background:none;padding:0;font-size:13px;color:var(--ink-3)">로그아웃</button></sc-if></div>
+</div></div>
+
+<!-- 로고 + 검색 -->
+<header class="head"><div class="wrap">
+<a href="#" class="brand nohover" aria-label="aDmD Games 홈"><span class="face logo" style="font-size:30px"><span>a</span><span class="e">D</span><span class="mo m1">m</span><span class="mo m2">w</span><span class="e">D</span></span><span class="word">Games</span></a>
+<div>
+<div class="sbox" role="search"><select aria-label="검색 범위"><option>전체</option><option>게임</option><option>메이커</option><option>일지</option></select><input type="search" aria-label="검색어" placeholder="게임, 메이커, 태그, 일지 검색"><button type="submit" aria-label="검색"><svg width="18" height="18" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="7" cy="7" r="5"></circle><path d="M11 11l3.2 3.2"></path></svg></button></div>
+<div class="hot"><b>많이 찾는</b><a href="#">#스피드런</a><a href="#">#5분 게임</a><a href="#">#같이 하기</a><a href="#">#퍼즐</a><a href="#">#잼 작품</a></div>
+</div>
+<nav class="quick" aria-label="바로가기">
+<a href="#"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="#151A20" stroke-width="1.6" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="4" width="16" height="14" rx="2"></rect><path d="M8 4v14"></path></svg>라이브러리</a>
+<a href="#"><svg width="22" height="22" viewBox="0 0 22 22" fill="none" stroke="#151A20" stroke-width="1.6" stroke-linecap="round" aria-hidden="true"><circle cx="8" cy="8" r="3"></circle><circle cx="15" cy="9" r="2.4"></circle><path d="M3 18c.6-3 2.6-4.6 5-4.6s4.4 1.6 5 4.6M14 13.4c2.2 0 3.8 1.3 4.4 4"></path></svg>친구</a>
+<a href="#"><sc-if value="{{ signedIn }}" hint-placeholder-val="{{ false }}"><span class="dot">2</span></sc-if><svg width="22" height="22" viewBox="0 0 20 20" fill="none" stroke="#151A20" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8a5 5 0 0 1 10 0v4l1.5 2.5h-13L5 12z"></path><path d="M8.5 17a1.6 1.6 0 0 0 3 0"></path></svg>알림</a>
+</nav>
+</div></header>
+
+<!-- 메뉴 바 -->
+<nav class="gnb" aria-label="주요 메뉴"><div class="wrap">
+<a href="#" aria-current="page">홈</a><a href="#">전체 게임</a><a href="#">랭킹</a><a href="#">신작</a><a href="#">큐레이션</a><a href="#">메이커</a><a href="#">잼 아케이드</a>
+<span class="sep" aria-hidden="true"></span><a href="#" class="mk">메이커 일지</a>
+<span class="notice-bar"><b style="color:var(--ink-2)">공지</b><a href="#" class="clip" style="max-width:300px">12월 정기 점검 안내 (12/3 02:00~04:00)</a></span>
+</div></nav>
+
+<div class="wrap cols">
+
+<!-- 좌측 탐색 -->
+<aside class="box lnav" aria-label="게임 찾기">
+<h3>한 판 시간</h3>
+<ul><li><a href="#"><span>5분 이하</span><span>4</span></a></li><li><a href="#"><span>15분 이하</span><span>3</span></a></li><li><a href="#"><span>30분 이하</span><span>2</span></a></li><li><a href="#"><span>저녁 하나</span><span>3</span></a></li></ul>
+<h3>장르</h3>
+<ul><li><a href="#"><span>퍼즐</span><span>4</span></a></li><li><a href="#"><span>스피드런 · 아케이드</span><span>3</span></a></li><li><a href="#"><span>이야기</span><span>2</span></a></li><li><a href="#"><span>대전 · 레이싱</span><span>2</span></a></li><li><a href="#"><span>경영</span><span>1</span></a></li><li><a href="#"><span>로그라이크</span><span>1</span></a></li></ul>
+<h3>실행 방식</h3>
+<ul><li><a href="#"><span>브라우저에서 바로</span><span>10</span></a></li><li><a href="#"><span>다운로드 · 검사 통과</span><span>2</span></a></li><li><a href="#"><span>휴대폰 OK</span><span>4</span></a></li></ul>
+<h3>인원</h3>
+<ul style="margin-bottom:0"><li><a href="#"><span>혼자</span><span>9</span></a></li><li><a href="#"><span>같이 2~4인</span><span>3</span></a></li></ul>
+</aside>
+
+<!-- 본문 -->
+<main class="stack" style="min-width:0">
+
+<section aria-labelledby="feat-title">
+<div class="feat" style="background:#173250;border-radius:8px 8px 0 0">
+<div class="t">
+<div style="display:flex;align-items:center;gap:8px;font-size:13px;font-weight:700"><span>에디터 추천</span><span style="opacity:.6" class="num">1 / 5</span></div>
+<h2 id="feat-title" class="disp">루프를 벗어나려면, 코드를 고쳐라.</h2>
+<p>모든 방이 하나의 함수인 프로그래밍 퍼즐. 손으로 설계한 스테이지 40개.</p>
+<div style="display:flex;align-items:center;gap:10px;margin-top:auto">
+<a href="#" class="btn btn-w" data-play>플레이</a>
+<span style="font-size:13px;opacity:.8">브라우저 · 한 판 15분</span>
+<a href="#" style="margin-left:auto;display:flex;align-items:center;gap:6px;font-size:13px"><span class="jf j24" style="background:#7CE0B8;color:#173250">ㅍ<i>ㅅ</i>ㅍ</span>픽셀상점</a>
+</div>
+</div>
+<a href="#" class="art a-loop nohover" aria-label="루프 컴파일러 자세히"></a>
+</div>
+<nav class="fstrip" aria-label="추천 넘기기">
+<a href="#" aria-current="true"><span class="sw" style="background:#173250"></span><span class="clip">루프 컴파일러</span></a>
+<a href="#"><span class="sw art a-ash"></span><span class="clip">애쉬폴 러너</span></a>
+<a href="#"><span class="sw art a-tess"></span><span class="clip">테서랙트 드리프트</span></a>
+<a href="#"><span class="sw art a-demon"></span><span class="clip">데몬 가든</span></a>
+<a href="#"><span class="sw art a-tilt"></span><span class="clip">틸트 이론</span></a>
+</nav>
+</section>
+
+<section class="box" aria-labelledby="picks-title">
+<div class="bh"><span class="jf j24" style="background:var(--accent)">ㅇ<i>ㅅ</i>ㅇ</span><h2 id="picks-title">이번 주 고른 게임</h2><span class="m">월화 · 11월 넷째 주</span><a href="#" class="more">지난 큐레이션 ›</a></div>
+<div class="picks">
+<a href="#" class="pk card-link"><span class="art a-ash"></span><span class="ctx disp" style="color:var(--accent-strong)">왕좌</span><b>애쉬폴 러너</b><span class="why">주간 플레이·완주율 모두 1위인 6분 스피드런</span></a>
+<a href="#" class="pk card-link"><span class="art a-refac"></span><span class="ctx disp">신작</span><b>리팩터 러시</b><span class="why">3시간 전 공개. 코드 더미를 3분 안에 정리</span></a>
+<a href="#" class="pk card-link"><span class="art a-tilt"></span><span class="ctx disp">숨은 보석</span><b>틸트 이론</b><span class="why">플레이 40위 밖, 평가는 전체 1위</span></a>
+<a href="#" class="pk card-link"><span class="art a-bazaar"></span><span class="ctx disp">순삭</span><b>바이트 바자</b><span class="why">평균 한 판 4분. 켜서 한 판만</span></a>
+<a href="#" class="pk card-link"><span class="art a-paper"></span><span class="ctx disp">같이</span><b>페이퍼 벡터</b><span class="why">지금 18명 대기 · 평균 매칭 12초</span></a>
+</div>
+</section>
+
+<section class="box" aria-label="게임 목록">
+<div class="tabs" role="tablist"><button type="button" role="tab" aria-selected="true">인기</button><button type="button" role="tab" aria-selected="false">신작</button><button type="button" role="tab" aria-selected="false">업데이트</button><button type="button" role="tab" aria-selected="false">평가 좋은</button><button type="button" role="tab" aria-selected="false">같이 하기</button><a href="#" class="more">전체 게임 12 ›</a></div>
+<div class="g4">
+<a href="#" class="gc card-link"><span class="art a-ash"></span><b class="clip">애쉬폴 러너</b><span class="by"><span class="jf j16" style="background:#C46A3A">ㅈ<i>ㅅ</i>ㅈ</span>잿빛토끼</span><span class="m">스피드런 · 6분 · 브라우저</span></a>
+<a href="#" class="gc card-link"><span class="art a-paper"></span><b class="clip">페이퍼 벡터</b><span class="by"><span class="jf j16" style="background:#167A78">ㅂ<i>ㅅ</i>ㅂ</span>벡터공방</span><span class="m">대전 2~4인 · 5분 · 브라우저</span></a>
+<a href="#" class="gc card-link"><span class="art a-loop"><span class="prog"><i style="width:62%"></i></span></span><b class="clip">루프 컴파일러</b><span class="by"><span class="jf j16" style="background:#173250">ㅍ<i>ㅅ</i>ㅍ</span>픽셀상점</span><span class="m">퍼즐 · 15분 · 브라우저</span></a>
+<a href="#" class="gc card-link"><span class="art a-halcyon"></span><b class="clip">할시온 뎁스</b><span class="by"><span class="jf j16" style="background:#0E5A8A">ㅅ<i>ㅅ</i>ㅅ</span>심해상회</span><span class="m">탐험 · 30분 · 브라우저</span></a>
+<a href="#" class="gc card-link"><span class="art a-tess"><span class="flag">신작</span></span><b class="clip">테서랙트 드리프트</b><span class="by"><span class="jf j16" style="background:#3C78D8">ㅁ<i>ㅅ</i>ㅁ</span>무중력스튜디오</span><span class="m">레이싱 · 8분 · 패드</span></a>
+<a href="#" class="gc card-link"><span class="art a-demon"></span><b class="clip">데몬 가든</b><span class="by"><span class="jf j16" style="background:#4E8A3E">ㅈ<i>ㅅ</i>ㅈ</span>정원사K</span><span class="m">이야기 · 저녁 하나</span></a>
+<a href="#" class="gc card-link"><span class="art a-grid"></span><b class="clip">그리드락</b><span class="by"><span class="jf j16" style="background:#2D3142">ㅅ<i>ㅅ</i>ㅅ</span>세모난고양이</span><span class="m">퍼즐 · 10분 · 브라우저</span></a>
+<a href="#" class="gc card-link"><span class="art a-null"><span class="flag" style="background:var(--ok)">검사 통과</span></span><b class="clip">널 포인터</b><span class="by"><span class="jf j16" style="background:#2B6B24">ㄹ<i>ㅅ</i>ㄹ</span>라온게임즈</span><span class="m">로그라이크 · Windows</span></a>
+</div>
+</section>
+
+<section class="box" aria-labelledby="time-title">
+<div class="bh"><h2 id="time-title">몇 분 있어요?</h2><span class="m">한 판 길이로 골라 보세요</span><a href="#" class="more">시간별 전체 ›</a></div>
+<div class="time">
+<div><div class="k"><span class="disp">5분</span><span class="m">이하 · 4</span></div><ul><li><a href="#"><span class="th art a-refac"></span><span class="clip">리팩터 러시</span><span class="m num">3분</span></a></li><li><a href="#"><span class="th art a-bazaar"></span><span class="clip">바이트 바자</span><span class="m num">4분</span></a></li><li><a href="#"><span class="th art a-paper"></span><span class="clip">페이퍼 벡터</span><span class="m num">5분</span></a></li></ul></div>
+<div><div class="k"><span class="disp">15분</span><span class="m">이하 · 3</span></div><ul><li><a href="#"><span class="th art a-ash"></span><span class="clip">애쉬폴 러너</span><span class="m num">6분</span></a></li><li><a href="#"><span class="th art a-grid"></span><span class="clip">그리드락</span><span class="m num">10분</span></a></li><li><a href="#"><span class="th art a-loop"></span><span class="clip">루프 컴파일러</span><span class="m num">15분</span></a></li></ul></div>
+<div><div class="k"><span class="disp">30분</span><span class="m">이하 · 2</span></div><ul><li><a href="#"><span class="th art a-solvent"></span><span class="clip">솔벤트</span><span class="m num">20분</span></a></li><li><a href="#"><span class="th art a-halcyon"></span><span class="clip">할시온 뎁스</span><span class="m num">30분</span></a></li></ul></div>
+<div><div class="k"><span class="disp">저녁</span><span class="m">하나 · 3</span></div><ul><li><a href="#"><span class="th art a-tilt"></span><span class="clip">틸트 이론</span><span class="m">40분</span></a></li><li><a href="#"><span class="th art a-demon"></span><span class="clip">데몬 가든</span></a></li><li><a href="#"><span class="th art a-null"></span><span class="clip">널 포인터</span></a></li></ul></div>
+</div>
+</section>
+
+<div class="two">
+<section class="box" aria-labelledby="log-title">
+<div class="bh"><h2 id="log-title" style="color:var(--make-strong)">메이커 일지</h2><span class="m">메이커스 그라운드</span><a href="#" class="more">더보기 ›</a></div>
+<ul class="board">
+<li><span class="jf j16" style="background:#173250">ㅍ<i>ㅅ</i>ㅍ</span><a href="#" class="clip">v1.4 — 스테이지 8개를 하루 만에 만든 레벨 툴 이야기</a><span class="cmt">[24]</span><span class="when">오늘</span></li>
+<li><span class="jf j16" style="background:#2D3142">ㅅ<i>ㅅ</i>ㅅ</span><a href="#" class="clip">주간 12위에서 4위까지, 첫 스테이지만 고쳤어요</a><span class="cmt">[17]</span><span class="when">어제</span></li>
+<li><span class="jf j16" style="background:#4E8A3E">ㅈ<i>ㅅ</i>ㅈ</span><a href="#" class="clip">악마에게 물 주는 게임의 빗소리를 현관에서 녹음</a><span class="cmt">[9]</span><span class="when">3일</span></li>
+<li><span class="jf j16" style="background:#1E2A33">ㄹ<i>ㅅ</i>ㄹ</span><a href="#" class="clip">잼 48시간 작품을 정식판으로 다듬는 중</a><span class="cmt">[6]</span><span class="when">5일</span></li>
+<li><span class="jf j16" style="background:#0E5A8A">ㅅ<i>ㅅ</i>ㅅ</span><a href="#" class="clip">심해 조명 셰이더, 내장 그래픽에서 60프레임 맞추기</a><span class="cmt">[12]</span><span class="when">6일</span></li>
+</ul>
+</section>
+<section class="box" aria-labelledby="rv-title">
+<div class="bh"><h2 id="rv-title">새 리뷰</h2><span class="m">플레이한 사람만 써요</span><a href="#" class="more">더보기 ›</a></div>
+<ul class="board">
+<li><span class="jf j16" style="background:#8A5A44">ㄷ<i>ㅅ</i>ㄷ</span><span class="tag">그리드락</span><a href="#" class="clip">튜토리얼 없어진 버전이 훨씬 좋네요</a><span class="when">12분</span></li>
+<li><span class="jf j16" style="background:#5B6B7A">ㅎ<i>ㅅ</i>ㅎ</span><span class="tag">틸트 이론</span><a href="#" class="clip">조용한데 손이 안 멈춰요. 40분 순삭</a><span class="when">40분</span></li>
+<li><span class="jf j16" style="background:#3E6B5A">ㅁ<i>ㅅ</i>ㅁ</span><span class="tag">애쉬폴 러너</span><a href="#" class="clip">월요일 초기화 전에 3위 찍음</a><span class="when">1시간</span></li>
+<li><span class="jf j16" style="background:#6A4C8C">ㅅ<i>ㅅ</i>ㅅ</span><span class="tag">데몬 가든</span><a href="#" class="clip">이어폰 꼭 끼세요. 빗소리가 진짜</a><span class="when">2시간</span></li>
+<li><span class="jf j16" style="background:#7A6A3A">ㅂ<i>ㅅ</i>ㅂ</span><span class="tag">리팩터 러시</span><a href="#" class="clip">3분 컷 너무 빡빡한데 계속 하게 됨</a><span class="when">3시간</span></li>
+</ul>
+</section>
+</div>
+
+</main>
+
+<!-- 우측 사이드 -->
+<aside class="stack" aria-label="내 정보와 소식">
+
+<sc-if value="{{ guest }}" hint-placeholder-val="{{ true }}">
+<section class="box login" aria-labelledby="login-title">
+<div class="face-preview"><span class="jf" style="width:56px;height:56px;font-size:21px;border-radius:10px;background:var(--ink-1)">ㅇ<i>ㅅ</i>ㅇ</span><div><b id="login-title" style="font-size:15px">로그인하면 내 얼굴이 생겨요</b><div class="m">기록 저장 · 라이브러리 · 친구 · 리뷰</div></div></div>
+<div class="oauth"><button type="button" class="btn btn-a" onClick="{{ toggle }}">GitHub로 계속하기</button><button type="button" class="btn btn-o" onClick="{{ toggle }}">Google로 계속하기</button></div>
+<div class="m" style="margin-top:10px">가입 없이도 모든 게임을 할 수 있어요.</div>
+</section>
+</sc-if>
+
+<sc-if value="{{ signedIn }}" hint-placeholder-val="{{ false }}">
+<section class="box" aria-labelledby="me-title">
+<div style="display:flex;align-items:center;gap:12px"><span class="jf" style="width:56px;height:56px;font-size:21px;border-radius:10px;background:#151A20">ㅈ<i>ㅅ</i>ㅈ</span><div style="min-width:0"><b id="me-title" style="font-size:15px">진수</b><div class="m num">이번 주 3시간 12분 플레이</div></div><a href="#" class="m" style="margin-left:auto">내 정보</a></div>
+<div style="display:grid;grid-template-columns:repeat(3,1fr);text-align:center;margin:12px 0;padding:8px 0;border-top:1px solid var(--line-2);border-bottom:1px solid var(--line-2)">
+<a href="#"><b class="num" style="font-size:15px">6</b><div class="m">저장</div></a><a href="#"><b class="num" style="font-size:15px">23</b><div class="m">도전과제</div></a><a href="#"><b class="num" style="font-size:15px">4</b><div class="m">친구</div></a>
+</div>
+<div class="bh" style="margin-bottom:4px"><h3 style="font-size:14px">이어하기</h3><a href="#" class="more">라이브러리 ›</a></div>
+<ul class="board">
+<li><span class="art a-grid" style="width:30px;height:20px;border-radius:3px;flex:none"></span><a href="#" class="clip">그리드락</a><span class="when num">88%</span></li>
+<li><span class="art a-loop" style="width:30px;height:20px;border-radius:3px;flex:none"></span><a href="#" class="clip">루프 컴파일러 · 새 스테이지</a><span class="when num">62%</span></li>
+<li><span class="art a-solvent" style="width:30px;height:20px;border-radius:3px;flex:none"></span><a href="#" class="clip">솔벤트</a><span class="when num">45%</span></li>
+</ul>
+</section>
+</sc-if>
+
+<section class="box" aria-labelledby="rank-title">
+<div class="bh"><h2 id="rank-title">주간 랭킹</h2><span class="m">플레이 수</span><a href="#" class="more">전체 ›</a></div>
+<ol class="rank">
+<li><a href="#"><span class="n disp" style="color:var(--accent-strong)">1</span><span class="th art a-ash"></span><span class="clip"><b>애쉬폴 러너</b><div class="m clip">잿빛토끼</div></span><span class="chg" style="color:var(--ink-4)">-</span></a></li>
+<li><a href="#"><span class="n disp">2</span><span class="th art a-paper"></span><span class="clip"><b>페이퍼 벡터</b><div class="m clip">벡터공방</div></span><span class="chg" style="color:var(--up)">▲1</span></a></li>
+<li><a href="#"><span class="n disp">3</span><span class="th art a-loop"></span><span class="clip"><b>루프 컴파일러</b><div class="m clip">픽셀상점</div></span><span class="chg" style="color:var(--down)">▼1</span></a></li>
+<li><a href="#"><span class="n disp">4</span><span class="th art a-grid"></span><span class="clip"><b>그리드락</b><div class="m clip">세모난고양이</div></span><span class="chg" style="color:var(--up)">▲8</span></a></li>
+<li><a href="#"><span class="n disp">5</span><span class="th art a-halcyon"></span><span class="clip"><b>할시온 뎁스</b><div class="m clip">심해상회</div></span><span class="chg" style="color:var(--down)">▼1</span></a></li>
+<li><a href="#"><span class="n disp">6</span><span class="th art a-tess"></span><span class="clip"><b>테서랙트 드리프트</b><div class="m clip">무중력스튜디오</div></span><span class="chg" style="color:var(--up);font-size:11px">NEW</span></a></li>
+<li><a href="#"><span class="n disp">7</span><span class="th art a-demon"></span><span class="clip"><b>데몬 가든</b><div class="m clip">정원사K</div></span><span class="chg" style="color:var(--down)">▼2</span></a></li>
+</ol>
+</section>
+
+<a href="#" class="jam nohover">
+<div style="display:flex;align-items:center;gap:8px;font-size:13px;color:#FFB59E;font-weight:700"><span style="width:8px;height:8px;border-radius:999px;background:var(--make)"></span>메이커스 잼 · 주제 공개 D-3</div>
+<div style="font-size:16px;font-weight:800;margin-top:6px">aDmD 겨울 잼 #3</div>
+<div style="font-size:13px;color:rgb(255 255 255 / .7);margin-top:2px">12월 6일~8일 · 48시간 · 참가 27팀</div>
+</a>
+
+<section class="box" aria-labelledby="ntc-title">
+<div class="bh"><h2 id="ntc-title">공지사항</h2><a href="#" class="more">더보기 ›</a></div>
+<ul class="ntc">
+<li><a href="#" class="clip">12월 정기 점검 안내</a><span class="d">11.25</span></li>
+<li><a href="#" class="clip">다운로드 게임 보안 검사 도입</a><span class="d">11.20</span></li>
+<li><a href="#" class="clip">리더보드 초기화 주기 변경</a><span class="d">11.14</span></li>
+<li><a href="#" class="clip">자모 얼굴 프로필이 생겼어요</a><span class="d">11.08</span></li>
+</ul>
+</section>
+
+<section class="box" aria-labelledby="new-title">
+<div class="bh"><h2 id="new-title">새로 온 메이커</h2><a href="#" class="more">더보기 ›</a></div>
+<div class="faces">
+<a href="#" class="jf j32" style="background:#1E2A33" title="리팩터클럽">ㄹ<i>ㅅ</i>ㄹ</a>
+<a href="#" class="jf j32" style="background:#3C78D8" title="무중력스튜디오">ㅁ<i>ㅅ</i>ㅁ</a>
+<a href="#" class="jf j32" style="background:#2B6B24" title="라온게임즈">ㄹ<i>ㅅ</i>ㄹ</a>
+<a href="#" class="jf j32" style="background:#4E8A3E" title="정원사K">ㅈ<i>ㅅ</i>ㅈ</a>
+<a href="#" class="jf j32" style="background:#D94F30" title="바이트마켓">ㅂ<i>ㅅ</i>ㅂ</a>
+<a href="#" class="jf j32" style="background:#0E5A8A" title="심해상회">ㅅ<i>ㅅ</i>ㅅ</a>
+<a href="#" class="jf j32" style="background:#9A7B4F" title="기울기연구소">ㄱ<i>ㅅ</i>ㄱ</a>
+</div>
+<a href="#" class="m" style="display:block;margin-top:10px;color:var(--make-strong);font-weight:700">나도 게임 올리기 ›</a>
+</section>
+
+</aside>
+</div>
+
+<footer>
+<div class="wrap">
+<div class="links"><a href="#">이용약관</a><a href="#"><b>개인정보처리방침</b></a><a href="#">운영정책</a><a href="#">저작권 신고</a><a href="#">고객센터</a><a href="#" style="color:var(--make-strong)">게임 올리기</a></div>
+<div style="display:flex;align-items:center;gap:10px"><span class="face" style="font-size:18px;color:var(--ink-3)"><span>a</span><span class="e">D</span><span class="mo">m</span><span class="e">D</span></span><span>aDmD Games · 사람이 만든 작은 게임을, 사람이 골라, 같이 노는 곳 · 광고 없이 무료</span></div>
+</div>
+</footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1280,"height":1760},"startSignedIn":{"editor":"boolean","default":false,"tsType":"boolean"}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const signed = this.state.signed ?? (this.props.startSignedIn ?? false);
+    return { signedIn: signed, guest: !signed, toggle: () => this.setState({ signed: !signed }) };
+  }
+}
+</script>
+</body>
+</html>

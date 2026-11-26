@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+@keyframes mmRise{from{opacity:0;transform:translateY(10px)}to{opacity:1;transform:none}}
+</style>
+</helmet>
+
+<aside style="height:100%;min-height:{{ height }};display:flex;flex-direction:column;background:#FFFFFF;padding:22px;animation:mmRise 480ms cubic-bezier(.2,.7,.2,1) both">
+<sc-if value="{{ guest }}" hint-placeholder-val="{{ true }}">
+<div style="position:relative;flex:1;min-height:0;margin:-22px;padding:22px;overflow:hidden">
+<div style="position:absolute;inset:22px;opacity:.75;pointer-events:none;user-select:none;overflow:hidden">
+<dc-import name="ProfileSummary" accent="#EA580C" tier-color="#64748B" stat-size="17px" initial="M" display-name="메이커 님" tier="기여도 상위 12% · 멘토 배지" level="" has-level="{{ false }}" avatar-radius="999px" show-my-page="{{ false }}" xp-label="커뮤니티 기여도 2,180" next-label="다음 등급까지 320" xp-pct="58%" bar-anim="none" stats="{{ guestStats }}" hint-size="100%,200px"></dc-import>
+<div style="margin-top:18px;padding-top:14px;border-top:1px solid #F1F3F5;display:flex;flex-direction:column;gap:11px">
+<div><dc-import name="Body" as="div" size="xs" weight="semibold" hint-size="120px,18px">내 질문에 답변이 달렸어요</dc-import><dc-import name="Body" as="div" size="xs" color="tertiary" sx="margin-top:3px" hint-size="120px,18px">WebGL 텍스처 압축 · 오늘</dc-import></div>
+<div><dc-import name="Body" as="div" size="xs" weight="semibold" hint-size="120px,18px">개발일지 3회차가 인기글에 올랐어요</dc-import><dc-import name="Body" as="div" size="xs" color="tertiary" sx="margin-top:3px" hint-size="120px,18px">조회 5.8천 · 어제</dc-import></div>
+</div>
+</div>
+<dc-import name="SignInFallback" accent="#EA580C" line1="질문하고, 답변하고," line2="기여도를 쌓아보세요" label="로그인" on-sign-in="{{ signIn }}" inset="0" veil=".55" gap="0px" pad-x="26px" button-width="280px" button-height="44px" button-gap="16px" hint-size="100%,100%"></dc-import>
+</div>
+</sc-if>
+
+<sc-if value="{{ signedIn }}" hint-placeholder-val="{{ false }}">
+<div style="flex:1;min-height:0;display:flex;flex-direction:column">
+<dc-import name="ProfileSummary" accent="#EA580C" tier-color="#64748B" stat-size="17px" initial="진" display-name="진수 님" tier="멘토 · 기여도 상위 8%" level="Lv.9" has-level="{{ true }}" avatar-radius="999px" show-my-page="{{ true }}" xp-label="커뮤니티 기여도 6,240" next-label="다음 등급까지 760" xp-pct="72%" stats="{{ memberStats }}" hint-size="100%,200px"></dc-import>
+
+<div style="margin-top:20px;flex:1;min-height:0;display:flex;flex-direction:column">
+<div style="display:grid;grid-template-columns:repeat(5,1fr);gap:4px">
+<button type="button" onClick="{{ f0.go }}" style="position:relative;display:flex;align-items:center;justify-content:center;height:50px;border:0;background:#FFFFFF;transition:background 120ms cubic-bezier(.2,.7,.2,1)" style-hover="background:#F6F7F9">
+<svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="{{ f0.ic }}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4.6 5.4h14.8v9.8H9.6l-5 3.4V5.4Z"></path><path d="M8 9h8"></path><path d="M8 12h5"></path></svg>
+<sc-if value="{{ f0.hasBadge }}" hint-placeholder-val="{{ false }}">
+<dc-import name="Body" as="span" size="xs" weight="bold" color="inverse" sx="position:absolute;top:5px;right:6px;min-width:15px;height:15px;padding:0 4px;border-radius:999px;background:#E11D48;text-align:center" hint-size="120px,18px">{{ f0.badge }}</dc-import>
+</sc-if>
+</button>
+<button type="button" onClick="{{ f1.go }}" style="position:relative;display:flex;align-items:center;justify-content:center;height:50px;border:0;background:#FFFFFF;transition:background 120ms cubic-bezier(.2,.7,.2,1)" style-hover="background:#F6F7F9">
+<svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="{{ f1.ic }}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M4 10.2v3.6l10 3.8V6.4L4 10.2Z"></path><path d="M14 8.2a4 4 0 0 1 0 7.6"></path><path d="M6.8 14.6v3.6h2.6"></path></svg>
+<sc-if value="{{ f1.hasBadge }}" hint-placeholder-val="{{ false }}">
+<dc-import name="Body" as="span" size="xs" weight="bold" color="inverse" sx="position:absolute;top:5px;right:6px;min-width:15px;height:15px;padding:0 4px;border-radius:999px;background:#E11D48;text-align:center" hint-size="120px,18px">{{ f1.badge }}</dc-import>
+</sc-if>
+</button>
+<button type="button" onClick="{{ f2.go }}" style="position:relative;display:flex;align-items:center;justify-content:center;height:50px;border:0;background:#FFFFFF;transition:background 120ms cubic-bezier(.2,.7,.2,1)" style-hover="background:#F6F7F9">
+<svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="{{ f2.ic }}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><circle cx="9.2" cy="9.4" r="3.1"></circle><path d="M3.6 19c0-3 2.5-5.1 5.6-5.1s5.6 2.1 5.6 5.1"></path><path d="M16.2 7.4a3 3 0 0 1 0 5.8"></path><path d="M17.6 14.6c2 .8 3 2.4 3 4.4"></path></svg>
+<sc-if value="{{ f2.hasBadge }}" hint-placeholder-val="{{ false }}">
+<dc-import name="Body" as="span" size="xs" weight="bold" color="inverse" sx="position:absolute;top:5px;right:6px;min-width:15px;height:15px;padding:0 4px;border-radius:999px;background:#E11D48;text-align:center" hint-size="120px,18px">{{ f2.badge }}</dc-import>
+</sc-if>
+</button>
+<button type="button" onClick="{{ f3.go }}" style="position:relative;display:flex;align-items:center;justify-content:center;height:50px;border:0;background:#FFFFFF;transition:background 120ms cubic-bezier(.2,.7,.2,1)" style-hover="background:#F6F7F9">
+<svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="{{ f3.ic }}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M6.2 4v16"></path><path d="M6.2 4.8h11.6l-2.4 3.9 2.4 3.9H6.2"></path></svg>
+<sc-if value="{{ f3.hasBadge }}" hint-placeholder-val="{{ false }}">
+<dc-import name="Body" as="span" size="xs" weight="bold" color="inverse" sx="position:absolute;top:5px;right:6px;min-width:15px;height:15px;padding:0 4px;border-radius:999px;background:#E11D48;text-align:center" hint-size="120px,18px">{{ f3.badge }}</dc-import>
+</sc-if>
+</button>
+<button type="button" onClick="{{ f4.go }}" style="position:relative;display:flex;align-items:center;justify-content:center;height:50px;border:0;background:#FFFFFF;transition:background 120ms cubic-bezier(.2,.7,.2,1)" style-hover="background:#F6F7F9">
+<svg width="25" height="25" viewBox="0 0 24 24" fill="none" stroke="{{ f4.ic }}" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M7 5.4h10v14.2H7V5.4Z"></path><path d="M9.8 4v2.6h4.4V4"></path><path d="M9.4 12.6l1.9 1.9 3.5-3.9"></path></svg>
+<sc-if value="{{ f4.hasBadge }}" hint-placeholder-val="{{ false }}">
+<dc-import name="Body" as="span" size="xs" weight="bold" color="inverse" sx="position:absolute;top:5px;right:6px;min-width:15px;height:15px;padding:0 4px;border-radius:999px;background:#E11D48;text-align:center" hint-size="120px,18px">{{ f4.badge }}</dc-import>
+</sc-if>
+</button>
+</div>
+
+<div style="margin-top:14px;flex:1;min-height:0;position:relative">
+<dc-import name="NotifList" feed-title="{{ feedTitle }}" items="{{ feedItems }}" mark-all-read="{{ markAllRead }}" has-link="{{ true }}" link-label="{{ feedLinkLabel }}" hint-size="100%,100%"></dc-import>
+</div>
+</div>
+</div>
+</sc-if>
+</aside>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:396,&quot;height&quot;:600},&quot;guest&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;signedIn&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;height&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;600px&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;signIn&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;},&quot;guestStats&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Stat[]&quot;},&quot;memberStats&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Stat[]&quot;},&quot;f0&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Tab&quot;},&quot;f1&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Tab&quot;},&quot;f2&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Tab&quot;},&quot;f3&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Tab&quot;},&quot;f4&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Tab&quot;},&quot;feedTitle&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;내 글 · 답변&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;feedItems&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Notif[]&quot;},&quot;markAllRead&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;},&quot;feedLinkLabel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;내 활동 전체 보기&quot;,&quot;tsType&quot;:&quot;string&quot;}}"></script>
+</body>
+</html>

@@ -1,0 +1,468 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<style>
+body{margin:0;background:#F6F7F9;font-family:"Pretendard Variable",Pretendard,-apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif;-webkit-font-smoothing:antialiased;word-break:keep-all}
+a{color:#2563EB;text-decoration:none}
+a:hover{color:#1D4ED8}
+</style>
+</helmet>
+
+<div style="width:1240px;margin:0 auto;padding:52px 0 96px;color:#0F172A">
+
+<div style="background:#0F172A;color:#FFFFFF;padding:36px 40px 34px">
+<div style="font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">TYPOGRAPHY SYSTEM · 프로젝트 구현</div>
+<h1 style="margin:14px 0 0;font-size:32px;line-height:1.325;font-weight:700;letter-spacing:-.036em">Text 베이스 · 공개 3종<br>— Svelte DS를 그대로 포팅</h1>
+<p style="margin:16px 0 0;max-width:880px;font-size:16px;line-height:1.5;color:#CBD5E1;letter-spacing:-.02em;text-wrap:pretty">업로드된 Svelte 컴포넌트를 이 프로젝트의 컴포넌트로 옮겼습니다. 크기 11단·매핑 3종·as 제약·weight 제약이 <span style="font-weight:600;color:#FFFFFF">타입 정의와 1:1</span>입니다. 기존 309개 선언 중 <span style="font-weight:600;color:#FFFFFF">222개(72%)가 래더 밖</span>이었습니다. 아래 견본은 문서용 스타일이 아니라 실제 컴포넌트를 마운트한 결과입니다.</p>
+<div style="margin-top:28px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:#1E293B">
+<div style="background:#0F172A;padding:17px 19px 16px">
+<div style="font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">Text 크기</div>
+<div style="margin-top:8px;font-size:24px;line-height:1.425;font-weight:700;letter-spacing:-.03em;font-variant-numeric:tabular-nums">11<span style="font-size:14px;line-height:1.5;font-weight:600;color:#94A3B8">단 · 4xs~4xl</span></div>
+</div>
+<div style="background:#0F172A;padding:17px 19px 16px">
+<div style="font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">공개 조합</div>
+<div style="margin-top:8px;font-size:24px;line-height:1.425;font-weight:700;letter-spacing:-.03em;font-variant-numeric:tabular-nums">12<span style="font-size:14px;line-height:1.5;font-weight:600;color:#94A3B8">개 · 3+5+4</span></div>
+</div>
+<div style="background:#0F172A;padding:17px 19px 16px">
+<div style="font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">리팩토링</div>
+<div style="margin-top:8px;font-size:24px;line-height:1.425;font-weight:700;letter-spacing:-.03em;font-variant-numeric:tabular-nums">309<span style="font-size:14px;line-height:1.5;font-weight:600;color:#94A3B8">개 선언</span></div>
+</div>
+<div style="background:#0F172A;padding:17px 19px 16px">
+<div style="font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">체계 밖이던 것</div>
+<div style="margin-top:8px;font-size:24px;line-height:1.425;font-weight:700;letter-spacing:-.03em;color:#FCA5A5;font-variant-numeric:tabular-nums">222<span style="font-size:14px;line-height:1.5;font-weight:600;color:#94A3B8">개 · 72%</span></div>
+</div>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:30px 34px 34px">
+<div style="font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">01 — 구조</div>
+<p style="margin:15px 0 0;max-width:900px;font-size:14px;line-height:1.5;color:#64748B;letter-spacing:-.014em;text-wrap:pretty">Text는 크기·굵기·행간·색 테이블을 소유하는 유일한 렌더러입니다. 외부에서 직접 쓰지 않고, 세 컴포넌트가 각자 허용 범위만 열어 감쌉니다.</p>
+<div style="margin-top:22px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:#E9ECF1">
+<sc-for list="{{ comps }}" as="c" hint-placeholder-count="3">
+<div style="background:#FFFFFF;padding:24px 26px 26px">
+<div style="display:flex;align-items:baseline;gap:10px">
+<span style="padding:4px 11px;background:{{ c.bg }};color:{{ c.fg }};font-size:16px;line-height:1.5;font-weight:700;letter-spacing:-.02em">{{ c.name }}</span>
+<span style="font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">{{ c.kicker }}</span>
+</div>
+<div style="margin-top:16px;display:flex;flex-direction:column;gap:1px;background:#E9ECF1">
+<sc-for list="{{ c.steps }}" as="s" hint-placeholder-count="4">
+<div style="background:#F8FAFC;padding:9px 12px;display:grid;grid-template-columns:44px 60px 1fr;gap:8px;align-items:baseline">
+<span style="font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:{{ s.kc }}">{{ s.k }}</span>
+<span style="font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8;font-variant-numeric:tabular-nums">{{ s.token }}</span>
+<span style="font-size:14px;line-height:1.5;font-weight:700;letter-spacing:-.014em;font-variant-numeric:tabular-nums">{{ s.px }}<span style="font-size:12px;font-weight:500;color:#94A3B8">px / {{ s.lh }}</span></span>
+</div>
+</sc-for>
+</div>
+<div style="margin-top:16px;display:flex;flex-direction:column;gap:11px">
+<div>
+<div style="font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">as</div>
+<div style="margin-top:4px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#0F172A">{{ c.tags }}</div>
+</div>
+<div>
+<div style="font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">weight</div>
+<div style="margin-top:4px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#0F172A">{{ c.weight }}</div>
+</div>
+<div>
+<div style="font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">기본값</div>
+<div style="margin-top:4px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#0F172A">{{ c.def }}</div>
+</div>
+</div>
+<p style="margin:14px 0 0;padding-top:11px;border-top:1px solid #E9ECF1;font-size:12px;line-height:1.5;color:#64748B;letter-spacing:-.008em;text-wrap:pretty">{{ c.use }}</p>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:30px 34px 34px">
+<div style="font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">02 — 실제 컴포넌트 마운트</div>
+<p style="margin:15px 0 0;max-width:900px;font-size:14px;line-height:1.5;color:#64748B;letter-spacing:-.014em;text-wrap:pretty">아래 12줄은 <span style="font-weight:600;color:#0F172A">Display · Headline · Body</span> 컴포넌트를 그대로 마운트한 것입니다. 행간은 DS의 비율값(1.5 → 1.1)을 그대로 씁니다.</p>
+<div style="margin-top:22px;display:flex;flex-direction:column;gap:1px;background:#E9ECF1">
+
+<div style="background:#FFFFFF;padding:18px 20px;display:flex;align-items:baseline;gap:22px;overflow:hidden">
+<span style="flex:none;width:190px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">Headline xl · h1 · 50</span>
+<dc-import name="Headline" as="h1" size="xl" hint-size="240px,56px">오늘의 게임</dc-import>
+</div>
+<div style="background:#FFFFFF;padding:18px 20px;display:flex;align-items:baseline;gap:22px;overflow:hidden">
+<span style="flex:none;width:190px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">Display lg · span · 43</span>
+<dc-import name="Display" as="span" size="lg" hint-size="200px,52px">12,480</dc-import>
+<span style="font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#C2410C">heading 태그 불가 · tabular 기본</span>
+</div>
+<div style="background:#FFFFFF;padding:18px 20px;display:flex;align-items:baseline;gap:22px;overflow:hidden">
+<span style="flex:none;width:190px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">Headline lg · h1 · 37</span>
+<dc-import name="Headline" as="h1" size="lg" hint-size="240px,48px">만드는 사람들</dc-import>
+</div>
+<div style="background:#FFFFFF;padding:18px 20px;display:flex;align-items:baseline;gap:22px;overflow:hidden">
+<span style="flex:none;width:190px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">Display md · span · 32</span>
+<dc-import name="Display" as="span" size="md" hint-size="120px,44px">128</dc-import>
+<dc-import name="Body" as="span" size="md" weight="semibold" color="tertiary" hint-size="70px,24px">개 저장</dc-import>
+</div>
+<div style="background:#FFFFFF;padding:18px 20px;display:flex;align-items:baseline;gap:22px;overflow:hidden">
+<span style="flex:none;width:190px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">Headline md · h2 · 28</span>
+<dc-import name="Headline" as="h2" size="md" hint-size="240px,40px">이번 주 마감 임박</dc-import>
+</div>
+<div style="background:#FFFFFF;padding:18px 20px;display:flex;align-items:baseline;gap:22px;overflow:hidden">
+<span style="flex:none;width:190px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">Display sm · span · 24</span>
+<dc-import name="Display" as="span" size="sm" hint-size="90px,36px">4.7</dc-import>
+</div>
+<div style="background:#FFFFFF;padding:18px 20px;display:flex;align-items:baseline;gap:22px;overflow:hidden">
+<span style="flex:none;width:190px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">Headline sm · h2 · 21</span>
+<dc-import name="Headline" as="h2" size="sm" hint-size="220px,32px">지금 플레이할 게임</dc-import>
+<span style="font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">기본값</span>
+</div>
+<div style="background:#FFFFFF;padding:18px 20px;display:flex;align-items:baseline;gap:22px">
+<span style="flex:none;width:190px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">Body lg · p · 18</span>
+<dc-import name="Body" as="p" size="lg" color="secondary" hint-size="100%,28px">게임 상세의 리드 문단이 이 단계입니다. 18px는 현재 사이트에서 아직 쓰이지 않습니다.</dc-import>
+</div>
+<div style="background:#FFFFFF;padding:18px 20px;display:flex;align-items:baseline;gap:22px;overflow:hidden">
+<span style="flex:none;width:190px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">Headline xs · h3 · 16</span>
+<dc-import name="Headline" as="h3" size="xs" hint-size="180px,26px">별빛 아래 정원사</dc-import>
+<span style="font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">카드 제목 — 15px에서 올라옴</span>
+</div>
+<div style="background:#FFFFFF;padding:18px 20px;display:flex;align-items:baseline;gap:22px">
+<span style="flex:none;width:190px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">Body md · p · 16</span>
+<dc-import name="Body" as="p" size="md" color="secondary" hint-size="100%,26px">밤마다 자라는 정원을 돌보며 사라진 별을 되찾는 짧은 이야기 게임입니다.</dc-import>
+</div>
+<div style="background:#FFFFFF;padding:18px 20px;display:flex;align-items:center;gap:22px">
+<span style="flex:none;width:190px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">Body sm · span · 14</span>
+<span style="display:flex;align-items:center;gap:11px;flex-wrap:wrap">
+<span style="padding:11px 18px;background:#0F172A;display:inline-flex"><dc-import name="Body" as="span" size="sm" weight="semibold" color="inverse" hint-size="80px,22px">지금 플레이</dc-import></span>
+<span style="padding:9px 15px;background:#F1F5F9;display:inline-flex"><dc-import name="Body" as="span" size="sm" weight="semibold" hint-size="50px,22px">최신순</dc-import></span>
+</span>
+</div>
+<div style="background:#FFFFFF;padding:18px 20px;display:flex;align-items:center;gap:22px">
+<span style="flex:none;width:190px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">Body xs · span · 12</span>
+<span style="display:flex;align-items:center;gap:11px;flex-wrap:wrap">
+<dc-import name="Body" as="span" size="xs" weight="medium" color="secondary" hint-size="180px,18px">한밤스튜디오 · 퍼즐 · 2026.04</dc-import>
+<span style="padding:3px 8px;background:#0F172A;display:inline-flex"><dc-import name="Body" as="span" size="xs" weight="bold" color="inverse" caps="{{ true }}" hint-size="34px,18px">new</dc-import></span>
+<dc-import name="Body" as="span" size="xs" weight="bold" color="tertiary" caps="{{ true }}" hint-size="80px,18px">this week</dc-import>
+</span>
+</div>
+
+
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:30px 34px 32px">
+<div style="font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">03 — 11단 래더 · 소유 관계</div>
+<p style="margin:15px 0 0;max-width:900px;font-size:14px;line-height:1.5;color:#64748B;letter-spacing:-.014em;text-wrap:pretty">Headline은 홀수 칸(16·21·28·37·50), Display는 짝수 칸(24·32·43)을 갖습니다. 두 컴포넌트는 <span style="font-weight:600;color:#0F172A">같은 크기로 만나지 않습니다</span>. 겹치는 곳은 16px 하나 — Headline xs와 Body md이고 굵기 700/400으로 갈립니다.</p>
+<div style="margin-top:22px;display:grid;grid-template-columns:70px 76px 82px 1fr 1fr 1fr 270px;gap:1px;background:#E9ECF1">
+<div style="background:#F6F7F9;padding:10px 12px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#64748B">px</div>
+<div style="background:#F6F7F9;padding:10px 12px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#64748B">token</div>
+<div style="background:#F6F7F9;padding:10px 12px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#64748B">행간</div>
+<div style="background:#F6F7F9;padding:10px 12px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#64748B">Headline</div>
+<div style="background:#F6F7F9;padding:10px 12px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#64748B">Display</div>
+<div style="background:#F6F7F9;padding:10px 12px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#64748B">Body</div>
+<div style="background:#F6F7F9;padding:10px 12px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#64748B">쓰이는 자리</div>
+<sc-for list="{{ ladder }}" as="l" hint-placeholder-count="11">
+<div style="background:#FFFFFF;padding:12px;font-size:16px;line-height:1.5;font-weight:700;letter-spacing:-.02em;font-variant-numeric:tabular-nums">{{ l.px }}</div>
+<div style="background:#FFFFFF;padding:12px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">{{ l.token }}</div>
+<div style="background:#FFFFFF;padding:12px;font-size:12px;line-height:1.5;font-weight:500;letter-spacing:-.008em;color:#64748B;font-variant-numeric:tabular-nums">{{ l.lh }}</div>
+<div style="background:{{ l.hBg }};padding:12px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:{{ l.hFg }}">{{ l.h }}</div>
+<div style="background:{{ l.dBg }};padding:12px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:{{ l.dFg }}">{{ l.d }}</div>
+<div style="background:{{ l.bBg }};padding:12px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:{{ l.bFg }}">{{ l.b }}</div>
+<div style="background:#FFFFFF;padding:12px;font-size:12px;line-height:1.5;color:#64748B;letter-spacing:-.008em">{{ l.note }}</div>
+</sc-for>
+</div>
+</div>
+
+<sc-if value="{{ showReceipt }}" hint-placeholder-val="{{ true }}">
+<div style="margin-top:16px;background:#FFFFFF;padding:30px 34px 34px">
+<div style="font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">04 — 리팩토링 결과</div>
+<p style="margin:15px 0 0;max-width:900px;font-size:14px;line-height:1.5;color:#64748B;letter-spacing:-.014em;text-wrap:pretty">41개 컴포넌트의 309개 선언 전수를 DS 값으로 맞췄습니다. 두 페이지 파일에는 텍스트 선언이 없습니다 — 순수 조합입니다.</p>
+<div style="margin-top:22px;display:grid;grid-template-columns:104px 52px 116px 1fr 84px;gap:1px;background:#E9ECF1">
+<div style="background:#F6F7F9;padding:10px 12px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#64748B">이전</div>
+<div style="background:#F6F7F9;padding:10px 12px"></div>
+<div style="background:#F6F7F9;padding:10px 12px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#64748B">DS 토큰</div>
+<div style="background:#F6F7F9;padding:10px 12px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#64748B">영향</div>
+<div style="background:#F6F7F9;padding:10px 12px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#64748B;text-align:right">건수</div>
+<sc-for list="{{ receipt }}" as="r" hint-placeholder-count="8">
+<div style="background:#FFFFFF;padding:12px;font-size:14px;line-height:1.5;font-weight:700;letter-spacing:-.014em;font-variant-numeric:tabular-nums">{{ r.from }}</div>
+<div style="background:#FFFFFF;padding:12px;font-size:14px;color:#CBD5E1">→</div>
+<div style="background:#FFFFFF;padding:12px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#0F172A">{{ r.to }}</div>
+<div style="background:#FFFFFF;padding:12px;font-size:12px;line-height:1.5;color:#64748B;letter-spacing:-.008em">{{ r.impact }}</div>
+<div style="background:#FFFFFF;padding:12px;text-align:right;font-size:12px;line-height:1.5;font-weight:700;letter-spacing:-.008em;color:{{ r.color }};font-variant-numeric:tabular-nums">{{ r.n }}</div>
+</sc-for>
+</div>
+<div style="margin-top:24px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">컴포넌트 마운트 전환</div>
+<div style="margin-top:10px;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:1px;background:#E9ECF1">
+<sc-for list="{{ mounts }}" as="m" hint-placeholder-count="5">
+<div style="background:#F8FAFC;padding:16px 18px 17px">
+<div style="font-size:24px;line-height:1.425;font-weight:700;letter-spacing:-.03em;font-variant-numeric:tabular-nums">{{ m.n }}</div>
+<div style="margin-top:4px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#0F172A">{{ m.k }}</div>
+<div style="margin-top:5px;font-size:12px;line-height:1.5;color:#64748B;letter-spacing:-.008em;text-wrap:pretty">{{ m.note }}</div>
+</div>
+</sc-for>
+</div>
+
+<div style="margin-top:24px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">역할로 다시 고른 것 — 크기·굵기만 보면 값이 제목이 된다</div>
+<div style="margin-top:10px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:#E9ECF1">
+<sc-for list="{{ roleFix }}" as="r" hint-placeholder-count="4">
+<div style="background:#FFF7ED;padding:16px 18px 17px">
+<div style="font-size:14px;line-height:1.5;font-weight:700;letter-spacing:-.014em;color:#C2410C">{{ r.t }}</div>
+<div style="margin-top:7px;font-size:12px;line-height:1.5;color:#64748B;letter-spacing:-.008em;text-wrap:pretty">{{ r.d }}</div>
+</div>
+</sc-for>
+</div>
+
+<div style="margin-top:20px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:#E9ECF1">
+<div style="background:#F8FAFC;padding:18px 20px 19px">
+<div style="font-size:14px;line-height:1.5;font-weight:700;letter-spacing:-.014em">행간 304건 재지정</div>
+<p style="margin:8px 0 0;font-size:12px;line-height:1.5;color:#64748B;letter-spacing:-.008em;text-wrap:pretty">52건은 기존 값을 교체하고 252건은 새로 넣었습니다. 기존에 행간이 없던 자리가 대부분이었고, 브라우저 기본값(normal)이 한글에서 좁게 잡히던 문제가 함께 사라집니다.</p>
+</div>
+<div style="background:#F8FAFC;padding:18px 20px 19px">
+<div style="font-size:14px;line-height:1.5;font-weight:700;letter-spacing:-.014em">트래킹 217건 정규화</div>
+<p style="margin:8px 0 0;font-size:12px;line-height:1.5;color:#64748B;letter-spacing:-.008em;text-wrap:pretty">20종이 11종으로 줄었습니다. 크기가 정해지면 트래킹도 정해집니다. 양수 트래킹은 대문자 caps(+.06em) 하나뿐입니다 — DS에는 없는 축이라 프로젝트 확장으로 표시했습니다.</p>
+</div>
+<div style="background:#F8FAFC;padding:18px 20px 19px">
+<div style="font-size:14px;line-height:1.5;font-weight:700;letter-spacing:-.014em">굵기 4단으로 수렴</div>
+<p style="margin:8px 0 0;font-size:12px;line-height:1.5;color:#64748B;letter-spacing:-.008em;text-wrap:pretty">800 · 450 · 300이 사라졌습니다. 현재 500×5 · 600×54 · 700×151이고 400은 선언 없이 기본값에 의존합니다 — DS는 font-normal을 명시하므로 마운트 전환 시 자동으로 맞습니다.</p>
+</div>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ showGaps }}" hint-placeholder-val="{{ true }}">
+<div style="margin-top:16px;background:#FFFFFF;padding:30px 34px 32px">
+<div style="font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">05 — DS와 어긋나는 지점 8건</div>
+<p style="margin:15px 0 0;max-width:900px;font-size:14px;line-height:1.5;color:#64748B;letter-spacing:-.014em;text-wrap:pretty">Svelte 정의를 읽고 발견한 빈칸입니다. 포팅한 컴포넌트에는 프로젝트 확장을 넣어두었으니, Svelte 쪽에 반영할지 판단이 필요합니다.</p>
+<div style="margin-top:20px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:#E9ECF1">
+<sc-for list="{{ gaps }}" as="g" hint-placeholder-count="8">
+<div style="background:#FFFFFF;padding:20px 20px 22px">
+<div style="display:flex;align-items:center;gap:8px">
+<span style="padding:3px 8px;background:{{ g.bg }};color:{{ g.fg }};font-size:12px;line-height:1.5;font-weight:700;letter-spacing:-.008em">{{ g.tag }}</span>
+</div>
+<div style="margin-top:11px;font-size:14px;line-height:1.5;font-weight:700;letter-spacing:-.014em">{{ g.name }}</div>
+<p style="margin:8px 0 0;font-size:12px;line-height:1.5;color:#64748B;letter-spacing:-.008em;text-wrap:pretty">{{ g.desc }}</p>
+<div style="margin-top:12px;padding-top:10px;border-top:1px solid #E9ECF1;font-size:12px;line-height:1.5;color:#0F172A;letter-spacing:-.008em">{{ g.rec }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-if>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:30px 34px 34px">
+<div style="font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">06 — Svelte 반영안 · 트래킹 + 색</div>
+<p style="margin:15px 0 0;max-width:920px;font-size:14px;line-height:1.5;color:#64748B;letter-spacing:-.014em;text-wrap:pretty">두 축을 Svelte DS에 넣은 버전을 <span style="font-weight:600;color:#0F172A">designsystem/typography/</span>에 두었습니다. 업로드한 파일은 건드리지 않았습니다. <span style="font-weight:600;color:#0F172A">Display · Headline · Body는 수정이 필요 없습니다</span> — DisplayColor 등이 TextColor의 별칭이라 TextColor를 넓히면 셋이 함께 넓어집니다.</p>
+
+<div style="margin-top:24px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1.35fr);gap:1px;background:#E9ECF1">
+
+<div style="background:#FFFFFF;padding:22px 24px 24px">
+<div style="display:flex;align-items:baseline;gap:9px">
+<span style="font-size:16px;line-height:1.5;font-weight:700;letter-spacing:-.02em">트래킹 11값</span>
+<span style="font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">신규 파일 1개</span>
+</div>
+<p style="margin:9px 0 0;font-size:12px;line-height:1.5;color:#64748B;letter-spacing:-.008em;text-wrap:pretty">행간과 같은 구조 — <span style="font-weight:600;color:#0F172A">크기의 함수</span>입니다. 역할과 무관하고, 커질수록 조입니다. 한글은 자폭이 넓어 37px 이상에서 이 보정이 없으면 히어로가 흩어져 보입니다.</p>
+<div style="margin-top:16px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:#E9ECF1">
+<sc-for list="{{ tracking }}" as="k" hint-placeholder-count="11">
+<div style="background:#F8FAFC;padding:8px 11px;display:flex;align-items:baseline;justify-content:space-between;gap:8px">
+<span style="font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">{{ k.token }}<span style="color:#CBD5E1"> · {{ k.px }}</span></span>
+<span style="font-size:12px;line-height:1.5;font-weight:700;letter-spacing:-.008em;font-variant-numeric:tabular-nums">{{ k.v }}</span>
+</div>
+</sc-for>
+</div>
+<div style="margin-top:14px;padding:14px 16px;background:#0F172A;color:#E2E8F0;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;line-height:1.7;letter-spacing:0;white-space:pre;overflow-x:auto">// _Text/text-tracking.types.ts
+export const textSizeToTrackingStyle:
+  Record&lt;TextSize, string&gt; = {
+  '4xs': 'tracking-[-0.008em]',
+  ...
+  '4xl': 'tracking-[-0.040em]'
+};
+
+// _Text/Text.svelte
+const trackStyle: string = $derived(
+  textSizeToTrackingStyle[size]
+);
+class="... {trackStyle} {className}"</div>
+</div>
+
+<div style="background:#FFFFFF;padding:22px 24px 24px">
+<div style="display:flex;align-items:baseline;gap:9px">
+<span style="font-size:16px;line-height:1.5;font-weight:700;letter-spacing:-.02em">잉크 5역할</span>
+<span style="font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">TextColor 확장 + @theme</span>
+</div>
+<p style="margin:9px 0 0;font-size:12px;line-height:1.5;color:#64748B;letter-spacing:-.008em;text-wrap:pretty">현재 사이트에서 실제로 쓰이던 값을 그대로 토큰화했습니다. 빈도가 곧 위계입니다 — tertiary가 79회로 primary 다음인데 이름이 없던 상태였습니다.</p>
+
+<div style="margin-top:16px;display:grid;grid-template-columns:132px 88px 78px 1fr;gap:1px;background:#E9ECF1">
+<div style="background:#F6F7F9;padding:8px 11px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#64748B">역할</div>
+<div style="background:#F6F7F9;padding:8px 11px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#64748B">대비</div>
+<div style="background:#F6F7F9;padding:8px 11px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#64748B">등급</div>
+<div style="background:#F6F7F9;padding:8px 11px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#64748B">사용 규칙</div>
+<sc-for list="{{ inks }}" as="i" hint-placeholder-count="5">
+<div style="background:#FFFFFF;padding:11px">
+<div style="display:flex;align-items:center;gap:8px">
+<span style="flex:none;width:26px;height:18px;background:{{ i.swatchBg }};display:grid;place-items:center"><span style="width:14px;height:8px;background:{{ i.hex }}"></span></span>
+<span style="min-width:0;font-size:12px;line-height:1.5;font-weight:700;letter-spacing:-.008em">{{ i.name }}</span>
+</div>
+<div style="margin-top:4px;font-size:12px;line-height:1.5;font-weight:500;letter-spacing:-.008em;color:#94A3B8;font-variant-numeric:tabular-nums">{{ i.hex }} · {{ i.n }}회</div>
+</div>
+<div style="background:#FFFFFF;padding:11px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;font-variant-numeric:tabular-nums">{{ i.ratio }}</div>
+<div style="background:#FFFFFF;padding:11px"><span style="padding:2px 7px;background:{{ i.gBg }};color:{{ i.gFg }};font-size:12px;line-height:1.5;font-weight:700;letter-spacing:-.008em">{{ i.grade }}</span></div>
+<div style="background:#FFFFFF;padding:11px;font-size:12px;line-height:1.5;color:#64748B;letter-spacing:-.008em;text-wrap:pretty">{{ i.use }}</div>
+</sc-for>
+</div>
+
+<div style="margin-top:14px;padding:14px 16px;background:#0F172A;color:#E2E8F0;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;line-height:1.7;letter-spacing:0;white-space:pre;overflow-x:auto">// _Text/text-color.types.ts
+export type TextColor = 'primary' | 'secondary'
+  | 'tertiary' | 'quaternary' | 'inverse';
+
+// _Text/Text.svelte
+const textColorToStyle: Record&lt;TextColor, string&gt; = {
+  primary: 'text-primary',
+  secondary: 'text-secondary',
+  tertiary: 'text-tertiary',
+  quaternary: 'text-quaternary',
+  inverse: 'text-inverse'
+};
+
+// theme.css — Tailwind v4
+@theme {
+  --color-primary: #0f172a;
+  --color-secondary: #64748b;
+  --color-tertiary: #94a3b8;
+  --color-quaternary: #cbd5e1;
+  --color-inverse: #ffffff;
+}</div>
+</div>
+</div>
+
+<div style="margin-top:20px;padding:18px 20px 19px;background:#FEF2F2">
+<div style="font-size:14px;line-height:1.5;font-weight:700;letter-spacing:-.014em;color:#BE123C">tertiary는 AA를 통과하지 못합니다 — 그런데 79회 쓰입니다</div>
+<p style="margin:8px 0 0;max-width:900px;font-size:12px;line-height:1.5;color:#7F1D1D;letter-spacing:-.008em;text-wrap:pretty">#94A3B8은 배경 #F6F7F9에서 2.39:1입니다. secondary(#64748B)도 4.44:1로 AA 기준 4.5:1을 아슬하게 넘지 못합니다 — 순백 위에서는 4.76:1로 통과하므로, AA가 필수인 화면은 배경을 흰색으로 올리는 편이 빠릅니다. tertiary를 AA로 끌어올리면 secondary와 거의 같아져 3단 위계가 무너집니다. <span style="font-weight:600">색을 바꾸는 대신 쓰이는 자리를 제한하는 쪽</span>을 택했습니다 — 메타 · 라벨 · eyebrow처럼 놓쳐도 과업이 실패하지 않는 정보에만. 게임 제목 · 가격 · 마감일처럼 필수 정보에는 primary를 씁니다.</p>
+</div>
+
+<div style="margin-top:20px;font-size:12px;line-height:1.5;font-weight:600;letter-spacing:-.008em;color:#94A3B8">앞서 물어본 6개 이름은 이렇게 정리됩니다</div>
+<div style="margin-top:10px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:#E9ECF1">
+<sc-for list="{{ asked }}" as="q" hint-placeholder-count="6">
+<div style="background:#F8FAFC;padding:14px 16px 15px;display:flex;gap:10px;align-items:baseline">
+<span style="flex:none;font-family:ui-monospace,SFMono-Regular,Menlo,monospace;font-size:12px;line-height:1.5;font-weight:700;letter-spacing:0;color:#0F172A">{{ q.q }}</span>
+<span style="min-width:0;font-size:12px;line-height:1.5;color:#64748B;letter-spacing:-.008em;text-wrap:pretty">{{ q.a }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;showReceipt&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;섹션 표시&quot;},&quot;showGaps&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;섹션 표시&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const H = ["#0F172A", "#FFFFFF"], D = ["#FFEDD5", "#C2410C"], B = ["#DBEAFE", "#1D4ED8"], N = ["#FFFFFF", "#E2E8F0"];
+    const row = (px, token, lh, h, d, b, note) => ({
+      px, token, lh, note,
+      h: h || "—", hBg: h ? H[0] : N[0], hFg: h ? H[1] : N[1],
+      d: d || "—", dBg: d ? D[0] : N[0], dFg: d ? D[1] : N[1],
+      b: b || "—", bBg: b ? B[0] : N[0], bFg: b ? B[1] : N[1]
+    });
+
+    return {
+      showReceipt: this.props.showReceipt ?? true,
+      showGaps: this.props.showGaps ?? true,
+
+      comps: [
+        { name: "Display", bg: "#FFEDD5", fg: "#C2410C", kicker: "강조 · 값",
+          steps: [{ k: "sm", token: "md", px: 24, lh: "1.425", kc: "#94A3B8" }, { k: "md", token: "xl", px: 32, lh: "1.325", kc: "#0F172A" }, { k: "lg", token: "3xl", px: 43, lh: "1.1875", kc: "#94A3B8" }],
+          tags: "div · p · span", weight: "bold 고정 · prop 없음", def: "size md · as span · tabular",
+          use: "지표 · 평점 · 가격처럼 값이 갱신되는 큰 글자. heading 태그를 쓸 수 없으므로 문서 개요에 절대 섞이지 않습니다." },
+        { name: "Headline", bg: "#0F172A", fg: "#FFFFFF", kicker: "문서 구조",
+          steps: [{ k: "xs", token: "2xs", px: 16, lh: "1.5", kc: "#94A3B8" }, { k: "sm", token: "sm", px: 21, lh: "1.4625", kc: "#0F172A" }, { k: "md", token: "lg", px: 28, lh: "1.375", kc: "#94A3B8" }, { k: "lg", token: "2xl", px: 37, lh: "1.2625", kc: "#94A3B8" }, { k: "xl", token: "4xl", px: 50, lh: "1.1", kc: "#94A3B8" }],
+          tags: "h1 · h2 · h3 · h4 (h5 · h6 비권장)", weight: "bold 고정 · prop 없음", def: "size sm · as h2",
+          use: "페이지 · 섹션 · 패널 · 카드 제목. size와 as가 독립이라 레벨은 위치가 정합니다 — 21px이 h1일 수도, 50px이 h2일 수도 있습니다." },
+        { name: "Body", bg: "#DBEAFE", fg: "#1D4ED8", kicker: "일반 텍스트",
+          steps: [{ k: "xs", token: "4xs", px: 12, lh: "1.5", kc: "#94A3B8" }, { k: "sm", token: "3xs", px: 14, lh: "1.5", kc: "#94A3B8" }, { k: "md", token: "2xs", px: 16, lh: "1.5", kc: "#0F172A" }, { k: "lg", token: "xs", px: 18, lh: "1.5", kc: "#94A3B8" }],
+          tags: "div · p · span", weight: "normal · medium · semibold · bold", def: "size md · as span · weight normal",
+          use: "문장 · 버튼 · 탭 · 배지 · 메타 · eyebrow · 폼 라벨. 굵기 prop을 가진 유일한 컴포넌트이고, 문장 안 강조가 semibold입니다." }
+      ],
+
+      ladder: [
+        row(50, "4xl", "1.1", "xl", null, null, "페이지 제목 — 페이지당 1회"),
+        row(43, "3xl", "1.1875", null, "lg", null, "대형 지표 · 히어로 수치"),
+        row(37, "2xl", "1.2625", "lg", null, null, "히어로 제목 · 46px에서 내려옴"),
+        row(32, "xl", "1.325", null, "md", null, "패널 지표 — Display 기본값 · 34px에서 내려옴"),
+        row(28, "lg", "1.375", "md", null, null, "패널 · 모달 제목"),
+        row(24, "md", "1.425", null, "sm", null, "카드 안 강조 수치 · 평점"),
+        row(21, "sm", "1.4625", "sm", null, null, "섹션 제목 — Headline 기본값, 13건"),
+        row(18, "xs", "1.5", null, null, "lg", "리드 문단 — 현재 미사용, 게임 상세가 첫 사용처"),
+        row(16, "2xs", "1.5", "xs", null, "md", "카드 제목(700) · 본문 기본(400) — 유일한 충돌"),
+        row(14, "3xs", "1.5", null, null, "sm", "버튼 · 탭 · 조밀 본문 — 13px에서 올라옴"),
+        row(12, "4xs", "1.5", null, null, "xs", "메타 · 배지 · eyebrow — 하한, 11px 흡수")
+      ],
+
+      receipt: [
+        { from: "11px", to: "Body xs 12", impact: "체계 밖 — 최다 항목. 배지 · 스펙마크 · 수치 라벨 전수", n: 144, color: "#BE123C" },
+        { from: "12px", to: "Body xs 12", impact: "크기 유지 · 행간 1.5와 트래킹 -.008em 신규 지정", n: 73, color: "#94A3B8" },
+        { from: "13px", to: "Body sm 14", impact: "체계 밖 — 본문 · 버튼 · 탭. 버튼 패딩 재산정 필요", n: 46, color: "#BE123C" },
+        { from: "15px", to: "Headline xs 16", impact: "체계 밖 — 카드 · 행 제목. 카드 높이 재조판 필요", n: 28, color: "#BE123C" },
+        { from: "21px", to: "Headline sm 21", impact: "크기 유지 · 행간 1.4625 지정 — 이 중 4건은 값이라 Display sm 24로 분리", n: 13, color: "#94A3B8" },
+        { from: "34px", to: "Display md 32", impact: "체계 밖 — 큰 수치. 마크업도 제목 태그에서 span으로", n: 3, color: "#C2410C" },
+        { from: "46px", to: "Headline lg 37", impact: "체계 밖 — 메이커스 히어로. 9px 축소로 가장 큰 시각 변화", n: 1, color: "#BE123C" },
+        { from: "50px", to: "Headline xl 50", impact: "크기 유지 · 행간 1.1 지정", n: 1, color: "#94A3B8" }
+      ],
+
+      mounts: [
+        { k: "Body", n: 277, note: "문장 · 버튼 · 탭 · 배지 · 메타 · eyebrow · 값" },
+        { k: "Headline", n: 17, note: "블록의 이름만 — 페이지당 h1 1 · h2 6~12 · h3 9~15" },
+        { k: "Display", n: 7, note: "카드 지표 값 — 제목 태그에서 span으로" },
+        { k: "button · a 안에 감싼 것", n: 44, note: "DS가 금지한 태그. 요소는 남기고 텍스트만 마운트" },
+        { k: "인라인으로 남긴 것", n: 10, note: "로고 자체(4) · input(2) · 아이콘 글리프 · 툴팁 CSS 규칙" }
+      ],
+
+      roleFix: [
+        { t: "값 → Display · Body", d: "평점 · 리뷰 수 · 플레이 시간 · 통계처럼 갱신되는 숫자 21건. 크기와 굵기만 보고 컴포넌트를 고르면 4.9와 178이 h3가 됩니다 — 카드마다 제목이 3개씩 생기고 스크린리더 제목 목록에 숫자가 섞입니다." },
+        { t: "CTA 라벨 → Body", d: "\"지금 플레이\" · \"빌드 올리기\"가 button 안의 h3였습니다. 버튼 라벨은 아래 내용의 이름이 아니라 조작 지시입니다." },
+        { t: "메타 · 문장 → Body", d: "스튜디오명 · 작성자 · 요일 · 로그인 안내 2줄 · 아바타 이니셜. 이름처럼 보이지만 블록을 명명하지 않습니다." },
+        { t: "결과", d: "두 페이지 모두 58 · 43개였던 제목이 22개로. 값 헤딩 0건 · button 안 헤딩 0건. 남은 22개는 전부 히어로 · 섹션 · 카드 제목입니다." }
+      ],
+
+      tracking: [
+        { token: "4xs", px: 12, v: "-0.008em" }, { token: "3xs", px: 14, v: "-0.014em" },
+        { token: "2xs", px: 16, v: "-0.020em" }, { token: "xs", px: 18, v: "-0.024em" },
+        { token: "sm", px: 21, v: "-0.028em" }, { token: "md", px: 24, v: "-0.030em" },
+        { token: "lg", px: 28, v: "-0.034em" }, { token: "xl", px: 32, v: "-0.036em" },
+        { token: "2xl", px: 37, v: "-0.038em" }, { token: "3xl", px: 43, v: "-0.040em" },
+        { token: "4xl", px: 50, v: "-0.040em" }
+      ],
+
+      inks: [
+        { name: "primary", hex: "#0F172A", n: 80, ratio: "16.66:1", grade: "AAA", gBg: "#DCFCE7", gFg: "#15803D", use: "본문 · 제목 — 기본값. 제한 없음", swatchBg: "#F6F7F9" },
+        { name: "secondary", hex: "#64748B", n: 44, ratio: "4.44:1", grade: "AA 미달", gBg: "#FEF3C7", gFg: "#B45309", use: "설명문 · 2차 정보에만. 본문은 primary", swatchBg: "#F6F7F9" },
+        { name: "tertiary", hex: "#94A3B8", n: 79, ratio: "2.39:1", grade: "AA 미달", gBg: "#FEE2E2", gFg: "#BE123C", use: "메타 · 라벨 · eyebrow. 필수 정보 금지", swatchBg: "#F6F7F9" },
+        { name: "quaternary", hex: "#CBD5E1", n: 4, ratio: "1.39:1", grade: "비텍스트", gBg: "#E2E8F0", gFg: "#475569", use: "비활성 · 구분 기호. 판독을 요구하지 않는 자리", swatchBg: "#F6F7F9" },
+        { name: "inverse", hex: "#FFFFFF", n: 57, ratio: "17.85:1", grade: "AAA", gBg: "#DCFCE7", gFg: "#15803D", use: "어두운 배경 위. primary 배경과 짝", swatchBg: "#0F172A" }
+      ],
+
+      asked: [
+        { q: "primary", a: "있음 — 기본값", ok: true },
+        { q: "secondary", a: "추가함 — #64748B", ok: true },
+        { q: "placeholder", a: "tertiary로 흡수. 별 역할을 두지 않습니다", ok: true },
+        { q: "disabled", a: "quaternary로 흡수. 색만으로 비활성을 알리지 말고 커서·라벨을 함께", ok: true },
+        { q: "accent", a: "아직 없음 — 사이트마다 값이 달라 색이 아니라 prop으로 주입 중", ok: false },
+        { q: "inherit", a: "두지 않음 — color를 생략하면 primary. 상속이 필요하면 sx", ok: false }
+      ],
+
+      gaps: [
+        { tag: "GAP 0", bg: "#FEE2E2", fg: "#BE123C", name: "텍스트 컴포넌트는 중첩할 수 없다", desc: "런타임이 조상 체인에 같은 컴포넌트 이름이 있으면 순환 참조로 판정합니다. Body 안의 Body가 막히므로, 바깥 요소가 텍스트를 감싸는 구조에서는 안쪽만 마운트로 두고 바깥은 인라인으로 남겨야 합니다. 실제로 1건 있었습니다.", rec: "이 프로젝트 런타임의 제약입니다. Svelte에는 없는 문제이므로 포팅 시에만 고려하면 됩니다." },
+        { tag: "해결", bg: "#DCFCE7", fg: "#15803D", name: "letter-spacing 축 추가", desc: "Text에 트래킹 정의가 없어 43·50px 한글이 헐렁했습니다. 크기별 11값을 넣었습니다.", rec: "§06에 Svelte 반영안 있음 — text-tracking.types.ts 신규." },
+        { tag: "해결", bg: "#DCFCE7", fg: "#15803D", name: "color 5역할로 확장", desc: "TextColor가 primary 하나여서 2·3차 텍스트를 표현할 수 없었습니다. 실제 사용 빈도대로 5역할을 토큰화했습니다.", rec: "§06에 반영안 있음 — 다만 tertiary는 AA 미달이라 사용 제한이 붙습니다." },
+        { tag: "GAP 3", bg: "#FEF3C7", fg: "#B45309", name: "Headline에 h5 · h6", desc: "HeadlineAs가 h1~h6을 전부 허용합니다. 크기는 5단인데 레벨은 6단이라 짝이 맞지 않고, 4단보다 깊은 제목은 페이지 구조 문제입니다.", rec: "h1~h4로 좁히기를 권합니다. 포팅본은 타입을 유지하고 §01에 비권장으로 표기했습니다." },
+        { tag: "GAP 4", bg: "#FEF3C7", fg: "#B45309", name: "caps · tabular 변형 없음", desc: "eyebrow 대문자와 숫자 tabular-nums가 DS에 없어 호출부가 style로 덮게 됩니다. 이 프로젝트에는 두 자리 모두 존재합니다.", rec: "boolean prop 2개로 추가. 포팅본에 구현했습니다." },
+        { tag: "GAP 5", bg: "#E2E8F0", fg: "#475569", name: "TextWeight 9단 중 4단만 사용", desc: "thin · extralight · light · extrabold · black은 어느 공개 컴포넌트도 노출하지 않습니다. 타입에만 존재하는 값입니다.", rec: "그대로 둡니다. Text는 내부 전용이므로 미사용 값이 새어 나가지 않습니다." },
+        { tag: "GAP 6", bg: "#FEF3C7", fg: "#B45309", name: "레이아웃 스타일을 넘길 길이 없다", desc: "패딩 · 배경 · flex처럼 타이포가 아닌 스타일을 컴포넌트에 넘길 수단이 DS에 없습니다. Svelte는 class로 해결하지만 이 프로젝트는 클래스를 쓰지 않습니다.", rec: "sx prop(CSS 문자열)을 추가했습니다. Svelte 쪽 class와 같은 역할입니다." },
+        { tag: "GAP 7", bg: "#FEE2E2", fg: "#BE123C", name: "21px 비제목 토큰이 없다", desc: "엇갈려 나누기 때문에 21px은 Headline sm 하나뿐입니다. 카드 안 21px 값(4분 · 5.8만 · 4.3)은 제목이 아닌데 같은 크기의 Body · Display 칸이 없습니다.", rec: "Display sm 24로 올렸습니다. Body lg 18로 내리거나 21px을 Display에도 열어주는 선택이 남아 있습니다." }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+.snField:has(input:focus-visible){outline:2px solid #94A3B8;outline-offset:2px}
+</style>
+</helmet>
+
+<div style="display:contents">
+<div style="position:fixed;top:0;left:0;right:0;height:3px;z-index:60;background:{{ accent }}"></div>
+
+<header style="position:fixed;top:0;left:0;right:0;min-width:1280px;z-index:30;background:rgba(255,255,255,.94);backdrop-filter:saturate(180%) blur(20px);-webkit-backdrop-filter:saturate(180%) blur(20px);border-bottom:1px solid #E9ECF1">
+<div style="width:1280px;margin:0 auto;height:70px;display:flex;align-items:center;gap:34px">
+
+<a style="display:flex;align-items:center;gap:9px;flex:none">
+<span style="width:25px;height:25px;border-radius:8px;background:{{ accent }};display:grid;place-items:center">
+<span style="width:8px;height:8px;background:#FFFFFF;transform:rotate(45deg)"></span>
+</span>
+<span style="display:flex;align-items:baseline;gap:6px">
+<span style="font-size:21px;line-height:1.4625;font-weight:700;letter-spacing:-.028em;color:#0F172A;display:inline-flex;align-items:center;gap:1px;font-family:Inter,sans-serif">
+<span>a</span>
+<span style="display:inline-block;transform:rotate(90deg)">D</span>
+<span style="font-size:16px;line-height:1.5">m</span>
+<span style="display:inline-block;transform:rotate(90deg)">D</span>
+</span>
+<dc-import name="Body" as="span" size="md" weight="semibold" hint-size="160px,24px">{{ siteName }}</dc-import>
+</span>
+</a>
+
+<nav style="display:flex;align-items:center;gap:4px">
+<sc-for list="{{ navItems }}" as="n" hint-placeholder-count="3">
+<a style="height:32px;padding:0 13px;border-radius:999px;transition:background 200ms cubic-bezier(.2,.7,.2,1),color 200ms cubic-bezier(.2,.7,.2,1);background:{{ n.bg }}" style-hover="background:#F1F3F5"><dc-import name="Body" as="span" size="sm" hint-size="140px,21px">{{ n.name }}</dc-import></a>
+</sc-for>
+</nav>
+
+<div style="flex:1"></div>
+
+<sc-if value="{{ showSearch }}" hint-placeholder-val="{{ false }}">
+<label class="snField" style="display:flex;align-items:center;gap:8px;width:230px;height:36px;padding:0 14px;border-radius:999px;background:#FFFFFF;flex:none">
+<svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="#94A3B8" stroke-width="1.6" stroke-linecap="round" style="flex:none"><circle cx="6" cy="6" r="4.25"></circle><path d="M9.3 9.3 12.4 12.4"></path></svg>
+<input type="text" value="{{ query }}" onChange="{{ onSearch }}" placeholder="{{ searchPlaceholder }}" style="flex:1;min-width:0;border:0;outline:0;background:transparent;font-size:14px;line-height:1.5;letter-spacing:-.014em;color:#0F172A">
+</label>
+</sc-if>
+
+<sc-if value="{{ showStats }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:13px;flex:none">
+<div style="display:flex;align-items:baseline;gap:5px">
+<dc-import name="Body" as="span" size="xs" color="tertiary" hint-size="120px,18px">{{ statLabel1 }}</dc-import>
+<dc-import name="Body" as="span" size="sm" weight="bold" tabular="{{ true }}" hint-size="140px,21px">{{ statValue1 }}</dc-import>
+</div>
+<span style="width:1px;height:14px;background:#E2E8F0"></span>
+<div style="display:flex;align-items:baseline;gap:5px">
+<dc-import name="Body" as="span" size="xs" color="tertiary" hint-size="120px,18px">{{ statLabel2 }}</dc-import>
+<dc-import name="Body" as="span" size="sm" weight="bold" tabular="{{ true }}" sx="color:{{ accent }}" hint-size="140px,21px">{{ statValue2 }}</dc-import>
+</div>
+</div>
+</sc-if>
+
+<sc-if value="{{ guest }}" hint-placeholder-val="{{ true }}">
+<div style="display:flex;align-items:center;gap:10px;flex:none">
+<button style="border:0;height:34px;padding:0 14px;background:transparent;transition:color 120ms cubic-bezier(.2,.7,.2,1)" type="button" onClick="{{ signIn }}" style-hover="color:#0F172A"><dc-import name="Body" as="span" size="sm" weight="semibold" color="secondary" hint-size="140px,21px">{{ signupLabel }}</dc-import></button>
+<button style="height:34px;padding:0 16px;border:0;transition:filter 200ms cubic-bezier(.2,.7,.2,1);background:{{ accent }}" type="button" onClick="{{ signIn }}" style-hover="filter:brightness(.92)"><dc-import name="Body" as="span" size="sm" weight="bold" color="inverse" hint-size="140px,21px">{{ loginLabel }}</dc-import></button>
+</div>
+</sc-if>
+
+<sc-if value="{{ signedIn }}" hint-placeholder-val="{{ false }}">
+<div style="display:flex;align-items:center;gap:12px;flex:none">
+<sc-if value="{{ hasWrite }}" hint-placeholder-val="{{ false }}">
+<button style="height:34px;padding:0 14px;background:#0F172A;border:0;transition:background 200ms cubic-bezier(.2,.7,.2,1)" type="button" style-hover="background:#1E293B"><dc-import name="Body" as="span" size="xs" weight="bold" color="inverse" hint-size="120px,18px">{{ writeLabel }}</dc-import></button>
+</sc-if>
+<div style="display:flex;align-items:center;gap:8px;height:34px;padding:0 12px 0 4px;border-radius:999px;background:{{ accent }}">
+<dc-import name="Body" as="span" size="xs" weight="bold" color="inverse" sx="width:26px;height:26px;border-radius:999px;background:rgba(255,255,255,.24);display:grid;place-items:center" hint-size="120px,18px">{{ userInitial }}</dc-import>
+<dc-import name="Body" as="span" size="xs" weight="bold" color="inverse" hint-size="120px,18px">{{ userName }}</dc-import>
+</div>
+<button style="height:34px;padding:0 10px;background:transparent;border:0;transition:color 120ms cubic-bezier(.2,.7,.2,1)" type="button" onClick="{{ signOut }}" style-hover="color:#0F172A"><dc-import name="Body" as="span" size="xs" weight="medium" color="tertiary" hint-size="120px,18px">로그아웃</dc-import></button>
+</div>
+</sc-if>
+
+</div>
+</header>
+<div style="height:70px"></div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:80},&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#2563EB&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;options&quot;:[&quot;#2563EB&quot;,&quot;#EA580C&quot;]},&quot;siteName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;플레이 그라운드&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;activeSite&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;default&quot;:&quot;play&quot;,&quot;options&quot;:[&quot;play&quot;,&quot;makers&quot;,&quot;help&quot;],&quot;tsType&quot;:&quot;string&quot;},&quot;showStats&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;showSearch&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;query&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;onSearch&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;(e) =&gt; void&quot;},&quot;searchPlaceholder&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;글, 태그, 메이커 검색&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;statLabel1&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;플레이어&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;statValue1&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;12,480&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;statLabel2&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;누적 플레이&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;statValue2&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;108.9만회&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;guest&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;},&quot;signedIn&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;},&quot;signIn&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;},&quot;signOut&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;},&quot;signupLabel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;회원가입&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;loginLabel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;로그인&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;writeLabel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;userInitial&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;진&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;userName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;진수&quot;,&quot;tsType&quot;:&quot;string&quot;}}">
+class Component extends DCLogic {
+  renderVals() {
+    const p = this.props;
+    const accent = p.accent ?? "#2563EB";
+    const active = p.activeSite ?? "play";
+    const items = [
+      { key: "play", name: "플레이 그라운드" },
+      { key: "makers", name: "메이커스 그라운드" },
+      { key: "help", name: "고객센터" }
+    ];
+    return {
+      accent,
+      siteName: p.siteName ?? "플레이 그라운드",
+      navItems: items.map(it => it.key === active
+        ? { name: it.name, weight: 700, bg: accent, fg: "#FFFFFF" }
+        : { name: it.name, weight: 600, bg: "transparent", fg: "#64748B" }),
+      showSearch: !!p.showSearch,
+      showStats: p.showStats ?? !p.showSearch,
+      searchPlaceholder: p.searchPlaceholder ?? "검색",
+      statLabel1: p.statLabel1 ?? "플레이어",
+      statValue1: p.statValue1 ?? "—",
+      statLabel2: p.statLabel2 ?? "누적 플레이",
+      statValue2: p.statValue2 ?? "—",
+      signupLabel: p.signupLabel ?? "회원가입",
+      loginLabel: p.loginLabel ?? "로그인",
+      hasWrite: !!(p.writeLabel && p.writeLabel.length),
+      writeLabel: p.writeLabel ?? "",
+      userInitial: p.userInitial ?? "진",
+      userName: p.userName ?? "진수"
+    };
+  }
+}
+
+</script>
+</body>
+</html>

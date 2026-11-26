@@ -1,0 +1,212 @@
+/* aDmD Ground — 컬러 토큰 (Tailwind v4)
+   PlayGround(플레이어) · MakersGround(메이커) 두 페이지 + 컴포넌트 47개 실측.
+   토큰 뒤 횟수는 실제 사용 횟수입니다. 0회짜리는 두지 않습니다.
+
+   축이 셋입니다.
+     1. 중립 — 잉크 위계 · 표면 깊이 · 경계. 두 페이지 공통.
+     2. 메인 — #E11D48 을 기준으로 도출한 색상 4종. 의미가 아니라 색상 이름을 씁니다.
+     3. 강조 — 이름은 하나(accent), 값은 그라운드가 바꿉니다.
+
+   유틸리티별 네임스페이스로 갈랐습니다. --color-* 는 쓰지 않습니다 —
+   그 네임스페이스에 넣으면 토큰 하나가 bg-* · text-* · border-* · fill-* 전부에
+   떠서, canvas 를 글자색으로 제안하는 식의 잘못된 자동완성이 생깁니다. */
+
+
+/* ═══ 1축 · 중립 ═══════════════════════════════════════════ */
+
+@theme {
+	/* text-* — 잉크 위계 5단 */
+	--text-color-primary: #0f172a;    /* 159회 · 제목 · 값 */
+	--text-color-body: #475569;       /*  42회 · 본문 문단 · 중립 칩 (canvas 8.32:1) */
+	--text-color-secondary: #64748b;  /*  27회 · 라벨 · 메타 */
+	--text-color-tertiary: #94a3b8;   /*  48회 · 캡션 · 보조 메타 */
+	--text-color-quaternary: #cbd5e1; /*  비활성 전용 · 텍스트 금지 */
+	--text-color-inverse: #ffffff;
+
+	/* bg-* — 표면 깊이 3단 */
+	--background-color-canvas: #f6f7f9;       /*  26회 · 페이지 바닥 (양 페이지 공통) */
+	--background-color-surface: #ffffff;      /* 100회 · 카드 · 패널 */
+	--background-color-sunken: #f1f3f5;       /* 101회 · 안쪽 우물 · 썸네일 자리 · 모든 칩 배경 */
+	--background-color-sunken-hover: #e9ecf1; /*  10회 */
+	--background-color-ink: #0f172a;          /* 어두운 띠 · 활성 칩 · NEW 배지 */
+	--background-color-ink-hover: #1e293b;    /*   4회 · 위의 hover 한 단 */
+
+	/* border-* */
+	--border-color-default: #e2e8f0;  /*  16회 */
+	--border-color-strong: #cbd5e1;   /*  강조 경계 · 점선 */
+
+	/* fill-* — 아이콘 (나머지는 currentColor) */
+	--fill-tertiary: #94a3b8;
+
+	/* shadow-* — 고도 1단 */
+	--shadow-card: 0 0 16px 0 rgb(0 0 0 / 0.16);  /* 30회 · 유일한 고도 */
+}
+
+
+/* ═══ 2축 · 메인 색상 — #E11D48 기준 ══════════════════════
+
+   규칙 하나: 모든 메인 색상은 #E11D48 과 같은 휘도(0.1735)에 앉고,
+   그 휘도에서 sRGB 가 허용하는 최대 채도를 취합니다.
+
+   같은 휘도라서 넷 다 4.70:1 입니다. 그래서
+     · 흰 배경 위 글자로 써도 AA 통과
+     · 흰 글자를 얹은 배경으로 써도 AA 통과
+   색상당 값이 하나입니다. 글자용 · 배경용을 가르지 않습니다.
+
+     이름     값        OKLCH               흰 배경   sunken   쓰이는 곳
+     rose     #e11d48   .586 .222  17.6°    4.70:1   4.22:1   양 사이트
+     magenta  #ca00d7   .596 .279 325.0°    4.67:1   4.20:1   MakersGround
+     violet   #8949ff   .590 .251 293.0°    4.71:1   4.23:1   PlayGround
+     jade     #008638   .541 .153 149.2°    4.70:1   4.23:1   양 사이트
+
+   이름은 색상 이름입니다 — 의미(danger · success)를 박아넣지 않습니다.
+   전부 메인 색상이고, 같은 초록이 "승인"과 "검증"에 동시에 쓰이던 것도
+   이름이 의미를 참칭한 결과였습니다. */
+
+@theme {
+	--text-color-rose: #e11d48;
+	--background-color-rose: #e11d48;        /*  25회 · 기준색 */
+	--text-color-magenta: #ca00d7;
+	--background-color-magenta: #ca00d7;     /*  13회 */
+	--text-color-violet: #8949ff;
+	--background-color-violet: #8949ff;      /*  12회 */
+	--text-color-jade: #008638;
+	--background-color-jade: #008638;        /*  41회 */
+}
+
+
+/* ═══ 3축 · 강조 (그라운드가 값을 바꿈) ════════════════════
+   inline 이라 유틸리티가 값을 복사하지 않고 var() 를 참조합니다.
+   덕분에 SiteNav · SiteFooter · LibraryPanel 처럼 두 페이지가 공유하는
+   컴포넌트가 bg-accent 하나로 양쪽에서 맞는 색이 됩니다. */
+
+@theme inline {
+	--background-color-accent: var(--accent);
+	--background-color-accent-hover: var(--accent-strong);
+	--background-color-accent-tint: var(--accent-tint);
+	--text-color-accent: var(--accent-strong);
+	--border-color-accent: var(--accent);
+	--outline-color-accent: var(--accent);
+}
+
+:root,
+[data-ground="play"] {
+	--accent: #2563eb;              /*  68회 · 파랑 · H263° */
+	--accent-strong: #1d4ed8;       /*   5회 · hover + 글자 겸용 (6.31:1) */
+	--accent-tint: #eff6ff;         /*   6회 */
+}
+
+[data-ground="make"] {
+	--accent: #ea580c;              /*  84회 · 오렌지 · H41° */
+	--accent-strong: #c2410c;       /*   6회 · hover + 글자 겸용 (4.94:1) */
+	--accent-tint: #ffedd5;         /*   2회 · ::selection */
+}
+
+/* 그라운드 전용 보조 */
+@theme {
+	--background-color-maker-lift: #f97316;         /*  6회 · 오렌지 그라데이션 상단 */
+	--background-color-accent-tint-strong: #dbeafe; /*  2회 · 히어로 카드 */
+}
+
+
+/* ═══ 유틸리티를 만들지 않는 값 ════════════════════════════ */
+
+:root {
+	--scrim: rgb(15 23 42 / 0.82);
+	--scrim-out: rgb(15 23 42 / 0);
+	--veil-out: rgb(255 255 255 / 0);
+	--veil-line: rgb(255 255 255 / 0.14);  /* 어두운 띠 위 경계선 */
+	--veil-edge: rgb(255 255 255 / 0.24);  /* 어두운 배경 위 버튼 테두리 */
+	--veil-mid: rgb(255 255 255 / 0.55);   /* 게스트 블러 · 이미지 위 칩 */
+	--veil-soft: rgb(255 255 255 / 0.72);
+	--veil: rgb(255 255 255 / 0.94);       /* 유리 패널 */
+}
+
+
+/* ═══ 팔레트를 다시 뽑은 과정 ══════════════════════════════
+
+   ── 왜 amber 를 바꿔야 했나 ──────────────────────────────
+   amber(#b05f00)의 색상각은 58°, MakersGround accent(#ea580c)는 41°.
+   17° 차이입니다. 스탯 행에서 `답변 #ea580c` 옆에 `채택 #b05f00` 이
+   나란히 놓여, 구분을 만드는 게 아니라 구분을 흐리고 있었습니다.
+   메이커스에서 amber 는 accent 와 사실상 중복이었습니다.
+
+   ── 색상환 전수 조사 ─────────────────────────────────────
+   #E11D48 이 특별한 이유부터 확인했습니다: sRGB 에서 채도 0.222 를
+   유지하면서 어두운 쪽(휘도 0.17)에 앉을 수 있는 드문 색상입니다.
+   10° 간격으로 전 색상의 최대 채도를 계산한 결과, 그런 색상은
+   세 구역뿐이었습니다.
+
+     0–30°    로즈 · 레드      최대 채도 0.25–0.26
+     120–150° 라임 · 그린      최대 채도 0.22–0.28  (단, 밝은 쪽에서만)
+     260–350° 바이올렛 · 마젠타 최대 채도 0.24–0.32
+
+   노랑 · 주황 · 청록(40–250°)은 그 채도를 담지 못합니다. amber 가
+   갈색(#b05f00, 채도 0.136)으로 나온 건 hue 선택의 결과이지
+   계산 실수가 아니었습니다.
+
+   ── 초록은 형제가 될 수 없습니다 ─────────────────────────
+   채도 0.222 를 담는 초록은 #67ff75 인데, 흰 배경에서 1.30:1 입니다.
+   jade 는 증가분 · delta 수치 등 작은 글자로 20곳 넘게 쓰이므로
+   반드시 어두워야 하고, 어두운 초록의 sRGB 채도 한계는 0.153 입니다.
+   이건 물리적 제약이고 우회할 방법이 없습니다. jade 는 그대로 둡니다.
+
+   ── 결론: 바꿀 수 있는 건 amber 의 hue 하나였습니다 ──────
+   accent 두 개(주황 41° · 파랑 263°)를 피하면 빈자리는 마젠타 구역입니다.
+   325° 를 골랐습니다 — 로즈와 53°, 파랑과 62° 떨어져 있고 채도 0.279 로
+   로즈보다 26% 더 선명합니다.
+
+   바이올렛도 채도 상한(0.222)을 풀어 sRGB 최대치로 올렸습니다:
+   #8553ef → #8949ff (채도 +13%).
+
+   ── 바이올렛과 마젠타가 32° 밖에 안 떨어진 문제 ──────────
+   가깝지만 성립합니다. 두 색이 같은 화면에 나타나지 않기 때문입니다.
+     violet  — PlayGround 전용 (도전과제 · 성취)
+     magenta — MakersGround 전용 (진행 중 · 예정 · 접수)
+   교차하는 자리가 하나도 없는지 확인했고, 아래 amber 재배분에서
+   교차가 생길 뻔한 6곳을 정리했습니다.
+
+
+   ═══ 실제 디자인에 반영한 것 ══════════════════════════════
+
+   MakersGround — amber 13곳 전부 magenta 로:
+     잼 마감 카드 · 잼 태그 · 잼 제출작 배지 · 지원사업 뉴스 카테고리
+     · "공개 예정" 상태 · 채택 · 기여도 · 진행 중 잼 D-3 · 출시 예고 3곳
+
+   PlayGround — amber 6곳은 magenta 가 아니라 역할별로 재배분:
+     · 친구 소식 알림 점 2곳       → accent (플레이어 활동이므로)
+     · "같이 할 사람" 배지          → rose (대기 = 긴급)
+     · "대기 18명" 칩 · 대기 인원   → rose
+     · 플레이타임 순위 배지         → 1위 ink · 2·3위 tertiary
+       (금/은/동 흉내를 버렸습니다 — 기존 [amber, silver, amber] 는
+        1위와 3위가 같은 색이라 순위로 읽히지 않았습니다.
+        accent 는 쓸 수 없습니다: 1위 게임은 플레이타임 1위라
+        항상 10h 배지(accent)도 함께 달려 같은 열에서 겹칩니다)
+   이 재배분으로 PlayGround 에 magenta 가 0곳이 되어 violet 과
+   겹치지 않습니다.
+
+   violet 갱신: #8553ef → #8949ff (3개 파일 · 12곳)
+   jade 정규화: #008639 → #008638 (9개 파일)
+
+   ── 앞선 판들에서 정리한 것 ──────────────────────────────
+     · 색상 7종 → 4종 (#16a34a + #0d9488 → jade / #d97706 + #b45309 → 폐기
+       / #7c3aed + #6d28d9 → violet). 글자용 · 배경용 갈라짐 해소
+     · 상태 연한 배경 3종 삭제 → 모든 칩이 sunken 배경 + 색상 잉크
+     · 밝은 회색 6종 → sunken 1종 (56곳)
+     · 페이지 바닥 통일 #f8f9fa → #f6f7f9 — 두 그라운드가 같은 바닥
+     · 흰 막 알파 16종 → 5단 (16곳, SignInFallback prop 포함)
+     · band → ink-hover 개명 (#1e293b 는 표면이 아니라 #0f172a 의 hover 단)
+     · 본문 잉크 통일 — Text.COLOR 에 body(#475569) 추가
+     · 중립 칩 글자 승격 #64748b → body (sunken 위 4.28:1 → 7.90:1)
+     · MakersSubNav 의 accent 기본값 #2563eb → #ea580c
+     · 쓰지 않던 토큰 3개 제거
+
+   손대지 않은 것: docs/ 와 *스펙*.dc.html 은 산출물이 아닌 내부 문서라
+   자체 팔레트를 씁니다.
+
+   ═══ 대비 (WCAG) ══════════════════════════════════════════
+   canvas #f6f7f9: primary 16.66:1 · body 8.32:1 · secondary 4.44:1(AA 미달)
+   · tertiary 2.39:1(장식 한정) · quaternary 1.39:1(텍스트 금지)
+   surface #ffffff: 메인 4종 전부 4.67~4.71:1 · secondary 4.76:1
+   sunken #f1f3f5: 메인 4종 4.20~4.23:1 — 칩 글자는 12px semibold 이상으로.
+   본문 문단과 중립 칩은 body, 라벨 · 메타는 secondary · tertiary. */

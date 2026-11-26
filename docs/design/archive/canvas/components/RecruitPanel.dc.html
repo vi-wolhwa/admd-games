@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+.rpList>*:last-child{border-bottom-color:transparent!important}
+.rpRow{position:relative;transition:box-shadow 200ms cubic-bezier(.2,.7,.2,1)}
+.rpRow:hover,.rpRow:active{z-index:2;box-shadow:0 0 16px 0 rgba(0,0,0,.16)}
+.rpTitle{transition:color 120ms cubic-bezier(.2,.7,.2,1)}
+.rpRow:hover .rpTitle{color:#EA580C}
+</style>
+</helmet>
+
+<div style="height:100%;background:#FFFFFF;padding:20px 20px 18px;display:flex;flex-direction:column;min-height:460px">
+<dc-import name="PanelHeadline" count="{{ count }}" prefix="개의 그룹이 " highlight="멤버" suffix="를 찾습니다" chip="전체 · 모집 중" note="팀원 {{ jobCount }} · 스터디 · 멘토링" accent="#EA580C" hint-size="100%,90px"></dc-import>
+<div class="rpList" style="flex:1;display:flex;flex-direction:column;margin-top:16px">
+<sc-for list="{{ cards }}" as="r" hint-placeholder-count="4">
+<a class="rpRow" style="flex:1;min-height:0;display:grid;grid-template-columns:18px minmax(0,1fr);gap:11px;align-items:center;padding:0 12px;margin:0 -12px;border-top:1px solid #F1F3F5">
+<span style="display:grid;place-items:center;height:100%">
+<span style="width:{{ r.markW }};height:{{ r.markH }};border-radius:{{ r.markR }};background:{{ r.markBg }};border:{{ r.markBorder }}"></span>
+</span>
+<div style="min-width:0">
+<div style="display:flex;align-items:center;gap:7px;min-width:0">
+<span style="min-width:0;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden" class="rpTitle"><dc-import name="Body" as="span" size="sm" weight="bold" hint-size="140px,21px">{{ r.title }}</dc-import></span>
+<dc-import name="Body" as="span" size="xs" weight="bold" sx="flex:none;margin-left:auto;color:{{ r.slotColor }}" hint-size="120px,18px">{{ r.slots }}</dc-import>
+</div>
+<div style="margin-top:5px;display:flex;align-items:center;gap:6px;min-width:0">
+<dc-import name="Body" as="span" size="xs" weight="bold" sx="flex:none;letter-spacing:.06em;color:{{ r.kindFg }}" hint-size="120px,18px">{{ r.kind }}</dc-import>
+<sc-for list="{{ r.chips }}" as="t" hint-placeholder-count="2">
+<dc-import name="Body" as="span" size="xs" weight="semibold" color="secondary" sx="flex:none;padding:2px 6px;background:#F1F3F5;white-space:nowrap" hint-size="120px,18px">{{ t }}</dc-import>
+</sc-for>
+<dc-import name="Body" as="span" size="xs" color="tertiary" sx="min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" hint-size="120px,18px">{{ r.tail }}</dc-import>
+</div>
+</div>
+</a>
+</sc-for>
+</div>
+<a style="margin-top:14px"><dc-import name="Body" as="span" size="xs" weight="semibold" hint-size="120px,18px">{{ linkLabel }} &#8594;</dc-import></a>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:248,&quot;height&quot;:460},&quot;count&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;31&quot;,&quot;tsType&quot;:&quot;string | number&quot;},&quot;jobCount&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;6건&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;cards&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;RecruitCard[]&quot;},&quot;linkLabel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;모집 전체 보기&quot;,&quot;tsType&quot;:&quot;string&quot;}}"></script>
+</body>
+</html>

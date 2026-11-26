@@ -1,0 +1,654 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/variable/pretendardvariable-dynamic-subset.min.css">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#F6F7F9;font-family:"Pretendard Variable",Pretendard,Inter,-apple-system,"Apple SD Gothic Neo","Malgun Gothic",sans-serif;-webkit-font-smoothing:antialiased;word-break:keep-all}
+a{color:#2563EB;text-decoration:none}
+a:hover{color:#1D4ED8}
+</style>
+</helmet>
+
+<div style="width:1180px;margin:0 auto;padding:52px 0 96px;color:#0F172A">
+
+<div style="background:#0F172A;color:#FFFFFF;padding:34px 38px 32px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.14em;color:#94A3B8">INFORMATION ARCHITECTURE · PLAYGROUND HOME</div>
+<h1 style="margin:13px 0 0;font-size:32px;font-weight:700;letter-spacing:-.038em;line-height:1.2">플레이그라운드 홈에서 뻗어나가는<br>모든 링크 경로와 목적지 페이지 설계</h1>
+<p style="margin:15px 0 0;max-width:760px;font-size:13px;line-height:1.8;color:#CBD5E1;letter-spacing:-.014em;text-wrap:pretty">홈 화면(PlayGround v2)과 그 하위 컴포넌트 16개의 소스에서 클릭 가능한 어포던스를 전수 추출했습니다. 어떤 것이 페이지를 떠나는 링크이고 어떤 것이 홈 내부 상태 변경인지 분리하고, 목적지를 중복 제거해 페이지 목록으로 정규화한 뒤, 페이지 간 연결과 설계에 필요한 결정·데이터를 정리했습니다.</p>
+<div style="margin-top:26px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:1px;background:#1E293B">
+<sc-for list="{{ kpis }}" as="k" hint-placeholder-count="4">
+<div style="background:#0F172A;padding:16px 18px 15px">
+<div style="font-size:28px;font-weight:700;letter-spacing:-.036em;color:{{ k.color }};font-variant-numeric:tabular-nums">{{ k.value }}</div>
+<div style="margin-top:5px;font-size:11px;font-weight:600;letter-spacing:-.008em;color:#94A3B8">{{ k.label }}</div>
+<div style="margin-top:3px;font-size:11px;line-height:1.55;color:#64748B;letter-spacing:-.01em">{{ k.note }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:28px 32px 30px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">01 — 링크 인벤토리 (홈 전수 추출)</div>
+<p style="margin:14px 0 0;max-width:860px;font-size:12px;line-height:1.8;color:#64748B;letter-spacing:-.013em;text-wrap:pretty">홈의 배치 순서대로 훑었습니다. <b style="color:#0F172A">이동</b>은 다른 페이지로 나가야 하는 어포던스, <b style="color:#0F172A">상태</b>는 홈에 머무르며 화면만 바뀌는 것입니다. 상태 항목은 페이지를 만들 필요가 없지만 URL 쿼리로 남길지 결정해야 합니다.</p>
+
+<sc-for list="{{ zones }}" as="z" hint-placeholder-count="7">
+<div style="margin-top:24px">
+<div style="display:flex;align-items:baseline;gap:10px;padding-bottom:9px;border-bottom:2px solid #0F172A">
+<span style="font-size:13px;font-weight:700;letter-spacing:-.024em">{{ z.zone }}</span>
+<span style="font-size:11px;color:#94A3B8;letter-spacing:-.012em">{{ z.comp }}</span>
+<span style="margin-left:auto;font-size:11px;font-weight:600;color:#64748B;letter-spacing:-.01em">{{ z.tally }}</span>
+</div>
+<div style="display:grid;grid-template-columns:38px minmax(0,1.15fr) 52px 118px minmax(0,1.25fr);gap:1px;background:#E9ECF1">
+<div style="background:#F6F7F9;padding:8px 10px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#64748B">#</div>
+<div style="background:#F6F7F9;padding:8px 10px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#64748B">어포던스 (실제 라벨)</div>
+<div style="background:#F6F7F9;padding:8px 10px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#64748B">구분</div>
+<div style="background:#F6F7F9;padding:8px 10px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#64748B">목적지</div>
+<div style="background:#F6F7F9;padding:8px 10px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#64748B">현재 구현 / 판단</div>
+<sc-for list="{{ z.rows }}" as="r" hint-placeholder-count="4">
+<div style="background:#FFFFFF;padding:11px 10px;font-size:11px;font-weight:700;color:#CBD5E1;font-variant-numeric:tabular-nums">{{ r.n }}</div>
+<div style="background:#FFFFFF;padding:11px 10px">
+<div style="font-size:12px;font-weight:600;letter-spacing:-.016em;color:#0F172A;text-wrap:pretty">{{ r.label }}</div>
+<div style="margin-top:3px;font-size:11px;color:#94A3B8;letter-spacing:-.01em">{{ r.el }}</div>
+</div>
+<div style="background:#FFFFFF;padding:11px 10px">
+<span style="display:inline-block;padding:2px 6px;font-size:11px;font-weight:700;letter-spacing:-.006em;color:{{ r.kindFg }};background:{{ r.kindBg }}">{{ r.kind }}</span>
+</div>
+<div style="background:#FFFFFF;padding:11px 10px;font-size:11px;font-weight:700;letter-spacing:-.012em;color:{{ r.destFg }}">{{ r.dest }}</div>
+<div style="background:#FFFFFF;padding:11px 10px;font-size:11px;line-height:1.65;color:#64748B;letter-spacing:-.012em;text-wrap:pretty">{{ r.note }}</div>
+</sc-for>
+</div>
+</div>
+</sc-for>
+
+<div style="margin-top:22px;background:#FFFBEB;padding:16px 18px">
+<div style="font-size:12px;font-weight:700;letter-spacing:-.018em;color:#92400E">인벤토리에서 드러난 누락 3건</div>
+<div style="margin-top:10px;display:flex;flex-direction:column;gap:8px">
+<sc-for list="{{ holes }}" as="h" hint-placeholder-count="3">
+<div style="display:grid;grid-template-columns:150px minmax(0,1fr);gap:12px;align-items:baseline">
+<span style="font-size:11px;font-weight:700;letter-spacing:-.012em;color:#B45309">{{ h.where }}</span>
+<span style="font-size:11px;line-height:1.65;color:#78350F;letter-spacing:-.012em;text-wrap:pretty">{{ h.what }}</span>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:28px 32px 30px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">02 — 목적지 정규화 (중복 제거)</div>
+<p style="margin:14px 0 0;max-width:860px;font-size:12px;line-height:1.8;color:#64748B;letter-spacing:-.013em;text-wrap:pretty">이동 어포던스 24종이 가리키는 목적지를 중복 제거하면 페이지 24개가 됩니다. 여러 지점이 한 페이지로 수렴하는 경우(게임 상세 5경로, 로그인 3경로)와, 라벨만 다르고 같은 페이지의 파라미터 차이인 경우(큐레이션 5종)를 구분했습니다.</p>
+<div style="margin-top:20px;display:grid;grid-template-columns:64px minmax(0,1fr) 96px 48px minmax(0,1.35fr) 92px;gap:1px;background:#E9ECF1">
+<div style="background:#F6F7F9;padding:9px 11px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#64748B">ID</div>
+<div style="background:#F6F7F9;padding:9px 11px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#64748B">페이지</div>
+<div style="background:#F6F7F9;padding:9px 11px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#64748B">유형</div>
+<div style="background:#F6F7F9;padding:9px 11px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#64748B">진입</div>
+<div style="background:#F6F7F9;padding:9px 11px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#64748B">진입 지점</div>
+<div style="background:#F6F7F9;padding:9px 11px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#64748B">템플릿</div>
+<sc-for list="{{ pages }}" as="p" hint-placeholder-count="12">
+<div style="background:{{ p.bg }};padding:12px 11px">
+<span style="display:inline-block;padding:2px 6px;background:{{ p.idBg }};color:#FFFFFF;font-size:11px;font-weight:700;letter-spacing:.02em">{{ p.id }}</span>
+</div>
+<div style="background:{{ p.bg }};padding:12px 11px">
+<div style="font-size:12px;font-weight:700;letter-spacing:-.02em;color:#0F172A">{{ p.name }}</div>
+<div style="margin-top:3px;font-size:11px;color:#94A3B8;letter-spacing:-.01em">{{ p.slug }}</div>
+</div>
+<div style="background:{{ p.bg }};padding:12px 11px;font-size:11px;color:#475569;letter-spacing:-.012em">{{ p.type }}</div>
+<div style="background:{{ p.bg }};padding:12px 11px;font-size:13px;font-weight:700;color:{{ p.inFg }};font-variant-numeric:tabular-nums">{{ p.inbound }}</div>
+<div style="background:{{ p.bg }};padding:12px 11px;font-size:11px;line-height:1.65;color:#64748B;letter-spacing:-.012em;text-wrap:pretty">{{ p.from }}</div>
+<div style="background:{{ p.bg }};padding:12px 11px;font-size:11px;font-weight:600;color:#0F172A;letter-spacing:-.012em">{{ p.tpl }}</div>
+</sc-for>
+</div>
+<p style="margin:16px 0 0;font-size:11px;line-height:1.75;color:#94A3B8;letter-spacing:-.012em;text-wrap:pretty">진입 수는 이동 어포던스뿐 아니라 01에서 목적지 후보로 표시한 비링크·상태 지점(아바타 칩, 알림 숏컷 5개, 스탯 3분할 등)까지 포함한 숫자여서 24보다 큽니다. 회색 행은 홈에서 직접 갈 수 없지만 위 페이지들을 만들면 반드시 따라오는 2차 목적지입니다 — 홈만 보고 설계하면 빠지는 페이지라 함께 표시했습니다.</p>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:28px 32px 32px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">03 — 24개 목적지 → 6개 템플릿</div>
+<p style="margin:14px 0 0;max-width:860px;font-size:12px;line-height:1.8;color:#64748B;letter-spacing:-.013em;text-wrap:pretty">페이지 수는 24개지만 골격은 6종뿐입니다. 템플릿 하나를 설계하면 여러 페이지가 데이터만 바꿔 해결됩니다. 이미 홈에서 컴포넌트로 분리해 둔 것들이 그대로 재사용됩니다.</p>
+<div style="margin-top:20px;display:flex;flex-direction:column;gap:1px;background:#E9ECF1">
+<sc-for list="{{ templates }}" as="t" hint-placeholder-count="6">
+<div style="background:#FFFFFF;padding:18px 20px 19px;display:grid;grid-template-columns:186px minmax(0,1fr) minmax(0,1fr);gap:22px">
+<div>
+<div style="display:flex;align-items:center;gap:8px">
+<span style="padding:2px 7px;background:#0F172A;color:#FFFFFF;font-size:11px;font-weight:700;letter-spacing:.03em">{{ t.no }}</span>
+<span style="font-size:13px;font-weight:700;letter-spacing:-.024em">{{ t.name }}</span>
+</div>
+<div style="margin-top:9px;display:flex;flex-wrap:wrap;gap:4px">
+<sc-for list="{{ t.pages }}" as="pg" hint-placeholder-count="4">
+<span style="padding:2px 6px;background:#F1F5F9;font-size:11px;font-weight:700;letter-spacing:.02em;color:#475569">{{ pg.id }}</span>
+</sc-for>
+</div>
+<div style="margin-top:8px;font-size:11px;color:#94A3B8;letter-spacing:-.012em">{{ t.count }}</div>
+</div>
+<div>
+<div style="font-size:11px;font-weight:700;letter-spacing:.04em;color:#94A3B8">그대로 재사용</div>
+<p style="margin:7px 0 0;font-size:11px;line-height:1.75;color:#334155;letter-spacing:-.012em;text-wrap:pretty">{{ t.reuse }}</p>
+</div>
+<div>
+<div style="font-size:11px;font-weight:700;letter-spacing:.04em;color:#94A3B8">새로 필요</div>
+<p style="margin:7px 0 0;font-size:11px;line-height:1.75;color:#334155;letter-spacing:-.012em;text-wrap:pretty">{{ t.newParts }}</p>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:28px 32px 32px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">04 — 페이지 그래프</div>
+<p style="margin:14px 0 0;max-width:860px;font-size:12px;line-height:1.8;color:#64748B;letter-spacing:-.013em;text-wrap:pretty">홈에서의 거리(depth)로 층을 나눴습니다. 층 안의 페이지끼리도 서로 연결되며, 특히 게임 상세 · 개발자 · 카탈로그 세 개가 순환 구조를 만들어 체류를 결정합니다.</p>
+<div style="margin-top:22px;display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:14px;align-items:start">
+<sc-for list="{{ layers }}" as="L" hint-placeholder-count="4">
+<div>
+<div style="display:flex;align-items:baseline;gap:8px;padding-bottom:9px;border-bottom:1px solid #E9ECF1">
+<span style="font-size:11px;font-weight:700;letter-spacing:.08em;color:{{ L.color }}">{{ L.depth }}</span>
+<span style="font-size:11px;font-weight:600;color:#64748B;letter-spacing:-.012em">{{ L.name }}</span>
+</div>
+<div style="margin-top:10px;display:flex;flex-direction:column;gap:6px">
+<sc-for list="{{ L.nodes }}" as="nd" hint-placeholder-count="5">
+<div style="background:{{ nd.bg }};padding:9px 11px;border-left:3px solid {{ nd.bar }}">
+<div style="display:flex;align-items:baseline;gap:6px">
+<span style="font-size:11px;font-weight:700;letter-spacing:.02em;color:{{ nd.bar }}">{{ nd.id }}</span>
+<span style="font-size:12px;font-weight:700;letter-spacing:-.02em;color:#0F172A">{{ nd.name }}</span>
+</div>
+<div style="margin-top:4px;font-size:11px;line-height:1.6;color:#64748B;letter-spacing:-.012em;text-wrap:pretty">{{ nd.note }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-for>
+</div>
+
+<div style="margin-top:26px;padding-top:22px;border-top:1px solid #E9ECF1">
+<div style="font-size:12px;font-weight:700;letter-spacing:-.018em;color:#0F172A">페이지 사이를 가로지르는 연결 (층을 건너뛰는 링크)</div>
+<div style="margin-top:14px;display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:1px;background:#E9ECF1">
+<sc-for list="{{ crossLinks }}" as="c" hint-placeholder-count="6">
+<div style="background:#FFFFFF;padding:14px 16px">
+<div style="font-size:11px;font-weight:700;letter-spacing:-.012em;color:{{ c.color }};font-variant-numeric:tabular-nums">{{ c.path }}</div>
+<p style="margin:6px 0 0;font-size:11px;line-height:1.7;color:#64748B;letter-spacing:-.012em;text-wrap:pretty">{{ c.why }}</p>
+</div>
+</sc-for>
+</div>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:28px 32px 32px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">05 — 먼저 정해야 할 결정 7건</div>
+<p style="margin:14px 0 0;max-width:860px;font-size:12px;line-height:1.8;color:#64748B;letter-spacing:-.013em;text-wrap:pretty">아래는 페이지를 그리기 전에 답이 있어야 하는 갈림길입니다. 각 항목에 권고안을 붙였지만, 확정은 결정해 주셔야 합니다.</p>
+<div style="margin-top:20px;display:flex;flex-direction:column;gap:1px;background:#E9ECF1">
+<sc-for list="{{ decisions }}" as="d" hint-placeholder-count="7">
+<div style="background:#FFFFFF;padding:18px 20px 19px">
+<div style="display:flex;align-items:baseline;gap:10px">
+<span style="flex:none;padding:2px 7px;background:{{ d.tagBg }};color:#FFFFFF;font-size:11px;font-weight:700;letter-spacing:.03em">{{ d.no }}</span>
+<span style="font-size:13px;font-weight:700;letter-spacing:-.024em;color:#0F172A;text-wrap:pretty">{{ d.q }}</span>
+<span style="margin-left:auto;flex:none;font-size:11px;font-weight:600;color:#94A3B8;letter-spacing:-.01em">{{ d.scope }}</span>
+</div>
+<div style="margin-top:12px;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr) minmax(0,1.1fr);gap:18px">
+<div>
+<div style="font-size:11px;font-weight:700;letter-spacing:.04em;color:#94A3B8">A안</div>
+<p style="margin:6px 0 0;font-size:11px;line-height:1.7;color:#475569;letter-spacing:-.012em;text-wrap:pretty">{{ d.a }}</p>
+</div>
+<div>
+<div style="font-size:11px;font-weight:700;letter-spacing:.04em;color:#94A3B8">B안</div>
+<p style="margin:6px 0 0;font-size:11px;line-height:1.7;color:#475569;letter-spacing:-.012em;text-wrap:pretty">{{ d.b }}</p>
+</div>
+<div style="background:#F8FAFC;padding:10px 12px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.04em;color:#2563EB">권고</div>
+<p style="margin:6px 0 0;font-size:11px;line-height:1.7;color:#0F172A;letter-spacing:-.012em;text-wrap:pretty">{{ d.rec }}</p>
+</div>
+</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:28px 32px 32px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">06 — 데이터 갭</div>
+<p style="margin:14px 0 0;max-width:860px;font-size:12px;line-height:1.8;color:#64748B;letter-spacing:-.013em;text-wrap:pretty">홈의 <code style="font-size:11px;background:#F1F5F9;padding:1px 5px">games</code> 배열은 이미 12개 타이틀에 대해 14개 필드를 가지고 있습니다. 주요 페이지가 이 데이터로 어디까지 채워지고, 어디서부터 새 데이터를 만들어야 하는지 나눴습니다.</p>
+<div style="margin-top:18px;padding:14px 16px;background:#F8FAFC">
+<div style="font-size:11px;font-weight:700;letter-spacing:.04em;color:#64748B">홈이 이미 보유한 필드</div>
+<div style="margin-top:9px;display:flex;flex-wrap:wrap;gap:5px">
+<sc-for list="{{ haveFields }}" as="f" hint-placeholder-count="14">
+<span style="padding:3px 8px;background:#FFFFFF;font-size:11px;font-weight:600;letter-spacing:-.01em;color:#334155">{{ f.k }}</span>
+</sc-for>
+</div>
+</div>
+<div style="margin-top:18px;display:grid;grid-template-columns:130px minmax(0,1fr) minmax(0,1.15fr) 76px;gap:1px;background:#E9ECF1">
+<div style="background:#F6F7F9;padding:9px 11px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#64748B">페이지</div>
+<div style="background:#F6F7F9;padding:9px 11px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#64748B">기존 데이터로 커버</div>
+<div style="background:#F6F7F9;padding:9px 11px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#64748B">새로 만들어야 하는 데이터</div>
+<div style="background:#F6F7F9;padding:9px 11px;font-size:11px;font-weight:700;letter-spacing:.04em;color:#64748B">충족도</div>
+<sc-for list="{{ gaps }}" as="g" hint-placeholder-count="6">
+<div style="background:#FFFFFF;padding:12px 11px">
+<div style="font-size:12px;font-weight:700;letter-spacing:-.02em;color:#0F172A">{{ g.name }}</div>
+<div style="margin-top:3px;font-size:11px;font-weight:700;color:#CBD5E1;letter-spacing:.02em">{{ g.id }}</div>
+</div>
+<div style="background:#FFFFFF;padding:12px 11px;font-size:11px;line-height:1.7;color:#475569;letter-spacing:-.012em;text-wrap:pretty">{{ g.have }}</div>
+<div style="background:#FFFFFF;padding:12px 11px;font-size:11px;line-height:1.7;color:#B45309;letter-spacing:-.012em;text-wrap:pretty">{{ g.need }}</div>
+<div style="background:#FFFFFF;padding:12px 11px">
+<div style="font-size:12px;font-weight:700;color:#0F172A;font-variant-numeric:tabular-nums">{{ g.pct }}</div>
+<div style="margin-top:6px;height:4px;background:#EEF0F3"><div style="height:4px;width:{{ g.pct }};background:{{ g.barColor }}"></div></div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:28px 32px 32px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">07 — 설계 우선순위</div>
+<p style="margin:14px 0 0;max-width:860px;font-size:12px;line-height:1.8;color:#64748B;letter-spacing:-.013em;text-wrap:pretty">유입 경로 수 × 없으면 홈이 거짓말이 되는 정도로 순위를 매겼습니다. 상위 4개(G1 · C0 · A2 · U0)를 만들면 이동 어포던스 24종 중 9종이 동작하고, 홈에 실제로 렌더되는 링크 인스턴스 기준으로는 게임 상세로 향하는 28개(카드 12 · 행 6 · 타일 8 · 픽 히어로 1 · 자세히 보기 1)가 한 번에 살아납니다.</p>
+<div style="margin-top:20px;display:flex;flex-direction:column;gap:1px;background:#E9ECF1">
+<sc-for list="{{ priority }}" as="p" hint-placeholder-count="8">
+<div style="background:#FFFFFF;padding:15px 18px;display:grid;grid-template-columns:34px 72px minmax(0,1fr) minmax(0,1.5fr) 88px;gap:16px;align-items:center">
+<div style="font-size:19px;font-weight:700;letter-spacing:-.03em;color:{{ p.rankColor }};font-variant-numeric:tabular-nums">{{ p.rank }}</div>
+<div><span style="padding:2px 6px;background:{{ p.idBg }};color:#FFFFFF;font-size:11px;font-weight:700;letter-spacing:.02em">{{ p.id }}</span></div>
+<div style="font-size:13px;font-weight:700;letter-spacing:-.024em;color:#0F172A">{{ p.name }}</div>
+<div style="font-size:11px;line-height:1.7;color:#64748B;letter-spacing:-.012em;text-wrap:pretty">{{ p.why }}</div>
+<div style="font-size:11px;font-weight:700;color:#0F172A;letter-spacing:-.012em;text-align:right">{{ p.effort }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+
+<div style="margin-top:16px;background:#FFFFFF;padding:28px 32px 32px">
+<div style="font-size:11px;font-weight:700;letter-spacing:.12em;color:#94A3B8">08 — 실행 순서 (결정 · 페이지 · 홈 수정 통합 큐)</div>
+<p style="margin:14px 0 0;max-width:880px;font-size:12px;line-height:1.8;color:#64748B;letter-spacing:-.013em;text-wrap:pretty">05의 결정 7건, 02의 페이지 24개, 01에서 찾은 홈 누락 3건을 하나의 번호 순서로 합쳤습니다. 정렬 기준은 <b style="color:#0F172A">① 명확도</b> — 이미 코드와 데이터가 답을 말해 판단이 필요 없는 것이 먼저, <b style="color:#0F172A">② 해제 효과</b> — 뒤 항목을 몇 개 풀어주는지, <b style="color:#0F172A">③ 리스크</b> — 새 데이터·새 컴포넌트가 적은 것이 먼저입니다. 번호는 착수 순서이며, 같은 물결 안에서는 병렬 진행이 가능합니다.</p>
+
+<sc-for list="{{ waves }}" as="w" hint-placeholder-count="4">
+<div style="margin-top:26px">
+<div style="display:flex;align-items:baseline;gap:11px;padding-bottom:10px;border-bottom:2px solid {{ w.color }}">
+<span style="padding:2px 8px;background:{{ w.color }};color:#FFFFFF;font-size:11px;font-weight:700;letter-spacing:.06em">{{ w.tag }}</span>
+<span style="font-size:13px;font-weight:700;letter-spacing:-.024em;color:#0F172A">{{ w.name }}</span>
+<span style="font-size:11px;color:#94A3B8;letter-spacing:-.012em">{{ w.note }}</span>
+<span style="margin-left:auto;font-size:11px;font-weight:600;color:#64748B;letter-spacing:-.01em">{{ w.range }}</span>
+</div>
+<div style="display:flex;flex-direction:column;gap:1px;background:#E9ECF1;margin-top:1px">
+<sc-for list="{{ w.items }}" as="it" hint-placeholder-count="4">
+<div style="background:#FFFFFF;padding:14px 4px 15px;display:grid;grid-template-columns:46px 78px minmax(0,1.05fr) minmax(0,1.5fr) 128px;gap:14px;align-items:start">
+<div style="text-align:center;font-size:21px;font-weight:700;letter-spacing:-.038em;color:{{ w.color }};font-variant-numeric:tabular-nums;line-height:1.15">{{ it.no }}</div>
+<div style="display:flex;flex-direction:column;gap:5px">
+<span style="display:inline-block;padding:2px 6px;font-size:11px;font-weight:700;letter-spacing:-.006em;text-align:center;color:{{ it.kindFg }};background:{{ it.kindBg }}">{{ it.kind }}</span>
+<span style="font-size:11px;font-weight:600;letter-spacing:-.01em;color:{{ it.clarityFg }}">{{ it.clarity }}</span>
+</div>
+<div>
+<div style="font-size:13px;font-weight:700;letter-spacing:-.024em;color:#0F172A;text-wrap:pretty">{{ it.title }}</div>
+<div style="margin-top:4px;font-size:11px;color:#94A3B8;letter-spacing:-.012em">{{ it.ref }}</div>
+</div>
+<div style="font-size:11px;line-height:1.7;color:#64748B;letter-spacing:-.012em;text-wrap:pretty">{{ it.why }}</div>
+<div style="font-size:11px;line-height:1.65;color:#334155;letter-spacing:-.012em;text-wrap:pretty">{{ it.out }}</div>
+</div>
+</sc-for>
+</div>
+</div>
+</sc-for>
+
+<div style="margin-top:26px;padding:18px 20px;background:#0F172A;color:#FFFFFF">
+<div style="font-size:12px;font-weight:700;letter-spacing:-.018em">지금 필요한 답은 4개뿐입니다</div>
+<p style="margin:9px 0 0;max-width:860px;font-size:12px;line-height:1.8;color:#CBD5E1;letter-spacing:-.013em;text-wrap:pretty">01–04번(카탈로그 독립 · 큐레이션 프리셋 · 로그인 모달 · 카드 저장 토글)에 "그렇게 가자"만 주시면 05–08번까지 판단 없이 진행됩니다. 09번 실행 방식과 13번 알림 분할은 그 다음에 물어도 늦지 않고, 나머지 결정 2건(06 · 07)은 카탈로그와 상세가 나온 뒤에 판단하는 편이 정확합니다.</p>
+</div>
+</div>
+
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1180,&quot;height&quot;:1400}}">
+class Component extends DCLogic {
+  renderVals() {
+    const K = { move: { kind: "이동", kindBg: "#EFF6FF", kindFg: "#1D4ED8" }, state: { kind: "상태", kindBg: "#F1F5F9", kindFg: "#64748B" }, none: { kind: "비링크", kindBg: "#FEF2F2", kindFg: "#B91C1C" } };
+    const D = d => ({ dest: d, destFg: d === "—" ? "#CBD5E1" : "#0F172A" });
+    let n = 0;
+    const row = (label, el, k, dest, note) => ({ n: String(++n).padStart(2, "0"), label, el, ...K[k], ...D(dest), note });
+
+    const zones = [
+      { zone: "글로벌 헤더", comp: "SiteNav (fixed, 70px)", rows: [
+        row("aDmD 로고 + 플레이 그라운드", "<a> 좌측 최상단", "move", "P0 (자기 자신)", "href 없음. 홈에서는 스크롤 톱 또는 no-op으로 두고, 하위 페이지에서만 홈으로 링크"),
+        row("플레이 그라운드", "nav 알약, active=파랑 채움", "move", "P0", "activeSite=play로 이미 활성 표시. 하위 페이지에서 홈 복귀 경로"),
+        row("메이커스 그라운드", "nav 알약", "move", "M0", "사이트 전환. accent가 #2563EB→#EA580C로 바뀌는 별개 브랜드 영역"),
+        row("고객센터", "nav 알약", "move", "H0", "activeSite enum에 help가 이미 있으나 페이지 미설계"),
+        row("플레이어 12,480 / 누적 플레이 108.9만회", "showStats 텍스트 2개", "none", "—", "정보 전용. 클릭 대상 아님 — 플랫폼 통계 페이지로 열지 여부는 결정 05-7"),
+        row("회원가입", "고스트 버튼 (게스트)", "move", "A1", "현재 onClick=signIn — 로그인과 동일 핸들러. 실제로는 가입 폼이 따로 필요"),
+        row("로그인", "채움 버튼 (게스트)", "move", "A2", "홈 안에서 4곳이 같은 목적지로 수렴 (헤더 · 라이브러리 폴백 · 프로필 폴백 · 회원가입)"),
+        row("진수 · 아바타 칩", "로그인 후 알약", "none", "U0", "현재 <div>로 클릭 불가. 마이페이지 진입의 표준 위치이므로 링크화 필요"),
+        row("로그아웃", "텍스트 버튼", "state", "—", "signOut() 즉시 실행. 확인 단계 없음")
+      ] },
+      { zone: "히어로 스포트라이트", comp: "HeroSpotlight (520px, 3슬라이드 7초 회전)", rows: [
+        row("지금 플레이", "48px 다크 버튼", "move", "G2", "슬라이드마다 대상 게임이 다름 — 루프 컴파일러 / 애쉬폴 러너 / 테서랙트 드리프트"),
+        row("자세히 보기", "48px 텍스트 버튼", "move", "G1", "게임 상세로 가는 가장 명시적인 경로"),
+        row("에디터 추천 · 스태프 추천 · 이번 주 신작", "accent 배지", "none", "C1", "큐레이션 이름이 이미 3종. 배지를 컬렉션 링크로 쓸 수 있음 (결정 05-4)"),
+        row("점 3개 / ‹ / ›", "인디케이터 + 화살표", "state", "—", "spot 상태만 변경. 자동 회전은 autoRotateSpotlight 프롭으로 제어")
+      ] },
+      { zone: "내 라이브러리", comp: "LibraryPanel + GameRow + Badge", rows: [
+        row("최근 플레이 / 가나다", "정렬 텍스트 버튼 2개", "state", "—", "libSort 상태. 라이브러리 관리 페이지에도 같은 정렬이 필요하므로 규칙 공유"),
+        row("라이브러리 관리", "우상단 링크", "move", "U1", "manageLabel 프롭. 메이커스에서는 같은 자리가 '내 스튜디오 열기'로 재사용됨"),
+        row("게임 행 (저장한 게임 6개)", "<a class=grRow> 전체 클릭", "move", "G1", "행 전체가 링크. 도전과제 진행률 · 배지 · 플레이타임이 상세의 내 진행 영역과 연결"),
+        row("1위 · 완 · 10h · 7d 배지", "24px Badge + 툴팁", "none", "U4", "현재 툴팁만. 도전과제/랭킹 페이지 딥링크 후보"),
+        row("로그인 (게스트 폴백)", "SignInFallback 280px 버튼", "move", "A2", "블러 처리된 고스트 행 3개 위에 오버레이. 이 패턴을 하위 페이지 게스트 가드에 그대로 재사용"),
+        row("빈 상태 안내문", "'게임 상세 페이지에서 추가할 수 있어요'", "none", "C0", "문장이 목적지를 말하지만 링크가 없음 — 카탈로그로 보내는 버튼 필요")
+      ] },
+      { zone: "프로필 · 알림 사이드", comp: "ProfileCard + ProfileSummary + NotifList", rows: [
+        row("마이페이지", "ProfileSummary 우상단 링크", "move", "U0", "showMyPage 프롭으로 게스트에서는 숨김"),
+        row("공지 · 업데이트 · 기록 · 도전과제 · 친구", "50px 아이콘 버튼 5개 + 미읽음 배지", "state", "N1 U3 U2 U4 U5", "현재는 아래 리스트를 바꾸는 탭. 각각 전용 페이지가 필요하고, 탭은 그 페이지의 요약이어야 함"),
+        row("알림 항목 (피드당 4건)", "제목+메타 버튼", "move", "다양", "현재 클릭=읽음 처리만. 실제 목적지가 피드별로 다름 — 공지 상세 / 패치노트 / 기록 / 도전과제 / 친구 프로필"),
+        row("모두 읽음", "11px 텍스트 버튼", "state", "—", "notifRead 상태 일괄 처리"),
+        row("알림 삭제 ✕", "행 hover 시 노출", "state", "—", "notifHidden. 실행취소 없음"),
+        row("전체 공지 보러가기 / 더 보기", "하단 페이드 위 링크", "move", "N1 U6", "라벨이 피드에 따라 바뀜. 공지는 N1, 나머지는 통합 알림 센터 U6로 분기"),
+        row("플레이 시간 41시간 / 저장 6 / 도전과제 12", "3분할 스탯 + hover 스파크라인", "none", "U2 U1 U4", "숫자 3개가 각각 다른 페이지의 요약. 딥링크 후보")
+      ] },
+      { zone: "최근 플레이", comp: "RecentPlays + GameTile (232px × 8, 5칸 노출)", rows: [
+        row("‹ / ›", "28px 화살표", "state", "—", "recentX translateX. 248px 스텝, maxIdx=3"),
+        row("게임 타일 8개", "<a class=gtCard>", "move", "G1", "이어하기(G2 직행)로 보낼지는 결정 05-2와 묶임"),
+        row("섹션 헤드 '최근 플레이'", "전체 보기 링크 없음", "none", "U2", "8개만 보여주고 그 이상 볼 방법이 없음 — 플레이 기록 페이지로 나가는 링크 필요")
+      ] },
+      { zone: "지금 플레이할 게임", comp: "TodaysPicks + PickCard (5종 4초 회전)", rows: [
+        row("카탈로그 전체 보기 →", "섹션 헤드 우측 링크", "move", "C0", "홈 아래에 이미 12개 그리드가 있어 이 링크의 의미가 모호 — 결정 05-1의 핵심"),
+        row("히어로 카드 전체", "<a class=tpHero>", "move", "G1", "카드 전체가 링크이면서 안에 버튼 2개가 중첩 — 클릭 영역 충돌 정리 필요"),
+        row("지금 플레이 / 먼저 플레이 / 한 판 하기 / 바로 매칭", "110px 다크 CTA", "move", "G2 G3 G4", "픽 종류에 따라 목적지가 셋으로 갈림. '바로 매칭'은 대기실(G3), PC 전용은 다운로드(G4)"),
+        row("왕좌 구경하기 / 신작 줄 서기 / 숨은 보석 찾기 / 순삭 게임 모음 / 대기실 엿보기", "110px 아웃라인 CTA 5종", "move", "C1", "라벨은 5개지만 전부 '필터가 걸린 카탈로그' 한 템플릿. 정렬·필터 프리셋만 다름"),
+        row("픽 카드 5개", "<a> hover/click = 히어로 전환", "state", "—", "링크처럼 보이지만 이동하지 않음. 히어로와 동일 게임이므로 클릭은 G1으로 보내는 편이 자연스러움")
+      ] },
+      { zone: "게임 둘러보기", comp: "CatalogSection + CatalogToolbar + FilterGroup + TagRow + GameCard", rows: [
+        row("검색 입력", "230px 알약 필드", "state", "—", "q 상태. 초성 제거 후 title/dev/tags 부분일치. 검색 결과 페이지(C2)로 분리할지 결정 05-1"),
+        row("인기 / 신규 / 플레이순", "슬라이딩 썸 세그먼트", "state", "—", "trend / days / plays 정렬"),
+        row("플레이: 전체 · 싱글 · 멀티", "FilterGroup 3옵션", "state", "—", "단일 선택 축"),
+        row("실행 환경: 전체 · 브라우저 · PC · 모바일", "FilterGroup 4옵션", "state", "—", "단일 선택 축"),
+        row("#전체 + 테마 태그 8개", "3상태 칩 (미선택 → 포함 → 제외)", "state", "—", "퍼즐·레이싱·로그라이크·스피드런·스토리·픽셀아트·컨트롤러·캐주얼. 제외 상태는 취소선"),
+        row("게임 카드 (필터 결과 최대 12개)", "<a class=gcCard>", "move", "G1", "홈에서 상세로 가는 가장 대량의 경로"),
+        row("♥ 라이브러리에 있음 / ↻ 플레이 했던 게임", "16px 마크 + 툴팁", "none", "U1 U2", "상태 표시. 카드 안에서 저장 토글은 없음 — toggleFav는 전달되지만 UI 미노출"),
+        row("스펙 마크 (싱글/멀티/브라우저/PC/모바일)", "SpecMarks 15px + 툴팁", "none", "C0", "해당 필터가 걸린 카탈로그로 보내는 딥링크 후보"),
+        row("필터 초기화", "빈 상태 버튼", "state", "—", "q·tagState·mode·runtime 리셋")
+      ] },
+      { zone: "글로벌 푸터", comp: "SiteFooter", rows: [
+        row("게임 등록", "<a>", "move", "M1", "플레이그라운드에서 메이커스 업로드로 넘어가는 유일한 경로"),
+        row("개발자 문서", "<a>", "move", "D0", "외부 문서 사이트일 가능성 — 결정 05-6"),
+        row("업데이트 노트", "<a>", "move", "N2", "공지(N1)와 별개 목록인지 같은 목록의 필터인지 정리 필요"),
+        row("이용약관", "<a>", "move", "L1", "개인정보처리방침 · 운영정책이 함께 필요")
+      ] }
+    ];
+    zones.forEach(z => {
+      const m = z.rows.filter(r => r.kind === "이동").length;
+      const s = z.rows.filter(r => r.kind === "상태").length;
+      const x = z.rows.filter(r => r.kind === "비링크").length;
+      z.tally = "이동 " + m + " · 상태 " + s + " · 비링크 " + x;
+    });
+
+    const P = (id, name, slug, type, inbound, from, tpl, second) => ({
+      id, name, slug, type, inbound: inbound ? String(inbound) : "—", from, tpl,
+      bg: second ? "#FBFCFD" : "#FFFFFF",
+      idBg: second ? "#94A3B8" : inbound >= 4 ? "#0F172A" : inbound >= 2 ? "#2563EB" : "#64748B",
+      inFg: inbound >= 4 ? "#0F172A" : inbound >= 2 ? "#2563EB" : "#94A3B8"
+    });
+
+    return {
+      kpis: [
+        { value: "47", label: "홈의 클릭 어포던스", note: "컴포넌트 16개 전수", color: "#FFFFFF" },
+        { value: "24", label: "페이지를 떠나는 이동", note: "상태 14 · 비링크 9", color: "#60A5FA" },
+        { value: "24", label: "중복 제거한 목적지", note: "+ 2차 목적지 6개", color: "#A78BFA" },
+        { value: "6", label: "필요한 페이지 템플릿", note: "24개가 6종으로 수렴", color: "#34D399" }
+      ],
+      zones,
+      holes: [
+        { where: "최근 플레이 섹션", what: "타일 8개만 보여주고 '전체 보기'가 없습니다. 9번째 이후 기록에 도달할 방법이 홈에 없습니다." },
+        { where: "헤더 아바타 칩", what: "로그인 후 사용자 이름 칩이 <div>여서 클릭되지 않습니다. 마이페이지 진입이 사이드 카드의 작은 링크 하나뿐입니다." },
+        { where: "게임 카드 저장 수단", what: "toggleFav·favLabel·favColor가 카드로 전달되지만 렌더되지 않습니다. 확정된 방침은 '저장은 게임 상세(G1)에서만' — 카드의 ♥는 플레이했던 게임 ↻와 같은 자리에서 상태만 알리는 마크로 유지합니다. 따라서 전달 중인 fav 프롭은 G1이 나올 때까지 미사용 상태입니다." }
+      ],
+      pages: [
+        P("P0", "플레이그라운드 홈", "/", "홈", 2, "로고, nav 플레이 그라운드", "—"),
+        P("C0", "게임 카탈로그", "/games", "목록+필터", 3, "카탈로그 전체 보기, 빈 상태 안내, 스펙 마크", "T1"),
+        P("C1", "큐레이션 컬렉션", "/games?preset=…", "목록(프리셋)", 5, "픽 아웃라인 CTA 5종 (히어로 배지는 비링크 · 승격 후보)", "T1"),
+        P("C2", "검색 결과", "/search?q=…", "목록(질의)", 1, "헤더/툴바 검색", "T1"),
+        P("G1", "게임 상세", "/game/:id", "상세", 5, "자세히 보기, 게임 행, 게임 타일, 픽 히어로, 게임 카드", "T3"),
+        P("G2", "브라우저 플레이", "/game/:id/play", "실행", 2, "지금 플레이(히어로), 픽 CTA", "T4"),
+        P("G3", "멀티 대기실", "/game/:id/lobby", "실행(매칭)", 1, "픽 CTA '바로 매칭'", "T4"),
+        P("G4", "다운로드 · 설치", "/game/:id/download", "실행(배포)", 1, "PC/모바일 전용 게임의 CTA", "T4"),
+        P("A1", "회원가입", "/signup", "폼", 1, "헤더 회원가입", "T5"),
+        P("A2", "로그인", "/login", "폼", 3, "헤더 로그인, 라이브러리 폴백, 프로필 폴백", "T5"),
+        P("U0", "마이페이지", "/me", "대시보드", 2, "마이페이지 링크, 아바타 칩(연결 필요)", "T6"),
+        P("U1", "라이브러리 관리", "/me/library", "목록(내 것)", 2, "라이브러리 관리, 저장 스탯", "T1"),
+        P("U2", "플레이 기록", "/me/history", "피드", 3, "기록 숏컷, 플레이 시간 스탯, 최근 플레이(링크 필요)", "T2"),
+        P("U3", "내 게임 소식", "/me/updates", "피드", 1, "업데이트 숏컷", "T2"),
+        P("U4", "도전과제", "/me/achievements", "피드+진행", 3, "도전과제 숏컷·스탯, 라이브러리 배지", "T2"),
+        P("U5", "친구", "/me/friends", "피드+목록", 1, "친구 숏컷", "T2"),
+        P("U6", "알림 센터", "/me/notifications", "피드(통합)", 1, "피드 '더 보기'", "T2"),
+        P("N1", "공지사항", "/notices", "피드", 2, "공지 숏컷, 전체 공지 보러가기", "T2"),
+        P("N2", "업데이트 노트", "/release-notes", "피드", 1, "푸터", "T2"),
+        P("D0", "개발자 문서", "/docs", "문서", 1, "푸터", "외부/별도"),
+        P("M0", "메이커스 그라운드 홈", "/makers", "타사이트 홈", 1, "nav 메이커스 그라운드", "구축됨"),
+        P("M1", "게임 등록 · 업로드", "/makers/upload", "폼(멀티스텝)", 1, "푸터 게임 등록", "T5"),
+        P("H0", "고객센터", "/help", "허브+FAQ", 1, "nav 고객센터", "T2/T6"),
+        P("L1", "이용약관", "/terms", "정적 문서", 1, "푸터", "외부/별도"),
+        P("G5", "개발자 · 스튜디오 프로필", "/dev/:id", "상세+목록", 0, "게임 상세의 제작자 이름, 카탈로그 dev 필드", "T3", true),
+        P("G6", "리뷰 전체", "/game/:id/reviews", "피드", 0, "게임 상세의 평점·리뷰 수", "T2", true),
+        P("G7", "리더보드", "/game/:id/ranks", "표", 0, "상세, 스피드런 픽, 주간 랭킹 알림", "T2", true),
+        P("A3", "비밀번호 찾기", "/reset", "폼", 0, "로그인 폼", "T5", true),
+        P("U7", "설정 · 계정", "/me/settings", "폼", 0, "마이페이지, 로그아웃 흐름", "T5", true),
+        P("N3", "공지 상세", "/notices/:id", "문서", 0, "알림 항목, 공지 목록", "T3", true)
+      ],
+      templates: [
+        { no: "T1", name: "카탈로그 · 목록형", pages: [{ id: "C0" }, { id: "C1" }, { id: "C2" }, { id: "U1" }], count: "4페이지 + 개발자 프로필의 게임 목록 영역",
+          reuse: "SiteNav · CatalogToolbar(검색+정렬 세그먼트) · FilterGroup(플레이/실행환경) · TagRow(3상태 칩) · GameCard 그리드 · SectionHead · 빈 상태 + 필터 초기화 · SiteFooter",
+          newParts: "페이지네이션 또는 무한 스크롤 · 결과 수 대비 필터 요약 바(선택된 조건 되돌리기) · 프리셋 진입 시의 컬렉션 헤더(제목·설명·기준 문구) · URL ↔ 필터 상태 동기화" },
+        { no: "T2", name: "피드 · 타임라인형", pages: [{ id: "U2" }, { id: "U3" }, { id: "U4" }, { id: "U5" }, { id: "U6" }, { id: "N1" }, { id: "N2" }], count: "7페이지 + 리뷰/리더보드 2개",
+          reuse: "NotifList 행 구조(점·제목·메타·시각·삭제) · 5개 피드 탭 아이콘 · 모두 읽음 · 하단 페이드 · ProfileSummary(내 것 계열 헤더)",
+          newParts: "날짜 그룹 헤더(오늘/이번 주/이전) · 기간·종류 필터 · 무한 스크롤 · 항목별 목적지 라우팅(피드마다 다름) · 빈 상태 5종" },
+        { no: "T3", name: "상세형", pages: [{ id: "G1" }, { id: "G5" }, { id: "N3" }], count: "3페이지",
+          reuse: "히어로 아트워크 + 그라디언트 워시(HeroSpotlight 규칙) · 스탯 3분할(PickCard/ProfileSummary) · SpecMarks · 태그 칩 · 배지 · 도전과제 진행 바(GameRow)",
+          newParts: "스크린샷 갤러리 · 본문 서식(설명·패치노트) · 리뷰 요약 + 개별 리뷰 · 시스템 요구사항 표 · 같은 제작자/유사 게임 캐러셀 · 라이브러리 저장 토글" },
+        { no: "T4", name: "실행 · 플레이형", pages: [{ id: "G2" }, { id: "G3" }, { id: "G4" }], count: "3페이지",
+          reuse: "SiteNav(축소형) · 게임 제목·제작자 헤더",
+          newParts: "전체화면 캔버스 프레임 + 종료/전체화면/음소거 컨트롤 · 로딩·오류 상태 · 세션 종료 후 요약(획득 도전과제·기록) · 매칭 대기 UI(대기 인원·예상 시간) · 플랫폼별 다운로드 카드" },
+        { no: "T5", name: "폼형", pages: [{ id: "A1" }, { id: "A2" }, { id: "M1" }, { id: "A3" }, { id: "U7" }], count: "5페이지",
+          reuse: "SignInFallback 버튼 스펙(280×44) · 필드 스타일(SiteNav 검색 필드) · 다크 primary 버튼",
+          newParts: "필드 검증·오류 메시지 규칙 · 소셜 로그인 · 멀티스텝 진행 표시(업로드) · 파일 드롭존 · 저장/취소 고정 바" },
+        { no: "T6", name: "대시보드형", pages: [{ id: "U0" }, { id: "H0" }], count: "2페이지",
+          reuse: "ProfileSummary(아바타·레벨·XP·스탯 3분할) · 5분할 숏컷 그리드 · LibraryPanel 요약 · NotifList",
+          newParts: "각 하위 페이지로 나가는 카드 레이아웃 · 활동 히트맵 또는 주간 추이 · 게스트 가드(블러+폴백 재사용)" }
+      ],
+      layers: [
+        { depth: "DEPTH 0", name: "진입", color: "#0F172A", nodes: [
+          { id: "P0", name: "플레이그라운드 홈", note: "이동 어포던스 24종의 출발점. 카탈로그·라이브러리·알림이 이미 홈에 요약으로 들어 있음", bg: "#F8FAFC", bar: "#0F172A" }
+        ] },
+        { depth: "DEPTH 1", name: "홈에서 한 번에", color: "#2563EB", nodes: [
+          { id: "C0", name: "게임 카탈로그", note: "홈 그리드의 전체판. 필터·정렬·검색을 URL로 소유", bg: "#F8FAFC", bar: "#2563EB" },
+          { id: "G1", name: "게임 상세", note: "유입 5경로 — 홈에서 가장 많이 눌리는 목적지", bg: "#F8FAFC", bar: "#2563EB" },
+          { id: "U0", name: "마이페이지", note: "라이브러리·기록·도전과제·친구의 허브", bg: "#F8FAFC", bar: "#2563EB" },
+          { id: "A2", name: "로그인", note: "3개 지점이 수렴. 원래 위치로 돌아가야 함", bg: "#F8FAFC", bar: "#2563EB" },
+          { id: "N1", name: "공지사항", note: "알림 5탭 중 유일하게 비회원도 필요", bg: "#F8FAFC", bar: "#2563EB" }
+        ] },
+        { depth: "DEPTH 2", name: "한 단계 더", color: "#7C3AED", nodes: [
+          { id: "G2", name: "브라우저 플레이", note: "상세와 홈 CTA에서 직행. 이탈이 아니라 목적 달성 지점", bg: "#FAFAFC", bar: "#7C3AED" },
+          { id: "G5", name: "개발자 프로필", note: "상세의 제작자 이름에서. 그 스튜디오의 다른 게임으로 순환", bg: "#FAFAFC", bar: "#7C3AED" },
+          { id: "U1U2U4", name: "라이브러리 · 기록 · 도전과제", note: "마이페이지의 하위. 홈 숏컷에서 직행도 가능", bg: "#FAFAFC", bar: "#7C3AED" },
+          { id: "G6G7", name: "리뷰 · 리더보드", note: "상세의 평점/기록 숫자에서 확장", bg: "#FAFAFC", bar: "#7C3AED" }
+        ] },
+        { depth: "사이트 경계", name: "다른 브랜드 영역", color: "#EA580C", nodes: [
+          { id: "M0", name: "메이커스 그라운드", note: "accent #EA580C, 서브내비 추가, 검색 노출. 헤더 nav로 상시 왕복", bg: "#FFFBF5", bar: "#EA580C" },
+          { id: "M1", name: "게임 등록", note: "푸터에서 직행. 플레이어→메이커 전환의 유일한 홈 경로", bg: "#FFFBF5", bar: "#EA580C" },
+          { id: "H0", name: "고객센터", note: "nav 3번째 자리를 이미 차지. 내용 미정", bg: "#F8FAFC", bar: "#64748B" },
+          { id: "D0 L1", name: "개발자 문서 · 약관", note: "푸터 전용. 별도 문서 체계로 분리 가능", bg: "#F8FAFC", bar: "#64748B" }
+        ] }
+      ],
+      crossLinks: [
+        { path: "G1 → G5 → C0 → G1", color: "#2563EB", why: "게임 상세에서 제작자 → 그 스튜디오의 게임 목록 → 다른 게임 상세. 체류를 만드는 핵심 순환. 홈의 dev 필드가 이미 12개 스튜디오를 구분하고 있어 바로 구현 가능합니다." },
+        { path: "G1 ↔ M0 (커뮤니티 스레드)", color: "#EA580C", why: "메이커스의 쇼케이스·질문·개발일지가 특정 게임에 걸립니다. 상세에 '이 게임의 커뮤니티 글' 블록을, 메이커스 글에는 게임 카드를 상호 배치해야 두 사이트가 하나로 느껴집니다." },
+        { path: "C1 ≡ C0 + 파라미터", color: "#7C3AED", why: "'왕좌 구경하기'는 정렬=플레이순, '신작 줄 서기'는 정렬=신규, '순삭 게임 모음'은 태그=캐주얼+한 판 4분. 페이지를 5개 만들 필요 없이 프리셋 정의만 5개 두면 됩니다." },
+        { path: "U4 → G1 → G2 → U4", color: "#0D9488", why: "도전과제 목록에서 해당 게임 → 플레이 → 세션 종료 요약이 다시 도전과제를 갱신. 플레이 종료 화면이 이 고리를 닫는 지점입니다." },
+        { path: "A2 → 원래 위치 복귀", color: "#B45309", why: "로그인 유입 4곳 모두 '보려던 것'이 있는 상태입니다. 로그인 후 홈 상단이 아니라 직전 스크롤 위치·직전 페이지로 돌아가야 합니다. returnTo 파라미터가 필요합니다." },
+        { path: "U2 ↔ 최근 플레이 섹션", color: "#64748B", why: "홈 섹션이 기록 페이지의 상위 8건입니다. 같은 데이터·같은 정렬이므로 GameTile을 공유하고, 홈에는 '전체 기록 보기'만 추가하면 됩니다." }
+      ],
+      decisions: [
+        { no: "01", tagBg: "#0F172A", scope: "IA 전체", q: "카탈로그는 홈 섹션인가, 독립 페이지인가?",
+          a: "홈의 '게임 둘러보기'가 카탈로그 그 자체. '카탈로그 전체 보기'는 해당 섹션으로 스크롤하는 앵커가 되고 별도 페이지는 없습니다.",
+          b: "홈은 상위 8개 프리뷰만, /games가 전체 목록·페이지네이션·URL 필터를 소유합니다.",
+          rec: "B. 지금 홈은 필터 2축 7옵션 + 태그 9개 + 12개 그리드를 다 이고 있어 스크롤이 과합니다. C1 큐레이션 5종·검색 결과·스펙 마크 딥링크가 모두 '필터가 걸린 목록 페이지'를 요구하므로 독립 페이지가 필수입니다." },
+        { no: "02", tagBg: "#0F172A", scope: "G1/G2", q: "게임 실행은 페이지인가, 오버레이인가?",
+          a: "/game/:id/play 전용 페이지. 새로고침·공유·뒤로가기가 자연스럽습니다.",
+          b: "상세 위에 전체화면 오버레이. 종료 시 컨텍스트가 그대로 남습니다.",
+          rec: "A를 기본으로, 홈 히어로 CTA는 상세를 건너뛰고 직행. 단 PC/모바일 전용 게임은 실행할 수 없으니 CTA 라벨과 목적지를 런타임(run 필드)에 따라 G2/G4로 갈라야 합니다 — 현재 홈은 '바로 매칭'을 제외하면 전부 '지금 플레이'로 같습니다." },
+        { no: "03", tagBg: "#2563EB", scope: "A1/A2", q: "로그인은 페이지인가 모달인가?",
+          a: "/login 페이지. 딥링크·SEO·비밀번호 찾기 흐름이 단순합니다.",
+          b: "모달. 라이브러리를 보려던 스크롤 위치가 유지됩니다.",
+          rec: "모달을 기본, /login은 직접 진입용으로 둘 다 유지. A2로 들어오는 3개 지점(헤더 로그인 · 라이브러리 폴백 · 프로필 폴백)이 전부 '보려던 콘텐츠 위'에 있고, 헤더 회원가입도 지금은 같은 핸들러를 씁니다. 이미 만들어 둔 SignInFallback(블러+오버레이) 패턴이 모달의 축소판이라 스펙이 일치합니다." },
+        { no: "04", tagBg: "#2563EB", scope: "C1", q: "큐레이션 5종을 실제 페이지로 만들 것인가?",
+          a: "컬렉션마다 편집자 카피·배너를 가진 고유 페이지 5개.",
+          b: "카탈로그의 저장된 필터 프리셋. 헤더 문구만 프리셋 데이터에서 옵니다.",
+          rec: "B로 시작하되 프리셋에 title·desc·기준 문구를 필수 필드로 넣어 두면, 나중에 편집자 카피를 붙여 A로 승격할 수 있습니다. 히어로 배지(에디터 추천/스태프 추천/이번 주 신작)도 같은 프리셋 체계에 흡수됩니다." },
+        { no: "05", tagBg: "#7C3AED", scope: "U0~U6, N1", q: "알림 5탭과 전용 페이지의 관계는?",
+          a: "홈 사이드의 5탭이 유일한 알림 UI. 페이지는 만들지 않습니다.",
+          b: "5탭은 각 페이지의 최근 4건 요약이고, 탭 하단 링크가 전체 목록으로 나갑니다.",
+          rec: "B. 다만 페이지를 5개 다 만들지 말고 U6 알림 센터 하나에 종류 필터를 두는 방식과, 성격이 다른 U2(기록)·U4(도전과제)·N1(공지)만 별도 페이지로 두는 방식 중 선택이 필요합니다. 권고는 U6 + U2 + U4 + N1 네 개." },
+        { no: "06", tagBg: "#64748B", scope: "푸터, nav", q: "고객센터 · 개발자 문서 · 약관은 이 디자인 시스템 안인가?",
+          a: "같은 SiteNav/SiteFooter를 쓰는 내부 페이지로 설계합니다.",
+          b: "외부 문서 사이트·정적 페이지로 넘기고 링크만 유지합니다.",
+          rec: "고객센터는 내부(nav 1급 자리를 차지하고 있고 게스트 문의가 여기로 옵니다), 개발자 문서와 약관은 외부/정적. 고객센터를 내부로 두면 T2·T6 템플릿을 재사용해 추가 비용이 거의 없습니다." },
+        { no: "07", tagBg: "#64748B", scope: "홈", q: "홈의 비링크 정보 6종을 링크로 열 것인가?",
+          a: "헤더 통계 · 스탯 3분할 · 배지 · 스펙 마크 · 하트/↻ 마크를 모두 딥링크로 만듭니다.",
+          b: "지금처럼 정보·툴팁으로 두고, 이동은 명시적 링크에서만 일어나게 합니다.",
+          rec: "선별. 스탯 3분할(→U2/U1/U4)과 스펙 마크(→필터 걸린 C0)만 링크화하고 헤더 통계·배지·상태 마크는 정보로 유지. 클릭 가능한 것이 늘어날수록 카드 전체 링크와 충돌합니다 — 픽 히어로는 이미 <a> 안에 버튼 2개가 중첩되어 있습니다." }
+      ],
+      haveFields: [
+        { k: "title" }, { k: "dev" }, { k: "engine" }, { k: "run" }, { k: "plays" }, { k: "days" }, { k: "trend" }, { k: "pct" }, { k: "mins" }, { k: "tags[]" }, { k: "achDone/achTotal" }, { k: "lastDays" }, { k: "art" }, { k: "rating·review (파생)" }
+      ],
+      gaps: [
+        { id: "C0 · C1 · C2", name: "카탈로그 계열", pct: "95%", barColor: "#16A34A",
+          have: "제목·제작자·아트·플레이 수·평점·리뷰 수·태그·스펙 마크·NEW 배지 — GameCard가 요구하는 전부",
+          need: "총 타이틀 수(페이지네이션용), 프리셋 정의 5종(정렬·필터·헤더 문구)" },
+        { id: "U1 · U2", name: "라이브러리 · 기록", pct: "90%", barColor: "#16A34A",
+          have: "플레이타임·마지막 플레이 일자·도전과제 진행률·배지 4종·정렬 2종 (GameRow가 이미 렌더)",
+          need: "세션 단위 기록(날짜별 플레이 시간), 기간 필터용 타임스탬프" },
+        { id: "U4", name: "도전과제", pct: "60%", barColor: "#D97706",
+          have: "게임별 달성 수/총 수, 도전과제 이름 6개, XP 값(알림 피드에 240·120·180·60 XP)",
+          need: "게임별 개별 도전과제 목록(이름·설명·조건·희귀도·달성 시각), 아이콘 체계" },
+        { id: "G1", name: "게임 상세", pct: "45%", barColor: "#D97706",
+          have: "제목·제작자·엔진·실행 환경·플레이 수·평점·리뷰 수·태그·아트 1장·공개 시점·내 진행률",
+          need: "스크린샷 3~5장, 소개 본문, 리뷰 텍스트, 버전·패치노트, 시스템 요구사항, 조작 방식, 지원 언어, 유사 게임 관계" },
+        { id: "G2 · G3 · G4", name: "실행 계열", pct: "25%", barColor: "#E11D48",
+          have: "실행 환경(브라우저/Windows/APK), 한 판 소요 시간, 대기 인원·매칭 시간(픽 데이터에 18명·12초)",
+          need: "빌드 파일·용량·버전, 저장 슬롯, 세션 결과 스키마, 매칭 상태 모델, 다운로드 플랫폼별 링크" },
+        { id: "G5", name: "개발자 프로필", pct: "35%", barColor: "#E11D48",
+          have: "스튜디오명 12개, 이니셜, 강조색, 소속 게임 목록(dev로 그룹 가능)",
+          need: "소개문, 팀 규모, 활동 시작일, 링크(웹·SNS), 누적 지표, 메이커스 커뮤니티 계정 연결" }
+      ],
+      waves: (() => {
+        const KIND = {
+          결정: { kind: "결정", kindBg: "#EEF2FF", kindFg: "#4338CA" },
+          페이지: { kind: "페이지", kindBg: "#EFF6FF", kindFg: "#1D4ED8" },
+          수정: { kind: "홈 수정", kindBg: "#ECFDF5", kindFg: "#047857" },
+          데이터: { kind: "데이터", kindBg: "#FFFBEB", kindFg: "#B45309" }
+        };
+        const CL = {
+          확정: { clarity: "판단 불필요", clarityFg: "#047857" },
+          거의: { clarity: "거의 확정", clarityFg: "#2563EB" },
+          판단: { clarity: "판단 필요", clarityFg: "#B45309" },
+          후행: { clarity: "선행 결과 후", clarityFg: "#94A3B8" }
+        };
+        let c = 0;
+        const it = (kind, cl, title, ref, why, out) => ({
+          no: String(++c).padStart(2, "0"), ...KIND[kind], ...CL[cl], title, ref, why, out
+        });
+        const waves = [
+          { tag: "WAVE 1", color: "#0F172A", name: "지금 확정 — 증거가 이미 답을 말하는 것", note: "판단 회의 없이 확정 가능", items: [
+            it("결정", "확정", "카탈로그를 독립 페이지로 확정", "결정 01 → B안 / C0",
+              "C1 큐레이션 5종 · C2 검색 · U1 라이브러리 · 스펙 마크 딥링크가 모두 '필터 걸린 목록 페이지'를 요구합니다. 이 하나가 이후 절반의 전제이고, 홈 스크롤 과부하도 같이 해소됩니다.",
+              "T1 템플릿 범위 확정, 05–07번 착수 가능"),
+            it("결정", "확정", "큐레이션 5종은 페이지가 아니라 프리셋", "결정 04 → B안 / C1",
+              "'왕좌 구경하기'=정렬 플레이순, '신작 줄 서기'=정렬 신규, '순삭 게임 모음'=태그 캐주얼+한 판 4분. 라벨만 다르고 전부 정렬·필터 차이입니다. 페이지 5개를 만들 이유가 없습니다.",
+              "프리셋 스키마(title·desc·기준·정렬·필터) 1개"),
+            it("결정", "확정", "로그인은 모달 기본 + /login 병행", "결정 03 → 절충 / A2",
+              "A2로 오는 3개 지점이 전부 '보려던 콘텐츠 위'이고, SignInFallback(블러+오버레이 280×44)이 이미 모달의 축소판입니다. returnTo만 추가하면 됩니다.",
+              "모달 1개 + returnTo 규칙"),
+            it("결정", "확정", "라이브러리 저장 진입점은 게임 상세 한 곳", "01 누락 ③ / G1 · GameCard",
+              "목록 카드에 저장 버튼을 얹으면 카드 전체 링크와 클릭이 충돌하고, 저장 전에 게임을 판단할 근거도 카드에 없습니다. 카드의 ♥는 플레이했던 게임 ↻와 같은 자리에서 상태만 알리고, 담는 행위는 상세에서 일어납니다.",
+              "G1 요구사항에 저장 토글 추가, 카드는 마크 유지")
+          ] },
+          { tag: "WAVE 2", color: "#2563EB", name: "목록 계열 구축 — 재사용률 최고, 신규 데이터 최소", note: "T1 하나로 4페이지", items: [
+            it("페이지", "확정", "게임 카탈로그", "C0 / T1 · 데이터 충족 95%",
+              "홈의 CatalogToolbar · FilterGroup · TagRow · GameCard가 그대로 들어갑니다. 새 데이터는 총 타이틀 수뿐이라 리스크가 가장 낮고, 만들면 뒤 3개가 파라미터 차이로 따라옵니다.",
+              "페이지 1개 + URL↔필터 동기화, 필터 요약 바, 페이지네이션"),
+            it("페이지", "확정", "큐레이션 컬렉션 5종", "C1 / C0 + 프레셋",
+              "02번에서 확정한 프리셋 정의 5개를 C0 위에 얹기만 하면 됩니다. 홈의 아웃라인 CTA 5개와 히어로 배지 3종이 한 번에 살아납니다.",
+              "프리셋 데이터 5건 + 컬렉션 헤더 1개"),
+            it("페이지", "확정", "검색 결과", "C2 / C0의 질의 상태",
+              "홈 검색이 이미 초성 제거 후 title·dev·tags 부분일치로 동작합니다. C0에 q 파라미터를 붙인 상태이고 별도 화면 설계가 사실상 없습니다.",
+              "빈 결과 상태 + 추천 질의 블록"),
+            it("페이지", "확정", "로그인 모달 구현", "A2 / T5",
+              "03번 결정만 있으면 됩니다. 홈 게스트 폴백 2곳과 헤더가 즉시 연결되고, 로그인 후 스크롤 위치 복귀까지 여기서 닫힙니다.",
+              "모달 + 회원가입 전환 + returnTo")
+          ] },
+          { tag: "WAVE 3", color: "#7C3AED", name: "상세 · 계정 — 자료 수집이 병목", note: "새 데이터 준비 필요", items: [
+            it("결정", "거의", "실행 방식과 런타임 분기 확정", "결정 02 → A안 + run 분기",
+              "'페이지냐 오버레이냐'는 판단이지만, run 필드에 따라 CTA가 G2(브라우저) · G4(PC·모바일)로 갈려야 하는 것은 확정입니다. 지금 홈은 PC 전용 게임에도 '지금 플레이'가 붙어 있습니다.",
+              "CTA 라벨·목적지 매핑 표 (G1 설계 전제)"),
+            it("데이터", "판단", "게임 상세용 자료 확보", "G1 데이터 충족 45%",
+              "스크린샷 3~5장 · 소개 본문 · 리뷰 텍스트 · 패치노트 · 시스템 요구사항 · 조작 방식이 없습니다. 페이지를 그리기 전에 실제 재료가 있어야 레이아웃이 거짓말을 하지 않습니다.",
+              "타이틀당 자료 세트 (최소 3개 타이틀)"),
+            it("페이지", "거의", "게임 상세", "G1 / T3 · 유입 5경로",
+              "홈 링크 인스턴스 28개가 향하는 최대 목적지이자 우선순위 1위지만, 자료 확보(10번)가 선행돼야 해서 11번에 놓았습니다. 히어로 워시 · 스탯 3분할 · SpecMarks · 진행 바는 재사용됩니다. 04번에서 확정한 라이브러리 저장 토글이 여기 들어갑니다.",
+              "페이지 1개 + 갤러리 · 리뷰 요약 · 요구사항 표 · 저장 토글"),
+            it("페이지", "확정", "라이브러리 관리", "U1 / T1 재사용",
+              "GameRow가 이미 플레이타임 · 마지막 플레이 · 도전과제 진행률 · 배지 4종을 렌더합니다. C0의 목록 골격에 내 데이터만 얹는 수준입니다.",
+              "페이지 1개 + 일괄 정리(삭제·정렬) 동작"),
+            it("결정", "판단", "알림 5탭을 몇 개 페이지로 쪼갤지", "결정 05 → 권고 4개",
+              "권고는 U6 통합 센터 + U2 기록 + U4 도전과제 + N1 공지. 5개 전부 만들면 성격이 겹치고, 1개로 합치면 기록·도전과제의 고유 레이아웃이 죽습니다.",
+              "T2 인스턴스 개수 확정"),
+            it("페이지", "후행", "마이페이지 + 아바타 칩 링크화", "U0 / T6 · 01 누락 ②",
+              "ProfileSummary · 5분할 숏컷 · LibraryPanel 요약 · NotifList가 그대로 옮겨갑니다. 12번에서 하위 페이지 개수가 정해져야 카드 배치가 확정됩니다.",
+              "페이지 1개 + 헤더 칩 <a> 전환"),
+            it("페이지", "후행", "플레이 기록 + 홈 '전체 기록 보기' 링크", "U2 / T2 첫 사례 · 01 누락 ①",
+              "T2 골격의 기준 사례입니다. 완성되면 U3 · U4 · U5 · U6 · N1 · N2가 데이터만 갈아 끼우면 됩니다. 홈 최근 플레이 섹션의 8건 한계도 여기서 풀립니다.",
+              "페이지 1개 + T2 규격 확정 + 홈 링크 1개")
+          ] },
+          { tag: "WAVE 4", color: "#64748B", name: "실행 · 확장 — 선행 결과가 나온 뒤", note: "여기서 되돌릴 일이 없어짐", items: [
+            it("페이지", "판단", "브라우저 플레이 · 다운로드", "G2 · G4 / T4 · 충족 25%",
+              "홈 최상단 CTA의 목적지인데 데이터 갭이 가장 큽니다. 빌드 파일 · 저장 슬롯 · 세션 결과 스키마가 정해져야 화면이 성립합니다.",
+              "페이지 2개 + 세션 종료 요약"),
+            it("페이지", "확정", "도전과제", "U4 / T2 · 충족 60%",
+              "게임별 개별 도전과제 목록(이름·조건·희귀도·달성 시각)이 필요합니다. 라이브러리 배지 4종과 알림 XP 값이 연결 지점입니다.",
+              "페이지 1개 + 도전과제 스키마"),
+            it("페이지", "확정", "개발자 · 스튜디오 프로필", "G5 / T3 · 충족 35%",
+              "G1→G5→C0→G1 순환을 닫아 체류를 만듭니다. dev 필드로 12개 스튜디오가 이미 구분되므로 목록 부분은 즉시 됩니다.",
+              "페이지 1개 + 스튜디오 소개 데이터"),
+            it("페이지", "확정", "알림 센터 · 공지 · 업데이트 노트", "U6 · N1 · N2 / T2",
+              "14번에서 확정한 T2 규격을 그대로 복제합니다. N1은 게스트도 필요한 유일한 알림 계열이라 접근 권한만 다릅니다.",
+              "페이지 3개 (데이터 교체 수준)"),
+            it("결정", "후행", "비링크 정보 6종 중 무엇을 링크로 열지", "결정 07 → 선별",
+              "권고는 스탯 3분할과 스펙 마크만. 딥링크 대상(필터 걸린 C0, U2 · U4)이 존재한 뒤에 판단해야 하고, 카드 전체 링크와의 클릭 충돌도 그때 실측됩니다.",
+              "홈 링크 2종 추가 + 픽 히어로 중첩 정리"),
+            it("결정", "판단", "고객센터 내부 / 문서·약관 외부", "결정 06 → H0 · D0 · L1",
+              "고객센터는 nav 1급 자리를 차지하고 게스트 문의가 여기로 옵니다. T2·T6 재사용이면 추가 비용이 거의 없습니다. 문서·약관은 정적으로 넘기는 편이 낫습니다.",
+              "H0 페이지 1개 + 외부 링크 3개"),
+            it("페이지", "판단", "게임 등록 · 업로드 (메이커 전환)", "M1 / T5 · 푸터 '게임 등록'",
+              "플레이어가 메이커로 넘어가는 홈의 유일한 경로인데 지금은 푸터 링크 하나뿐입니다. 메이커스 그라운드 쪽 업로드 흐름과 한 몸이라, 어느 사이트가 이 폼을 소유할지부터 정해야 합니다.",
+              "멀티스텝 폼 1개 + 진입점 승격 여부 판단"),
+            it("페이지", "후행", "잔여 페이지", "G3 · G6 · G7 · A1 · A3 · U7",
+              "대기실 · 리뷰 전체 · 리더보드 · 회원가입 · 비밀번호 찾기 · 설정. 각각 앞선 템플릿의 파생이라 마지막에 묶어 처리하는 것이 효율적입니다.",
+              "페이지 6개 (T2 · T4 · T5 파생)")
+          ] }
+        ];
+        waves.forEach(w => {
+          const nums = w.items.map(x => x.no);
+          w.range = nums[0] + " – " + nums[nums.length - 1];
+        });
+        return waves;
+      })(),
+      priority: [
+        { rank: "1", rankColor: "#0F172A", id: "G1", idBg: "#0F172A", name: "게임 상세", why: "유입 5경로. 없으면 홈의 카드·행·타일 전부가 죽은 링크가 됩니다. T3 템플릿의 기준점", effort: "가장 큼" },
+        { rank: "2", rankColor: "#0F172A", id: "C0", idBg: "#0F172A", name: "게임 카탈로그", why: "홈 컴포넌트를 거의 그대로 재사용. 만들면 C1·C2·U1이 파라미터 차이로 따라옵니다", effort: "중간" },
+        { rank: "3", rankColor: "#2563EB", id: "A2", idBg: "#2563EB", name: "로그인 (모달)", why: "홈 4개 지점이 수렴하고, 게스트 상태의 모든 폴백이 여기서 끝납니다", effort: "작음" },
+        { rank: "4", rankColor: "#2563EB", id: "U0", idBg: "#2563EB", name: "마이페이지", why: "숏컷 5개·마이페이지 링크·아바타 칩의 목적지. T6 하나로 하위 페이지 관문 정리", effort: "중간" },
+        { rank: "5", rankColor: "#7C3AED", id: "G2", idBg: "#7C3AED", name: "브라우저 플레이", why: "'지금 플레이'가 홈 최상단 CTA인데 목적지가 없습니다. 데이터 갭이 가장 큼", effort: "큼" },
+        { rank: "6", rankColor: "#7C3AED", id: "U2", idBg: "#7C3AED", name: "플레이 기록", why: "T2 템플릿의 첫 사례. 완성되면 U3·U4·U5·U6·N1·N2가 데이터만 갈아 끼우면 됩니다", effort: "중간" },
+        { rank: "7", rankColor: "#94A3B8", id: "C1", idBg: "#94A3B8", name: "큐레이션 프리셋", why: "C0 위에 정의 5개만 얹으면 아웃라인 CTA 5종이 한 번에 살아납니다", effort: "작음" },
+        { rank: "8", rankColor: "#94A3B8", id: "G5", idBg: "#94A3B8", name: "개발자 프로필", why: "체류 순환(G1→G5→C0→G1)을 닫는 페이지. 메이커스와의 접점도 여기", effort: "중간" }
+      ]
+    };
+  }
+}
+
+</script>
+</body>
+</html>

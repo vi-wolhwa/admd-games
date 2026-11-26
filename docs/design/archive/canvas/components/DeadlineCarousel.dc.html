@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<style>
+.dcArrow{opacity:0;transition:opacity 200ms cubic-bezier(.2,.7,.2,1),background 120ms cubic-bezier(.2,.7,.2,1)}
+.dcWrap:hover .dcArrow,.dcArrow:focus-visible{opacity:1}
+</style>
+</helmet>
+
+<div class="dcWrap" style="height:100%;position:relative;overflow:hidden;background:#0F172A">
+<div style="display:flex;height:100%;transform:translateX({{ shift }});transition:transform 480ms cubic-bezier(.2,.7,.2,1)">
+<sc-for list="{{ cards }}" as="d" hint-placeholder-count="4">
+<div style="flex:0 0 100%;min-width:0;padding:24px 26px 62px;display:flex;flex-direction:column">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:10px">
+<dc-import name="Body" as="span" size="xs" weight="bold" sx="letter-spacing:.06em;color:{{ d.kindColor }}" hint-size="120px,18px">{{ d.kind }}</dc-import>
+<dc-import name="Body" as="span" size="xs" weight="semibold" color="tertiary" hint-size="120px,18px">{{ d.source }}</dc-import>
+</div>
+<div style="margin-top:16px;display:flex;align-items:baseline;gap:10px;line-height:1">
+<dc-import name="Display" as="span" size="md" color="inverse" hint-size="120px,42px">{{ d.num }}</dc-import>
+<dc-import name="Body" as="span" size="sm" weight="bold" sx="color:{{ d.kindColor }}" hint-size="140px,21px">{{ d.unit }}</dc-import>
+</div>
+<dc-import name="Body" as="div" size="xs" weight="semibold" color="secondary" sx="margin-top:10px" hint-size="120px,18px">{{ d.dueLabel }}</dc-import>
+<dc-import name="Headline" as="h3" size="xs" color="inverse" sx="margin-top:18px;text-wrap:pretty" hint-size="180px,24px">{{ d.name }}</dc-import>
+<dc-import name="Body" as="div" size="xs" color="tertiary" sx="margin-top:9px;text-wrap:pretty" hint-size="120px,18px">{{ d.meta }}</dc-import>
+<div style="margin-top:20px;display:flex;flex-direction:column;gap:1px;background:rgba(255,255,255,.14)">
+<sc-for list="{{ d.facts }}" as="t" hint-placeholder-count="3">
+<div style="display:flex;align-items:center;justify-content:space-between;gap:10px;padding:9px 0;background:#0F172A">
+<dc-import name="Body" as="span" size="xs" color="secondary" hint-size="120px,18px">{{ t.k }}</dc-import>
+<dc-import name="Body" as="span" size="xs" weight="bold" color="inverse" hint-size="120px,18px">{{ t.v }}</dc-import>
+</div>
+</sc-for>
+</div>
+<button style="width:100%;height:42px;margin-top:auto;background:#EA580C;border:0;transition:background 200ms cubic-bezier(.2,.7,.2,1)" type="button" style-hover="background:#F97316"><dc-import name="Body" as="span" size="sm" weight="bold" color="inverse" hint-size="140px,21px">{{ d.cta }}</dc-import></button>
+</div>
+</sc-for>
+</div>
+<button style="position:absolute;left:8px;top:50%;transform:translateY(-50%);width:30px;height:30px;border:0;background:rgba(255,255,255,.14);z-index:4" type="button" onClick="{{ prev }}" aria-label="이전 마감" class="dcArrow" style-hover="background:#EA580C"><dc-import name="Body" as="span" size="md" color="inverse" hint-size="160px,24px">&#8249;</dc-import></button>
+<button style="position:absolute;right:8px;top:50%;transform:translateY(-50%);width:30px;height:30px;border:0;background:rgba(255,255,255,.14);z-index:4" type="button" onClick="{{ next }}" aria-label="다음 마감" class="dcArrow" style-hover="background:#EA580C"><dc-import name="Body" as="span" size="md" color="inverse" hint-size="160px,24px">&#8250;</dc-import></button>
+<div style="position:absolute;left:26px;right:26px;bottom:20px;display:flex;align-items:center;gap:6px;z-index:4">
+<sc-for list="{{ dots }}" as="t" hint-placeholder-count="4">
+<button type="button" onClick="{{ t.go }}" aria-label="마감 카드" style="border:0;padding:0;height:3px;transition:width 320ms cubic-bezier(.2,.7,.2,1),background 320ms cubic-bezier(.2,.7,.2,1);width:{{ t.w }};background:{{ t.bg }}"></button>
+</sc-for>
+<dc-import name="Body" as="span" size="xs" weight="semibold" color="tertiary" tabular="{{ true }}" sx="margin-left:auto;letter-spacing:.06em" hint-size="120px,18px">{{ counter }}</dc-import>
+</div>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:344,&quot;height&quot;:412},&quot;cards&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;DeadlineCard[]&quot;},&quot;shift&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;string&quot;},&quot;dots&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;Dot[]&quot;},&quot;counter&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;01 / 04&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;prev&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;},&quot;next&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;() =&gt; void&quot;}}"></script>
+</body>
+</html>

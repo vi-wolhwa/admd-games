@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<div style="display:flex;align-items:flex-end;justify-content:space-between;gap:20px;padding-bottom:18px;border-bottom:1px solid #E2E8F0">
+<dc-import name="SectionHead" title="{{ title }}" subtitle="{{ subtitle }}" hint-size="460px,30px"></dc-import>
+<a style="flex:none"><dc-import name="Body" as="span" size="sm" weight="semibold" hint-size="140px,21px">{{ linkLabel }}</dc-import></a>
+</div>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:1280,&quot;height&quot;:60},&quot;title&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;오늘의 쇼케이스&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;subtitle&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;테스트 · 피드백 · 축하가 필요한 작품&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;linkLabel&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;전체 보기 →&quot;,&quot;tsType&quot;:&quot;string&quot;}}"></script>
+</body>
+</html>

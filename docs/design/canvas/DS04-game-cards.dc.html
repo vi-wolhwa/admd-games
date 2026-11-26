@@ -1,0 +1,417 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>게임 카드 컴포넌트</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Gasoek+One&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'Pretendard';src:url('fonts/PretendardVariable.woff2') format('woff2');font-weight:45 920;font-display:swap}
+:root{--accent:#046DCE;--accent-strong:#0159AA;--accent-tint:#ECF4FE;--make:#D22C02;--make-strong:#AD2201;--make-tint:#FEF0ED;
+--bg:#FFFFFF;--sunken:#F2F3F5;--sunken-2:#E9EBEE;--line:#ECEEF0;--ink-1:#151A20;--ink-2:#4F5359;--ink-3:#65696F;--ink-4:#9B9FA3;
+--ok:#047F3F;--ok-tint:#E5FAEA;--up:#DB0240;--down:#0159AA;--warn:#8A5A00;--warn-tint:#FFF4D6;
+--lift:0 12px 26px -12px rgb(21 26 32 / .36);--ease:cubic-bezier(.2,.7,.2,1)}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink-1);font-family:'Pretendard',system-ui,sans-serif;font-size:15px;line-height:1.5;word-break:keep-all;-webkit-font-smoothing:antialiased}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer}
+.disp{font-family:'Gasoek One','Pretendard',sans-serif;font-weight:400}
+.m{font-size:13px;color:var(--ink-3)}
+.num{font-variant-numeric:tabular-nums}
+.clip{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.two-line{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.ic{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}
+.jf{display:inline-flex;align-items:center;justify-content:center;flex:none;border-radius:6px;color:#FFFFFF;font-weight:800;letter-spacing:-.06em;line-height:1;white-space:nowrap}
+.jf i{font-style:normal;font-size:.78em;margin:0 .02em;position:relative;top:.06em}
+.j18{width:20px;height:20px;font-size:8.5px;border-radius:5px}
+.j26{width:26px;height:26px;font-size:10px;border-radius:7px}
+.j30{width:30px;height:30px;font-size:11.5px;border-radius:8px}
+
+/* page */
+.page{width:1440px;padding:56px 72px 96px;display:flex;flex-direction:column;gap:64px}
+.blk h2{margin:0;font-size:24px;font-weight:800;letter-spacing:-.02em}
+.blk .use{margin:6px 0 22px;font-size:14px;color:var(--ink-2)}
+.blk .use b{color:var(--ink-1)}
+.lbl{font-size:12px;font-weight:700;color:var(--ink-3);margin-top:10px;text-align:left}
+.cap-row{display:flex;flex-wrap:wrap;gap:28px 20px;align-items:flex-start}
+
+/* ── 아트와 오버레이 ── */
+.art{position:relative;display:block;overflow:hidden;background:var(--sunken);aspect-ratio:16/9}
+.art .shots,.art .shots i{position:absolute;inset:0}
+.art .shots i{opacity:0}
+.art .shots i:first-child{opacity:1}
+.s2{transform:scale(1.25) translate(-6%,4%);filter:saturate(1.2)}
+.s3{transform:scale(1.5) translate(10%,-6%);filter:brightness(1.08)}
+.s4{transform:scale(1.35) translate(8%,8%) rotate(-2deg);filter:hue-rotate(-12deg)}
+.s5{transform:scale(1.8) translate(-12%,-4%);filter:contrast(1.1)}
+@keyframes shot2{0%,19%{opacity:0}20%,39%{opacity:1}40%,100%{opacity:0}}
+@keyframes shot3{0%,39%{opacity:0}40%,59%{opacity:1}60%,100%{opacity:0}}
+@keyframes shot4{0%,59%{opacity:0}60%,79%{opacity:1}80%,100%{opacity:0}}
+@keyframes shot5{0%,79%{opacity:0}80%,99%{opacity:1}100%{opacity:0}}
+@keyframes fr1{0%,0%{background:rgb(255 255 255 / .45)}0%,19.9%{background:#FFFFFF}20%,100%{background:rgb(255 255 255 / .45)}}
+@keyframes fr2{0%,19.9%{background:rgb(255 255 255 / .45)}20%,39.9%{background:#FFFFFF}40%,100%{background:rgb(255 255 255 / .45)}}
+@keyframes fr3{0%,39.9%{background:rgb(255 255 255 / .45)}40%,59.9%{background:#FFFFFF}60%,100%{background:rgb(255 255 255 / .45)}}
+@keyframes fr4{0%,59.9%{background:rgb(255 255 255 / .45)}60%,79.9%{background:#FFFFFF}80%,100%{background:rgb(255 255 255 / .45)}}
+@keyframes fr5{0%,79.9%{background:rgb(255 255 255 / .45)}80%,99.9%{background:#FFFFFF}100%,100%{background:rgb(255 255 255 / .45)}}
+
+@keyframes seg{0%{transform:scaleX(0)}100%{transform:scaleX(1)}}
+.frames{position:absolute;left:50%;bottom:8px;z-index:3;transform:translateX(-50%);display:flex;gap:3px;opacity:0;transition:opacity 160ms var(--ease)}
+.frames b{width:12px;height:3px;border-radius:2px;background:rgb(255 255 255 / .45)}
+.frames b:first-child{background:#FFFFFF}
+.badge{position:absolute;left:8px;top:8px;z-index:3;display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px 0 7px;border-radius:999px;font-size:12px;font-weight:800;color:#FFFFFF;background:var(--accent);box-shadow:0 4px 10px -4px rgb(0 0 0 / .45)}
+.badge.ink{background:rgb(21 26 32 / .78);backdrop-filter:blur(6px)}
+.badge.jam{background:var(--make)}
+.plat{position:absolute;right:8px;top:8px;z-index:3;display:flex;align-items:center;gap:6px;height:24px;padding:0 8px;border-radius:999px;background:rgb(21 26 32 / .66);backdrop-filter:blur(6px);color:#FFFFFF;font-size:12px;font-weight:700}
+.plat .ok{color:#7EE2A8}
+.plat.no{background:#FFF4D6;color:#5C3D00}
+.maker{position:absolute;left:8px;bottom:8px;z-index:3;box-shadow:0 0 0 2px #FFFFFF}
+.qplay{position:absolute;right:8px;bottom:8px;z-index:3;width:40px;height:40px;border-radius:999px;background:var(--accent);color:#FFFFFF;display:grid;place-items:center;opacity:0;transform:translateY(6px) scale(.9);transition:opacity 180ms var(--ease),transform 180ms var(--ease);box-shadow:0 6px 16px -6px rgb(0 0 0 / .5)}
+.prog{position:absolute;left:0;right:0;bottom:0;z-index:2;height:4px;background:rgb(21 26 32 / .35)}
+.prog i{display:block;height:100%;background:var(--accent)}
+
+/* ── GameCard ── */
+.gc{position:relative;display:flex;flex-direction:column;gap:3px}
+.gc.m{width:186px}.gc.l{width:264px}
+.gc .art{border-radius:10px;margin-bottom:7px;top:0;transition:top 240ms var(--ease),box-shadow 240ms var(--ease)}
+.gc.l .art{border-radius:12px}
+.gc .t{font-size:15px;font-weight:700;line-height:1.4}
+.gc.l .t{font-size:16px}
+.gc .t a::after{content:"";position:absolute;inset:0;z-index:1}
+.gc .meta{font-size:13px;color:var(--ink-3)}
+.gc .soc{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink-2);margin-top:1px}
+.gc .soc b{color:var(--ink-1);font-weight:700}
+.gc .soc{gap:12px;color:var(--ink-3)}
+.gc .soc .cnt{display:inline-flex;align-items:center;gap:4px}
+.gc .soc .cnt .ic{width:13px;height:13px;color:var(--ink-4)}
+.tag{display:inline-flex;align-items:center;height:20px;padding:0 6px;border-radius:5px;background:var(--sunken);font-size:11.5px;font-weight:700;color:var(--ink-2)}
+.save{position:absolute;right:0;top:0;z-index:2;width:28px;height:28px;display:grid;place-items:center;border:0;background:transparent;color:var(--ink-3);border-radius:8px}
+.gc .row{position:relative;display:flex;align-items:flex-start;gap:6px;padding-right:28px}
+.gc:hover .art,.gc.hov .art{top:-3px;box-shadow:var(--lift)}
+.gc:hover .qplay,.gc.hov .qplay{opacity:1;transform:none}
+.gc:hover .t,.gc.hov .t{color:var(--accent-strong)}
+.gc:hover .frames,.gc.hov .frames{opacity:1}
+.gc:hover .shots i:nth-child(2),.gc.hov .shots i:nth-child(2),.pick:hover .shots i:nth-child(2){animation:shot2 12.5s .3s linear infinite}
+.gc:hover .shots i:nth-child(3),.gc.hov .shots i:nth-child(3),.pick:hover .shots i:nth-child(3){animation:shot3 12.5s .3s linear infinite}
+.gc:hover .shots i:nth-child(4),.gc.hov .shots i:nth-child(4),.pick:hover .shots i:nth-child(4){animation:shot4 12.5s .3s linear infinite}
+.gc:hover .shots i:nth-child(5),.gc.hov .shots i:nth-child(5),.pick:hover .shots i:nth-child(5){animation:shot5 12.5s .3s linear infinite}
+.gc:hover .frames b:nth-child(1),.gc.hov .frames b:nth-child(1){animation:fr1 12.5s .3s linear infinite}
+.gc:hover .frames b:nth-child(2),.gc.hov .frames b:nth-child(2){animation:fr2 12.5s .3s linear infinite}
+.gc:hover .frames b:nth-child(3),.gc.hov .frames b:nth-child(3){animation:fr3 12.5s .3s linear infinite}
+.gc:hover .frames b:nth-child(4),.gc.hov .frames b:nth-child(4){animation:fr4 12.5s .3s linear infinite}
+.gc:hover .frames b:nth-child(5),.gc.hov .frames b:nth-child(5){animation:fr5 12.5s .3s linear infinite}
+.gc:hover .frames b,.gc.hov .frames b{overflow:hidden}
+.gc.focus .art{outline:2px solid var(--accent);outline-offset:3px}
+.gc.focus .t{text-decoration:underline;text-underline-offset:3px}
+.fallback{display:flex;flex-direction:column;justify-content:flex-end;padding:12px 12px 42px;color:#FFFFFF;font-weight:800;font-size:17px;line-height:1.25}
+.fallback .ear{position:absolute;right:12px;top:12px;width:22px;height:12px}
+.skel{background:linear-gradient(90deg,var(--sunken) 0 40%,#F8F9FA 50%,var(--sunken) 60% 100%) 0 0/300% 100%;animation:sk 1.4s linear infinite}
+@keyframes sk{to{background-position:-150% 0}}
+.skl{height:12px;border-radius:6px}
+.jamrib{display:flex;align-items:center;gap:6px;font-size:12.5px;font-weight:700;color:var(--make-strong)}
+.team{display:flex}
+.team .jf{box-shadow:0 0 0 2px #FFFFFF;margin-right:-5px}
+
+/* ── PickCard ── */
+.pick{position:relative;width:268px;border-radius:16px;overflow:hidden;color:#FFFFFF;display:flex;flex-direction:column;top:0;transition:top 240ms var(--ease),box-shadow 240ms var(--ease)}
+.pick .art{margin:10px 10px 0;border-radius:10px}
+.pick .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:6px}
+.pick .t{font-size:18px;font-weight:800;line-height:1.35}
+.pick .t a::after{content:"";position:absolute;inset:0;z-index:1}
+.pick .who{display:flex;align-items:center;gap:6px;font-size:13px;color:rgb(255 255 255 / .8)}
+.pick .say{display:flex;gap:8px;align-items:flex-start;margin-top:6px;padding-top:12px;border-top:1px solid rgb(255 255 255 / .16)}
+.pick .say p{margin:0;font-size:13.5px;line-height:1.55;color:rgb(255 255 255 / .92)}
+.pick:hover{transform:translateY(-3px);box-shadow:var(--lift)}
+
+/* ── RankRow ── */
+.rr{position:relative;display:grid;grid-template-columns:34px 96px minmax(0,1fr) auto;align-items:center;gap:14px;width:420px;padding:8px 12px 8px 8px;border-radius:14px;transition:background 160ms var(--ease),box-shadow 160ms var(--ease)}
+.rr:hover{background:#FFFFFF;box-shadow:var(--lift)}
+.rr .n{font-size:26px;text-align:center;color:var(--ink-2)}
+.rr.top .n{color:var(--accent)}
+.rr .art{width:96px;border-radius:9px}
+.rr b{display:block;font-size:15px}
+.rr b a::after{content:"";position:absolute;inset:0}
+.rr .by{display:flex;align-items:center;gap:6px;margin-top:3px;font-size:13px;color:var(--ink-3)}
+.rr .k{text-align:right;font-size:12px;font-weight:800;line-height:1.4}
+.rr .k span{display:block;font-weight:600;color:var(--ink-3)}
+
+/* ── ContinueCard ── */
+.cc{position:relative;width:300px;display:flex;flex-direction:column;gap:8px}
+.cc .art{border-radius:12px}
+.cc .bar{height:5px;border-radius:999px;background:var(--sunken-2);overflow:hidden}
+.cc .bar i{display:block;height:100%;background:var(--accent);border-radius:999px}
+.cc .row{display:flex;align-items:center;gap:10px}
+.cc .go{margin-left:auto;display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 14px;border:0;border-radius:999px;background:var(--accent);color:#FFFFFF;font-size:14px;font-weight:800;position:relative;z-index:2}
+.cc .go.done{background:var(--sunken);color:var(--ink-1)}
+
+/* ── MiniRow (search) ── */
+.dd{width:440px;padding:8px;border-radius:16px;background:#FFFFFF;box-shadow:0 20px 48px -16px rgb(21 26 32 / .3),0 0 0 1px var(--line)}
+.dd .q{display:flex;align-items:center;gap:8px;height:44px;padding:0 14px;border-radius:12px;background:var(--sunken);font-size:15px;margin-bottom:6px}
+.dd .gh{font-size:12px;font-weight:800;color:var(--ink-3);padding:8px 10px 4px}
+.mr{display:grid;grid-template-columns:64px minmax(0,1fr) auto;align-items:center;gap:12px;height:52px;padding:0 10px;border-radius:10px}
+.mr .art{width:64px;border-radius:6px}
+.mr.on{background:var(--accent-tint)}
+.mr b{font-size:14px;font-weight:700}
+.mr mark{background:none;color:var(--accent-strong)}
+
+/* ── LibraryRow ── */
+.lr{position:relative;display:grid;grid-template-columns:128px minmax(0,1fr) 220px 150px;align-items:center;gap:20px;width:1000px;padding:12px;border-radius:14px;transition:background 160ms var(--ease)}
+.lr:hover{background:var(--sunken)}
+.lr .art{width:128px;border-radius:9px}
+.lr b{font-size:16px}
+.lr .st{display:flex;flex-direction:column;gap:4px;font-size:13px;color:var(--ink-2)}
+.lr .act{display:flex;justify-content:flex-end}
+.pill{display:inline-flex;align-items:center;gap:5px;height:24px;padding:0 9px;border-radius:999px;font-size:12px;font-weight:800}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:40px;padding:0 18px;border:0;border-radius:10px;font-size:14px;font-weight:800;position:relative;z-index:2}
+
+/* ── RoomCard ── */
+.room{position:relative;width:300px;border-radius:16px;background:#FFFFFF;box-shadow:0 0 0 1px var(--line);overflow:hidden}
+.room .art{aspect-ratio:16/6}
+.room .body{padding:14px 16px 16px;display:flex;flex-direction:column;gap:10px}
+.room .live{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;color:var(--up)}
+.room .live::before{content:"";width:7px;height:7px;border-radius:999px;background:var(--up)}
+.slots{display:flex;gap:5px}
+.slots .empty{width:30px;height:30px;border-radius:8px;border:1.5px dashed var(--ink-4)}
+
+/* anatomy */
+.anat{display:grid;grid-template-columns:360px minmax(0,1fr);gap:56px;align-items:center;padding:32px;border-radius:20px;background:var(--sunken)}
+.pin{position:absolute;z-index:6;width:22px;height:22px;border-radius:999px;background:var(--ink-1);color:#FFFFFF;font-size:12px;font-weight:800;display:grid;place-items:center;box-shadow:0 0 0 3px #FFFFFF}
+.legend{display:grid;grid-template-columns:1fr 1fr;gap:12px 32px;list-style:none;margin:0;padding:0}
+.legend li{display:grid;grid-template-columns:22px 1fr;gap:10px;font-size:14px;line-height:1.5}
+.legend li > span{width:22px;height:22px;border-radius:999px;background:var(--ink-1);color:#FFFFFF;font-size:12px;font-weight:800;display:grid;place-items:center}
+.rules{margin:20px 0 0;padding:0;list-style:none;display:flex;flex-direction:column;gap:6px;font-size:14px;color:var(--ink-2)}
+
+/* art placeholders */
+.a-loop{background:radial-gradient(circle at 70% 50%,transparent 0 17%,#7CE0B8 17.5% 19%,transparent 19.5%),repeating-linear-gradient(90deg,#FFFFFF10 0 1px,transparent 1px 22px),repeating-linear-gradient(0deg,#FFFFFF10 0 1px,transparent 1px 22px),#173250}
+.a-ash{background:radial-gradient(circle at 20% 30%,#FF8A3D 0 1%,transparent 1.5%),radial-gradient(circle at 45% 18%,#FFB36B 0 .8%,transparent 1.3%),radial-gradient(circle at 75% 26%,#FF8A3D 0 1.2%,transparent 1.7%),linear-gradient(0deg,#2A2523 0 34%,transparent 34%),linear-gradient(90deg,transparent 0 10%,#3B3431 10% 18%,transparent 18% 30%,#3B3431 30% 36%,transparent 36% 52%,#3B3431 52% 64%,transparent 64% 80%,#3B3431 80% 86%,transparent 86%) 0 100%/100% 62% no-repeat,linear-gradient(#6B4A3A,#C46A3A)}
+.a-tess{background:conic-gradient(from 210deg at 60% 60%,#E9F2FF 0 25%,#9CC3F5 25% 50%,#3C78D8 50% 75%,#1A3F8A 75%)}
+.a-refac{background:linear-gradient(#F2C14E 0 0) 20% 78%/24% 14% no-repeat,linear-gradient(#E4572E 0 0) 46% 64%/28% 14% no-repeat,linear-gradient(#17BEBB 0 0) 30% 50%/22% 14% no-repeat,linear-gradient(#FFFFFF 0 0) 58% 36%/18% 14% no-repeat,#1E2A33}
+.a-tilt{background:radial-gradient(circle at 58% 40%,#FFFFFF 0 5%,transparent 5.5%),linear-gradient(-12deg,transparent 0 52%,#C9B79C 52% 58%,transparent 58%),#EDE6DA}
+.a-bazaar{background:repeating-linear-gradient(90deg,#D94F30 0 10%,#F6EAD4 10% 20%) 0 0/100% 30% no-repeat,linear-gradient(0deg,#4A3B2C 0 40%,transparent 40%),#F6EAD4}
+.a-paper{background:linear-gradient(150deg,transparent 46%,#FFFFFF 46% 50%,transparent 50%) 30% 40%/34% 34% no-repeat,linear-gradient(30deg,transparent 46%,#FFE07A 46% 50%,transparent 50%) 70% 60%/30% 30% no-repeat,#167A78}
+.a-grid{background:linear-gradient(#FFFFFF 0 0) 35% 35%/14% 24% no-repeat,linear-gradient(#FFCF33 0 0) 52% 35%/14% 24% no-repeat,linear-gradient(#FFFFFF 0 0) 52% 65%/14% 24% no-repeat,repeating-linear-gradient(90deg,#FFFFFF14 0 2px,transparent 2px 14.28%),#2D3142}
+.a-demon{background:radial-gradient(circle at 62% 44%,#E8434F 0 6%,transparent 6.5%),radial-gradient(ellipse 40% 20% at 50% 100%,#2E5E3A 0 100%,transparent 100%),linear-gradient(#B9D7A8,#7FAF6C)}
+.a-halcyon{background:radial-gradient(circle at 30% 70%,#FFFFFF55 0 2%,transparent 2.5%),radial-gradient(circle at 38% 58%,#FFFFFF44 0 1.4%,transparent 1.9%),linear-gradient(#0E5A8A,#06243D)}
+.a-null{background:linear-gradient(45deg,transparent 46%,#7CFF6B 46% 54%,transparent 54%) 50% 50%/18% 18% no-repeat,repeating-linear-gradient(0deg,#FFFFFF08 0 2px,transparent 2px 6px),#0B0D10}
+.a-solvent{background:radial-gradient(ellipse 14% 20% at 50% 54%,#5FD0E8 0 100%,transparent 100%),linear-gradient(0deg,#5FD0E8 0 18%,transparent 18%),#E7F4F6}
+
+:root,[data-ground="play"]{--accent-deep:#0D2B4D}
+[data-ground="make"]{--accent-deep:#4A1A0C}
+.art{overflow:visible}
+.art .shots{overflow:hidden;border-radius:inherit}
+.prog{border-radius:0 0 10px 10px;overflow:hidden}
+.gc:hover,.gc:focus-within,.pick:hover,.pick:focus-within{z-index:6}
+.plat{cursor:help;outline-offset:2px}
+.plat:hover,.plat:focus-visible{z-index:8}
+.tip{position:absolute;right:-6px;top:calc(100% + 9px);z-index:30;display:flex;flex-direction:column;gap:7px;padding:10px 12px 10px 11px;border-radius:10px;background:#151A20;color:#FFFFFF;font-size:12.5px;font-weight:600;line-height:1.3;letter-spacing:-.005em;box-shadow:0 12px 28px -10px rgb(0 0 0 / .5);opacity:0;visibility:hidden;transform:translateY(-4px);transition:opacity 120ms var(--ease),transform 120ms var(--ease),visibility 0s linear 120ms;pointer-events:none;white-space:nowrap}
+.tip::before{content:"";position:absolute;right:16px;top:-5px;width:10px;height:10px;border-radius:2px;background:#151A20;transform:rotate(45deg)}
+.tip > span{display:flex;align-items:center;gap:7px}
+.tip .ic{width:13px;height:13px;color:rgb(255 255 255 / .75)}
+.tip .ok .ic,.tip .ok{color:#7EE2A8}
+.plat:hover .tip,.plat:focus-visible .tip{opacity:1;visibility:visible;transform:none;transition:opacity 140ms var(--ease) 120ms,transform 140ms var(--ease) 120ms,visibility 0s linear 120ms}
+.pick .why{margin:auto 0 0;padding-top:12px;border-top:1px solid rgb(255 255 255 / .14);font-size:13.5px;line-height:1.55;color:rgb(255 255 255 / .86)}
+
+/* v10 · PICK 카드: 배경 없이 그림과 글자로 */
+.pick{flex:0 0 296px;background:none;color:var(--ink-1);border-radius:0;overflow:visible}
+.pick .art{margin:0;border-radius:14px;top:0;transition:top 240ms var(--ease),box-shadow 240ms var(--ease)}
+.pick .body{padding:12px 2px 0;gap:5px}
+.pick .t{font-size:18px;font-weight:800;line-height:1.35}
+.pick .who{color:var(--ink-3)}
+.pick .why{margin:4px 0 0;padding:0;border:0;font-size:14px;line-height:1.5;color:var(--ink-2);display:flex;align-items:baseline;gap:8px}
+.pick .why::before{content:"";flex:none;width:6px;height:6px;border-radius:2px;background:var(--accent);transform:translateY(-1px)}
+.pick:hover{transform:none;box-shadow:none}
+.pick:hover .art{top:-3px;box-shadow:var(--lift)}
+.pick:hover .t{color:var(--accent-strong)}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+
+/* 2차 피드백(2026-11-27): 툴팁 · 호버 5장 2.5초 · 다운로드 버튼 · 추천 수 */
+/* 3차 피드백(2026-11-27) */
+:root{--line-strong:#D3D6DA}
+[data-theme="dark"]{--line-strong:#3B4046}
+.chip{background:var(--bg);box-shadow:inset 0 0 0 1px var(--line-strong)}
+.chip:hover{background:var(--sunken)}
+.chip[aria-pressed="true"]{box-shadow:none}
+.arw{background:var(--bg);box-shadow:inset 0 0 0 1px var(--line-strong)}
+.arw:hover{background:var(--sunken)}
+.save:hover{color:var(--accent-strong)}
+/* 자모 얼굴 = 고양이 얼굴 실루엣 */
+.jf{background:none!important;border-radius:0!important;box-shadow:none!important;isolation:isolate;box-sizing:border-box;padding-top:.5em;overflow:visible}
+.jf:not(.maker):not([class*="maker"]){position:relative}
+.jf::before{content:"";position:absolute;inset:-14% -12% -4%;z-index:-1;background:var(--f,#3870B1);-webkit-mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M8 44 Q8 24 11 8 Q12 2 17 5 L36 20 Q50 16 64 20 L83 5 Q88 2 89 8 Q92 24 92 44 Q99 56 97 69 Q93 97 50 97 Q7 97 3 69 Q1 56 8 44 Z'/%3E%3C/svg%3E") center/100% 100% no-repeat;mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M8 44 Q8 24 11 8 Q12 2 17 5 L36 20 Q50 16 64 20 L83 5 Q88 2 89 8 Q92 24 92 44 Q99 56 97 69 Q93 97 50 97 Q7 97 3 69 Q1 56 8 44 Z'/%3E%3C/svg%3E") center/100% 100% no-repeat}
+.jf.maker::after,.facerow .jf::after,.band-login .jf::after,.mk-hero .jf::after,.onb .left > .jf::after,.jf.ring::after{content:"";position:absolute;inset:-22% -19% -11%;z-index:-2;background:#FFFFFF;-webkit-mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M8 44 Q8 24 11 8 Q12 2 17 5 L36 20 Q50 16 64 20 L83 5 Q88 2 89 8 Q92 24 92 44 Q99 56 97 69 Q93 97 50 97 Q7 97 3 69 Q1 56 8 44 Z'/%3E%3C/svg%3E") center/100% 100% no-repeat;mask:url("data:image/svg+xml;utf8,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Cpath d='M8 44 Q8 24 11 8 Q12 2 17 5 L36 20 Q50 16 64 20 L83 5 Q88 2 89 8 Q92 24 92 44 Q99 56 97 69 Q93 97 50 97 Q7 97 3 69 Q1 56 8 44 Z'/%3E%3C/svg%3E") center/100% 100% no-repeat}
+.jfg{display:inline-flex;align-items:center;font-size:.8em;letter-spacing:-.1em;line-height:1;white-space:nowrap}
+.jf i{top:.02em}
+/* /자모 얼굴 */
+</style>
+</helmet>
+
+<div class="page">
+<svg width="0" height="0" style="position:absolute" aria-hidden="true">
+<symbol id="i-web" viewBox="0 0 16 16"><rect x="1.5" y="2.5" width="13" height="11" rx="2"></rect><path d="M1.5 5.5h13"></path><path d="M6.5 8v3.4l3-1.7z"></path></symbol>
+<symbol id="i-dl" viewBox="0 0 16 16"><path d="M8 2v8M4.8 7 8 10.2 11.2 7"></path><path d="M2.5 11v2.5h11V11"></path></symbol>
+<symbol id="i-pc" viewBox="0 0 16 16"><rect x="1.5" y="2.5" width="13" height="8.5" rx="1.5"></rect><path d="M5.5 14h5M8 11v3"></path></symbol>
+<symbol id="i-phone" viewBox="0 0 16 16"><rect x="4.5" y="1.5" width="7" height="13" rx="1.8"></rect><path d="M7 12.2h2"></path></symbol>
+<symbol id="i-duo" viewBox="0 0 16 16"><circle cx="5.5" cy="5.5" r="2.2"></circle><circle cx="11" cy="6.2" r="1.8"></circle><path d="M1.8 13c.4-2.3 1.9-3.6 3.7-3.6s3.3 1.3 3.7 3.6M10 9.6c1.9 0 3.2 1.1 3.6 3"></path></symbol>
+<symbol id="i-shield" viewBox="0 0 16 16"><path d="M8 1.8 13 3.6v4c0 3-2.1 5.3-5 6.6-2.9-1.3-5-3.6-5-6.6v-4z"></path><path d="M5.8 8 7.4 9.6 10.4 6.6"></path></symbol>
+<symbol id="i-play" viewBox="0 0 16 16"><path d="M5 3.2v9.6L12.6 8z" fill="currentColor"></path></symbol>
+<symbol id="i-crown" viewBox="0 0 16 16"><path d="M2.2 5.2 5 8l3-4.6L11 8l2.8-2.8-1 7H3.2z" fill="currentColor"></path></symbol>
+<symbol id="i-spark" viewBox="0 0 16 16"><path d="M8 1.5c.5 3.2 1.3 4 4.5 4.5-3.2.5-4 1.3-4.5 4.5-.5-3.2-1.3-4-4.5-4.5 3.2-.5 4-1.3 4.5-4.5z" fill="currentColor"></path></symbol>
+<symbol id="i-gem" viewBox="0 0 16 16"><path d="M4 2.5h8l2.5 3.5L8 14 1.5 6z" fill="currentColor"></path></symbol>
+<symbol id="i-up" viewBox="0 0 16 16"><path d="M8 13V3M4 7l4-4 4 4"></path></symbol>
+<symbol id="i-thumb" viewBox="0 0 16 16"><path d="M5 7.2v6.3H2.6V7.2z"></path><path d="M5 7.2 7.7 2.6c.9 0 1.6.8 1.4 1.7l-.4 2.5h3.6c1 0 1.7.9 1.5 1.8l-.9 4c-.2.6-.7.9-1.3.9H5"></path></symbol>
+<symbol id="i-bm" viewBox="0 0 16 16"><path d="M8 1.9l1.85 3.8 4.15.6-3 2.95.7 4.15L8 11.45 4.3 13.4l.7-4.15-3-2.95 4.15-.6z"></path></symbol>
+<symbol id="i-bmf" viewBox="0 0 16 16"><path d="M8 1.9l1.85 3.8 4.15.6-3 2.95.7 4.15L8 11.45 4.3 13.4l.7-4.15-3-2.95 4.15-.6z" fill="currentColor"></path></symbol>
+<symbol id="i-check" viewBox="0 0 16 16"><path d="M3 8.5 6.5 12 13 4.5"></path></symbol>
+<symbol id="i-search" viewBox="0 0 16 16"><circle cx="7" cy="7" r="5"></circle><path d="M11 11l3.2 3.2"></path></symbol>
+<symbol id="i-trophy" viewBox="0 0 16 16"><path d="M5 2.5h6v3.5a3 3 0 0 1-6 0zM5 3.5H2.5v1A2.5 2.5 0 0 0 5 7M11 3.5h2.5v1A2.5 2.5 0 0 1 11 7M8 9v3M5.5 13.5h5"></path></symbol>
+</svg>
+
+<header>
+<h1 style="margin:0;font-size:32px;font-weight:800;letter-spacing:-.02em">게임 카드 컴포넌트</h1>
+<p style="margin:8px 0 0;font-size:16px;color:var(--ink-2);max-width:900px;line-height:1.65">Steam · itch.io · Poki · CrazyGames · Roblox · Epic · GOG · Playdate · Netflix 등에서 모은 아이디어 98개를 바탕으로, 상황별 카드 7종으로 정리했습니다. 카드에 마우스를 올려 보세요 — 0.4초 뒤 스크린샷이 순환하고 빠른 플레이가 나타납니다. 오른쪽 위 실행 칩에 올리면 설명 툴팁이 뜹니다. 근거: docs/design/03-game-cards.md</p>
+</header>
+
+<!-- 해부도 -->
+<section class="blk">
+<h2>모든 카드의 공통 구조</h2>
+<p class="use">아트 위 자리는 모든 카드에서 같습니다. 메이커는 아트에 글자를 넣지 않고, 배지는 플랫폼이 정해진 자리에 그립니다.</p>
+<div class="anat">
+<div style="position:relative">
+<div class="gc l hov" style="width:100%">
+<span class="art"><span class="shots"><i class="a-ash"></i><i class="a-ash s2"></i><i class="a-ash s3"></i><i class="a-ash s4"></i><i class="a-ash s5"></i></span><span class="badge"><svg class="ic" aria-hidden="true"><use href="#i-spark"></use></svg>신작</span><span class="plat" aria-label="바로 플레이, 휴대폰 가능" tabindex="0"><svg class="ic" aria-hidden="true"><use href="#i-web"></use></svg><svg class="ic" aria-hidden="true"><use href="#i-phone"></use></svg><span class="tip" role="tooltip"><span><svg class="ic" aria-hidden="true"><use href="#i-web"></use></svg>브라우저에서 바로 플레이</span><span><svg class="ic" aria-hidden="true"><use href="#i-phone"></use></svg>휴대폰에서도 가능</span></span></span><span class="jf j26 maker" style="--f:#C46A3A"><b class="jfg">ㅈ<i>ㅅ</i>ㅈ</b></span><span class="qplay" aria-hidden="true"><svg class="ic" style="width:16px;height:16px"><use href="#i-play"></use></svg></span><span class="frames" aria-hidden="true"><b style="background:#FFFFFF"></b><b></b><b></b></span><span class="prog"><i style="width:40%"></i></span></span>
+<div class="row"><span class="t clip"><a href="#">애쉬폴 러너</a></span><button type="button" class="save" aria-label="즐겨찾기"><svg class="ic" style="width:16px;height:16px" aria-hidden="true"><use href="#i-bm"></use></svg></button></div>
+<span class="meta">잿빛토끼 · 스피드런 · 한 판 6분</span>
+<span class="soc"><span class="cnt"><svg class="ic" aria-hidden="true"><use href="#i-thumb"></use></svg>추천 <b>1,467</b></span><span class="cnt"><svg class="ic" aria-hidden="true"><use href="#i-cmt"></use></svg>리뷰 <b>214</b></span></span>
+</div>
+<span class="pin" style="left:-8px;top:-8px">1</span><span class="pin" style="right:-8px;top:-8px">2</span><span class="pin" style="left:-8px;top:150px">3</span><span class="pin" style="right:-8px;top:150px">4</span><span class="pin" style="left:-34px;top:172px">5</span><span class="pin" style="left:-34px;top:205px">6</span><span class="pin" style="right:-8px;top:205px">7</span><span class="pin" style="left:-34px;top:232px">8</span><span class="pin" style="left:-34px;top:256px">9</span>
+</div>
+<div>
+<ul class="legend">
+<li><span>1</span><div><b>상태 배지 한 개</b><br><span class="m">큐레이션 문맥 · 신작(14일) · 업데이트(7일) · 잼</span></div></li>
+<li><span>2</span><div><b>실행 칩</b><br><span class="m">바로 플레이 · 설치형 · 휴대폰 · 같이 · 검사 통과 방패 — 최대 3개. 호버·포커스 시 aDmD 툴팁으로 설명</span></div></li>
+<li><span>3</span><div><b>메이커 얼굴</b><br><span class="m">게임 옆에는 항상 사람이 있다</span></div></li>
+<li><span>4</span><div><b>빠른 플레이</b><br><span class="m">호버 시에만, 브라우저 게임만. 설치형엔 없음</span></div></li>
+<li><span>5</span><div><b>진행 막대 · 스크린샷 순환 표시</b><br><span class="m">내가 한 게임만 진행 막대. 호버 중엔 순환 표시</span></div></li>
+<li><span>6</span><div><b>제목 = 카드 전체 링크</b><br><span class="m">한 줄, 넘치면 말줄임</span></div></li>
+<li><span>7</span><div><b>저장</b><br><span class="m">카드 링크 위에 얹은 별도 버튼</span></div></li>
+<li><span>8</span><div><b>메이커 · 장르 · 한 판 시간</b><br><span class="m">장르는 하나만, 태그 나열 금지</span></div></li>
+<li><span>9</span><div><b>사회적 증거 한 줄 (선택)</b><br><span class="m">추천 수 · 리뷰 수(아이콘 + 글자, 싫어요 없음) · 또는 친구 n명이 플레이(공개 설정 시)</span></div></li>
+</ul>
+<ul class="rules">
+<li>· 아트 비율은 16:9 하나. 모든 카드가 업로드 필수 커버를 잘라 쓴다</li>
+<li>· 카드 크기는 호버 중에도 고정 — 옆 카드를 밀지 않는다</li>
+<li>· 플레이 수 같은 허영 지표는 카드에 쓰지 않는다</li>
+</ul>
+</div>
+</div>
+</section>
+
+<!-- GameCard -->
+<section class="blk">
+<h2>1. GameCard <span class="m" style="font-weight:600">— 기본 카드</span></h2>
+<p class="use"><b>쓰는 곳</b> 전체 게임 · 시간별 · 검색 결과 · 태그 · 메이커의 게임 · 비슷한 게임 · 플레이 종료 추천. 크기 M(6열, 186px) · L(레일, 264px)</p>
+<div class="cap-row">
+<div><div class="gc m"><span class="art"><span class="shots"><i class="a-loop"></i><i class="a-loop s2"></i><i class="a-loop s3"></i><i class="a-loop s4"></i><i class="a-loop s5"></i></span><span class="plat" aria-label="바로 플레이" tabindex="0"><svg class="ic" aria-hidden="true"><use href="#i-web"></use></svg><span class="tip" role="tooltip"><span><svg class="ic" aria-hidden="true"><use href="#i-web"></use></svg>브라우저에서 바로 플레이</span></span></span><span class="jf j26 maker" style="--f:#173250"><b class="jfg">ㅍ<i>ㅅ</i>ㅍ</b></span><span class="qplay" aria-hidden="true"><svg class="ic" style="width:16px;height:16px"><use href="#i-play"></use></svg></span><span class="frames" aria-hidden="true"><b></b><b></b><b></b><b></b><b></b></span></span><div class="row"><span class="t clip"><a href="#">루프 컴파일러</a></span><button type="button" class="save" aria-label="즐겨찾기"><svg class="ic" style="width:16px;height:16px" aria-hidden="true"><use href="#i-bm"></use></svg></button></div><span class="meta">픽셀상점 · 퍼즐 · 15분</span><span class="soc"><span class="cnt"><svg class="ic" aria-hidden="true"><use href="#i-thumb"></use></svg>추천 <b>249</b></span><span class="cnt"><svg class="ic" aria-hidden="true"><use href="#i-cmt"></use></svg>리뷰 <b>38</b></span></span></div><div class="lbl">기본 — 호버해 보세요</div></div>
+<div><div class="gc m hov"><span class="art"><span class="shots"><i class="a-paper"></i><i class="a-paper s2"></i><i class="a-paper s3"></i><i class="a-paper s4"></i><i class="a-paper s5"></i></span><span class="plat" aria-label="바로 플레이, 같이" tabindex="0"><svg class="ic" aria-hidden="true"><use href="#i-web"></use></svg><svg class="ic" aria-hidden="true"><use href="#i-duo"></use></svg><span class="tip" role="tooltip"><span><svg class="ic" aria-hidden="true"><use href="#i-web"></use></svg>브라우저에서 바로 플레이</span><span><svg class="ic" aria-hidden="true"><use href="#i-duo"></use></svg>여럿이 같이 (2~4인)</span></span></span><span class="jf j26 maker" style="--f:#167A78"><b class="jfg">ㅂ<i>ㅅ</i>ㅂ</b></span><span class="qplay" aria-hidden="true"><svg class="ic" style="width:16px;height:16px"><use href="#i-play"></use></svg></span><span class="frames" aria-hidden="true"><b style="background:#FFFFFF"></b><b></b><b></b></span></span><div class="row"><span class="t clip"><a href="#">페이퍼 벡터</a></span><button type="button" class="save" aria-label="즐겨찾기"><svg class="ic" style="width:16px;height:16px" aria-hidden="true"><use href="#i-bm"></use></svg></button></div><span class="meta">벡터공방 · 대전 · 5분</span><span class="soc"><span class="jf j18" style="--f:#151A20"><b class="jfg">ㅈ<i>ㅅ</i>ㅈ</b></span><span class="jf j18" style="--f:#5B6B7A;margin-left:-8px;box-shadow:0 0 0 2px #FFF"><b class="jfg">ㅎ<i>ㅅ</i>ㅎ</b></span>친구 2명이 플레이</span></div><div class="lbl">호버 상태 고정 · 친구가 플레이</div></div>
+<div><div class="gc m"><span class="art"><span class="shots"><i class="a-refac"></i><i class="a-refac s2"></i><i class="a-refac s3"></i><i class="a-refac s4"></i><i class="a-refac s5"></i></span><span class="badge"><svg class="ic" aria-hidden="true"><use href="#i-spark"></use></svg>신작</span><span class="plat" aria-label="바로 플레이, 휴대폰 가능" tabindex="0"><svg class="ic" aria-hidden="true"><use href="#i-web"></use></svg><svg class="ic" aria-hidden="true"><use href="#i-phone"></use></svg><span class="tip" role="tooltip"><span><svg class="ic" aria-hidden="true"><use href="#i-web"></use></svg>브라우저에서 바로 플레이</span><span><svg class="ic" aria-hidden="true"><use href="#i-phone"></use></svg>휴대폰에서도 가능</span></span></span><span class="jf j26 maker" style="--f:#1E2A33"><b class="jfg">ㄹ<i>ㅅ</i>ㄹ</b></span><span class="qplay" aria-hidden="true"><svg class="ic" style="width:16px;height:16px"><use href="#i-play"></use></svg></span><span class="frames" aria-hidden="true"><b></b><b></b><b></b><b></b><b></b></span></span><div class="row"><span class="t clip"><a href="#">리팩터 러시</a></span><button type="button" class="save" aria-label="즐겨찾기"><svg class="ic" style="width:16px;height:16px" aria-hidden="true"><use href="#i-bm"></use></svg></button></div><span class="meta">리팩터클럽 · 아케이드 · 3분</span><span class="soc"><span class="cnt"><svg class="ic" aria-hidden="true"><use href="#i-thumb"></use></svg>추천 <b>18</b></span><span class="cnt"><svg class="ic" aria-hidden="true"><use href="#i-cmt"></use></svg>리뷰 <b>3</b></span></span></div><div class="lbl">신작 · 숫자가 작아도 그대로 표시</div></div>
+<div><div class="gc m"><span class="art"><span class="shots"><i class="a-grid"></i><i class="a-grid s2"></i><i class="a-grid s3"></i><i class="a-grid s4"></i><i class="a-grid s5"></i></span><span class="badge ink"><svg class="ic" aria-hidden="true"><use href="#i-up"></use></svg>업데이트</span><span class="plat" aria-label="바로 플레이" tabindex="0"><svg class="ic" aria-hidden="true"><use href="#i-web"></use></svg><span class="tip" role="tooltip"><span><svg class="ic" aria-hidden="true"><use href="#i-web"></use></svg>브라우저에서 바로 플레이</span></span></span><span class="jf j26 maker" style="--f:#2D3142"><b class="jfg">ㅅ<i>ㅅ</i>ㅅ</b></span><span class="prog"><i style="width:88%"></i></span><span class="frames" aria-hidden="true"><b></b><b></b><b></b><b></b><b></b></span></span><div class="row"><span class="t clip"><a href="#">그리드락</a></span><button type="button" class="save" aria-label="즐겨찾기 해제" style="color:var(--accent)"><svg class="ic" style="width:16px;height:16px" aria-hidden="true"><use href="#i-bmf"></use></svg></button></div><span class="meta">세모난고양이 · 퍼즐 · 10분</span><span class="soc"><span class="tag">진행 88%</span><span class="cnt"><svg class="ic" aria-hidden="true"><use href="#i-thumb"></use></svg>추천 <b>612</b></span><span class="cnt"><svg class="ic" aria-hidden="true"><use href="#i-cmt"></use></svg>리뷰 <b>90</b></span></span></div><div class="lbl">업데이트 · 저장함 · 진행 중</div></div>
+<div><div class="gc m"><span class="art"><span class="shots"><i class="a-null"></i><i class="a-null s2"></i><i class="a-null s3"></i><i class="a-null s4"></i><i class="a-null s5"></i></span><span class="plat" aria-label="설치형 PC, 보안 검사 통과" tabindex="0"><svg class="ic" aria-hidden="true"><use href="#i-dl"></use></svg><svg class="ic" aria-hidden="true"><use href="#i-pc"></use></svg><svg class="ic ok" aria-hidden="true"><use href="#i-shield"></use></svg><span class="tip" role="tooltip"><span><svg class="ic" aria-hidden="true"><use href="#i-dl"></use></svg>설치형 · 다운로드</span><span><svg class="ic" aria-hidden="true"><use href="#i-pc"></use></svg>PC (Windows)</span><span class="ok"><svg class="ic" aria-hidden="true"><use href="#i-shield"></use></svg>보안 검사 통과</span></span></span><span class="jf j26 maker" style="--f:#2B6B24"><b class="jfg">ㄹ<i>ㅅ</i>ㄹ</b></span><span class="qplay" aria-hidden="true"><svg class="ic" style="width:16px;height:16px"><use href="#i-dl"></use></svg></span><span class="frames" aria-hidden="true"><b></b><b></b><b></b><b></b><b></b></span></span><div class="row"><span class="t clip"><a href="#">널 포인터</a></span><button type="button" class="save" aria-label="즐겨찾기"><svg class="ic" style="width:16px;height:16px" aria-hidden="true"><use href="#i-bm"></use></svg></button></div><span class="meta">라온게임즈 · 로그라이크 · 저녁</span><span class="soc"><span class="cnt"><svg class="ic" aria-hidden="true"><use href="#i-thumb"></use></svg>추천 <b>96</b></span><span class="cnt"><svg class="ic" aria-hidden="true"><use href="#i-cmt"></use></svg>리뷰 <b>11</b></span></span></div><div class="lbl">설치형 · 호버하면 다운로드 버튼</div></div>
+<div><div class="gc m"><span class="art"><span class="shots"><i class="a-tess"></i><i class="a-tess s2"></i><i class="a-tess s3"></i><i class="a-tess s4"></i><i class="a-tess s5"></i></span><span class="plat no" aria-label="이 기기에서는 할 수 없음, PC 전용">PC 전용</span><span class="jf j26 maker" style="--f:#3C78D8"><b class="jfg">ㅁ<i>ㅅ</i>ㅁ</b></span><span class="frames" aria-hidden="true"><b></b><b></b><b></b><b></b><b></b></span></span><div class="row"><span class="t clip"><a href="#">테서랙트 드리프트</a></span><button type="button" class="save" aria-label="즐겨찾기"><svg class="ic" style="width:16px;height:16px" aria-hidden="true"><use href="#i-bm"></use></svg></button></div><span class="meta">무중력스튜디오 · 레이싱 · 8분</span><span class="soc" style="color:var(--ink-2)">저장해 두고 PC에서 하기</span></div><div class="lbl">휴대폰에서 볼 때: 이 기기 불가</div></div>
+</div>
+<div class="cap-row" style="margin-top:28px">
+<div><div class="gc m"><span class="art fallback" style="background:#5B3A6E"><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z" fill="rgb(255 255 255 / .5)"></path></svg><span style="position:relative;z-index:1">고요한 등대지기</span><span class="jf j26 maker" style="--f:#2E1E38"><b class="jfg">ㄷ<i>ㅅ</i>ㄷ</b></span></span><div class="row"><span class="t clip"><a href="#">고요한 등대지기</a></span></div><span class="meta">등대공방 · 이야기 · 30분</span></div><div class="lbl">아트 없음 — 대표색 자동 대체</div></div>
+<div><div class="gc m focus"><span class="art"><span class="shots"><i class="a-demon"></i></span><span class="plat" aria-label="바로 플레이" tabindex="0"><svg class="ic" aria-hidden="true"><use href="#i-web"></use></svg><span class="tip" role="tooltip"><span><svg class="ic" aria-hidden="true"><use href="#i-web"></use></svg>브라우저에서 바로 플레이</span></span></span><span class="jf j26 maker" style="--f:#4E8A3E"><b class="jfg">ㅈ<i>ㅅ</i>ㅈ</b></span></span><div class="row"><span class="t two-line" style="white-space:normal"><a href="#">악마에게 물을 주면 생기는 일: 데몬 가든 확장판</a></span></div><span class="meta">정원사K · 이야기 · 저녁</span></div><div class="lbl">키보드 포커스 · 긴 제목(2줄)</div></div>
+<div><div class="gc m"><span class="art skel"></span><span class="skl skel" style="width:80%;margin-top:4px"></span><span class="skl skel" style="width:55%;margin-top:6px"></span></div><div class="lbl">불러오는 중</div></div>
+<div><div class="gc m"><span class="art"><span class="shots"><i class="a-solvent"></i><i class="a-solvent s2"></i><i class="a-solvent s3"></i><i class="a-solvent s4"></i><i class="a-solvent s5"></i></span><span class="badge jam"><svg class="ic" aria-hidden="true"><use href="#i-trophy"></use></svg>겨울 잼 2위</span><span class="plat" aria-label="바로 플레이" tabindex="0"><svg class="ic" aria-hidden="true"><use href="#i-web"></use></svg><span class="tip" role="tooltip"><span><svg class="ic" aria-hidden="true"><use href="#i-web"></use></svg>브라우저에서 바로 플레이</span></span></span><span class="qplay" aria-hidden="true"><svg class="ic" style="width:16px;height:16px"><use href="#i-play"></use></svg></span><span class="frames" aria-hidden="true"><b></b><b></b><b></b><b></b><b></b></span></span><div class="row"><span class="t clip"><a href="#">녹는 시간</a></span></div><span class="jamrib">aDmD 겨울 잼 #2 · 48시간</span><span class="soc"><span class="team"><span class="jf j18" style="--f:#3A8FA3"><b class="jfg">ㅁ<i>ㅅ</i>ㅁ</b></span><span class="jf j18" style="--f:#9A7B4F"><b class="jfg">ㄱ<i>ㅅ</i>ㄱ</b></span><span class="jf j18" style="--f:#6A4C8C"><b class="jfg">ㅅ<i>ㅅ</i>ㅅ</b></span></span><span style="margin-left:6px">3명 팀 · 평가 41개</span></span></div><div class="lbl">잼 모드 (결과 발표 후)</div></div>
+<div><div class="gc m"><span class="art"><span class="shots"><i class="a-bazaar"></i><i class="a-bazaar s2"></i><i class="a-bazaar s3"></i><i class="a-bazaar s4"></i><i class="a-bazaar s5"></i></span><span class="badge jam" style="background:rgb(21 26 32 / .78)">겨울 잼 #3</span><span class="plat" aria-label="바로 플레이" tabindex="0"><svg class="ic" aria-hidden="true"><use href="#i-web"></use></svg><span class="tip" role="tooltip"><span><svg class="ic" aria-hidden="true"><use href="#i-web"></use></svg>브라우저에서 바로 플레이</span></span></span><span class="qplay" aria-hidden="true"><svg class="ic" style="width:16px;height:16px"><use href="#i-play"></use></svg></span></span><div class="row"><span class="t clip"><a href="#">시장 한 바퀴</a></span></div><span class="jamrib" style="color:var(--ink-3)">투표 중 · 무작위 순서로 보여요</span><span class="soc" style="color:var(--ink-3)">아직 평가 4개</span></div><div class="lbl">잼 모드 (투표 중)</div></div>
+</div>
+<div class="cap-row" style="margin-top:28px">
+<div><div class="gc l"><span class="art"><span class="shots"><i class="a-halcyon"></i><i class="a-halcyon s2"></i><i class="a-halcyon s3"></i><i class="a-halcyon s4"></i><i class="a-halcyon s5"></i></span><span class="plat" aria-label="바로 플레이, 설치형도 있음" tabindex="0"><svg class="ic" aria-hidden="true"><use href="#i-web"></use></svg><svg class="ic" aria-hidden="true"><use href="#i-dl"></use></svg><span class="tip" role="tooltip"><span><svg class="ic" aria-hidden="true"><use href="#i-web"></use></svg>브라우저에서 바로 플레이</span><span><svg class="ic" aria-hidden="true"><use href="#i-dl"></use></svg>설치형 · 다운로드</span></span></span><span class="jf j26 maker" style="--f:#0E5A8A"><b class="jfg">ㅅ<i>ㅅ</i>ㅅ</b></span><span class="qplay" aria-hidden="true"><svg class="ic" style="width:16px;height:16px"><use href="#i-play"></use></svg></span><span class="frames" aria-hidden="true"><b></b><b></b><b></b><b></b><b></b></span></span><div class="row"><span class="t clip"><a href="#">할시온 뎁스</a></span><button type="button" class="save" aria-label="즐겨찾기"><svg class="ic" style="width:16px;height:16px" aria-hidden="true"><use href="#i-bm"></use></svg></button></div><span class="meta">심해상회 · 탐험 · 30분</span><span class="soc"><span class="cnt"><svg class="ic" aria-hidden="true"><use href="#i-thumb"></use></svg>추천 <b>902</b></span><span class="cnt"><svg class="ic" aria-hidden="true"><use href="#i-cmt"></use></svg>리뷰 <b>142</b></span></span></div><div class="lbl">L — 레일·비슷한 게임</div></div>
+</div>
+</section>
+
+<!-- PickCard -->
+<section class="blk">
+<h2>2. PickCard <span class="m" style="font-weight:600">— PICK 카드</span></h2>
+<p class="use"><b>쓰는 곳</b> 이번 주 PICK · 컬렉션 · 메이커 대표작 · 신작 공개 슬롯. 배경 없이 <b>큰 그림 + 문맥 배지 + 이유 한 줄</b>로 일반 카드와 구분합니다. 평점·플레이 수 대신 <b>왜 PICK 인지 한 줄</b>.</p>
+<div class="cap-row">
+<div class="pick"><span class="art"><span class="shots"><i class="a-ash"></i><i class="a-ash s2"></i><i class="a-ash s3"></i><i class="a-ash s4"></i><i class="a-ash s5"></i></span><span class="badge"><svg class="ic" aria-hidden="true"><use href="#i-crown"></use></svg>왕좌</span><span class="plat" aria-label="바로 플레이" tabindex="0"><svg class="ic" aria-hidden="true"><use href="#i-web"></use></svg><span class="tip" role="tooltip"><span><svg class="ic" aria-hidden="true"><use href="#i-web"></use></svg>브라우저에서 바로 플레이</span></span></span></span><div class="body"><span class="t"><a href="#">애쉬폴 러너</a></span><span class="who"><span class="jf j18" style="--f:#C46A3A"><b class="jfg">ㅈ<i>ㅅ</i>ㅈ</b></span>잿빛토끼 · 스피드런 6분</span><p class="why">이번 주 플레이 수 · 완주율 모두 1위</p></div></div>
+<div class="pick"><span class="art"><span class="shots"><i class="a-tilt"></i><i class="a-tilt s2"></i><i class="a-tilt s3"></i><i class="a-tilt s4"></i><i class="a-tilt s5"></i></span><span class="badge"><svg class="ic" aria-hidden="true"><use href="#i-gem"></use></svg>숨은 보석</span><span class="plat" aria-label="설치형 PC, 검사 통과" tabindex="0"><svg class="ic" aria-hidden="true"><use href="#i-dl"></use></svg><svg class="ic ok" aria-hidden="true"><use href="#i-shield"></use></svg><span class="tip" role="tooltip"><span><svg class="ic" aria-hidden="true"><use href="#i-dl"></use></svg>설치형 · 다운로드</span><span class="ok"><svg class="ic" aria-hidden="true"><use href="#i-shield"></use></svg>보안 검사 통과</span></span></span></span><div class="body"><span class="t"><a href="#">틸트 이론</a></span><span class="who"><span class="jf j18" style="--f:#9A7B4F"><b class="jfg">ㄱ<i>ㅅ</i>ㄱ</b></span>기울기연구소 · 퍼즐 40분</span><p class="why">플레이 수는 적지만 평가는 전체 1위</p></div></div>
+<div class="pick"><span class="art"><span class="shots"><i class="a-paper"></i><i class="a-paper s2"></i><i class="a-paper s3"></i><i class="a-paper s4"></i><i class="a-paper s5"></i></span><span class="badge"><svg class="ic" aria-hidden="true"><use href="#i-duo"></use></svg>같이</span><span class="plat" aria-label="바로 플레이, 같이" tabindex="0"><svg class="ic" aria-hidden="true"><use href="#i-web"></use></svg><svg class="ic" aria-hidden="true"><use href="#i-duo"></use></svg><span class="tip" role="tooltip"><span><svg class="ic" aria-hidden="true"><use href="#i-web"></use></svg>브라우저에서 바로 플레이</span><span><svg class="ic" aria-hidden="true"><use href="#i-duo"></use></svg>여럿이 같이 (2~4인)</span></span></span></span><div class="body"><span class="t"><a href="#">페이퍼 벡터</a></span><span class="who"><span class="jf j18" style="--f:#167A78"><b class="jfg">ㅂ<i>ㅅ</i>ㅂ</b></span>벡터공방 · 대전 2~4인</span><p class="why">지금 18명 대기 중 · 링크로 바로 초대</p></div></div>
+</div>
+</section>
+
+<!-- RankRow -->
+<section class="blk">
+<h2>3. RankRow <span class="m" style="font-weight:600">— 랭킹 행</span></h2>
+<p class="use"><b>쓰는 곳</b> 주간 랭킹 · 랭킹 페이지 · 잼 결과. 순위는 Gasoek, 등락은 상승 빨강 ▲ · 하락 파랑 ▼. 오른쪽 숫자는 <b>랭킹 기준 지표 하나</b>만.</p>
+<div style="display:grid;grid-template-columns:repeat(2,420px);gap:12px 40px;padding:20px;border-radius:20px;background:var(--accent-tint);width:fit-content">
+<div class="rr top"><span class="n disp">1</span><span class="art a-ash"></span><span style="min-width:0"><b class="clip"><a href="#">애쉬폴 러너</a></b><span class="by"><span class="jf j18" style="--f:#C46A3A"><b class="jfg">ㅈ<i>ㅅ</i>ㅈ</b></span>잿빛토끼</span></span><span class="k" style="color:var(--ink-4)">–<span>3주째</span></span></div>
+<div class="rr"><span class="n disp">4</span><span class="art a-grid"></span><span style="min-width:0"><b class="clip"><a href="#">그리드락</a></b><span class="by"><span class="jf j18" style="--f:#2D3142"><b class="jfg">ㅅ<i>ㅅ</i>ㅅ</b></span>세모난고양이</span></span><span class="k" style="color:var(--up)">▲8<span>급상승</span></span></div>
+<div class="rr top"><span class="n disp">2</span><span class="art a-paper"></span><span style="min-width:0"><b class="clip"><a href="#">페이퍼 벡터</a></b><span class="by"><span class="jf j18" style="--f:#167A78"><b class="jfg">ㅂ<i>ㅅ</i>ㅂ</b></span>벡터공방</span></span><span class="k" style="color:var(--up)">▲1</span></div>
+<div class="rr"><span class="n disp">6</span><span class="art a-tess"></span><span style="min-width:0"><b class="clip"><a href="#">테서랙트 드리프트</a></b><span class="by"><span class="jf j18" style="--f:#3C78D8"><b class="jfg">ㅁ<i>ㅅ</i>ㅁ</b></span>무중력스튜디오</span></span><span class="k" style="color:var(--up)">NEW</span></div>
+<div class="rr top"><span class="n disp">3</span><span class="art a-loop"></span><span style="min-width:0"><b class="clip"><a href="#">루프 컴파일러</a></b><span class="by"><span class="jf j18" style="--f:#173250"><b class="jfg">ㅍ<i>ㅅ</i>ㅍ</b></span>픽셀상점</span></span><span class="k" style="color:var(--down)">▼1</span></div>
+<div class="rr"><span class="n disp" style="color:var(--make)">2</span><span class="art a-solvent"></span><span style="min-width:0"><b class="clip"><a href="#">녹는 시간</a></b><span class="by"><span class="jf j18" style="--f:#3A8FA3"><b class="jfg">ㅁ<i>ㅅ</i>ㅁ</b></span>3명 팀 · 겨울 잼 #2</span></span><span class="k num" style="color:var(--ink-1)">4.42<span>평가 41</span></span></div>
+</div>
+</section>
+
+<!-- ContinueCard -->
+<section class="blk">
+<h2>4. ContinueCard <span class="m" style="font-weight:600">— 이어하기</span></h2>
+<p class="use"><b>쓰는 곳</b> 홈(회원) · 라이브러리 상단. 진행 막대는 아트 <b>밖</b>에, 누르면 상세가 아니라 <b>바로 플레이</b>. 메이커 얼굴은 생략(이미 아는 게임).</p>
+<div class="cap-row">
+<div class="cc"><span class="art"><span class="shots"><i class="a-loop"></i></span><span class="badge ink"><svg class="ic" aria-hidden="true"><use href="#i-up"></use></svg>새 스테이지 8개</span></span><span class="bar" role="progressbar" aria-valuenow="62" aria-valuemin="0" aria-valuemax="100" aria-label="진행 62%"><i style="width:62%"></i></span><div class="row"><div style="min-width:0"><b style="font-size:16px">루프 컴파일러</b><div class="m num">62% · 어제 · 도전과제 23/40</div></div><button type="button" class="go"><svg class="ic" aria-hidden="true"><use href="#i-play"></use></svg>이어하기</button></div></div>
+<div class="cc"><span class="art"><span class="shots"><i class="a-grid"></i></span></span><span class="bar" aria-label="진행 100%"><i style="width:100%;background:var(--ok)"></i></span><div class="row"><div style="min-width:0"><b style="font-size:16px">그리드락</b><div class="m num" style="color:var(--ok);font-weight:700">완료 · 도전과제 8/8</div></div><button type="button" class="go done">다시 하기</button></div></div>
+<div class="cc"><span class="art"><span class="shots"><i class="a-tilt"></i></span><span class="badge ink"><svg class="ic" aria-hidden="true"><use href="#i-dl"></use></svg>v1.4 받을 수 있음</span></span><span class="bar"><i style="width:31%"></i></span><div class="row"><div style="min-width:0"><b style="font-size:16px">틸트 이론</b><div class="m num">31% · 설치형 · 5일 전</div></div><button type="button" class="go" style="background:var(--ink-1)"><svg class="ic" aria-hidden="true"><use href="#i-dl"></use></svg>업데이트</button></div></div>
+</div>
+</section>
+
+<!-- MiniRow + RoomCard side by side -->
+<div style="display:grid;grid-template-columns:auto 1fr;gap:72px">
+<section class="blk">
+<h2>5. MiniRow <span class="m" style="font-weight:600">— 작은 목록</span></h2>
+<p class="use"><b>쓰는 곳</b> 검색 자동완성 · 알림 · 일지 속 게임 언급. 화살표 키로 이동.</p>
+<div class="dd" role="listbox" aria-label="검색 제안">
+<div class="q"><svg class="ic" style="width:16px;height:16px;color:var(--ink-3)" aria-hidden="true"><use href="#i-search"></use></svg><span>루프</span><span style="width:1.5px;height:18px;background:var(--accent)"></span></div>
+<div class="gh">게임</div>
+<div class="mr on" role="option" aria-selected="true"><span class="art a-loop"></span><span style="min-width:0"><b class="clip"><mark>루프</mark> 컴파일러</b><div class="m">픽셀상점 · 바로 플레이</div></span><span class="m">↵</span></div>
+<div class="mr" role="option" aria-selected="false"><span class="art a-solvent"></span><span style="min-width:0"><b class="clip">무한<mark>루프</mark> 정원</b><div class="m">미드나잇랩 · 설치형 Windows</div></span></div>
+<div class="gh">메이커</div>
+<div class="mr" role="option" aria-selected="false" style="grid-template-columns:64px minmax(0,1fr)"><span style="display:grid;place-items:center"><span class="jf j30" style="--f:#2D3142"><b class="jfg">ㄹ<i>ㅅ</i>ㄹ</b></span></span><span><b><mark>루프</mark>스튜디오</b><div class="m">게임 2개 · 팔로워 31</div></span></div>
+<div class="gh">태그</div>
+<div style="display:flex;gap:6px;padding:4px 10px 8px"><span class="tag" style="height:26px;padding:0 10px;font-size:13px">#<mark style="background:none;color:var(--accent-strong)">루프</mark>물</span><span class="tag" style="height:26px;padding:0 10px;font-size:13px">#타임<mark style="background:none;color:var(--accent-strong)">루프</mark></span></div>
+</div>
+</section>
+
+<section class="blk">
+<h2>6. RoomCard <span class="m" style="font-weight:600">— 같이 하기 방</span></h2>
+<p class="use"><b>쓰는 곳</b> 같이 하기 방 목록 · 홈 "지금 같이". 카드를 눌러 입장하지 않고 <b>참가 버튼</b>으로만(실수 입장 방지). 빈 자리는 점선.</p>
+<div class="cap-row">
+<div class="room"><span class="art a-paper"></span><div class="body"><div style="display:flex;align-items:center;gap:8px"><span class="live">대기 중</span><span class="m">페이퍼 벡터 · 4인 대전</span></div><b style="font-size:16px">초보만 오세요 3판 2선승</b><div style="display:flex;align-items:center;gap:10px"><div class="slots"><span class="jf j30" style="--f:#151A20" title="방장 진수"><b class="jfg">ㅈ<i>ㅅ</i>ㅈ</b></span><span class="jf j30" style="--f:#5B6B7A"><b class="jfg">ㅎ<i>ㅅ</i>ㅎ</b></span><span class="jf j30" style="--f:#8A5A44"><b class="jfg">ㄷ<i>ㅅ</i>ㄷ</b></span><span class="empty" aria-label="빈 자리"></span></div><span class="m num">3/4명</span><button type="button" class="btn" style="margin-left:auto;background:var(--accent);color:#FFFFFF;height:36px">참가</button></div></div></div>
+<div class="room"><span class="art a-mole" style="background:radial-gradient(circle at 25% 65%,#5A3418 0 9%,transparent 9.5%),radial-gradient(circle at 55% 40%,#5A3418 0 9%,transparent 9.5%),radial-gradient(circle at 80% 70%,#5A3418 0 9%,transparent 9.5%),#F0A23B"></span><div class="body"><div style="display:flex;align-items:center;gap:8px"><span class="live" style="color:var(--ink-3)">게임 중</span><span class="m">두더지 리그 · 2~4인</span></div><b style="font-size:16px">점심 한 판 리그</b><div style="display:flex;align-items:center;gap:10px"><div class="slots"><span class="jf j30" style="--f:#3E6B5A"><b class="jfg">ㅁ<i>ㅅ</i>ㅁ</b></span><span class="jf j30" style="--f:#6A4C8C"><b class="jfg">ㅅ<i>ㅅ</i>ㅅ</b></span><span class="jf j30" style="--f:#7A6A3A"><b class="jfg">ㅂ<i>ㅅ</i>ㅂ</b></span><span class="jf j30" style="--f:#C46A3A"><b class="jfg">ㅈ<i>ㅅ</i>ㅈ</b></span></div><span class="m num">4/4명</span><button type="button" class="btn" style="margin-left:auto;background:var(--sunken);height:36px" disabled>가득 참</button></div></div></div>
+</div>
+</section>
+</div>
+
+<!-- LibraryRow -->
+<section class="blk">
+<h2>7. LibraryRow <span class="m" style="font-weight:600">— 내 라이브러리</span></h2>
+<p class="use"><b>쓰는 곳</b> 내 라이브러리 · 설치형 관리. 웹은 실제 설치 여부를 알 수 없으므로 "설치됨" 대신 <b>받은 버전</b>을 보여 주고, 새 버전이 있으면 알려 줍니다.</p>
+<div style="display:flex;flex-direction:column;gap:4px">
+<div class="lr"><span class="art a-loop"></span><span style="min-width:0"><b class="clip">루프 컴파일러</b><div class="m">픽셀상점 · 퍼즐</div></span><span class="st"><span class="num">62% · 12시간 42분</span><span class="m">마지막 어제 · 도전과제 23/40</span></span><span class="act"><button type="button" class="btn" style="background:var(--accent);color:#FFFFFF"><svg class="ic" aria-hidden="true"><use href="#i-play"></use></svg>이어하기</button></span></div>
+<div class="lr"><span class="art a-tilt"></span><span style="min-width:0"><b class="clip">틸트 이론</b><div class="m">기울기연구소 · 퍼즐 · 설치형 Windows</div></span><span class="st"><span>받은 버전 v1.3 · 286MB</span><span style="display:flex;gap:6px"><span class="pill" style="background:var(--ok-tint);color:var(--ok)"><svg class="ic" aria-hidden="true"><use href="#i-shield"></use></svg>v1.4 검사 통과</span></span></span><span class="act"><button type="button" class="btn" style="background:var(--ink-1);color:#FFFFFF"><svg class="ic" aria-hidden="true"><use href="#i-dl"></use></svg>v1.4 받기</button></span></div>
+<div class="lr"><span class="art a-null"></span><span style="min-width:0"><b class="clip">널 포인터</b><div class="m">라온게임즈 · 로그라이크 · 설치형 Windows</div></span><span class="st"><span>새 버전 v0.9 · 41MB</span><span style="display:flex;gap:6px"><span class="pill" style="background:var(--warn-tint);color:var(--warn)">보안 검사 중 · 보통 10분</span></span></span><span class="act"><button type="button" class="btn" style="background:var(--sunken);color:var(--ink-3)" disabled>검사 후 받기</button></span></div>
+<div class="lr"><span class="art a-demon"></span><span style="min-width:0"><b class="clip">데몬 가든</b><div class="m">정원사K · 이야기</div></span><span class="st"><span>저장만 함</span><span class="m">아직 플레이하지 않았어요</span></span><span class="act"><button type="button" class="btn" style="background:var(--accent-tint);color:var(--accent-strong)"><svg class="ic" aria-hidden="true"><use href="#i-play"></use></svg>처음 하기</button></span></div>
+</div>
+</section>
+
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":3300}}'>
+class Component extends DCLogic { renderVals() { return {}; } }
+</script>
+</body>
+</html>

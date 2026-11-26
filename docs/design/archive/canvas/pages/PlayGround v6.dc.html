@@ -1,0 +1,337 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<title>PlayGround v6 홈 (PC)</title>
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link href="https://fonts.googleapis.com/css2?family=Gasoek+One&display=swap" rel="stylesheet">
+<style>
+@font-face{font-family:'Pretendard';src:url('fonts/PretendardVariable.woff2') format('woff2');font-weight:45 920;font-display:swap}
+:root{
+--bg:#FFFFFF;--sunken:#F2F3F5;--sunken-2:#E9EBEE;--line:#ECEEF0;
+--ink-1:#151A20;--ink-2:#4F5359;--ink-3:#65696F;--ink-4:#9B9FA3;
+--accent:#046DCE;--accent-strong:#0159AA;--accent-tint:#ECF4FE;
+--make:#D22C02;--make-strong:#AD2201;
+--ok:#047F3F;--up:#DB0240;--down:#0159AA;
+--lift:0 8px 24px -8px rgb(21 26 32 / .28);
+--ease:cubic-bezier(.2,.7,.2,1);
+}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--ink-1);font-family:'Pretendard',system-ui,sans-serif;font-size:15px;line-height:1.5;word-break:keep-all;-webkit-font-smoothing:antialiased;min-width:1280px}
+a{color:inherit;text-decoration:none}
+button{font:inherit;color:inherit;cursor:pointer}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.wrap{width:1200px;margin:0 auto}
+.num{font-variant-numeric:tabular-nums}
+.disp{font-family:'Gasoek One','Pretendard',sans-serif;font-weight:400}
+.m{font-size:13px;color:var(--ink-3)}
+.clip{overflow:hidden;text-overflow:ellipsis;white-space:nowrap;min-width:0}
+.two-line{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+/* faces */
+.face{display:inline-flex;align-items:center;gap:1px;font-weight:800;line-height:1;letter-spacing:-.02em}
+.face .e{display:inline-block;transform:rotate(90deg);transition:transform 240ms var(--ease)}
+.face .mo{font-size:.74em}
+.face .m2{display:none}
+body:has([data-play]:hover) .logo .e{transform:rotate(-90deg)}
+body:has([data-play]:hover) .logo .m1{display:none}
+body:has([data-play]:hover) .logo .m2{display:inline}
+.jf{display:inline-flex;align-items:center;justify-content:center;flex:none;border-radius:6px;color:#FFFFFF;font-weight:800;letter-spacing:-.06em;line-height:1;white-space:nowrap}
+.jf i{font-style:normal;font-size:.78em;margin:0 .02em;position:relative;top:.06em}
+.j18{width:20px;height:20px;font-size:8.5px;border-radius:5px}
+.j28{width:28px;height:28px;font-size:11px}
+/* header */
+.hdr{position:sticky;top:0;z-index:20;background:rgb(255 255 255 / .94);backdrop-filter:saturate(180%) blur(12px);border-bottom:1px solid var(--line)}
+.hdr .wrap{height:68px;display:flex;align-items:center;gap:28px}
+.brand{display:flex;align-items:baseline;gap:7px}
+.brand .word{font-size:15px;font-weight:800}
+.gnb{display:flex;gap:2px}
+.gnb a{padding:8px 12px;border-radius:8px;font-size:16px;font-weight:700;color:var(--ink-3);transition:color 120ms var(--ease)}
+.gnb a:hover{color:var(--ink-1)}
+.gnb a[aria-current]{color:var(--ink-1)}
+.hdr .right{margin-left:auto;display:flex;align-items:center;gap:10px}
+.ground{display:flex;padding:3px;background:var(--sunken);border-radius:999px;font-size:13px;font-weight:700}
+.ground a{padding:5px 12px;border-radius:999px;color:var(--ink-3)}
+.ground a[aria-current]{background:var(--ink-1);color:#FFFFFF}
+.search{display:flex;align-items:center;gap:8px;width:240px;height:40px;padding:0 14px;background:var(--sunken);border-radius:999px;color:var(--ink-3);font-size:14px}
+.search input{flex:1;min-width:0;border:0;background:transparent;outline:0;font:inherit;color:var(--ink-1)}
+.search:focus-within{background:#FFFFFF;box-shadow:inset 0 0 0 2px var(--accent)}
+.icon-btn{display:grid;place-items:center;width:40px;height:40px;border:0;border-radius:999px;background:transparent;position:relative}
+.icon-btn:hover{background:var(--sunken)}
+.badge{position:absolute;top:6px;right:6px;width:8px;height:8px;border-radius:999px;background:var(--up);box-shadow:0 0 0 2px #FFFFFF}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:6px;height:44px;padding:0 20px;border:0;border-radius:10px;font-size:15px;font-weight:700;transition:background 160ms var(--ease),transform 120ms var(--ease)}
+.btn:active{transform:translateY(1px)}
+.btn-sm{height:38px;padding:0 16px;font-size:14px;border-radius:999px}
+.btn-ink{background:var(--ink-1);color:#FFFFFF}
+.btn-ink:hover{background:#2A3038}
+.btn-w{background:#FFFFFF;color:var(--ink-1)}
+.btn-w:hover{background:#E8ECF1}
+.btn-glass{background:rgb(255 255 255 / .14);color:#FFFFFF}
+.btn-glass:hover{background:rgb(255 255 255 / .22)}
+.btn-a{background:var(--accent);color:#FFFFFF}
+.btn-a:hover{background:var(--accent-strong)}
+.btn-o{background:#FFFFFF;color:var(--ink-1);box-shadow:inset 0 0 0 1px var(--sunken-2)}
+/* hero carousel */
+.hero{display:grid;grid-template-columns:1fr 1080px 1fr;gap:16px;margin-top:24px;height:380px;overflow:hidden}
+.peek{border-radius:16px;overflow:hidden;opacity:.45;position:relative}
+.slide{position:relative;display:grid;grid-template-columns:minmax(0,1fr) 560px;border-radius:16px;overflow:hidden;color:#FFFFFF}
+.slide .t{padding:40px 44px;display:flex;flex-direction:column}
+.slide h1{margin:12px 0 0;font-size:40px;line-height:1.18;text-wrap:balance}
+.slide p{margin:14px 0 0;font-size:16px;line-height:1.65;color:rgb(255 255 255 / .8);max-width:420px}
+.slide .art{height:100%}
+.pager{position:absolute;right:16px;bottom:16px;display:flex;align-items:center;gap:2px;padding:4px;border-radius:999px;background:rgb(21 26 32 / .55);backdrop-filter:blur(8px);color:#FFFFFF;font-size:13px;font-weight:700}
+.pager button{width:30px;height:30px;border:0;border-radius:999px;background:transparent;color:#FFFFFF;display:grid;place-items:center}
+.pager button:hover{background:rgb(255 255 255 / .16)}
+.dots{display:flex;justify-content:center;gap:6px;margin-top:14px}
+.dots span{width:6px;height:6px;border-radius:999px;background:var(--sunken-2)}
+.dots span.on{width:22px;background:var(--ink-1)}
+/* sections */
+.sec{margin-top:64px}
+.sh{display:flex;align-items:center;gap:12px;margin-bottom:18px}
+.sh h2{margin:0;font-size:22px;line-height:1.3;font-weight:800;letter-spacing:-.02em}
+.sh .r{margin-left:auto;display:flex;align-items:center;gap:6px}
+.arw{display:grid;place-items:center;width:34px;height:34px;border:0;border-radius:999px;background:var(--sunken)}
+.arw:hover{background:var(--sunken-2)}
+.arw:disabled{opacity:.4;cursor:default}
+.link{font-size:14px;font-weight:700;color:var(--ink-3)}
+.link:hover{color:var(--ink-1)}
+/* rail */
+.rail{display:flex;gap:16px;overflow:hidden;mask-image:linear-gradient(90deg,#000 92%,transparent)}
+.pk{flex:0 0 220px;display:flex;flex-direction:column;gap:6px}
+.pk .art{aspect-ratio:4/3;border-radius:12px;transition:transform 240ms var(--ease),box-shadow 240ms var(--ease)}
+.pk:hover .art,.gc:hover .art,.lg:hover .art{transform:translateY(-3px);box-shadow:var(--lift)}
+.pk .ctx{font-size:17px;margin-top:6px}
+.pk b{font-size:16px}
+.pk:hover b,.gc:hover b,.lg:hover b{color:var(--accent-strong)}
+.pk .why{font-size:13px;line-height:1.5;color:var(--ink-3)}
+/* chips */
+.chips{display:flex;gap:8px;flex-wrap:wrap}
+.chip{display:inline-flex;align-items:center;gap:6px;height:38px;padding:0 16px;border:0;border-radius:999px;background:var(--sunken);font-size:14px;font-weight:700;color:var(--ink-2)}
+.chip:hover{background:var(--sunken-2)}
+.chip[aria-pressed="true"]{background:var(--ink-1);color:#FFFFFF}
+.chip .c{font-weight:600;opacity:.6}
+/* rank */
+.rtabs{display:flex;gap:4px}
+.rtabs button{height:34px;padding:0 12px;border:0;border-radius:999px;background:transparent;font-size:14px;font-weight:700;color:var(--ink-3)}
+.rtabs button[aria-selected="true"]{background:var(--accent-tint);color:var(--accent-strong)}
+.rank{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));grid-auto-flow:column;grid-template-rows:repeat(4,auto);gap:14px 32px;list-style:none;margin:0;padding:0}
+.rank a{display:grid;grid-template-columns:30px 88px minmax(0,1fr) 36px;align-items:center;gap:14px;padding:6px;margin:-6px;border-radius:12px;transition:background 160ms var(--ease)}
+.rank a:hover{background:var(--sunken)}
+.rank .n{font-size:24px;text-align:center}
+.rank .th{width:88px;height:56px;border-radius:8px}
+.rank b{font-size:15px;display:block}
+.rank .by{display:flex;align-items:center;gap:6px;margin-top:4px;font-size:13px;color:var(--ink-3)}
+.rank .chg{font-size:12px;font-weight:800;text-align:right}
+/* grids */
+.g5{display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:16px}
+.g6{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:24px 16px}
+.gc{display:flex;flex-direction:column;gap:6px}
+.gc .art{aspect-ratio:16/10;border-radius:10px;transition:transform 240ms var(--ease),box-shadow 240ms var(--ease)}
+.gc b{font-size:15px}
+.gc .by{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink-2)}
+.flag{position:absolute;left:8px;top:8px;height:22px;padding:0 7px;border-radius:6px;font-size:11px;font-weight:800;background:rgb(21 26 32 / .8);color:#FFFFFF;display:inline-flex;align-items:center;backdrop-filter:blur(6px)}
+.prog{position:absolute;left:0;right:0;bottom:0;height:4px;background:rgb(21 26 32 / .35)}
+.prog i{display:block;height:100%;background:var(--accent)}
+.next-tile{display:flex;flex-direction:column;justify-content:center;gap:6px;padding:20px;border-radius:10px;background:var(--sunken);aspect-ratio:16/10}
+.next-tile:hover{background:var(--sunken-2)}
+/* face strip */
+.facecta{display:grid;grid-template-columns:auto minmax(0,1fr) auto;align-items:center;gap:28px;padding:28px 32px;border-radius:20px;background:var(--sunken)}
+.facerow{display:flex;gap:8px}
+.facerow .jf{width:52px;height:52px;font-size:19px;border-radius:12px;transition:transform 200ms var(--ease)}
+.facecta:hover .facerow .jf:nth-child(2){transform:rotate(-6deg) translateY(-2px)}
+.facecta:hover .facerow .jf:nth-child(4){transform:rotate(5deg) translateY(-2px)}
+/* logs */
+.g4{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px}
+.lg{display:flex;flex-direction:column;gap:8px}
+.lg .art{aspect-ratio:16/9;border-radius:10px;transition:transform 240ms var(--ease),box-shadow 240ms var(--ease)}
+.lg b{font-size:15px;line-height:1.45}
+.lg .by{display:flex;align-items:center;gap:6px;font-size:13px;color:var(--ink-3)}
+/* jam band */
+.jam{display:grid;grid-template-columns:minmax(0,1fr) auto;align-items:center;gap:24px;padding:32px 40px;border-radius:20px;background:var(--ink-1);color:#FFFFFF;position:relative;overflow:hidden}
+.jam .big{font-size:44px;line-height:1;color:#FF7A52}
+footer{margin-top:88px;border-top:1px solid var(--line);padding:28px 0 48px;font-size:13px;color:var(--ink-3)}
+footer .links{display:flex;gap:18px;color:var(--ink-2);font-weight:600}
+/* art placeholders */
+.art{position:relative;overflow:hidden;background:var(--sunken)}
+.a-loop{background:radial-gradient(circle at 70% 50%,transparent 0 17%,#7CE0B8 17.5% 19%,transparent 19.5%),repeating-linear-gradient(90deg,#FFFFFF10 0 1px,transparent 1px 22px),repeating-linear-gradient(0deg,#FFFFFF10 0 1px,transparent 1px 22px),#173250}
+.a-ash{background:radial-gradient(circle at 20% 30%,#FF8A3D 0 1%,transparent 1.5%),radial-gradient(circle at 45% 18%,#FFB36B 0 .8%,transparent 1.3%),radial-gradient(circle at 75% 26%,#FF8A3D 0 1.2%,transparent 1.7%),linear-gradient(0deg,#2A2523 0 34%,transparent 34%),linear-gradient(90deg,transparent 0 10%,#3B3431 10% 18%,transparent 18% 30%,#3B3431 30% 36%,transparent 36% 52%,#3B3431 52% 64%,transparent 64% 80%,#3B3431 80% 86%,transparent 86%) 0 100%/100% 62% no-repeat,linear-gradient(#6B4A3A,#C46A3A)}
+.a-tess{background:conic-gradient(from 210deg at 60% 60%,#E9F2FF 0 25%,#9CC3F5 25% 50%,#3C78D8 50% 75%,#1A3F8A 75%)}
+.a-refac{background:linear-gradient(#F2C14E 0 0) 20% 78%/24% 14% no-repeat,linear-gradient(#E4572E 0 0) 46% 64%/28% 14% no-repeat,linear-gradient(#17BEBB 0 0) 30% 50%/22% 14% no-repeat,linear-gradient(#FFFFFF 0 0) 58% 36%/18% 14% no-repeat,#1E2A33}
+.a-tilt{background:radial-gradient(circle at 58% 40%,#FFFFFF 0 5%,transparent 5.5%),linear-gradient(-12deg,transparent 0 52%,#C9B79C 52% 58%,transparent 58%),#EDE6DA}
+.a-bazaar{background:repeating-linear-gradient(90deg,#D94F30 0 10%,#F6EAD4 10% 20%) 0 0/100% 30% no-repeat,linear-gradient(0deg,#4A3B2C 0 40%,transparent 40%),#F6EAD4}
+.a-paper{background:linear-gradient(150deg,transparent 46%,#FFFFFF 46% 50%,transparent 50%) 30% 40%/34% 34% no-repeat,linear-gradient(30deg,transparent 46%,#FFE07A 46% 50%,transparent 50%) 70% 60%/30% 30% no-repeat,#167A78}
+.a-grid{background:linear-gradient(#FFFFFF 0 0) 35% 35%/14% 24% no-repeat,linear-gradient(#FFCF33 0 0) 52% 35%/14% 24% no-repeat,linear-gradient(#FFFFFF 0 0) 52% 65%/14% 24% no-repeat,repeating-linear-gradient(90deg,#FFFFFF14 0 2px,transparent 2px 14.28%),#2D3142}
+.a-demon{background:radial-gradient(circle at 62% 44%,#E8434F 0 6%,transparent 6.5%),radial-gradient(ellipse 40% 20% at 50% 100%,#2E5E3A 0 100%,transparent 100%),linear-gradient(#B9D7A8,#7FAF6C)}
+.a-halcyon{background:radial-gradient(circle at 30% 70%,#FFFFFF55 0 2%,transparent 2.5%),radial-gradient(circle at 38% 58%,#FFFFFF44 0 1.4%,transparent 1.9%),linear-gradient(#0E5A8A,#06243D)}
+.a-null{background:linear-gradient(45deg,transparent 46%,#7CFF6B 46% 54%,transparent 54%) 50% 50%/18% 18% no-repeat,repeating-linear-gradient(0deg,#FFFFFF08 0 2px,transparent 2px 6px),#0B0D10}
+.a-solvent{background:radial-gradient(ellipse 14% 20% at 50% 54%,#5FD0E8 0 100%,transparent 100%),linear-gradient(0deg,#5FD0E8 0 18%,transparent 18%),#E7F4F6}
+@media (prefers-reduced-motion:reduce){*{transition:none!important}}
+</style>
+</helmet>
+
+<div>
+<header class="hdr"><div class="wrap">
+<a href="#" class="brand" aria-label="aDmD Games 홈"><span class="face logo" style="font-size:28px"><span>a</span><span class="e">D</span><span class="mo m1">m</span><span class="mo m2">w</span><span class="e">D</span></span><span class="word">Games</span></a>
+<nav class="gnb" aria-label="주요 메뉴"><a href="#" aria-current="page">홈</a><a href="#">전체 게임</a><a href="#">랭킹</a><a href="#">신작</a><a href="#">큐레이션</a><a href="#">잼 아케이드</a></nav>
+<div class="right">
+<nav class="ground" aria-label="그라운드 전환"><a href="#" aria-current="page">플레이</a><a href="#">메이커스</a></nav>
+<label class="search"><svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" aria-hidden="true"><circle cx="7" cy="7" r="5"></circle><path d="M11 11l3.2 3.2"></path></svg><input type="search" aria-label="게임, 메이커, 태그 검색" placeholder="게임, 메이커, 태그"></label>
+<sc-if value="{{ guest }}" hint-placeholder-val="{{ true }}"><button type="button" class="btn btn-ink btn-sm" onClick="{{ toggle }}">로그인</button></sc-if>
+<sc-if value="{{ signedIn }}" hint-placeholder-val="{{ false }}">
+<button type="button" class="icon-btn" aria-label="알림 2개"><span class="badge"></span><svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="#151A20" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 8a5 5 0 0 1 10 0v4l1.5 2.5h-13L5 12z"></path><path d="M8.5 17a1.6 1.6 0 0 0 3 0"></path></svg></button>
+<button type="button" class="icon-btn" aria-label="진수의 메뉴" onClick="{{ toggle }}"><span class="jf" style="width:34px;height:34px;font-size:13px;border-radius:10px;background:#151A20">ㅈ<i>ㅅ</i>ㅈ</span></button>
+</sc-if>
+</div>
+</div></header>
+
+<main>
+<section aria-roledescription="carousel" aria-label="에디터 추천">
+<div class="hero">
+<div class="peek"><div class="art a-demon" style="position:absolute;inset:0"></div></div>
+<div class="slide" style="background:#173250" aria-roledescription="slide" aria-label="1 / 5">
+<div class="t">
+<div style="display:flex;align-items:center;gap:10px;font-size:14px;font-weight:700"><span>에디터 추천</span><span style="opacity:.5">·</span><span style="opacity:.75">퍼즐 · 브라우저에서 바로 · 한 판 15분</span></div>
+<h1 class="disp">루프를 벗어나려면, 코드를 고쳐라.</h1>
+<p>모든 방이 하나의 함수인 프로그래밍 퍼즐. 손으로 설계한 스테이지 40개, 진행은 브라우저에 저장돼요.</p>
+<div style="display:flex;align-items:center;gap:10px;margin-top:auto">
+<a href="#" class="btn btn-w" data-play style="min-width:120px">플레이</a>
+<a href="#" class="btn btn-glass">자세히</a>
+<a href="#" style="margin-left:16px;display:flex;align-items:center;gap:8px;font-size:14px"><span class="jf j28" style="background:#7CE0B8;color:#173250">ㅍ<i>ㅅ</i>ㅍ</span><span><b>픽셀상점</b><span style="opacity:.7"> · 3명</span></span></a>
+</div>
+</div>
+<a href="#" class="art a-loop" aria-label="루프 컴파일러 자세히"></a>
+<div class="pager"><button type="button" aria-label="이전"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M10 3 5 8l5 5"></path></svg></button><span class="num" style="padding:0 4px">1 / 5</span><button type="button" aria-label="다음"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 3l5 5-5 5"></path></svg></button></div>
+</div>
+<div class="peek"><div class="art a-ash" style="position:absolute;inset:0"></div></div>
+</div>
+<div class="dots" aria-hidden="true"><span class="on"></span><span></span><span></span><span></span><span></span></div>
+</section>
+
+<div class="wrap">
+
+<sc-if value="{{ signedIn }}" hint-placeholder-val="{{ false }}">
+<section class="sec" style="margin-top:48px" aria-labelledby="cont-title">
+<div class="sh"><h2 id="cont-title">이어하기</h2><div class="r"><a href="#" class="link">라이브러리</a></div></div>
+<div class="g5">
+<a href="#" class="gc"><span class="art a-grid"><span class="prog"><i style="width:88%"></i></span></span><b class="clip">그리드락</b><span class="m num">88% · 어제 · 도전과제 7/8</span></a>
+<a href="#" class="gc"><span class="art a-loop"><span class="prog"><i style="width:62%"></i></span><span class="flag">새 스테이지</span></span><b class="clip">루프 컴파일러</b><span class="m num">62% · v1.4 업데이트</span></a>
+<a href="#" class="gc"><span class="art a-solvent"><span class="prog"><i style="width:45%"></i></span></span><b class="clip">솔벤트</b><span class="m num">45% · 3일 전</span></a>
+</div>
+</section>
+</sc-if>
+
+<section class="sec" aria-labelledby="picks-title">
+<div class="sh"><span class="jf" style="width:36px;height:36px;font-size:13px;border-radius:10px;background:var(--accent)">ㅇ<i>ㅅ</i>ㅇ</span><div><h2 id="picks-title">이번 주 고른 게임</h2><div class="m">월화가 골랐어요 · 11월 넷째 주 · "비 와서 짧고 굵은 걸로"</div></div>
+<div class="r"><a href="#" class="link" style="margin-right:8px">지난 큐레이션</a><button type="button" class="arw" aria-label="이전" disabled><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#151A20" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M10 3 5 8l5 5"></path></svg></button><button type="button" class="arw" aria-label="다음"><svg width="14" height="14" viewBox="0 0 16 16" fill="none" stroke="#151A20" stroke-width="2" stroke-linecap="round" aria-hidden="true"><path d="M6 3l5 5-5 5"></path></svg></button></div></div>
+<div class="rail">
+<a href="#" class="pk"><span class="art a-ash"></span><span class="ctx disp" style="color:var(--accent-strong)">왕좌</span><b>애쉬폴 러너</b><span class="why">주간 플레이·완주율 모두 1위인 6분 스피드런</span></a>
+<a href="#" class="pk"><span class="art a-refac"><span class="flag">3시간 전</span></span><span class="ctx disp">신작</span><b>리팩터 러시</b><span class="why">쌓이는 코드 더미를 3분 안에 정리</span></a>
+<a href="#" class="pk"><span class="art a-tilt"></span><span class="ctx disp">숨은 보석</span><b>틸트 이론</b><span class="why">플레이는 40위 밖, 평가는 전체 1위</span></a>
+<a href="#" class="pk"><span class="art a-bazaar"></span><span class="ctx disp">순삭</span><b>바이트 바자</b><span class="why">평균 한 판 4분. 켜서 한 판만</span></a>
+<a href="#" class="pk"><span class="art a-paper"></span><span class="ctx disp">같이</span><b>페이퍼 벡터</b><span class="why">지금 18명 대기 · 매칭 12초</span></a>
+<a href="#" class="pk"><span class="art a-halcyon"></span><span class="ctx disp">밤샘</span><b>할시온 뎁스</b><span class="why">불 끄고 헤드폰 끼고 30분</span></a>
+</div>
+</section>
+
+<section class="sec" aria-labelledby="rank-title">
+<div class="sh"><h2 id="rank-title">주간 랭킹</h2><span class="m" style="margin-top:4px">플레이 수 · 11.18 ~ 11.24</span>
+<div class="r"><div class="rtabs" role="tablist"><button type="button" role="tab" aria-selected="true">전체</button><button type="button" role="tab" aria-selected="false">퍼즐</button><button type="button" role="tab" aria-selected="false">액션</button><button type="button" role="tab" aria-selected="false">이야기</button><button type="button" role="tab" aria-selected="false">같이 하기</button></div><a href="#" class="link" style="margin-left:10px">전체 랭킹</a></div></div>
+<ol class="rank">
+<li><a href="#"><span class="n disp" style="color:var(--accent-strong)">1</span><span class="th art a-ash"></span><span style="min-width:0"><b class="clip">애쉬폴 러너</b><span class="by"><span class="jf j18" style="background:#C46A3A">ㅈ<i>ㅅ</i>ㅈ</span>잿빛토끼</span></span><span class="chg" style="color:var(--ink-4)">–</span></a></li>
+<li><a href="#"><span class="n disp" style="color:var(--accent-strong)">2</span><span class="th art a-paper"></span><span style="min-width:0"><b class="clip">페이퍼 벡터</b><span class="by"><span class="jf j18" style="background:#167A78">ㅂ<i>ㅅ</i>ㅂ</span>벡터공방</span></span><span class="chg" style="color:var(--up)">▲1</span></a></li>
+<li><a href="#"><span class="n disp" style="color:var(--accent-strong)">3</span><span class="th art a-loop"></span><span style="min-width:0"><b class="clip">루프 컴파일러</b><span class="by"><span class="jf j18" style="background:#173250">ㅍ<i>ㅅ</i>ㅍ</span>픽셀상점</span></span><span class="chg" style="color:var(--down)">▼1</span></a></li>
+<li><a href="#"><span class="n disp">4</span><span class="th art a-grid"></span><span style="min-width:0"><b class="clip">그리드락</b><span class="by"><span class="jf j18" style="background:#2D3142">ㅅ<i>ㅅ</i>ㅅ</span>세모난고양이</span></span><span class="chg" style="color:var(--up)">▲8</span></a></li>
+<li><a href="#"><span class="n disp">5</span><span class="th art a-halcyon"></span><span style="min-width:0"><b class="clip">할시온 뎁스</b><span class="by"><span class="jf j18" style="background:#0E5A8A">ㅅ<i>ㅅ</i>ㅅ</span>심해상회</span></span><span class="chg" style="color:var(--down)">▼1</span></a></li>
+<li><a href="#"><span class="n disp">6</span><span class="th art a-tess"></span><span style="min-width:0"><b class="clip">테서랙트 드리프트</b><span class="by"><span class="jf j18" style="background:#3C78D8">ㅁ<i>ㅅ</i>ㅁ</span>무중력스튜디오</span></span><span class="chg" style="color:var(--up)">NEW</span></a></li>
+<li><a href="#"><span class="n disp">7</span><span class="th art a-demon"></span><span style="min-width:0"><b class="clip">데몬 가든</b><span class="by"><span class="jf j18" style="background:#4E8A3E">ㅈ<i>ㅅ</i>ㅈ</span>정원사K</span></span><span class="chg" style="color:var(--down)">▼2</span></a></li>
+<li><a href="#"><span class="n disp">8</span><span class="th art a-bazaar"></span><span style="min-width:0"><b class="clip">바이트 바자</b><span class="by"><span class="jf j18" style="background:#D94F30">ㅂ<i>ㅅ</i>ㅂ</span>바이트마켓</span></span><span class="chg" style="color:var(--up)">▲3</span></a></li>
+<li><a href="#"><span class="n disp">9</span><span class="th art a-null"></span><span style="min-width:0"><b class="clip">널 포인터</b><span class="by"><span class="jf j18" style="background:#2B6B24">ㄹ<i>ㅅ</i>ㄹ</span>라온게임즈</span></span><span class="chg" style="color:var(--ink-4)">–</span></a></li>
+<li><a href="#"><span class="n disp">10</span><span class="th art a-solvent"></span><span style="min-width:0"><b class="clip">솔벤트</b><span class="by"><span class="jf j18" style="background:#3A8FA3">ㅁ<i>ㅅ</i>ㅁ</span>미드나잇랩</span></span><span class="chg" style="color:var(--down)">▼4</span></a></li>
+<li><a href="#"><span class="n disp">11</span><span class="th art a-refac"></span><span style="min-width:0"><b class="clip">리팩터 러시</b><span class="by"><span class="jf j18" style="background:#1E2A33">ㄹ<i>ㅅ</i>ㄹ</span>리팩터클럽</span></span><span class="chg" style="color:var(--up)">NEW</span></a></li>
+<li><a href="#"><span class="n disp">12</span><span class="th art a-tilt"></span><span style="min-width:0"><b class="clip">틸트 이론</b><span class="by"><span class="jf j18" style="background:#9A7B4F">ㄱ<i>ㅅ</i>ㄱ</span>기울기연구소</span></span><span class="chg" style="color:var(--up)">▲2</span></a></li>
+</ol>
+</section>
+
+<section class="sec" aria-labelledby="time-title">
+<div class="sh"><h2 id="time-title">몇 분 있어요?</h2><div class="chips" role="group" aria-label="한 판 시간" style="margin-left:8px"><button type="button" class="chip" aria-pressed="true">5분 이하 <span class="c num">4</span></button><button type="button" class="chip" aria-pressed="false">15분 이하 <span class="c num">3</span></button><button type="button" class="chip" aria-pressed="false">30분 이하 <span class="c num">2</span></button><button type="button" class="chip" aria-pressed="false">저녁 하나 <span class="c num">3</span></button></div></div>
+<div class="g5">
+<a href="#" class="gc"><span class="art a-refac"></span><b class="clip">리팩터 러시</b><span class="by"><span class="jf j18" style="background:#1E2A33">ㄹ<i>ㅅ</i>ㄹ</span>리팩터클럽</span><span class="m">한 판 3분 · 휴대폰 OK</span></a>
+<a href="#" class="gc"><span class="art a-bazaar"></span><b class="clip">바이트 바자</b><span class="by"><span class="jf j18" style="background:#D94F30">ㅂ<i>ㅅ</i>ㅂ</span>바이트마켓</span><span class="m">한 판 4분 · 경영</span></a>
+<a href="#" class="gc"><span class="art a-paper"></span><b class="clip">페이퍼 벡터</b><span class="by"><span class="jf j18" style="background:#167A78">ㅂ<i>ㅅ</i>ㅂ</span>벡터공방</span><span class="m">한 판 5분 · 2~4인</span></a>
+<a href="#" class="gc"><span class="art a-ash"></span><b class="clip">애쉬폴 러너</b><span class="by"><span class="jf j18" style="background:#C46A3A">ㅈ<i>ㅅ</i>ㅈ</span>잿빛토끼</span><span class="m">한 판 6분 · 스피드런</span></a>
+<a href="#" class="next-tile"><span class="m">조금 더 여유 있다면</span><b style="font-size:16px">15분 이하 게임 3개 →</b></a>
+</div>
+</section>
+
+<sc-if value="{{ guest }}" hint-placeholder-val="{{ true }}">
+<section class="sec" aria-labelledby="face-title">
+<div class="facecta">
+<div class="facerow" aria-hidden="true"><span class="jf" style="background:#151A20">ㅇ<i>ㅅ</i>ㅇ</span><span class="jf" style="background:var(--accent)">ㅎ<i>ㅅ</i>ㅎ</span><span class="jf" style="background:#C46A3A">ㅠ<i>ㅅ</i>ㅠ</span><span class="jf" style="background:#167A78">ㅁ<i>ㅅ</i>ㅁ</span></div>
+<div><h2 id="face-title" style="margin:0;font-size:20px;font-weight:800">로그인하면 내 얼굴이 생겨요</h2><div style="font-size:15px;color:var(--ink-2);margin-top:4px">눈과 입을 골라 나만의 얼굴을 만들고, 기록·라이브러리·친구·리뷰를 남겨요. 가입 없이도 모든 게임은 할 수 있어요.</div></div>
+<div style="display:flex;gap:8px"><button type="button" class="btn btn-ink" onClick="{{ toggle }}">GitHub로 계속</button><button type="button" class="btn btn-o" onClick="{{ toggle }}">Google로 계속</button></div>
+</div>
+</section>
+</sc-if>
+
+<section class="sec" aria-labelledby="log-title">
+<div class="sh"><h2 id="log-title">메이커 일지</h2><span class="m" style="margin-top:4px">게임 뒤의 사람과 과정</span><div class="r"><a href="#" class="link" style="color:var(--make-strong)">메이커스에서 더 보기</a></div></div>
+<div class="g4">
+<a href="#" class="lg"><span class="art a-loop"></span><b class="two-line">v1.4 — 스테이지 8개를 하루 만에 만든 레벨 툴 이야기</b><span class="by"><span class="jf j18" style="background:#173250">ㅍ<i>ㅅ</i>ㅍ</span>픽셀상점 · 오늘 · 댓글 24</span></a>
+<a href="#" class="lg"><span class="art a-grid"></span><b class="two-line">주간 12위에서 4위까지, 첫 스테이지만 고쳤어요</b><span class="by"><span class="jf j18" style="background:#2D3142">ㅅ<i>ㅅ</i>ㅅ</span>세모난고양이 · 어제 · 댓글 17</span></a>
+<a href="#" class="lg"><span class="art a-demon"></span><b class="two-line">악마에게 물 주는 게임의 빗소리를 현관 앞에서 녹음했습니다</b><span class="by"><span class="jf j18" style="background:#4E8A3E">ㅈ<i>ㅅ</i>ㅈ</span>정원사K · 3일 전 · 댓글 9</span></a>
+<a href="#" class="lg"><span class="art a-halcyon"></span><b class="two-line">심해 조명 셰이더, 내장 그래픽에서 60프레임 맞추기</b><span class="by"><span class="jf j18" style="background:#0E5A8A">ㅅ<i>ㅅ</i>ㅅ</span>심해상회 · 6일 전 · 댓글 12</span></a>
+</div>
+</section>
+
+<section class="sec" aria-labelledby="jam-title">
+<a href="#" class="jam">
+<div style="display:flex;align-items:center;gap:28px">
+<span class="big disp">D-3</span>
+<div><div style="font-size:13px;font-weight:700;color:#FFB59E">메이커스 잼 · 주제 공개까지</div><h2 id="jam-title" style="margin:4px 0 0;font-size:24px;font-weight:800">aDmD 겨울 잼 #3</h2><div style="font-size:14px;color:rgb(255 255 255 / .7);margin-top:2px">12월 6일~8일 · 48시간 · 지금 27팀 참가 · 끝나면 잼 아케이드에서 바로 플레이</div></div>
+</div>
+<span class="btn btn-w">잼 보러 가기</span>
+</a>
+</section>
+
+<section class="sec" aria-labelledby="all-title">
+<div class="sh"><h2 id="all-title">전체 게임</h2><span class="m num" style="margin-top:4px">12개 · 모두 광고 없이 무료</span>
+<div class="r"><div class="chips" role="group" aria-label="정렬과 필터"><button type="button" class="chip" aria-pressed="true">많이 하는</button><button type="button" class="chip" aria-pressed="false">새로 나온</button><button type="button" class="chip" aria-pressed="false">평가 좋은</button><button type="button" class="chip" aria-pressed="false">브라우저에서 바로</button><button type="button" class="chip" aria-pressed="false">같이 하기</button></div></div></div>
+<div class="g6">
+<a href="#" class="gc"><span class="art a-ash"></span><b class="clip">애쉬폴 러너</b><span class="by"><span class="jf j18" style="background:#C46A3A">ㅈ<i>ㅅ</i>ㅈ</span>잿빛토끼</span><span class="m">스피드런 · 6분</span></a>
+<a href="#" class="gc"><span class="art a-paper"></span><b class="clip">페이퍼 벡터</b><span class="by"><span class="jf j18" style="background:#167A78">ㅂ<i>ㅅ</i>ㅂ</span>벡터공방</span><span class="m">대전 2~4인 · 5분</span></a>
+<a href="#" class="gc"><span class="art a-loop"></span><b class="clip">루프 컴파일러</b><span class="by"><span class="jf j18" style="background:#173250">ㅍ<i>ㅅ</i>ㅍ</span>픽셀상점</span><span class="m">퍼즐 · 15분</span></a>
+<a href="#" class="gc"><span class="art a-grid"></span><b class="clip">그리드락</b><span class="by"><span class="jf j18" style="background:#2D3142">ㅅ<i>ㅅ</i>ㅅ</span>세모난고양이</span><span class="m">퍼즐 · 10분</span></a>
+<a href="#" class="gc"><span class="art a-halcyon"></span><b class="clip">할시온 뎁스</b><span class="by"><span class="jf j18" style="background:#0E5A8A">ㅅ<i>ㅅ</i>ㅅ</span>심해상회</span><span class="m">탐험 · 30분</span></a>
+<a href="#" class="gc"><span class="art a-tess"><span class="flag">신작</span></span><b class="clip">테서랙트 드리프트</b><span class="by"><span class="jf j18" style="background:#3C78D8">ㅁ<i>ㅅ</i>ㅁ</span>무중력스튜디오</span><span class="m">레이싱 · 8분</span></a>
+<a href="#" class="gc"><span class="art a-demon"></span><b class="clip">데몬 가든</b><span class="by"><span class="jf j18" style="background:#4E8A3E">ㅈ<i>ㅅ</i>ㅈ</span>정원사K</span><span class="m">이야기 · 저녁 하나</span></a>
+<a href="#" class="gc"><span class="art a-bazaar"></span><b class="clip">바이트 바자</b><span class="by"><span class="jf j18" style="background:#D94F30">ㅂ<i>ㅅ</i>ㅂ</span>바이트마켓</span><span class="m">경영 · 4분</span></a>
+<a href="#" class="gc"><span class="art a-null"><span class="flag" style="background:var(--ok)">보안 검사 통과</span></span><b class="clip">널 포인터</b><span class="by"><span class="jf j18" style="background:#2B6B24">ㄹ<i>ㅅ</i>ㄹ</span>라온게임즈</span><span class="m">로그라이크 · Windows</span></a>
+<a href="#" class="gc"><span class="art a-solvent"></span><b class="clip">솔벤트</b><span class="by"><span class="jf j18" style="background:#3A8FA3">ㅁ<i>ㅅ</i>ㅁ</span>미드나잇랩</span><span class="m">퍼즐 · 20분</span></a>
+<a href="#" class="gc"><span class="art a-refac"><span class="flag">신작</span></span><b class="clip">리팩터 러시</b><span class="by"><span class="jf j18" style="background:#1E2A33">ㄹ<i>ㅅ</i>ㄹ</span>리팩터클럽</span><span class="m">아케이드 · 3분</span></a>
+<a href="#" class="gc"><span class="art a-tilt"></span><b class="clip">틸트 이론</b><span class="by"><span class="jf j18" style="background:#9A7B4F">ㄱ<i>ㅅ</i>ㄱ</span>기울기연구소</span><span class="m">퍼즐 · Windows</span></a>
+</div>
+</section>
+
+</div>
+</main>
+
+<footer><div class="wrap" style="display:flex;flex-direction:column;gap:14px">
+<div style="display:flex;align-items:center;gap:10px"><b style="color:var(--ink-2)">공지</b><a href="#">12월 정기 점검 안내 (12/3 02:00~04:00)</a><span>·</span><a href="#">다운로드 게임 보안 검사를 시작했어요</a></div>
+<div class="links"><a href="#">이용약관</a><a href="#"><b>개인정보처리방침</b></a><a href="#">운영정책</a><a href="#">저작권 신고</a><a href="#">고객센터</a><a href="#" style="color:var(--make-strong)">게임 올리기</a></div>
+<div style="display:flex;align-items:center;gap:10px"><span class="face" style="font-size:18px;color:var(--ink-3)"><span>a</span><span class="e">D</span><span class="mo">m</span><span class="e">D</span></span><span>aDmD Games · 사람이 만든 작은 게임을, 사람이 골라, 같이 노는 곳 · 광고 없이 무료</span></div>
+</div></footer>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":2900},"startSignedIn":{"editor":"boolean","default":false,"tsType":"boolean"}}'>
+class Component extends DCLogic {
+  renderVals() {
+    const signed = this.state.signed ?? (this.props.startSignedIn ?? false);
+    return { signedIn: signed, guest: !signed, toggle: () => this.setState({ signed: !signed }) };
+  }
+}
+</script>
+</body>
+</html>

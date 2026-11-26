@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<a onMouseEnter="{{ card.enter }}" onMouseLeave="{{ card.leave }}" onClick="{{ card.enter }}" style="height:100%;display:grid;grid-template-columns:155px minmax(0,1fr);background:#FFFFFF;opacity:{{ card.op }};box-shadow:{{ card.shadow }};transition:opacity 200ms cubic-bezier(.2,.7,.2,1),box-shadow 320ms cubic-bezier(.2,.7,.2,1)">
+<div style="position:relative;background:#F1F3F5;overflow:hidden">
+<div style="height:100%;transform:scale({{ card.zoom }});transition:transform 320ms cubic-bezier(.2,.7,.2,1)"><div style="position:absolute;inset:0;background-image:url('{{ card.art }}');background-size:cover;background-position:center"></div></div>
+<dc-import name="Body" as="span" size="xs" weight="bold" color="inverse" sx="position:absolute;top:0;left:0;z-index:4;padding:3px 7px;background:{{ card.badgeBg }};letter-spacing:.06em" hint-size="120px,18px">{{ card.badge }}</dc-import>
+</div>
+<div style="min-width:0;padding:10px 14px;display:flex;flex-direction:column;justify-content:center">
+<div style="display:flex;align-items:center;gap:8px;min-width:0">
+<dc-import name="Body" as="span" size="sm" weight="bold" sx="min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" hint-size="140px,21px">{{ card.short }}</dc-import>
+</div>
+<div style="margin-top:6px;display:flex;align-items:center;gap:6px;min-width:0">
+<dc-import name="Body" as="span" size="xs" weight="bold" sx="flex:none;padding:2px 6px;background:#F1F3F5;color:#475569" hint-size="120px,18px">{{ card.genre }}</dc-import>
+<dc-import name="Body" as="span" size="xs" color="tertiary" sx="min-width:0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis" hint-size="120px,18px">{{ card.dev }}</dc-import>
+</div>
+<div style="margin-top:9px;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:#F1F3F5">
+<sc-for list="{{ card.stats }}" as="t" hint-placeholder-count="3">
+<div style="background:#FFFFFF;padding:{{ t.pad }}">
+<dc-import name="Body" as="div" size="sm" weight="bold" tabular="{{ true }}" sx="color:{{ t.color }}" hint-size="140px,21px">{{ t.value }}</dc-import>
+<dc-import name="Body" as="div" size="xs" weight="semibold" color="tertiary" sx="margin-top:2px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;letter-spacing:.06em" hint-size="120px,18px">{{ t.label }}</dc-import>
+</div>
+</sc-for>
+</div>
+</div>
+</a>
+
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:420,&quot;height&quot;:110},&quot;card&quot;:{&quot;editor&quot;:null,&quot;tsType&quot;:&quot;PickCard&quot;}}"></script>
+</body>
+</html>
