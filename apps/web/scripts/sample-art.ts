@@ -80,7 +80,8 @@ ${shapes.join('\n')}
 }
 
 mkdirSync(OUT, { recursive: true });
-for (const f of readdirSync(OUT)) rmSync(path.join(OUT, f));
+// 그림(svg)만 다시 만든다 — 영상(webm)은 sample-video.ts 몫
+for (const f of readdirSync(OUT).filter((f) => f.endsWith('.svg'))) rmSync(path.join(OUT, f));
 let n = 0;
 for (const g of sampleGames()) {
 	for (let shot = 0; shot <= SAMPLE_SHOTS; shot++) {

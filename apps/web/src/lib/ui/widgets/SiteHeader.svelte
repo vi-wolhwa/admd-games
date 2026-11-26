@@ -18,9 +18,7 @@
 	const NAV = [{ id: 'games', label: '게임', href: resolve('/(play)/play/games') }] as const;
 </script>
 
-<header
-	class="sticky top-0 z-(--z-header) border-b border-line-strong bg-bg/94 backdrop-blur-md backdrop-saturate-180"
->
+<header class="sticky top-0 z-(--z-header) bg-bg/94 backdrop-blur-md backdrop-saturate-180">
 	<div class="mx-auto flex h-(--header-h) w-(--page-width) items-center gap-7">
 		<a
 			href={resolve('/(play)/play/games')}

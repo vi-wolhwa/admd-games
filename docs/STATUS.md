@@ -1,6 +1,6 @@
 # STATUS
 
-- 마지막 업데이트: 2026-11-28 (Asia/Seoul) — PG03 전체 게임 1차 피드백 15건 반영(#23), 사용자 확인 대기
+- 마지막 업데이트: 2026-11-28 (Asia/Seoul) — PG03 전체 게임 2차 피드백 반영(#23), 사용자 확인 대기
 - 현재 Phase: **4. 페이지 구현** — 디자인 원본은 코드(ADR 0012). 진행: **PG03 전체 게임**(#22, 사용자 확인 대기) → 다음 PG05([docs/dev/page-order.md](dev/page-order.md))
 - 저장소: **공개** `vi-wolhwa/admd-games`, 기본 브랜치 `develop`, 운영 = `main` 병합 시 자동 배포(ADR 0013, [operations.md](operations.md))
 - 개발 환경 결정: [docs/dev/setup-agenda.md](dev/setup-agenda.md) · 실행 계획: [setup-plan.md](dev/setup-plan.md) · 컴포넌트 구조: [component-architecture.md](dev/component-architecture.md)

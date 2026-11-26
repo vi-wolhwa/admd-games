@@ -11,6 +11,8 @@ export const STORY_NOW = Date.UTC(2026, 10, 28);
 
 const DAY = 86_400_000;
 export const SAMPLE_SHOTS = 5;
+/** 미리보기 영상이 있는 가짜 게임(scripts/sample-video.ts 가 만든 4초 영상) */
+export const SAMPLE_VIDEO_SLUGS = ['ashfall-runner', 'paper-vector', 'beat-garden'];
 
 type Row = [
 	slug: string,
@@ -71,7 +73,10 @@ const MAKER_SLUG: Record<string, string> = {
 /** 가짜 게임 전부(공개 상태). now 기준으로 며칠 전 공개됐는지 정한다 */
 export function sampleGames(now: number = STORY_NOW): GameSeed[] {
 	return ROWS.map(
-		([slug, title, maker, tags, length, run, [min, max], recommend, review, daysAgo, summary]) => {
+		(
+			[slug, title, maker, tags, length, run, [min, max], recommend, review, daysAgo, summary],
+			i
+		) => {
 			const makerSlug = MAKER_SLUG[maker] ?? slug;
 			return {
 				id: `sample-${slug}`,
@@ -88,10 +93,17 @@ export function sampleGames(now: number = STORY_NOW): GameSeed[] {
 				playersMax: max,
 				scanPassed: run === 'download',
 				cover: `/sample/${slug}-0.svg`,
-				media: Array.from({ length: SAMPLE_SHOTS }, (_, i) => ({
-					kind: 'image' as const,
-					url: `/sample/${slug}-${String(i + 1)}.svg`
-				})),
+				media: [
+					...(SAMPLE_VIDEO_SLUGS.includes(slug)
+						? [{ kind: 'video' as const, url: `/sample/${slug}-video.webm` }]
+						: []),
+					...Array.from({ length: SAMPLE_SHOTS }, (_, n) => ({
+						kind: 'image' as const,
+						url: `/sample/${slug}-${String(n + 1)}.svg`
+					}))
+				],
+				// 플레이 수(가짜) — 추천 순서와 일부러 조금 다르게
+				playCount: recommend * (3 + (i % 5)) + review * 11,
 				recommendCount: recommend,
 				reviewCount: review,
 				publishedAt: now - daysAgo * DAY
@@ -103,7 +115,15 @@ export function sampleGames(now: number = STORY_NOW): GameSeed[] {
 /** 카드 이야기용 — 시드 모양을 카드 데이터로 */
 export function sampleCards(now: number = STORY_NOW): GameCardData[] {
 	return sampleGames(now).map(
-		({ maker, summary: _s, status: _st, playersMin: _p, publishedAt, ...card }) => ({
+		({
+			maker,
+			summary: _s,
+			status: _st,
+			playersMin: _p,
+			playCount: _pc,
+			publishedAt,
+			...card
+		}) => ({
 			...card,
 			makerName: maker.name,
 			publishedAt: publishedAt ?? now

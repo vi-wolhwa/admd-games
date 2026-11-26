@@ -6,13 +6,14 @@ import {
 	DEFAULT_QUERY,
 	encodeCursor,
 	parseCatalogQuery,
-	parseLoaded
+	parseLoaded,
+	searchKey
 } from './catalog';
 
 const params = (s: string) => new URLSearchParams(s);
 
 describe('parseCatalogQuery', () => {
-	it('아무것도 없으면 기본값(추천 많은 순, 필터 없음)', () => {
+	it('아무것도 없으면 기본값(많이 플레이한 순, 필터 없음)', () => {
 		expect(parseCatalogQuery(params(''))).toEqual(DEFAULT_QUERY);
 	});
 
@@ -30,7 +31,7 @@ describe('parseCatalogQuery', () => {
 	});
 
 	it('모르는 값은 버리고 기본값으로 — 잘못된 주소도 페이지는 열린다', () => {
-		expect(parseCatalogQuery(params('len=7m&run=cd&ppl=x&sort=popular'))).toEqual(DEFAULT_QUERY);
+		expect(parseCatalogQuery(params('len=7m&run=cd&ppl=x&sort=short'))).toEqual(DEFAULT_QUERY);
 	});
 
 	it('검색어는 앞뒤 공백을 지우고 40자까지', () => {
@@ -52,7 +53,7 @@ describe('catalogSearchParams', () => {
 
 	it('읽은 것을 다시 쓰면 같은 질의가 된다', () => {
 		const q = parseCatalogQuery(
-			params('q=고양이&tag=퍼즐&len=1h&run=download&ppl=solo&sort=short')
+			params('q=고양이&tag=퍼즐&len=1h&run=download&ppl=solo&sort=reviews')
 		);
 		expect(parseCatalogQuery(catalogSearchParams(q))).toEqual(q);
 	});
@@ -60,6 +61,21 @@ describe('catalogSearchParams', () => {
 	it('불러온 개수는 첫 묶음보다 많을 때만 남긴다', () => {
 		expect(catalogSearchParams(DEFAULT_QUERY, 12).has('n')).toBe(false);
 		expect(catalogSearchParams(DEFAULT_QUERY, 36).get('n')).toBe('36');
+	});
+});
+
+describe('searchKey', () => {
+	it('공백은 모두 무시한다', () => {
+		expect(searchKey(' A  BC ')).toBe('ABC');
+		expect(searchKey('고양이 우편')).toBe('고양이우편');
+	});
+
+	it('끝의 조합되지 않은 한글 자모는 빼고, 남는 것이 없으면 빈 검색어', () => {
+		expect(searchKey('게임ㅇ')).toBe('게임');
+		expect(searchKey('러너ㄴㅓ')).toBe('러너');
+		expect(searchKey('ㄱ')).toBe('');
+		// 가운데 자모는 그대로(입력 중인 끝 글자만 문제)
+		expect(searchKey('ㅋ게임')).toBe('ㅋ게임');
 	});
 });
 
@@ -74,8 +90,8 @@ describe('parseLoaded', () => {
 
 describe('커서', () => {
 	it('정렬마다 값을 담아 되돌린다', () => {
-		const c = { sort: 'short', values: [2, 140], id: 'g-1' } as const;
-		expect(decodeCursor(encodeCursor(c), 'short')).toEqual(c);
+		const c = { sort: 'played', values: [980, 140], id: 'g-1' } as const;
+		expect(decodeCursor(encodeCursor(c), 'played')).toEqual(c);
 	});
 
 	it('다른 정렬의 커서나 망가진 값은 무시한다', () => {

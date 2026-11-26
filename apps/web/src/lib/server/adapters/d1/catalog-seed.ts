@@ -67,6 +67,7 @@ export function catalogSeedStatements(games: GameSeed[], now = Date.now()): stri
 				scan_passed: g.scanPassed,
 				cover_url: g.cover,
 				published_at: g.publishedAt,
+				play_count: g.playCount,
 				recommend_count: g.recommendCount,
 				review_count: g.reviewCount,
 				created_at: now

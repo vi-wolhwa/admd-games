@@ -28,6 +28,8 @@ export interface TagCount {
 /** 가짜 데이터 · 계약 테스트가 저장소에 넣는 게임 한 개 */
 export interface GameSeed extends Omit<GameCardData, 'makerName' | 'publishedAt'> {
 	maker: { id: string; slug: string; name: string };
+	/** 플레이 수 캐시('많이 플레이한' 정렬) — 카드에는 안 보임 */
+	playCount: number;
 	summary: string;
 	status: 'published' | 'review' | 'hidden';
 	playersMin: number;

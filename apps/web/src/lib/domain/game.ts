@@ -44,7 +44,7 @@ export interface GameCardData {
 	/** 설치형 보안 검사 통과 */
 	scanPassed: boolean;
 	cover: string;
-	/** 호버 미리보기 — 영상이 있으면 영상 1개, 없으면 이미지 순환 (ADR 0009 #6) */
+	/** 호버 미리보기 — 영상을 끝까지 튼 뒤 이미지를 순환 (ADR 0009 #6, 보강 #11) */
 	media: GameMedia[];
 	recommendCount: number;
 	reviewCount: number;
@@ -66,8 +66,10 @@ export function isNewGame(publishedAt: number, now: number): boolean {
 	return age >= 0 && age < NEW_GAME_DAYS * DAY;
 }
 
-/** 호버 때 보여 줄 것: 영상이 있으면 그 영상 하나, 없으면 이미지 전부를 순환 */
+/**
+ * 호버 때 보여 줄 차례: 영상 먼저(끝까지 재생) → 이미지 순환 → 다시 처음.
+ * 영상이 사진보다 게임을 잘 보여 주므로 맨 앞(사용자 결정 2026-11-28, ADR 0009 보강 #11)
+ */
 export function hoverMedia(media: GameMedia[]): GameMedia[] {
-	const video = media.find((m) => m.kind === 'video');
-	return video ? [video] : media.filter((m) => m.kind === 'image');
+	return [...media.filter((m) => m.kind === 'video'), ...media.filter((m) => m.kind === 'image')];
 }

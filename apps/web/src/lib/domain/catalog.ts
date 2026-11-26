@@ -4,7 +4,7 @@
  */
 import type { Launch, LengthBucket } from './game';
 
-export type CatalogSort = 'recommended' | 'new' | 'short';
+export type CatalogSort = 'played' | 'recommended' | 'reviews' | 'new';
 export type Players = 'solo' | 'group';
 
 export interface CatalogQuery {
@@ -25,14 +25,18 @@ export const DEFAULT_QUERY: CatalogQuery = {
 	length: null,
 	launch: null,
 	players: null,
-	sort: 'recommended'
+	sort: 'played'
 };
 
-/** '많이 하는'은 플레이 기록(PG06)이 생긴 뒤 추가한다 — 플랫폼이 아는 것만 (ADR 0011) */
+/**
+ * 정렬(사용자 결정 2026-11-28). '많이 플레이한'은 게임별 플레이 수 캐시(games.play_count) —
+ * PG06 플레이 기록이 생기기 전에는 모두 0이라 추천 수로 순서가 정해진다.
+ */
 export const SORT_LABEL: Record<CatalogSort, string> = {
+	played: '많이 플레이한',
 	recommended: '추천 많은',
-	new: '새로 나온',
-	short: '짧은 순'
+	reviews: '리뷰 많은',
+	new: '새로 나온'
 };
 
 export const PLAYERS_LABEL: Record<Players, string> = { solo: '혼자', group: '같이' };
@@ -55,7 +59,7 @@ const LENGTH_FROM_PARAM = new Map(
 );
 const LAUNCHES: readonly Launch[] = ['web', 'download'];
 const PLAYERS: readonly Players[] = ['solo', 'group'];
-const SORTS: readonly CatalogSort[] = ['recommended', 'new', 'short'];
+export const SORTS: readonly CatalogSort[] = ['played', 'recommended', 'reviews', 'new'];
 
 function oneOf<T extends string>(list: readonly T[], value: string | null): T | null {
 	return list.find((v) => v === value) ?? null;
@@ -88,6 +92,17 @@ export function catalogSearchParams(query: CatalogQuery, loaded = PAGE_SIZE): UR
 	return p;
 }
 
+/**
+ * 검색 비교용 검색어(사용자 결정 2026-11-28):
+ * - 공백을 모두 무시 — 'A BC' 로 'ABC' · 'A B C' 를 찾는다(저장소 쪽도 공백을 빼고 비교)
+ * - 끝에 조합되지 않은 한글 자모(ㄱ · ㅏ …)는 빼고 찾는다 — 입력 중인 글자 때문에 결과가 비지 않게
+ * 남는 것이 없으면 빈 문자열(= 검색 안 함)
+ */
+export function searchKey(q: string): string {
+	// U+3131–U+318E = 한글 호환 자모(ㄱ … ㅣ)
+	return q.replace(/\s+/g, '').replace(/[ㄱ-ㆎ]+$/, '');
+}
+
 /** 주소의 불러온 개수 — 12개 단위로 올림, 12~96 */
 export function parseLoaded(params: URLSearchParams): number {
 	const n = Number(params.get('n'));
@@ -97,7 +112,7 @@ export function parseLoaded(params: URLSearchParams): number {
 
 /**
  * 커서 = 마지막 항목의 정렬 값 + id (OFFSET 을 쓰지 않는다 — D1 읽기 절약, ADR 0010).
- *   recommended: [추천 수]   new: [공개 시각]   short: [길이 구간, 추천 수]
+ *   played: [플레이 수, 추천 수]   recommended: [추천 수]   reviews: [리뷰 수]   new: [공개 시각]
  */
 export interface Cursor {
 	sort: CatalogSort;
@@ -105,7 +120,7 @@ export interface Cursor {
 	id: string;
 }
 
-const CURSOR_ARITY: Record<CatalogSort, number> = { recommended: 1, new: 1, short: 2 };
+const CURSOR_ARITY: Record<CatalogSort, number> = { played: 2, recommended: 1, reviews: 1, new: 1 };
 
 export function encodeCursor(cursor: Cursor): string {
 	const json = JSON.stringify([cursor.sort, cursor.values, cursor.id]);

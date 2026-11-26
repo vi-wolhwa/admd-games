@@ -1,6 +1,6 @@
 import { expect, it } from 'vitest';
 
-import { type CatalogQuery, DEFAULT_QUERY } from '#lib/domain/catalog.ts';
+import { type CatalogQuery, DEFAULT_QUERY, SORTS } from '#lib/domain/catalog.ts';
 import type { LengthBucket } from '#lib/domain/game.ts';
 
 import type { Catalog, GameSeed } from './catalog';
@@ -33,6 +33,7 @@ function game(
 			url: `/art/${id}-${String(n)}.svg`
 		})),
 		reviewCount: 0,
+		playCount: 0,
 		publishedAt: 100 * DAY,
 		...o
 	};
@@ -42,6 +43,8 @@ export const CONTRACT_GAMES: GameSeed[] = [
 	game('g1', {
 		tags: ['퍼즐', '액션'],
 		recommendCount: 50,
+		reviewCount: 3,
+		playCount: 100,
 		length: 1,
 		publishedAt: 10 * DAY,
 		phone: true
@@ -49,6 +52,7 @@ export const CONTRACT_GAMES: GameSeed[] = [
 	game('g2', {
 		tags: ['퍼즐'],
 		recommendCount: 50,
+		reviewCount: 9,
 		length: 2,
 		publishedAt: 20 * DAY,
 		playersMax: 4
@@ -56,6 +60,8 @@ export const CONTRACT_GAMES: GameSeed[] = [
 	game('g3', {
 		tags: ['액션'],
 		recommendCount: 10,
+		reviewCount: 9,
+		playCount: 100,
 		length: 3,
 		publishedAt: 30 * DAY,
 		launch: 'download',
@@ -64,6 +70,8 @@ export const CONTRACT_GAMES: GameSeed[] = [
 	game('g4', {
 		tags: ['이야기'],
 		recommendCount: 5,
+		reviewCount: 1,
+		playCount: 7,
 		length: 5,
 		publishedAt: 40 * DAY,
 		launch: 'download',
@@ -88,17 +96,25 @@ export const CONTRACT_GAMES: GameSeed[] = [
 
 export function runCatalogContract(makeCatalog: (games: GameSeed[]) => Promise<Catalog>) {
 	const ids = async (catalog: Catalog, q: Partial<CatalogQuery>) =>
-		(await catalog.listGames({ ...DEFAULT_QUERY, ...q }, { cursor: null, limit: 50 })).items.map(
-			(g) => g.id
-		);
+		(
+			await catalog.listGames(
+				{ ...DEFAULT_QUERY, sort: 'recommended', ...q },
+				{ cursor: null, limit: 50 }
+			)
+		).items.map((g) => g.id);
 
 	it('공개된 게임만, 정렬마다 정해진 순서(같은 값이면 id 역순)', async () => {
 		const catalog = await makeCatalog(CONTRACT_GAMES);
-		const first = await catalog.listGames(DEFAULT_QUERY, { cursor: null, limit: 50 });
+		const first = await catalog.listGames(
+			{ ...DEFAULT_QUERY, sort: 'recommended' },
+			{ cursor: null, limit: 50 }
+		);
 		expect(first.items.map((g) => g.id)).toEqual(['g2', 'g1', 'g3', 'g4', 'g6']);
 		expect(first.total).toBe(5);
 		expect(await ids(catalog, { sort: 'new' })).toEqual(['g4', 'g3', 'g2', 'g1', 'g6']);
-		expect(await ids(catalog, { sort: 'short' })).toEqual(['g1', 'g6', 'g2', 'g3', 'g4']);
+		expect(await ids(catalog, { sort: 'reviews' })).toEqual(['g3', 'g2', 'g1', 'g4', 'g6']);
+		// 플레이 수가 같으면 추천 수 → id (플레이 기록이 없는 동안은 추천 순과 같아진다)
+		expect(await ids(catalog, { sort: 'played' })).toEqual(['g1', 'g3', 'g4', 'g2', 'g6']);
 	});
 
 	it('태그를 여러 개 고르면 하나라도 해당, 다른 필터와는 모두 해당', async () => {
@@ -118,6 +134,11 @@ export function runCatalogContract(makeCatalog: (games: GameSeed[]) => Promise<C
 		expect(await ids(catalog, { q: '픽셀' })).toEqual(['g4']);
 		expect(await ids(catalog, { q: 'g2' })).toEqual(['g2']);
 		expect(await ids(catalog, { q: '게임', tags: ['액션'] })).toEqual(['g1', 'g3']);
+		// 공백은 검색어 · 제목 양쪽에서 무시('게임 g1' 을 '게임g1' · '게 임 g 1' 로도)
+		expect(await ids(catalog, { q: '게임g1' })).toEqual(['g1']);
+		expect(await ids(catalog, { q: '게 임 g 1' })).toEqual(['g1']);
+		// 끝의 조합되지 않은 자모는 빼고 찾는다
+		expect(await ids(catalog, { q: '픽셀ㅅ' })).toEqual(['g4']);
 		// LIKE 의 특수 문자는 글자 그대로
 		expect(await ids(catalog, { q: '%' })).toEqual([]);
 		expect(await ids(catalog, { q: '_' })).toEqual([]);
@@ -125,7 +146,7 @@ export function runCatalogContract(makeCatalog: (games: GameSeed[]) => Promise<C
 
 	it('커서로 이어 불러오면 겹치지도 빠지지도 않고, 끝에서 멈춘다', async () => {
 		const catalog = await makeCatalog(CONTRACT_GAMES);
-		for (const sort of ['recommended', 'new', 'short'] as const) {
+		for (const sort of SORTS) {
 			const query = { ...DEFAULT_QUERY, sort };
 			const seen: string[] = [];
 			let cursor: string | null = null;
@@ -163,7 +184,7 @@ export function runCatalogContract(makeCatalog: (games: GameSeed[]) => Promise<C
 			cover: '/art/g4.svg',
 			media: g4?.media,
 			recommendCount: 5,
-			reviewCount: 0,
+			reviewCount: 1,
 			publishedAt: 40 * DAY
 		});
 		const { items: g1 } = await catalog.listGames(

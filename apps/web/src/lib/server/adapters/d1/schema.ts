@@ -41,15 +41,17 @@ export const games = sqliteTable(
 		scanPassed: integer('scan_passed', { mode: 'boolean' }).notNull(),
 		coverUrl: text('cover_url').notNull(),
 		publishedAt: integer('published_at'),
-		/** 개수 캐시 — 추천 · 리뷰 때 갱신(목록마다 세지 않음) */
+		/** 개수 캐시 — 플레이(PG06 기록) · 추천 · 리뷰 때 갱신(목록마다 세지 않음) */
+		playCount: integer('play_count').notNull().default(0),
 		recommendCount: integer('recommend_count').notNull().default(0),
 		reviewCount: integer('review_count').notNull().default(0),
 		createdAt: integer('created_at').notNull()
 	},
 	(t) => [
+		index('games_by_played').on(t.status, t.playCount, t.recommendCount, t.id),
 		index('games_by_recommended').on(t.status, t.recommendCount, t.id),
-		index('games_by_new').on(t.status, t.publishedAt, t.id),
-		index('games_by_short').on(t.status, t.length, t.recommendCount, t.id)
+		index('games_by_reviews').on(t.status, t.reviewCount, t.id),
+		index('games_by_new').on(t.status, t.publishedAt, t.id)
 	]
 );
 

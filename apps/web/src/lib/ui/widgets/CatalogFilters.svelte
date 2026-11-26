@@ -4,7 +4,8 @@
 		DEFAULT_QUERY,
 		type Players,
 		PLAYERS_LABEL,
-		SORT_LABEL
+		SORT_LABEL,
+		SORTS
 	} from '#lib/domain/catalog.ts';
 	import {
 		type Launch,
@@ -62,7 +63,7 @@
 		ALL,
 		...(['solo', 'group'] as const).map((v) => ({ value: v, label: PLAYERS_LABEL[v] }))
 	];
-	const sortItems = (['recommended', 'new', 'short'] as const).map((v) => ({
+	const sortItems = SORTS.map((v) => ({
 		value: v,
 		label: SORT_LABEL[v]
 	}));

@@ -16,7 +16,13 @@ import {
 	sql
 } from 'drizzle-orm';
 
-import { type CatalogQuery, type Cursor, decodeCursor, encodeCursor } from '#lib/domain/catalog.ts';
+import {
+	type CatalogQuery,
+	type Cursor,
+	decodeCursor,
+	encodeCursor,
+	searchKey
+} from '#lib/domain/catalog.ts';
 import type { GameCardData, GameMedia, Launch, LengthBucket } from '#lib/domain/game.ts';
 
 import type { Catalog, CatalogPage } from '../../ports/catalog';
@@ -49,6 +55,7 @@ export function createD1Catalog(db: D1Client): Catalog {
 					playersMax: games.playersMax,
 					scanPassed: games.scanPassed,
 					cover: games.coverUrl,
+					playCount: games.playCount,
 					recommendCount: games.recommendCount,
 					reviewCount: games.reviewCount,
 					publishedAt: games.publishedAt
@@ -94,7 +101,7 @@ export function createD1Catalog(db: D1Client): Catalog {
 				}
 			}
 
-			const items: GameCardData[] = pageRows.map((r) => ({
+			const items: GameCardData[] = pageRows.map(({ playCount: _plays, ...r }) => ({
 				...r,
 				length: r.length as LengthBucket,
 				launch: r.launch as Launch,
@@ -129,19 +136,23 @@ function push<T>(map: Map<string, T[]>, key: string, value: T) {
 
 function filters(db: D1Client, q: CatalogQuery): SQL | undefined {
 	const parts: (SQL | undefined)[] = [eq(games.status, 'published')];
-	if (q.q) {
-		// 제목 · 메이커 이름에 들어 있으면. LIKE 의 % _ 는 글자 그대로(ESCAPE '!').
+	const key = searchKey(q.q);
+	if (key) {
+		// 제목 · 메이커 이름에 들어 있으면 — 양쪽 공백을 빼고 비교(searchKey). LIKE 의 % _ 는 글자 그대로(ESCAPE '!').
 		// 공개 게임 행을 다 훑는다(게임 수가 적은 지금은 충분) — 수천 개가 되면 FTS5 색인으로(PG04 검색 때)
-		const pattern = `%${q.q.replace(/[!%_]/g, (c) => `!${c}`)}%`;
+		const pattern = `%${key.replace(/[!%_]/g, (c) => `!${c}`)}%`;
 		parts.push(
 			or(
-				sql`${games.title} LIKE ${pattern} ESCAPE '!'`,
+				sql`REPLACE(${games.title}, ' ', '') LIKE ${pattern} ESCAPE '!'`,
 				exists(
 					db
 						.select({ one: sql`1` })
 						.from(makers)
 						.where(
-							and(eq(makers.id, games.makerId), sql`${makers.name} LIKE ${pattern} ESCAPE '!'`)
+							and(
+								eq(makers.id, games.makerId),
+								sql`REPLACE(${makers.name}, ' ', '') LIKE ${pattern} ESCAPE '!'`
+							)
 						)
 				)
 			)
@@ -166,38 +177,49 @@ function filters(db: D1Client, q: CatalogQuery): SQL | undefined {
 }
 
 const ORDER = {
+	played: [desc(games.playCount), desc(games.recommendCount), desc(games.id)],
 	recommended: [desc(games.recommendCount), desc(games.id)],
-	new: [desc(games.publishedAt), desc(games.id)],
-	short: [asc(games.length), desc(games.recommendCount), desc(games.id)]
+	reviews: [desc(games.reviewCount), desc(games.id)],
+	new: [desc(games.publishedAt), desc(games.id)]
 } satisfies Record<CatalogQuery['sort'], SQL[]>;
 
 /** 커서 다음 항목들 — ORDER 와 같은 방향의 사전순 비교 */
 function after(c: Cursor): SQL | undefined {
 	const [a = 0, b = 0] = c.values;
 	switch (c.sort) {
+		case 'played':
+			return or(
+				lt(games.playCount, a),
+				and(eq(games.playCount, a), lt(games.recommendCount, b)),
+				and(eq(games.playCount, a), eq(games.recommendCount, b), lt(games.id, c.id))
+			);
 		case 'recommended':
 			return or(lt(games.recommendCount, a), and(eq(games.recommendCount, a), lt(games.id, c.id)));
+		case 'reviews':
+			return or(lt(games.reviewCount, a), and(eq(games.reviewCount, a), lt(games.id, c.id)));
 		case 'new':
 			return or(lt(games.publishedAt, a), and(eq(games.publishedAt, a), lt(games.id, c.id)));
-		case 'short':
-			return or(
-				gt(games.length, a),
-				and(eq(games.length, a), lt(games.recommendCount, b)),
-				and(eq(games.length, a), eq(games.recommendCount, b), lt(games.id, c.id))
-			);
 	}
 }
 
 function cursorOf(
 	q: CatalogQuery,
-	r: { id: string; recommendCount: number; publishedAt: number | null; length: number }
+	r: {
+		id: string;
+		playCount: number;
+		recommendCount: number;
+		reviewCount: number;
+		publishedAt: number | null;
+	}
 ): Cursor {
 	switch (q.sort) {
+		case 'played':
+			return { sort: q.sort, values: [r.playCount, r.recommendCount], id: r.id };
 		case 'recommended':
 			return { sort: q.sort, values: [r.recommendCount], id: r.id };
+		case 'reviews':
+			return { sort: q.sort, values: [r.reviewCount], id: r.id };
 		case 'new':
 			return { sort: q.sort, values: [r.publishedAt ?? 0], id: r.id };
-		case 'short':
-			return { sort: q.sort, values: [r.length, r.recommendCount], id: r.id };
 	}
 }

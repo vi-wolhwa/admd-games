@@ -14,10 +14,10 @@ describe('isNewGame', () => {
 });
 
 describe('hoverMedia', () => {
-	it('영상이 있으면 영상 하나만, 없으면 이미지 전부', () => {
+	it('영상을 앞에, 그다음 이미지 — 올린 순서는 그대로', () => {
 		const img = (n: number) => ({ kind: 'image' as const, url: `i${String(n)}` });
 		const video = { kind: 'video' as const, url: 'v' };
-		expect(hoverMedia([img(1), video, img(2)])).toEqual([video]);
+		expect(hoverMedia([img(1), video, img(2)])).toEqual([video, img(1), img(2)]);
 		expect(hoverMedia([img(1), img(2)])).toEqual([img(1), img(2)]);
 	});
 });

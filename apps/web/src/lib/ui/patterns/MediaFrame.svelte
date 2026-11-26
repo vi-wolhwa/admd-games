@@ -3,9 +3,10 @@
 
 	/**
 	 * 16:9 그림 틀 + 그림 위 자리(왼쪽 위 · 오른쪽 위). 게임 카드 · 앞으로 개발일지 · 잼 카드가 같이 쓴다.
-	 * active 가 되면 300ms 뒤에야 미리보기를 불러온다(스쳐 가는 마우스는 안 받음 — ADR 0009 성능 규칙):
-	 *   영상 1개 → 소리 없이 반복 / 이미지 여러 장 → 2.5초마다 순환. 움직임 줄이기면 대표 그림 그대로.
-	 * 바꿀 그림은 미리 다 받아(decode) 둔 뒤 한 번에 바꾼다 — 반쯤 비치는 전환 · 덜 받은 그림의 잔상이 없게.
+	 * active 가 되면 300ms 뒤에야 미리보기를 불러온다(스쳐 가는 마우스는 안 받음 — ADR 0009 성능 규칙).
+	 * 차례(media 순서): 영상은 소리 없이 **끝까지** 튼 뒤 다음으로, 이미지는 2.5초씩, 끝나면 처음부터(ADR 0009 보강 #11).
+	 * 그림은 받아(decode) 둔 뒤 한 번에 바꾸고, 영상은 재생이 시작될 때까지 앞 그림을 그대로 둔다 — 깜빡임 · 잔상 없음.
+	 * 움직임 줄이기면 대표 그림 그대로.
 	 */
 	interface Media {
 		kind: 'image' | 'video';
@@ -14,7 +15,7 @@
 
 	interface Props {
 		cover: string;
-		/** 호버 때 보여 줄 것(이미 고른 목록 — 영상 1개 또는 이미지들) */
+		/** 호버 때 보여 줄 차례(영상 먼저 — hoverMedia) */
 		media?: Media[];
 		active?: boolean;
 		/** 들림(호버 중인 카드) */
@@ -26,55 +27,59 @@
 	let { cover, media = [], active = false, lifted = false, topLeft, topRight }: Props = $props();
 
 	const HOVER_DELAY = 300;
-	const ROTATE_EVERY = 2500;
+	const IMAGE_SECONDS = 2500;
 
-	/** 지금 대표 그림 위에 보이는 미리보기 이미지(없으면 대표 그림) */
-	let shown = $state<string | null>(null);
+	/** 대표 그림 위에 깔린 마지막 이미지 */
+	let image = $state<string | null>(null);
+	/** 지금 트는 영상(재생이 시작되면 이미지 위로 보인다) */
 	let video = $state<string | null>(null);
 	let videoPlaying = $state(false);
 
-	// 외부(타이머 · 이미지 받기 · 사용자 설정)와 맞추는 일이라 $effect
+	// 순서를 진행시키는 것들 — 화면에 그리지 않으므로 반응형이 아님
+	let run = 0;
+	let position = 0;
+	let timer: ReturnType<typeof setTimeout> | undefined;
+
+	function decode(url: string): Promise<void> {
+		const img = new Image();
+		img.src = url;
+		return img.decode().catch(() => undefined);
+	}
+
+	async function show(index: number, token: number) {
+		const item = media[index % media.length];
+		if (!item || token !== run) return;
+		position = index;
+		if (item.kind === 'video') {
+			videoPlaying = false;
+			video = item.url;
+			return; // 다음 차례는 영상이 끝날 때(onended)
+		}
+		await decode(item.url);
+		if (token !== run) return;
+		image = item.url;
+		video = null;
+		if (media.length > 1) timer = setTimeout(() => void show(index + 1, token), IMAGE_SECONDS);
+	}
+
+	function videoEnded() {
+		if (media.length > 1) void show(position + 1, run);
+	}
+
+	// 외부(타이머 · 그림 받기 · 사용자 설정)와 맞추는 일이라 $effect
 	$effect(() => {
 		if (!active || media.length === 0) return;
 		if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-		let stopped = false;
-		let rotate: ReturnType<typeof setInterval> | undefined;
-		const images = media.filter((m) => m.kind === 'image').map((m) => m.url);
-		const first = media[0];
-
-		const start = setTimeout(() => {
-			if (first?.kind === 'video') {
-				video = first.url;
-				return;
-			}
-			const ready: string[] = [];
-			for (const url of images) {
-				const img = new Image();
-				img.src = url;
-				void img
-					.decode()
-					.then(() => {
-						if (stopped) return;
-						ready.push(url);
-						if (ready.length === 1) shown = url;
-					})
-					.catch(() => undefined);
-			}
-			let i = 0;
-			rotate = setInterval(() => {
-				// 받아 둔 것만 차례로 — 아직 못 받은 그림은 건너뛴다
-				const order = images.filter((u) => ready.includes(u));
-				if (order.length < 2) return;
-				i = (i + 1) % order.length;
-				shown = order[i] ?? null;
-			}, ROTATE_EVERY);
+		const token = ++run;
+		timer = setTimeout(() => {
+			// 이미지는 미리 받아 두기 시작(영상이 도는 동안 받아 놓으면 넘어갈 때 바로 보임)
+			for (const m of media) if (m.kind === 'image') void decode(m.url);
+			void show(0, token);
 		}, HOVER_DELAY);
-
 		return () => {
-			stopped = true;
-			clearTimeout(start);
-			clearInterval(rotate);
-			shown = null;
+			run++;
+			clearTimeout(timer);
+			image = null;
 			video = null;
 			videoPlaying = false;
 		};
@@ -90,18 +95,19 @@
 >
 	<div class="absolute inset-0 overflow-hidden rounded-[inherit]">
 		<img src={cover} alt="" class="size-full object-cover" loading="lazy" decoding="async" />
-		{#if shown}
-			<img src={shown} alt="" class="absolute inset-0 size-full object-cover" />
+		{#if image}
+			<img src={image} alt="" class="absolute inset-0 size-full object-cover" />
 		{/if}
 		{#if video}
 			<video
 				src={video}
 				class={['absolute inset-0 size-full object-cover', !videoPlaying && 'invisible']}
 				muted
-				loop
 				playsinline
 				autoplay
+				loop={media.length === 1}
 				onplaying={() => (videoPlaying = true)}
+				onended={videoEnded}
 			></video>
 		{/if}
 	</div>
