@@ -16,7 +16,7 @@
 			"database_name": "admd-games",
 			// 로컬 개발은 이 값과 무관하게 .wrangler/ 아래 SQLite 파일을 쓴다.
 			// 실제 ID 는 Actions 의 'cloudflare-bootstrap' 을 한 번 실행해 받아 넣는다(docs/operations.md).
-			"database_id": "00000000-0000-0000-0000-000000000000",
+			"database_id": "3c8e9066-24e1-4896-91d6-e6e9b0ac051d",
 			"migrations_dir": "migrations"
 		}
 	],
@@ -31,7 +31,7 @@
 				{
 					"binding": "DB",
 					"database_name": "admd-games-preview",
-					"database_id": "00000000-0000-0000-0000-000000000000",
+					"database_id": "37ba1709-3e2b-4b88-8f37-e7e2a8e9ff72",
 					"migrations_dir": "migrations"
 				}
 			]
