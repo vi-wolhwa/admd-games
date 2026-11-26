@@ -1,0 +1,24 @@
+# main 으로는 develop 에서 온 PR 만 (ADR 0013). 규칙 세트에서 이 검사를 필수로 건다.
+name: main-source
+
+on:
+  pull_request:
+    branches: [main]
+
+permissions: {}
+
+jobs:
+  main-source:
+    runs-on: ubuntu-latest
+    steps:
+      - name: develop 에서 온 PR 인지 확인
+        env:
+          HEAD_REF: ${{ github.head_ref }}
+          HEAD_REPO: ${{ github.event.pull_request.head.repo.full_name }}
+          BASE_REPO: ${{ github.repository }}
+        run: |
+          if [ "$HEAD_REF" != "develop" ] || [ "$HEAD_REPO" != "$BASE_REPO" ]; then
+            echo "::error::main 으로는 이 저장소의 develop 브랜치에서 온 PR 만 받을 수 있어요 (지금: $HEAD_REPO:$HEAD_REF)."
+            exit 1
+          fi
+          echo "develop → main 확인"
