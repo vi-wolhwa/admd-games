@@ -63,6 +63,6 @@ DB 를 나중에 바꿀 수 있게 하는 것이 핵심 요구사항이다. 그�
 - 주소: PlayGround `/play` · MakersGround `/makers`(라우트 그룹 `(play)` · `(makers)`), `/` → `/play` 307.
 - UI 컴포넌트는 `lib/ui` 의 5층(primitives → patterns → entities → features → widgets), 아래로만 import — [component-architecture.md](dev/component-architecture.md), 강제: `scripts/check-boundaries.mjs`.
 - 규칙(권한 · 상태 판단)은 `lib/domain` 의 순수 함수 — 화면과 서버가 같은 함수를 써서 어긋나지 않게.
-- 요청 흐름(`hooks.server.ts`, `chain` 으로 잇기): 요청 번호 → 서비스(container) → 테마 · 그라운드를 `<html>` 에 → 보안 헤더. CSP 는 `vite.config.ts` 의 `csp`(nonce 자동).
+- 요청 흐름(`hooks.server.ts`, SvelteKit `sequence` 로 잇기): 요청 번호 → 서비스(container) → 테마 · 그라운드를 `<html>` 에 → 보안 헤더. CSP 는 `vite.config.ts` 의 `csp`(nonce 자동).
 - 오류: 예상 못 한 오류만 `lib/server/log.ts` 로 구조화 로그(Workers Logs), 사용자에게는 친절한 문구 + 오류 번호.
 
