@@ -1,0 +1,270 @@
+/**
+ * 가짜 게임 상세 · 리뷰 — 이야기(갤러리) · 테스트 · 미리보기/로컬 D1 시드 전용(운영 코드에서 import 금지).
+ * 사람 · 글은 모두 지어낸 것.
+ */
+import type { Caution, Control, Device } from '#lib/domain/game.ts';
+import type { ProfileSeed, ReviewSeed } from '#lib/server/ports/game-details.ts';
+
+interface Detail {
+	description: string;
+	devices: Device[];
+	controls: Control[];
+	languages: string[];
+	cautions: Caution[];
+	minSpec: string | null;
+}
+
+const D = (
+	description: string,
+	devices: Device[],
+	controls: Control[],
+	languages: string[] = ['ko'],
+	cautions: Caution[] = [],
+	minSpec: string | null = null
+): Detail => ({ description, devices, controls, languages, cautions, minSpec });
+
+/** slug → 상세. 휴대폰 · 패드만 되는 게임(박자 정원)은 PC 에서 '이 기기 불가' 를 보여 주려고 */
+export const SAMPLE_DETAILS: Record<string, Detail> = {
+	'ashfall-runner': D(
+		'재가 내리는 도시를 끝없이 달리는 러너. 건물이 무너지는 소리를 듣고 길을 고르세요.\n\n한 판은 짧지만 기록을 깨려면 길을 외워야 해요.\n\n- 손가락 하나로 하는 점프와 미끄러지기\n- 매일 바뀌는 도시 지도\n- 친구 기록과 나란히 보이는 유령 달리기',
+		['pc', 'phone'],
+		['keyboard', 'touch'],
+		['ko', 'en'],
+		['flashing']
+	),
+	'loop-debugger': D(
+		'모든 방이 하나의 함수인 프로그래밍 퍼즐. 루프를 고쳐 갇힌 로봇을 꺼내 주세요.\n\n문법을 몰라도 괜찮아요. 블록은 그림으로 되어 있고, 틀리면 로봇이 어디서 멈췄는지 바로 보여 줘요.\n\n- 스테이지 하나가 짧아서 출퇴근길에 한 판씩\n- 힌트는 세 단계 — 답을 바로 알려 주지 않아요\n- 직접 만든 문제를 링크로 친구에게',
+		['pc', 'phone'],
+		['keyboard', 'mouse', 'touch'],
+		['ko', 'en']
+	),
+	tessellate: D(
+		'모양이 다른 조각으로 판을 빈틈없이 채우는 퍼즐. 같은 조각도 돌리면 다른 답이 돼요.\n\n- 손으로 그린 조각 120개\n- 막히면 조각 하나만 자리를 알려 주는 힌트',
+		['pc'],
+		['mouse']
+	),
+	'grid-runner': D(
+		'격자 위에서 방향만 바꿀 수 있는 러너. 멈추는 순간 진다.\n\n- 3분이면 끝나는 짧은 판\n- 판마다 섞이는 격자',
+		['pc', 'phone'],
+		['keyboard', 'touch']
+	),
+	'tilt-theory': D(
+		'판을 기울여 구슬을 집으로 보내는 물리 퍼즐. 기울기는 마우스로, 미세 조정은 키보드로.\n\n- 손으로 만든 판 60개\n- 실수를 되감는 5초 되돌리기',
+		['pc'],
+		['keyboard', 'mouse'],
+		['ko', 'en'],
+		[],
+		'Windows 10 이상 · RAM 4GB · 내장 그래픽'
+	),
+	'refactor-rush': D(
+		'마감 3분 전, 엉킨 코드를 정리해 빌드를 살리는 아케이드.\n\n- 3분 한 판\n- 점점 빨라지는 버그',
+		['pc', 'phone'],
+		['keyboard', 'touch']
+	),
+	solvent: D(
+		'두 물방울이 섞여야 풀리는 퍼즐. 혼자서는 두 손으로, 같이 하면 한 사람이 한 방울씩.\n\n- 둘이 하면 화면 나눠 보기\n- 섞이는 순간마다 바뀌는 색',
+		['pc'],
+		['keyboard', 'gamepad']
+	),
+	'paper-vector': D(
+		'종이비행기로 하는 네 명 대전. 바람을 타고 상대 비행기를 접어 버리세요.\n\n한 판 5분, 지면 바로 다음 판. 같은 화면에서 넷이 할 수 있어요.\n\n- 같은 화면 최대 4명\n- 게임패드 · 키보드 섞어서\n- 판마다 바뀌는 바람',
+		['pc'],
+		['keyboard', 'gamepad'],
+		['ko', 'en', 'ja'],
+		['loud']
+	),
+	'null-pointer': D(
+		'가리키는 곳이 사라지는 던전 로그라이크. 죽을 때마다 지도가 새로 짜여요.\n\n- 한 번 들어가면 저녁 내내\n- 무기 40종 · 저주 20종',
+		['pc'],
+		['keyboard', 'mouse', 'gamepad'],
+		['ko'],
+		['violence'],
+		'Windows 10 이상 · RAM 8GB · GTX 1050 급'
+	),
+	'block-post': D(
+		'꾸러미를 쌓아 마을에 배달하는 아기자기한 경영 퍼즐.\n\n- 쌓는 모양에 따라 배달 순서가 바뀌어요\n- 마을이 커질수록 늘어나는 우체국',
+		['pc', 'phone'],
+		['mouse', 'touch']
+	),
+	'city-of-ash': D(
+		'타 버린 도시에 남은 이야기를 줍는 탐험 게임. 말하는 사람은 없고, 남은 물건이 말해요.\n\n- 엔딩까지 약 3시간\n- 직접 녹음한 도시 소리',
+		['pc'],
+		['keyboard', 'mouse'],
+		['ko', 'en'],
+		['horror'],
+		'Windows 10 이상 · RAM 8GB · 내장 그래픽'
+	),
+	'lighthouse-night': D(
+		'하룻밤 동안 등대를 지키는 이야기. 배가 지나갈 때마다 등대지기의 기억이 하나씩 돌아와요.\n\n- 30분 안쪽의 짧은 이야기\n- 고르는 말에 따라 바뀌는 아침',
+		['pc'],
+		['mouse']
+	),
+	'beat-garden': D(
+		'박자에 맞춰 화면을 두드려 꽃을 피우는 리듬 게임. 터치로만 할 수 있어요.\n\n- 곡 12개, 곡마다 다른 정원\n- 틀려도 꽃은 피어요 — 조금 덜 예쁠 뿐',
+		['phone', 'pad'],
+		['touch']
+	),
+	'harbor-shop': D(
+		'작은 항구 가게를 키워 무역로를 여는 경영 게임.\n\n- 계절마다 바뀌는 물건값\n- 배 한 척으로 시작',
+		['pc'],
+		['mouse']
+	),
+	stardust: D(
+		'밤하늘 아래 별가루를 모으는 느긋한 탐험.\n\n- 지는 것이 없는 게임\n- 모은 별가루로 하늘에 그림을',
+		['pc', 'phone'],
+		['mouse', 'touch']
+	),
+	'three-walls': D(
+		'성벽 세 개로 마을을 지키는 전략 게임. 벽은 늘어나지 않아요, 옮길 수만 있어요.\n\n- 둘이 하면 벽 하나씩 맡기',
+		['pc'],
+		['mouse']
+	),
+	'cat-mail': D(
+		'고양이가 배달하는 편지 퍼즐. 편지를 읽고 받는 사람을 찾아 주세요.\n\n동네 사람들의 짧은 이야기가 편지 속에 숨어 있어요.\n\n- 편지 40통\n- 고양이를 쓰다듬을 수 있어요',
+		['pc', 'phone'],
+		['mouse', 'touch'],
+		['ko', 'en']
+	),
+	'desert-radio': D(
+		'모래바람 속 무전을 따라가는 탐험. 무전기 다이얼이 유일한 지도예요.\n\n- 소리로 길을 찾는 게임 — 이어폰을 권해요',
+		['pc'],
+		['keyboard', 'mouse'],
+		['ko'],
+		['loud'],
+		'Windows 10 이상 · RAM 4GB'
+	),
+	'echo-tower': D(
+		'소리가 돌아오는 길을 찾는 퍼즐. 탑의 벽에 소리를 튕겨 문을 여세요.\n\n- 소리를 눈으로 보는 모드',
+		['pc'],
+		['mouse']
+	),
+	'tofu-factory': D(
+		'두부를 쉬지 않고 찍어 내는 공장 경영. 주문은 점점 이상해져요.\n\n- 30분이면 공장 하나',
+		['pc', 'phone'],
+		['mouse', 'touch']
+	),
+	'shadow-tag': D(
+		'그림자를 밟히면 술래가 되는 대전 게임. 해가 움직이면 그림자도 길어져요.\n\n- 같은 화면 2~4명',
+		['pc'],
+		['keyboard', 'gamepad']
+	),
+	'forest-library': D(
+		'숲속 도서관에서 잃어버린 책을 찾는 이야기. 책장마다 다른 숲이 열려요.\n\n- 엔딩까지 약 2시간',
+		['pc'],
+		['keyboard', 'mouse'],
+		['ko'],
+		[],
+		'Windows 10 이상 · RAM 4GB'
+	),
+	'planet-gardener': D(
+		'작은 행성에 정원을 가꾸는 경영. 행성이 돌면 그늘도 옮겨 가요.\n\n- 씨앗 30종',
+		['pc'],
+		['mouse']
+	),
+	'lightning-delivery': D(
+		'번개보다 빨리 배달하는 아케이드. 길을 외우면 빨라져요.\n\n- 1분 한 판\n- 하루 한 번 바뀌는 배달지',
+		['pc', 'phone'],
+		['keyboard', 'touch'],
+		['ko', 'en']
+	)
+};
+
+export const SAMPLE_PROFILES: ProfileSeed[] = [
+	['새벽배송', 'ㅅ', 'hong'],
+	['모래시계', 'ㅁ', 'bora'],
+	['비취색', 'ㅂ', 'bichwi'],
+	['귤껍질', 'ㄱ', 'gyul'],
+	['하늘다람쥐', 'ㅎ', 'haneul'],
+	['주말게이머', 'ㅈ', 'ju'],
+	['올리브', 'ㅇ', 'olive'],
+	['풀잎', 'ㅍ', 'pul'],
+	['청록', 'ㅊ', 'cheongnok'],
+	['자두맛', 'ㅈ', 'jadu'],
+	['노랑우산', 'ㄴ', 'hwang'],
+	['쪽배', 'ㅉ', 'jjok']
+].map(([displayName = '', faceChar = '', faceColor = ''], i) => ({
+	id: `sample-person-${String(i + 1)}`,
+	displayName,
+	faceChar,
+	faceColor
+}));
+
+const DAY = 86_400_000;
+
+// [게임 slug, 사람 번호(1~12), 쓸 때 플레이(분, 모르면 null), 버전, 며칠 전, 도움 수, 추천함, 고른 말, 본문, 메이커 답글]
+type Row = [
+	slug: string,
+	person: number,
+	minutes: number | null,
+	version: string,
+	daysAgo: number,
+	helpful: number,
+	recommended: boolean,
+	phrases: string[],
+	body: string,
+	reply?: [body: string, note: string | null, daysAfter: number]
+];
+
+// 한 줄 = 리뷰 하나(표처럼 읽기)
+// prettier-ignore
+const ROWS: Row[] = [
+	['paper-vector', 1, 340, 'v1.3', 4, 58, true, ['같이 하면 더 좋아요', '짧고 굵음'], '주말마다 넷이 모여서 해요. 한 판이 5분이라 진 사람이 바로 다음 판을 외치게 돼요. 바람 방향이 판마다 바뀌어서 같은 전략이 잘 안 통하는 게 좋아요.'],
+	['paper-vector', 2, 95, 'v1.3', 9, 31, true, ['같이 하면 더 좋아요'], '혼자 하는 모드도 있긴 한데, 이 게임은 같이 해야 진짜예요. 게임패드 두 개랑 키보드 하나로 셋이 했는데 문제없었어요.'],
+	['paper-vector', 5, 22, 'v1.2', 30, 12, false, ['어려워요'], '처음엔 비행기가 너무 빨리 접혀서 뭐가 뭔지 몰랐어요. 연습 모드가 있으면 좋겠어요.', ['연습 모드를 넣었어요. 메뉴 맨 아래에 있어요!', 'v1.3 에서 고침', 2]],
+	['paper-vector', 9, 610, 'v1.3', 2, 9, true, ['음악이 좋아요'], '배경 음악이 바람 소리랑 섞여서 신기하게 잘 어울려요. 10시간 넘게 했는데 아직 안 질려요.'],
+	['paper-vector', 11, 48, 'v1.3', 1, 0, true, [], '친구 집에서 처음 해 봤는데 바로 받았어요.'],
+	['paper-vector', 6, 130, 'v1.1', 60, 4, false, ['버그가 있어요'], '네 명일 때 가끔 화면이 멈췄어요. 업데이트 후엔 괜찮은지 다시 해 볼게요.', ['네 명 화면 멈춤은 v1.2 에서 고쳤어요. 알려 줘서 고마워요.', 'v1.2 에서 고침', 3]],
+	['ashfall-runner', 3, 420, 'v2.0', 3, 44, true, ['짧고 굵음', '한 손으로'], '출근길 지하철에서 한 손으로 해요. 무너지는 소리를 듣고 길을 고르는 게 처음엔 어려운데, 익숙해지면 소리만 듣고도 뛰어요.'],
+	['ashfall-runner', 7, 75, 'v2.0', 12, 21, true, ['음악이 좋아요'], '소리가 정말 좋아요. 이어폰 끼고 하세요.'],
+	['ashfall-runner', 4, 15, 'v1.9', 40, 8, false, ['어려워요'], '세 번째 구간부터 너무 어려워져요. 조금만 천천히 올라가면 좋겠어요.', ['세 번째 구간 속도를 낮췄어요. 다시 한 번 달려 봐 주세요!', 'v2.0 에서 고침', 5]],
+	['ashfall-runner', 10, null, 'v2.0', 6, 3, true, [], '기록 깨려고 계속 하게 돼요.'],
+	['ashfall-runner', 12, 260, 'v2.0', 1, 1, true, ['한 손으로'], '유령 달리기로 친구 기록이랑 같이 뛰는 게 은근히 승부욕을 자극해요. 매일 지도가 바뀌어서 외운 길이 소용없을 때가 있는데, 그게 또 재미예요.'],
+	['cat-mail', 5, 190, 'v1.1', 5, 37, true, ['이야기가 좋아요', '힌트가 친절해요'], '편지 하나하나에 동네 사람들 사연이 있어서 퍼즐보다 이야기가 더 기억에 남아요. 마지막 편지는 좀 울었어요.'],
+	['cat-mail', 8, 66, 'v1.1', 14, 15, true, ['이야기가 좋아요'], '고양이를 쓰다듬을 수 있다는 것만으로 별 다섯 개예요. 아, 별점은 없지.'],
+	['cat-mail', 2, 30, 'v1.0', 50, 6, false, ['튜토리얼이 길어요'], '처음 편지 다섯 통이 다 튜토리얼이라 좀 길어요.', ['튜토리얼을 편지 두 통으로 줄였어요.', 'v1.1 에서 고침', 4]],
+	['cat-mail', 11, 12, 'v1.1', 2, 0, false, [], '휴대폰에서는 글씨가 조금 작아요.'],
+	['lighthouse-night', 9, 35, 'v1.0', 7, 26, true, ['이야기가 좋아요', '짧고 굵음'], '30분이면 끝나는데 여운이 길어요. 두 번째 판에서 다른 말을 골랐더니 아침이 완전히 달라졌어요.'],
+	['lighthouse-night', 3, 28, 'v1.0', 18, 11, true, ['이야기가 좋아요'], '조용한 밤에 하기 좋아요. 배경 그림이 정말 예뻐요.'],
+	['lighthouse-night', 6, 20, 'v1.0', 3, 2, false, [], '조금 더 길었으면 좋겠어요.'],
+	['beat-garden', 4, 150, 'v1.4', 6, 19, true, ['음악이 좋아요', '한 손으로'], '틀려도 꽃이 피는 게 너무 좋아요. 리듬 게임 못하는 사람도 끝까지 할 수 있어요.'],
+	['beat-garden', 10, 45, 'v1.4', 11, 7, true, ['음악이 좋아요'], '패드로 하니까 화면이 넓어서 더 좋아요.'],
+	['beat-garden', 1, 8, 'v1.3', 25, 1, false, ['조작이 편해요'], '판정이 조금 후해요. 어려움 모드가 있으면 좋겠어요.'],
+	['loop-debugger', 1, 66, 'v1.1', 8, 41, true, ['짧고 굵음', '힌트가 친절해요'], '회사에서 하는 일이랑 너무 똑같아서 웃겼어요. 그런데 이건 고치면 칭찬을 해 주네요. 15스테이지부터 난이도가 확 오르는데, 힌트가 세 단계라 답을 보지 않고도 풀 수 있게 잡아 줘요.', ['15스테이지 구간에 연습 스테이지를 하나 더 넣었어요. 고마워요!', 'v1.2 에서 고침', 1]],
+	['loop-debugger', 2, 66, 'v1.1', 9, 17, false, ['튜토리얼이 길어요'], '튜토리얼이 너무 길어요. 처음 세 스테이지는 이미 아는 내용이라 건너뛰기가 있으면 좋겠어요.', ['튜토리얼을 한 스테이지로 줄였어요. 다시 한 번 봐 주세요!', 'v1.2 에서 고침', 2]],
+	['loop-debugger', 3, 300, 'v1.2', 3, 9, true, ['짧고 굵음'], '마지막까지 다 해 봤어요. 후반 다섯 개는 정말 머리가 아팠지만, 힌트 두 번째 단계에서 딱 풀리게 돼 있어서 억지스럽지 않았어요. 편집기로 만든 문제를 친구한테 보냈더니 밤새 풀더라고요. 공유 링크 덕분에 같이 노는 맛이 생겼어요. 아쉬운 점을 하나 꼽자면 편집기에서 만든 문제를 저장해 두는 칸이 세 개뿐이라 자꾸 지우게 된다는 거예요. 다음 업데이트에서 칸이 늘어나면 좋겠어요. 그래도 올해 해 본 퍼즐 중에 제일 오래 붙잡고 있었던 게임이에요.'],
+	['lightning-delivery', 7, 90, 'v1.0', 4, 13, true, ['짧고 굵음', '조작이 편해요'], '1분이라 부담이 없어요. 하루 한 번 바뀌는 배달지 때문에 매일 들어와요.'],
+	['lightning-delivery', 12, 15, 'v1.0', 9, 2, false, [], '길이 조금 헷갈려요.'],
+	['tessellate', 8, 55, 'v1.0', 2, 6, true, ['힌트가 친절해요'], '조각 하나만 알려 주는 힌트가 정말 좋아요. 답을 다 알려 주지 않아서 끝까지 내가 푼 느낌이 나요.'],
+	['tessellate', 11, 20, 'v1.0', 1, 0, true, [], '그림이 손으로 그린 거라 따뜻해요.'],
+	['tilt-theory', 5, null, 'v2.1', 20, 10, true, ['어려워요'], '설치형이라 플레이 시간은 안 남지만 열 시간은 넘게 한 것 같아요. 5초 되돌리기가 없었으면 진작 그만뒀을 거예요.'],
+	['null-pointer', 6, null, 'v0.9', 15, 5, true, [], '죽을 때마다 지도가 바뀌어서 저녁이 사라져요.']
+];
+
+/** 가짜 리뷰 전부. now 기준으로 며칠 전에 썼는지 정한다 */
+export function sampleReviews(now: number): ReviewSeed[] {
+	return ROWS.map(
+		([slug, person, minutes, version, daysAgo, helpful, recommended, phrases, body, reply], i) => {
+			const createdAt = now - daysAgo * DAY - i * 60_000;
+			return {
+				id: `sample-review-${String(i + 1)}`,
+				gameId: `sample-${slug}`,
+				authorId: `sample-person-${String(person)}`,
+				body,
+				playMinutes: minutes,
+				version,
+				helpfulCount: helpful,
+				createdAt,
+				phrases,
+				recommended,
+				reply: reply
+					? { body: reply[0], note: reply[1], createdAt: createdAt + reply[2] * DAY }
+					: null
+			};
+		}
+	);
+}
+
+/** 게임별 가짜 리뷰 수 — 카드 · 탭의 리뷰 수를 목록과 맞춘다 */
+export function sampleReviewCount(slug: string): number {
+	return ROWS.filter((r) => r[0] === slug).length;
+}

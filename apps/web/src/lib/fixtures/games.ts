@@ -4,6 +4,7 @@
  * 이름 · 메이커는 모두 지어낸 것.
  */
 import type { GameCardData, LengthBucket } from '#lib/domain/game.ts';
+import { SAMPLE_DETAILS, sampleReviewCount } from '#lib/fixtures/game-details.ts';
 import type { GameSeed } from '#lib/server/ports/catalog.ts';
 
 /** 이야기의 '오늘' — 신작 배지가 매번 같게 보이도록 고정 */
@@ -102,10 +103,12 @@ export function sampleGames(now: number = STORY_NOW): GameSeed[] {
 						url: `/sample/${slug}-${String(n + 1)}.svg`
 					}))
 				],
-				// 플레이 수(가짜) — 추천 순서와 일부러 조금 다르게
+				// 플레이 수(가짜) — 추천 순서와 일부러 조금 다르게(표의 리뷰 열은 이 계산에만 씀)
 				playCount: recommend * (3 + (i % 5)) + review * 11,
 				recommendCount: recommend,
-				reviewCount: review,
+				// 리뷰 수는 실제 가짜 리뷰 개수와 맞춘다(탭 · 목록과 어긋나지 않게)
+				reviewCount: sampleReviewCount(slug),
+				detail: SAMPLE_DETAILS[slug],
 				publishedAt: now - daysAgo * DAY
 			};
 		}
@@ -121,6 +124,7 @@ export function sampleCards(now: number = STORY_NOW): GameCardData[] {
 			status: _st,
 			playersMin: _p,
 			playCount: _pc,
+			detail: _d,
 			publishedAt,
 			...card
 		}) => ({

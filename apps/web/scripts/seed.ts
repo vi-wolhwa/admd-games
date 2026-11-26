@@ -9,8 +9,10 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import path from 'node:path';
 
+import { SAMPLE_PROFILES, sampleReviews } from '#lib/fixtures/game-details.ts';
 import { sampleGames } from '#lib/fixtures/games.ts';
 import { catalogSeedStatements } from '#lib/server/adapters/d1/catalog-seed.ts';
+import { reviewSeedStatements } from '#lib/server/adapters/d1/review-seed.ts';
 
 const args = process.argv.slice(2);
 const local = args.includes('--local');
@@ -23,7 +25,11 @@ if (!local && !preview) {
 const now = Date.now();
 const file = path.join(import.meta.dirname, '../.wrangler/seed.sql');
 mkdirSync(path.dirname(file), { recursive: true });
-writeFileSync(file, catalogSeedStatements(sampleGames(now), now).join('\n') + '\n');
+const statements = [
+	...catalogSeedStatements(sampleGames(now), now),
+	...reviewSeedStatements(SAMPLE_PROFILES, sampleReviews(now), now)
+];
+writeFileSync(file, statements.join('\n') + '\n');
 
 // npx 대신 wrangler 실행 파일을 node 로 직접 — 윈도우에서도 셸 없이
 const wrangler = path.join(

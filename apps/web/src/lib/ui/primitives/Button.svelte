@@ -28,6 +28,7 @@
 	const classes = $derived([
 		'inline-flex items-center justify-center gap-1.5 font-bold whitespace-nowrap transition-colors duration-(--dur-fast) ease-soft',
 		'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
+		'disabled:cursor-not-allowed disabled:opacity-45',
 		variant !== 'link' &&
 			(size === 'md'
 				? 'h-(--btn-h) rounded-md px-5 text-body'

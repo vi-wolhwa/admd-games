@@ -23,11 +23,11 @@ import {
 	encodeCursor,
 	searchKey
 } from '#lib/domain/catalog.ts';
-import type { GameCardData, GameMedia, Launch, LengthBucket } from '#lib/domain/game.ts';
 
 import type { Catalog, CatalogPage } from '../../ports/catalog';
+import { cardColumns, toCards } from './cards';
 import type { D1Client } from './client';
-import { gameMedia, games, gameTags, makers, tags } from './schema';
+import { games, gameTags, makers, tags } from './schema';
 
 /**
  * D1 게임 목록. 읽기 비용(무료 5백만 행/일)을 아끼는 규칙:
@@ -44,22 +44,7 @@ export function createD1Catalog(db: D1Client): Catalog {
 			const filter = filters(db, query);
 			const where = cursor ? and(filter, after(cursor)) : filter;
 			const list = db
-				.select({
-					id: games.id,
-					slug: games.slug,
-					title: games.title,
-					makerName: makers.name,
-					length: games.length,
-					launch: games.launch,
-					phone: games.phone,
-					playersMax: games.playersMax,
-					scanPassed: games.scanPassed,
-					cover: games.coverUrl,
-					playCount: games.playCount,
-					recommendCount: games.recommendCount,
-					reviewCount: games.reviewCount,
-					publishedAt: games.publishedAt
-				})
+				.select({ ...cardColumns, playCount: games.playCount })
 				.from(games)
 				.innerJoin(makers, eq(makers.id, games.makerId))
 				.where(where)
@@ -78,37 +63,7 @@ export function createD1Catalog(db: D1Client): Catalog {
 
 			const hasMore = rows.length > page.limit;
 			const pageRows = hasMore ? rows.slice(0, page.limit) : rows;
-			const ids = pageRows.map((r) => r.id);
-			const tagsByGame = new Map<string, string[]>();
-			const mediaByGame = new Map<string, GameMedia[]>();
-			if (ids.length > 0) {
-				const [tagRows, mediaRows] = await db.batch([
-					db
-						.select({ gameId: gameTags.gameId, name: tags.name })
-						.from(gameTags)
-						.innerJoin(tags, eq(tags.id, gameTags.tagId))
-						.where(inArray(gameTags.gameId, ids))
-						.orderBy(asc(gameTags.gameId), asc(gameTags.position)),
-					db
-						.select({ gameId: gameMedia.gameId, kind: gameMedia.kind, url: gameMedia.url })
-						.from(gameMedia)
-						.where(inArray(gameMedia.gameId, ids))
-						.orderBy(asc(gameMedia.gameId), asc(gameMedia.position))
-				]);
-				for (const t of tagRows) push(tagsByGame, t.gameId, t.name);
-				for (const m of mediaRows) {
-					push(mediaByGame, m.gameId, { kind: m.kind === 'video' ? 'video' : 'image', url: m.url });
-				}
-			}
-
-			const items: GameCardData[] = pageRows.map(({ playCount: _plays, ...r }) => ({
-				...r,
-				length: r.length as LengthBucket,
-				launch: r.launch as Launch,
-				publishedAt: r.publishedAt ?? 0,
-				tags: tagsByGame.get(r.id) ?? [],
-				media: mediaByGame.get(r.id) ?? []
-			}));
+			const items = await toCards(db, pageRows);
 			const last = pageRows.at(-1);
 			return {
 				items,
@@ -126,12 +81,6 @@ export function createD1Catalog(db: D1Client): Catalog {
 			return rows;
 		}
 	};
-}
-
-function push<T>(map: Map<string, T[]>, key: string, value: T) {
-	const list = map.get(key);
-	if (list) list.push(value);
-	else map.set(key, [value]);
 }
 
 function filters(db: D1Client, q: CatalogQuery): SQL | undefined {

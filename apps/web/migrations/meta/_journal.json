@@ -15,6 +15,13 @@
       "when": 1795731005291,
       "tag": "0001_sort_by_plays",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "6",
+      "when": 1795732865725,
+      "tag": "0002_game_detail_reviews",
+      "breakpoints": true
     }
   ]
 }
