@@ -1,6 +1,6 @@
 # 0012. 디자인의 원본을 어디에 둘까 — 컴포넌트 · 동기화 (제안)
 
-- 상태: **제안 — 사용자 결정 대기** (2026-11-27)
+- 상태: **승인** (2026-11-27 — 사용자: "코드가 원본 + 갤러리" 로 진행)
 - 질문(사용자): 여러 페이지가 함께 쓰는 컴포넌트를 피그마처럼 한 곳에서 고치면 모든 페이지에 반영되게 할 수 있나? 개발 후에도 디자인과 소스 코드가 100% 동기화될 수 있나? 가능하면 피그마로, 작은 컴포넌트 단위로.
 
 ## 1. 지금 무엇이 문제인가 (사실)
@@ -74,3 +74,11 @@ packages/ui (또는 apps/web/src/lib/ui)
 - 1단계(캔버스 생성기 정리)를 지금 할지, 바로 코드 컴포넌트로 넘어갈지.
 
 출처: [Figma write to canvas](https://developers.figma.com/docs/figma-mcp-server/write-to-canvas) · [Figma 블로그: Agents, meet the Figma canvas](https://www.figma.com/blog/the-figma-canvas-is-now-open-to-agents/) · [Figma 가격 FAQ](https://www.figma.com/pricing-faq/) · [포럼: Code Connect 요금제](https://forum.figma.com/suggest-a-feature-11/don-t-lock-code-connect-away-it-s-vital-for-professional-plan-users-43475) · [Dev Mode GA 블로그](https://www.figma.com/blog/dev-mode-ga/)
+
+## 8. 확정된 진행 방식 (사용자, 2026-11-27)
+
+- 묶음 단위가 아니라 **페이지 하나씩**: Claude 가 페이지 우선순위를 설계하고, 한 페이지를 코드로 만들어 갤러리로 확인 → 확정되면 다음 페이지.
+- **이미 만든 컴포넌트를 다른 페이지에서 쓰거나 조금 바꿔야 할 때는 사용자와 함께 검토한다.** Claude 가 먼저 ① 바꿔야 하는 이유 ② 영향받는 기존 페이지 · 컴포넌트 목록 ③ 전략 후보(기존 props 추가 · base 를 두고 확장 · 합성 컴포넌트 · 별도 컴포넌트 · 그대로 둠)와 장단점 · 추천을 내고, 결정 후 구현한다.
+- 그 전에 **개발 환경 결정(컨벤션 · 린트 · 개발 방식 · 버저닝 · 아키텍처 …)을 먼저 끝낸다** — `docs/dev/setup-agenda.md`.
+- 6절 1단계(캔버스 생성기 정리)는 하지 않는다 — 바로 코드로 간다. 캔버스는 아직 코드로 옮기지 않은 페이지의 기획 시안으로만 남는다.
+

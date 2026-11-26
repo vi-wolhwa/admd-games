@@ -24,3 +24,7 @@
 | 2026-11-27 | PG05 게임 상세 v3: 미리보기(대표 → 영상 → 이미지, 7개 이상 가로 넘김) + 오른쪽 정체 · 행동 패널, 아래 탭은 내용 전환(앵커 스크롤 아님), 자세한 정보는 소개 탭 '플레이 · 만든 정보' 두 묶음. 만든 사람 띠 · 하단 정보 칸 없앰 | 사용자 피드백 — 정보가 흩어지고 아래로 너무 쌓임 |
 | 2026-11-27 | PG05 v4: 제목 아래 메이커 줄 삭제(소개 탭 메이커 카드로), 핵심 4칸에서 보조 글 삭제, 탭 줄의 작은 플레이 삭제(위 큰 버튼과 중복), 정보 칸 줄 간격 통일, 게임 신고 = 버튼, 리뷰 = 한 열 목록 + ⋯ 메뉴 신고 · 도움이 됐어요 토글 · 쓸 때 플레이 시간 · 쓴 버전 · 메이커 답글 상자 | 사용자 피드백. 근거: docs/product/game-metadata.md, docs/design/research/04-reviews.md |
 | 2026-11-27 | 공통 카드: hover 를 transform → top(PG03 툴팁 안 뜨던 원인), 실행 칩 툴팁 · 플레이/다운로드 버튼 · 추천/리뷰 수를 모든 생성 카드에. 비슷한 게임 왼쪽 화살표 방향 고침. 리뷰 답글 = 왼쪽 선 상자 대신 들여쓴 이어진 답글(메이커 표시) | 사용자 피드백 3차 |
+| 2026-11-27 | 주소: 한 앱, PlayGround `/play` · MakersGround `/makers`, `/` → `/play`(307) | 사용자 결정(1-1). workers.dev 하나에서 하위 도메인 불가, 로그인 · 헤더 공유 |
+| 2026-11-27 | UI 컴포넌트 `apps/web/src/lib/ui` · 갤러리 Storybook(호환 안 되면 `/design`) · 데이터 `load` + form actions | 사용자 결정(1-2~1-4) |
+| 2026-11-27 | 이름: 컴포넌트 PascalCase.svelte · 그 외 kebab-case.ts · camelCase · 타입 PascalCase · 상수 UPPER_SNAKE · is/has/can. 주석 · 테스트 이름 한국어. 스타일 = Tailwind 유틸리티 + 의미 토큰 + 자체 변형 헬퍼 | 사용자 결정(2-1 · 2-2 · 2-4) |
+| 2026-11-27 | 컴포넌트 구조 = 가벼운 FSD + 패턴 층(primitives → patterns → entities → features → widgets → 라우트, 아래로만 import), 변형 규칙(docs/dev/component-architecture.md 5절), 헤드리스는 Bits UI 를 primitives 안에서만 | 사용자 결정(2-5). 도메인이 달라도 같은 뼈대를 patterns 에서 공유 |
