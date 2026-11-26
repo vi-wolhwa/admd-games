@@ -1,9 +1,16 @@
 <script lang="ts">
-	import { type CatalogQuery, catalogSearchParams, PAGE_SIZE } from '#lib/domain/catalog.ts';
+	import {
+		type CatalogQuery,
+		catalogSearchParams,
+		DEFAULT_QUERY,
+		MAX_SEARCH,
+		PAGE_SIZE
+	} from '#lib/domain/catalog.ts';
 	import type { GameCardData } from '#lib/domain/game.ts';
 	import GameCard from '#lib/ui/entities/game/GameCard.svelte';
 	import Button from '#lib/ui/primitives/Button.svelte';
 	import Icon from '#lib/ui/primitives/Icon.svelte';
+	import SearchBox from '#lib/ui/primitives/SearchBox.svelte';
 	import Skeleton from '#lib/ui/primitives/Skeleton.svelte';
 	import CatalogFilters from '#lib/ui/widgets/CatalogFilters.svelte';
 	import { goto } from '$app/navigation';
@@ -94,18 +101,31 @@
 <svelte:window bind:scrollY />
 
 <main class="mx-auto w-(--page-width) pt-8">
-	<h1 class="text-heading-lg font-heavy text-ink-1">전체 게임</h1>
+	<div class="flex items-center justify-between gap-4">
+		<h1 class="text-heading-lg font-heavy text-ink-1">전체 게임</h1>
+		<SearchBox
+			value={data.query.q}
+			label="전체 게임에서 찾기"
+			placeholder="게임 이름, 메이커"
+			maxlength={MAX_SEARCH}
+			onsearch={(q: string) => {
+				if (q !== data.query.q) applyQuery({ ...data.query, q });
+			}}
+		/>
+	</div>
 
 	<CatalogFilters tags={data.tags} query={data.query} total={data.total} onchange={applyQuery} />
 
 	{#if data.total === 0}
 		<div class="mt-16 flex flex-col items-center gap-3 rounded-2xl bg-sunken py-16 text-center">
-			<p class="text-lead font-bold text-ink-1">조건에 맞는 게임이 없어요</p>
-			<p class="text-body text-ink-3">태그나 조건을 줄여 보세요.</p>
+			<p class="text-lead font-bold text-ink-1">
+				{data.query.q ? `‘${data.query.q}’에 맞는 게임이 없어요` : '조건에 맞는 게임이 없어요'}
+			</p>
+			<p class="text-body text-ink-3">검색어나 조건을 바꿔 보세요.</p>
 			<Button
 				size="sm"
 				onclick={() => {
-					applyQuery({ ...data.query, tags: [], length: null, launch: null, players: null });
+					applyQuery({ ...DEFAULT_QUERY, sort: data.query.sort });
 				}}
 			>
 				조건 모두 지우기
@@ -142,8 +162,6 @@
 					{remaining}개 더 불러오는 중 · {items.length} / {data.total}
 				{:else if failed}
 					더 불러오지 못했어요.
-				{:else if !nextCursor}
-					{data.total.toLocaleString('ko-KR')}개 모두 봤어요
 				{/if}
 			</p>
 			{#if failed}
@@ -160,7 +178,7 @@
 			type="button"
 			onclick={toTop}
 			aria-label="맨 위로"
-			class="fixed right-10 bottom-10 z-(--z-tooltip) grid size-12 place-items-center rounded-full bg-bg text-ink-1 shadow-pop ring-1 ring-line hover:bg-sunken focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+			class="fixed right-10 bottom-10 z-(--z-tooltip) grid size-12 place-items-center rounded-full bg-bg text-ink-1 shadow-pop ring-1 ring-line-strong hover:bg-sunken-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
 		>
 			<Icon name="up" size={16} />
 		</button>

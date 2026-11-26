@@ -113,6 +113,16 @@ export function runCatalogContract(makeCatalog: (games: GameSeed[]) => Promise<C
 		expect(await ids(catalog, { tags: ['없는태그'] })).toEqual([]);
 	});
 
+	it('검색어는 제목 · 메이커 이름에서 찾고, 다른 필터와 함께 걸린다', async () => {
+		const catalog = await makeCatalog(CONTRACT_GAMES);
+		expect(await ids(catalog, { q: '픽셀' })).toEqual(['g4']);
+		expect(await ids(catalog, { q: 'g2' })).toEqual(['g2']);
+		expect(await ids(catalog, { q: '게임', tags: ['액션'] })).toEqual(['g1', 'g3']);
+		// LIKE 의 특수 문자는 글자 그대로
+		expect(await ids(catalog, { q: '%' })).toEqual([]);
+		expect(await ids(catalog, { q: '_' })).toEqual([]);
+	});
+
 	it('커서로 이어 불러오면 겹치지도 빠지지도 않고, 끝에서 멈춘다', async () => {
 		const catalog = await makeCatalog(CONTRACT_GAMES);
 		for (const sort of ['recommended', 'new', 'short'] as const) {

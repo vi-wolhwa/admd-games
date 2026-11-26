@@ -41,3 +41,18 @@
 	<Page {data} params={{}} form={undefined} />
 	<SiteFooter />
 </Story>
+
+<Story name="검색 결과 없음" asChild>
+	<SiteHeader theme="light" current="games" />
+	<Page
+		data={{
+			...data,
+			query: { ...DEFAULT_QUERY, q: '없는 게임', tags: ['퍼즐'] },
+			games: [],
+			total: 0
+		}}
+		params={{}}
+		form={undefined}
+	/>
+	<SiteFooter />
+</Story>

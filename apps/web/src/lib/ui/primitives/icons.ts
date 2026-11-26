@@ -32,6 +32,7 @@ export const ICONS = {
 	},
 	comment: { d: ['M2.5 3.5h11v7.5H7l-3 2.5V11H2.5z'] },
 	check: { d: ['M3 8.5l3 3 7-7'] },
+	search: { d: ['M2.5 7a4.5 4.5 0 1 0 9 0a4.5 4.5 0 1 0-9 0z', 'M10.5 10.5 13 13'] },
 	chevron: { d: ['M6 3l5 5-5 5'] },
 	up: { d: ['M8 13V3M4 7l4-4 4 4'] },
 	sun: {

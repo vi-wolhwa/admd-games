@@ -12,7 +12,7 @@
 		if (!c) throw new Error(slug);
 		return c;
 	};
-	// 바로 플레이 + 휴대폰 · 신작 · 여럿이 · 설치형 + 보안 검사
+	// 바로 플레이 + 휴대폰 · 신작 · 여럿이 · 설치형
 	const shown = [
 		pick('loop-debugger'),
 		pick('tessellate'),
@@ -27,9 +27,9 @@
 	name="상태 모음"
 	asChild
 	play={async ({ canvas }) => {
-		// 실행 칩에 키보드 포커스가 오면 뜻을 펼친다
-		canvas.getByRole('button', { name: /보안 검사 통과/ }).focus();
-		await expect(await screen.findByText('보안 검사 통과', { selector: 'span' })).toBeVisible();
+		// 실행 칩에 키보드 포커스가 오면 뜻을 펼친다. 설치형은 다운로드 아이콘만(보안 검사는 상세에서)
+		canvas.getByRole('button', { name: '설치형 · 다운로드' }).focus();
+		await expect(await screen.findByText('설치형 · 다운로드', { selector: 'span' })).toBeVisible();
 	}}
 >
 	<ul class="grid w-280 grid-cols-4 gap-6">

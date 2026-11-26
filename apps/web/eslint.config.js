@@ -18,7 +18,15 @@ const COLOR_UTIL =
 
 export default defineConfig(
 	includeIgnoreFile(gitignorePath),
-	{ ignores: ['.svelte-kit/**', 'build/**', 'worker-configuration.d.ts', 'migrations/**'] },
+	{
+		ignores: [
+			'.svelte-kit/**',
+			'build/**',
+			'storybook-static/**',
+			'worker-configuration.d.ts',
+			'migrations/**'
+		]
+	},
 	js.configs.recommended,
 	ts.configs.strictTypeChecked,
 	ts.configs.stylisticTypeChecked,

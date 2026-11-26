@@ -18,10 +18,8 @@
 	name="대표 그림 · 호버 미리보기"
 	asChild
 	play={async ({ canvasElement }) => {
-		// 켜진 틀은 300ms 뒤에 미리보기 이미지를 불러온다(스쳐 가는 마우스는 안 받음)
-		await waitFor(() =>
-			expect(canvasElement.querySelectorAll('img')).toHaveLength(1 + 1 + shots.length)
-		);
+		// 켜진 틀은 300ms 뒤 미리보기를 받아 둔 다음 한 장만 대표 그림 위에 얹는다(반쯤 비치는 전환 없음)
+		await waitFor(() => expect(canvasElement.querySelectorAll('img')).toHaveLength(1 + 2));
 	}}
 >
 	<div class="grid w-150 grid-cols-2 gap-6">

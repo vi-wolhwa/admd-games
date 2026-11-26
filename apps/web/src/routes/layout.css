@@ -5,5 +5,14 @@
 	html {
 		background: var(--bg);
 		color: var(--ink-1);
+		/* 스크롤바 자리를 늘 비워 둔다 — 결과 수에 따라 스크롤바가 생기거나 사라져도 화면이 옆으로 밀리지 않음.
+		   높이를 억지로 늘리는 방식과 달리 화면 크기(QHD · 4K)와 상관없이 맞는다 */
+		scrollbar-gutter: stable;
+	}
+
+	/* 누를 수 있는 것은 손가락 커서(Tailwind 4 기본값은 화살표) */
+	button:not(:disabled),
+	[role='button']:not([aria-disabled='true']) {
+		cursor: pointer;
 	}
 }

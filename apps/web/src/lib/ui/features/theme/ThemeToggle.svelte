@@ -25,7 +25,7 @@
 	type="button"
 	onclick={toggle}
 	aria-label={theme === 'dark' ? '밝은 화면으로' : '어두운 화면으로'}
-	class="grid size-(--icon-btn) place-items-center rounded-full text-ink-1 transition-colors duration-(--dur-instant) ease-soft hover:bg-sunken focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+	class="grid size-(--icon-btn) place-items-center rounded-full text-ink-1 transition-colors duration-(--dur-instant) ease-soft hover:bg-sunken-hover focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
 >
 	<Icon name={theme === 'dark' ? 'sun' : 'moon'} size={16} />
 </button>

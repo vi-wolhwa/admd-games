@@ -129,6 +129,24 @@ function push<T>(map: Map<string, T[]>, key: string, value: T) {
 
 function filters(db: D1Client, q: CatalogQuery): SQL | undefined {
 	const parts: (SQL | undefined)[] = [eq(games.status, 'published')];
+	if (q.q) {
+		// 제목 · 메이커 이름에 들어 있으면. LIKE 의 % _ 는 글자 그대로(ESCAPE '!').
+		// 공개 게임 행을 다 훑는다(게임 수가 적은 지금은 충분) — 수천 개가 되면 FTS5 색인으로(PG04 검색 때)
+		const pattern = `%${q.q.replace(/[!%_]/g, (c) => `!${c}`)}%`;
+		parts.push(
+			or(
+				sql`${games.title} LIKE ${pattern} ESCAPE '!'`,
+				exists(
+					db
+						.select({ one: sql`1` })
+						.from(makers)
+						.where(
+							and(eq(makers.id, games.makerId), sql`${makers.name} LIKE ${pattern} ESCAPE '!'`)
+						)
+				)
+			)
+		);
+	}
 	if (q.tags.length > 0) {
 		parts.push(
 			exists(

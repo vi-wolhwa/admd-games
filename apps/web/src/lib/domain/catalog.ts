@@ -8,6 +8,8 @@ export type CatalogSort = 'recommended' | 'new' | 'short';
 export type Players = 'solo' | 'group';
 
 export interface CatalogQuery {
+	/** 검색어 — 제목 · 메이커 이름에 들어 있으면 해당(빈 문자열 = 검색 안 함) */
+	q: string;
 	/** 태그 slug — 여러 개면 '하나라도 해당' */
 	tags: string[];
 	/** 이 구간 이하(5 = 1시간 넘게만) */
@@ -18,6 +20,7 @@ export interface CatalogQuery {
 }
 
 export const DEFAULT_QUERY: CatalogQuery = {
+	q: '',
 	tags: [],
 	length: null,
 	launch: null,
@@ -37,6 +40,7 @@ export const PLAYERS_LABEL: Record<Players, string> = { solo: '혼자', group: '
 export const PAGE_SIZE = 12;
 export const MAX_LOADED = 96;
 const MAX_TAGS = 10;
+export const MAX_SEARCH = 40;
 
 /** 주소에 쓰는 한 판 길이 값 */
 const LENGTH_PARAM: Record<LengthBucket, string> = {
@@ -62,6 +66,7 @@ export function parseCatalogQuery(params: URLSearchParams): CatalogQuery {
 		.filter(Boolean)
 		.slice(0, MAX_TAGS);
 	return {
+		q: (params.get('q') ?? '').trim().slice(0, MAX_SEARCH),
 		tags,
 		length: LENGTH_FROM_PARAM.get(params.get('len') ?? '') ?? null,
 		launch: oneOf(LAUNCHES, params.get('run')),
@@ -73,6 +78,7 @@ export function parseCatalogQuery(params: URLSearchParams): CatalogQuery {
 /** 질의를 주소로. 기본값은 남기지 않는다. `loaded` 는 지금까지 불러온 개수 */
 export function catalogSearchParams(query: CatalogQuery, loaded = PAGE_SIZE): URLSearchParams {
 	const p = new URLSearchParams();
+	if (query.q) p.set('q', query.q);
 	for (const t of query.tags) p.append('tag', t);
 	if (query.length) p.set('len', LENGTH_PARAM[query.length]);
 	if (query.launch) p.set('run', query.launch);

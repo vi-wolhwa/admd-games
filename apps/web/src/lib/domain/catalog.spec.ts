@@ -18,12 +18,24 @@ describe('parseCatalogQuery', () => {
 
 	it('주소의 필터 · 정렬을 읽는다', () => {
 		expect(
-			parseCatalogQuery(params('tag=퍼즐&tag=액션&len=15m&run=web&ppl=group&sort=new'))
-		).toEqual({ tags: ['퍼즐', '액션'], length: 2, launch: 'web', players: 'group', sort: 'new' });
+			parseCatalogQuery(params('q=러너&tag=퍼즐&tag=액션&len=15m&run=web&ppl=group&sort=new'))
+		).toEqual({
+			q: '러너',
+			tags: ['퍼즐', '액션'],
+			length: 2,
+			launch: 'web',
+			players: 'group',
+			sort: 'new'
+		});
 	});
 
 	it('모르는 값은 버리고 기본값으로 — 잘못된 주소도 페이지는 열린다', () => {
 		expect(parseCatalogQuery(params('len=7m&run=cd&ppl=x&sort=popular'))).toEqual(DEFAULT_QUERY);
+	});
+
+	it('검색어는 앞뒤 공백을 지우고 40자까지', () => {
+		expect(parseCatalogQuery(params('q=  러너  ')).q).toBe('러너');
+		expect(parseCatalogQuery(params(`q=${'가'.repeat(50)}`)).q).toHaveLength(40);
 	});
 
 	it('같은 태그가 겹치거나 빈 태그면 한 번만, 최대 10개', () => {
@@ -39,7 +51,9 @@ describe('catalogSearchParams', () => {
 	});
 
 	it('읽은 것을 다시 쓰면 같은 질의가 된다', () => {
-		const q = parseCatalogQuery(params('tag=퍼즐&len=1h&run=download&ppl=solo&sort=short'));
+		const q = parseCatalogQuery(
+			params('q=고양이&tag=퍼즐&len=1h&run=download&ppl=solo&sort=short')
+		);
 		expect(parseCatalogQuery(catalogSearchParams(q))).toEqual(q);
 	});
 

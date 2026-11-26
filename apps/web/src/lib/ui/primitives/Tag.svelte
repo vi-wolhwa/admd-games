@@ -1,7 +1,10 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
 
-	/** 붙은 꼬리표(카드의 장르 등) — 누를 수 없으니 회색 바탕, 테두리 없음(ADR 0011 §4). highlight = 지금 고른 태그 */
+	/**
+	 * 붙은 꼬리표(카드의 장르 등) — 누를 수 없으니 바탕 · 테두리 없이 '#글자'(카카오페이지 키워드 방식).
+	 * 회색 알약은 흰 바탕에서 거의 안 보여 글자만 떠 보였다(사용자 피드백 11/28). highlight = 지금 고른 태그
+	 */
 	interface Props {
 		highlight?: boolean;
 		children: Snippet;
@@ -12,9 +15,9 @@
 
 <span
 	class={[
-		'inline-flex h-(--tag-h) items-center rounded-xs px-2 text-caption font-bold',
-		highlight ? 'bg-accent-tint text-accent-text' : 'bg-sunken text-ink-2'
+		'text-meta whitespace-nowrap',
+		highlight ? 'font-bold text-accent-text' : 'font-medium text-ink-3'
 	]}
 >
-	{@render children()}
+	#{@render children()}
 </span>

@@ -56,7 +56,7 @@
 		{game.makerName} · 한 판 {LENGTH_LABEL[game.length]}
 	</p>
 	{#if game.tags.length > 0}
-		<p class="mt-1.75 flex gap-1.25 overflow-hidden">
+		<p class="mt-1 flex gap-2 overflow-hidden">
 			{#each game.tags.slice(0, 3) as tag (tag)}
 				<Tag highlight={highlightTags.includes(tag)}>{tag}</Tag>
 			{/each}

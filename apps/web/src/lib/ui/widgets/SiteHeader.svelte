@@ -19,7 +19,7 @@
 </script>
 
 <header
-	class="sticky top-0 z-(--z-header) border-b border-line bg-bg/94 backdrop-blur-md backdrop-saturate-180"
+	class="sticky top-0 z-(--z-header) border-b border-line-strong bg-bg/94 backdrop-blur-md backdrop-saturate-180"
 >
 	<div class="mx-auto flex h-(--header-h) w-(--page-width) items-center gap-7">
 		<a
@@ -29,19 +29,27 @@
 			<span class="text-heading leading-none font-heavy tracking-tight text-ink-1">aDmD</span>
 			<span class="text-label font-heavy text-ink-2">PlayGround</span>
 		</a>
-		<nav aria-label="주 메뉴" class="flex gap-0.5 self-stretch">
+		<nav aria-label="주 메뉴" class="flex gap-0.5">
 			{#each NAV as item (item.id)}
+				<!-- 밑줄은 글자 바로 아래(헤더 바닥이 아니라) — 카카오페이지 방식 -->
 				<a
 					href={item.href}
 					aria-current={current === item.id ? 'page' : undefined}
 					class={[
-						'flex items-center px-3 text-lead font-bold whitespace-nowrap transition-colors duration-(--dur-instant)',
-						current === item.id
-							? 'relative text-ink-1 after:absolute after:inset-x-3 after:bottom-0 after:h-0.75 after:bg-accent'
-							: 'text-ink-3 hover:text-ink-1'
+						'rounded-sm px-3 py-1 text-lead font-bold whitespace-nowrap transition-colors duration-(--dur-instant)',
+						'focus-visible:outline-2 focus-visible:outline-accent',
+						current === item.id ? 'text-ink-1' : 'text-ink-3 hover:text-ink-1'
 					]}
 				>
-					{item.label}
+					<span
+						class={[
+							'relative',
+							current === item.id &&
+								'after:absolute after:inset-x-0 after:-bottom-1.5 after:h-0.5 after:rounded-full after:bg-accent'
+						]}
+					>
+						{item.label}
+					</span>
 				</a>
 			{/each}
 		</nav>

@@ -39,13 +39,11 @@
 		});
 	};
 	const hasFilter = $derived(
-		query.tags.length > 0 ||
+		query.q !== '' ||
+			query.tags.length > 0 ||
 			query.length !== null ||
 			query.launch !== null ||
 			query.players !== null
-	);
-	const pickedNames = $derived(
-		query.tags.map((slug) => tags.find((t) => t.slug === slug)?.name ?? slug)
 	);
 
 	const ALL = { value: '', label: '전체' };
@@ -92,16 +90,8 @@
 	{/each}
 </div>
 
-<div class="mt-3.5 flex items-center gap-2 border-t border-line pt-3.5">
+<div class="mt-3.5 flex items-center gap-2 border-t border-line-strong pt-3.5">
 	<p class="text-label text-ink-2" aria-live="polite">
-		{#if pickedNames.length > 0}
-			{#each pickedNames as name, i (name)}{#if i > 0}<span class="px-1">또는</span>{/if}<b
-					class="text-ink-1"
-				>
-					{name}
-				</b>{/each}
-			<span class="px-1">·</span>
-		{/if}
 		<b class="text-ink-1">{total.toLocaleString('ko-KR')}</b>개
 	</p>
 	{#if hasFilter}
