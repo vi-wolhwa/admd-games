@@ -26,6 +26,7 @@
 		<MediaFrame cover="/sample/tessellate-0.svg" media={shots}>
 			{#snippet topLeft()}<Badge icon="spark">신작</Badge>{/snippet}
 		</MediaFrame>
-		<MediaFrame cover="/sample/tessellate-0.svg" media={shots} active lifted />
+		<!-- 한 장만 줘서 순환하지 않게(캡처가 찍는 순간마다 달라지지 않도록) -->
+		<MediaFrame cover="/sample/tessellate-0.svg" media={shots.slice(0, 1)} active lifted />
 	</div>
 </Story>

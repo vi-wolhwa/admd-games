@@ -28,8 +28,11 @@
 	asChild
 	play={async ({ canvas }) => {
 		// 실행 칩에 키보드 포커스가 오면 뜻을 펼친다. 설치형은 다운로드 아이콘만(보안 검사는 상세에서)
-		canvas.getByRole('button', { name: '설치형 · 다운로드' }).focus();
+		const chip = canvas.getByRole('button', { name: '설치형 · 다운로드' });
+		chip.focus();
 		await expect(await screen.findByText('설치형 · 다운로드', { selector: 'span' })).toBeVisible();
+		// 포커스를 풀어 캡처는 늘 같은 모습으로(켜진 카드는 미리보기가 돌아 찍는 순간마다 달라짐)
+		chip.blur();
 	}}
 >
 	<ul class="grid w-280 grid-cols-4 gap-6">
