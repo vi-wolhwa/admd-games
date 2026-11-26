@@ -40,3 +40,4 @@
 | 2026-11-27 | 디자인 토큰 원본을 `apps/web/src/lib/styles/tokens.css` 로 옮김(문서 쪽 사본 삭제, 캔버스 생성기도 이 파일을 읽음). Zod · 폰트는 처음 쓰는 곳(폼 · PG03)에서 추가 | 원본은 하나(ADR 0012). 안 쓰는 의존성은 knip 이 막음 |
 | 2026-11-27 | hooks 는 SvelteKit `sequence` 대신 자체 `chain`(lib/server/handle.ts) | 개발 서버에서 sequence 가 'Could not get the request store' 오류 — 같은 계열 문제로 `redirect()` 도 개발 서버에서만 실패(운영 빌드 · wrangler dev 는 정상). 이슈로 추적 |
 | 2026-11-27 | wrangler compatibility_date 2026-11-25 → 2026-11-20 | 설치된 workerd 가 11-24 까지만 지원해 wrangler dev 가 시작되지 않았음 |
+| 2026-11-27 | 갤러리 = Storybook 10.6.7(@storybook/sveltekit · Svelte CSF · a11y · addon-vitest) — SvelteKit 3.4 · Vite 8 에서 개발 · 정적 빌드 · 이야기 테스트 모두 동작 확인. `/design` 대체안은 불필요 | 이야기 = Vitest 브라우저 테스트(렌더 · play · axe 위반이면 실패). 캡처 비교는 `.storybook/vitest.visual.ts` 가 이야기마다 라이트 · 다크 2장, 기준 그림은 리눅스(CI)만 저장소에 — `update-screenshots` 워크플로로 생성 |
