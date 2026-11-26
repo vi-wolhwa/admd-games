@@ -1,12 +1,23 @@
 # STATUS
 
-- 마지막 업데이트: 2026-11-27 (Asia/Seoul) — 1묶음 검토 시작: PG01 · PG03 피드백 반영, ADR 0009(추천은 개수만 · 싫어요 없음 · 호버 미디어)
-- 현재 Phase: **2. 디자인** — PlayGround 홈 확정 · 디자인 시스템 정의 완료 · 주요 페이지 시안 1차 완료 → **사용자 검토 대기** (PRD 는 디자인과 병행 — 킥오프·시나리오 완료, 확정은 디자인 후)
-- 작업 브랜치: `design/redesign` (main 에는 개발 환경 셋업만 있음. 디자인 단계가 끝나면 PR 로 합칠 예정 — 아직 PR 없음)
-- 디자인 캔버스(원본): https://claude.ai/code/artifact/57ed3789-695b-4f2c-8ae6-b210fafc167d
-  - 편집 절차·함정: [`docs/design/canvas-notes.md`](design/canvas-notes.md) — **캔버스 작업 전 반드시 읽기**
-  - **페이지 목록 · 이름 규칙(코드 PG05 등)**: [`docs/design/canvas/README.md`](design/canvas/README.md) · 보관: [`docs/design/archive/`](design/archive/) · 시안 생성기: [`docs/design/tools/ds-canvas/`](design/tools/ds-canvas/)
-- **사용자 돌아오면 먼저 볼 것: [`docs/design/feedback-queue.md`](design/feedback-queue.md)** (결정 D1~D4 · 시안 선택 M1~M4 · P1~P6 · S1~S3 · K1~K3 · 피드백 F1~F4)
+- 마지막 업데이트: 2026-11-27 (Asia/Seoul) — 개발 환경 세팅 0~6단계(배포는 Cloudflare 토큰 대기)
+- 현재 Phase: **3. 개발 시작 직전** — 디자인 원본은 이제 코드(ADR 0012). 다음: 첫 페이지 **PG03 전체 게임**([docs/dev/page-order.md](dev/page-order.md))
+- 저장소: **공개** `vi-wolhwa/admd-games`, 기본 브랜치 `develop`, 운영 = `main` 병합 시 자동 배포(ADR 0013, [operations.md](operations.md))
+- 개발 환경 결정: [docs/dev/setup-agenda.md](dev/setup-agenda.md) · 실행 계획: [setup-plan.md](dev/setup-plan.md) · 컴포넌트 구조: [component-architecture.md](dev/component-architecture.md)
+- 디자인 캔버스(아직 코드로 옮기지 않은 페이지의 기획 시안): https://claude.ai/code/artifact/57ed3789-695b-4f2c-8ae6-b210fafc167d — 페이지 목록 [docs/design/canvas/README.md](design/canvas/README.md)
+
+## 개발 환경 (2026-11-27)
+
+| 단계 | 상태 |
+| --- | --- |
+| 0 저장소 정리 · 공개 · develop | 완료 (#1 · #8) |
+| 1 저장소 규칙(템플릿 · 규칙 세트 · Dependabot · 보안) | 완료 (#2 · #9) |
+| 2 품질 장치 · 바뀐 것만 도는 CI | 완료 (#3 · #12) |
+| 3 앱 뼈대(/play · /makers · 토큰 · 테마 · 보안 헤더 · 로그) | 완료 (#4 · #15) |
+| 4 갤러리(Storybook · 이야기 테스트 · 접근성 · 캡처 비교) | 완료 (#5 · #17) |
+| 5 배포 파이프라인(미리보기 · 운영 자동 배포 · 되돌리기) | 코드 완료, **사용자: Cloudflare API 토큰 · 계정 ID 를 GitHub 시크릿에** → Claude 가 D1 생성 · ID 반영 (#6) |
+| 6 문서(CLAUDE.md · operations · STATUS) | 완료 (#7) |
+| 버그: 개발 서버에서 redirect · sequence 실패 | 별도 세션에서 조사 중 (#14 · #16) |
 
 ## 완료
 
@@ -34,11 +45,9 @@
 
 ## 다음 할 일
 
-진행 방식 결정(2026-11-26): **핵심 흐름 확정 → 개발 환경 + 디자인 시스템 코드화 → 디자인이 한 묶음 앞서 가며 구현.** 순서표: [`docs/design/12-confirm-order.md`](design/12-confirm-order.md)
-
-1. **사용자: 1묶음 화면 확정** (두 페이지씩 진행 중 — PG01 · PG03 · PG05(v5) 반영(11/27), 전역 규칙 ADR 0009~0011, 다음 PG06/07) — DS01~03 · PG01 홈(재확인) · PG05 게임 상세 · PG06/07 플레이 화면 · 종료 · SH01 로그인 · 얼굴 만들기 · PG03 전체 게임 · PG14 내 라이브러리. Claude 는 피드백을 받는 대로 고쳐 다시 올림
-2. 1묶음 확정 후: 개발 환경 마무리(컨벤션 · 브랜치 · 이슈/마일스톤) → `tokens.css` · 공통 컴포넌트 SvelteKit 구현 → 1묶음 페이지 구현
-3. 그동안 2묶음(PlayGround 완성) 확정
+1. **사용자**: Cloudflare API 토큰 · 계정 ID 를 GitHub 시크릿에(docs/operations.md '처음 한 번') → Claude 가 `cloudflare-bootstrap` 실행 · D1 ID 반영
+2. **PG03 전체 게임** 구현(이슈 · PR 하나) — 헤더 · 기본 부품 · 게임 카드 · 게임 목록 데이터 · 무한 스크롤. 갤러리 아티팩트 첫 게시
+3. 이후 page-order.md 순서: PG05 → SH01 → PG06 → PG07 → PG14 → PG01
 
 ## 열린 질문 (A등급 — `feedback-queue.md` §1)
 
