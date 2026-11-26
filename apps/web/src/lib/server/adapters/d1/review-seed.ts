@@ -32,8 +32,8 @@ export function reviewSeedStatements(
 				body: r.body,
 				play_minutes: r.playMinutes,
 				version: r.version,
-				helpful_count: r.helpfulCount,
-				created_at: r.createdAt
+				created_at: r.createdAt,
+				updated_at: r.updatedAt
 			})
 		);
 		r.phrases.forEach((phrase, position) => {

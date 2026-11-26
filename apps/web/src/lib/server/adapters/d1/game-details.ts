@@ -1,6 +1,6 @@
 import { and, count, desc, eq, inArray, ne, sql } from 'drizzle-orm';
 
-import type { Caution, Control, Device, GameDetail } from '#lib/domain/game.ts';
+import type { Device, GameDetail } from '#lib/domain/game.ts';
 
 import type { GameDetails } from '../../ports/game-details';
 import { cardColumns, toCards } from './cards';
@@ -23,9 +23,8 @@ export function createD1GameDetails(db: D1Client): GameDetails {
 					makerGameCount: sql<number>`(SELECT COUNT(*) FROM games AS mg WHERE mg.maker_id = ${games.makerId} AND mg.status = 'published')`,
 					pc: games.pc,
 					pad: games.pad,
-					controls: games.controls,
+					online: games.online,
 					languages: games.languages,
-					cautions: games.cautions,
 					minSpec: games.minSpec,
 					playersMin: games.playersMin
 				})
@@ -47,9 +46,8 @@ export function createD1GameDetails(db: D1Client): GameDetails {
 				makerSlug: row.makerSlug,
 				makerGameCount: row.makerGameCount,
 				devices,
-				controls: list<Control>(row.controls),
+				online: row.online,
 				languages: list<string>(row.languages),
-				cautions: list<Caution>(row.cautions),
 				minSpec: row.minSpec,
 				playersMin: row.playersMin
 			};

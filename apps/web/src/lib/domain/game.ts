@@ -78,23 +78,6 @@ export function hoverMedia(media: GameMedia[]): GameMedia[] {
 export type Device = 'pc' | 'phone' | 'pad';
 export const DEVICE_LABEL: Record<Device, string> = { pc: 'PC', phone: '휴대폰', pad: '패드' };
 
-export type Control = 'keyboard' | 'mouse' | 'touch' | 'gamepad';
-export const CONTROL_LABEL: Record<Control, string> = {
-	keyboard: '키보드',
-	mouse: '마우스',
-	touch: '터치',
-	gamepad: '게임패드'
-};
-
-/** 이용 주의 — 깜빡임은 광과민성 안내로 중요(game-metadata.md) */
-export type Caution = 'violence' | 'horror' | 'flashing' | 'loud';
-export const CAUTION_LABEL: Record<Caution, string> = {
-	violence: '폭력',
-	horror: '공포',
-	flashing: '깜빡이는 화면',
-	loud: '큰 소리'
-};
-
 /** 게임 안 글자의 언어(코드 → 이름) */
 export const LANGUAGE_LABEL: Record<string, string> = {
 	ko: '한국어',
@@ -112,9 +95,9 @@ export interface GameDetail extends GameCardData {
 	/** 이 메이커의 공개 게임 수 */
 	makerGameCount: number;
 	devices: Device[];
-	controls: Control[];
+	/** 온라인 — 다른 사람과 인터넷으로 함께하거나(멀티플레이) 순위 등을 볼 수 있음. false = 오프라인(혼자 하는 게임, 다른 사람과 상호작용 없음) */
+	online: boolean;
 	languages: string[];
-	cautions: Caution[];
 	/** 최소 사양(설치형만) */
 	minSpec: string | null;
 	playersMin: number;

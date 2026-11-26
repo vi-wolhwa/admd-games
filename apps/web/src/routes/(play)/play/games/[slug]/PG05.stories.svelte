@@ -47,11 +47,47 @@
 			reviewPage: { items: reviews, nextCursor: null, total: reviews.length },
 			phrases: [
 				{ phrase: '짧고 굵음', count: 2 },
-				{ phrase: '튜토리얼이 길어요', count: 1 },
+				{ phrase: '그림이 예뻐요', count: 1 },
 				{ phrase: '힌트가 친절해요', count: 1 }
 			]
 		}}
 		params={{ slug }}
+		form={undefined}
+	/>
+	<SiteFooter />
+</Story>
+
+<!-- 예외: 아주 긴 제목 · 메이커 이름, 태그 하나, 영상 없음 -->
+<Story name="긴 제목 · 긴 메이커 이름" asChild>
+	<SiteHeader theme="light" current="games" />
+	<Page
+		data={{
+			...base,
+			game: sampleGameDetail('cloud-post-office'),
+			similar: sampleSimilar('cloud-post-office'),
+			tab: 'about',
+			reviewPage: null,
+			phrases: null
+		}}
+		params={{ slug: 'cloud-post-office' }}
+		form={undefined}
+	/>
+	<SiteFooter />
+</Story>
+
+<!-- 예외: 리뷰가 하나도 없는 게임의 리뷰 탭 -->
+<Story name="리뷰 없음" asChild>
+	<SiteHeader theme="light" current="games" />
+	<Page
+		data={{
+			...base,
+			game: sampleGameDetail('cloud-post-office'),
+			similar: sampleSimilar('cloud-post-office'),
+			tab: 'reviews',
+			reviewPage: { items: [], nextCursor: null, total: 0 },
+			phrases: []
+		}}
+		params={{ slug: 'cloud-post-office' }}
 		form={undefined}
 	/>
 	<SiteFooter />

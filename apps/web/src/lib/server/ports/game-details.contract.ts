@@ -21,9 +21,8 @@ const GAMES: GameSeed[] = CONTRACT_GAMES.map((g) =>
 				detail: {
 					description: '첫 문단\n\n- 특징 하나',
 					devices: ['pc', 'phone'],
-					controls: ['keyboard', 'touch'],
+					online: true,
 					languages: ['ko', 'en'],
-					cautions: ['flashing'],
 					minSpec: null
 				}
 			}
@@ -44,8 +43,8 @@ function review(id: string, o: Partial<ReviewSeed>): ReviewSeed {
 		body: `리뷰 ${id}`,
 		playMinutes: null,
 		version: 'v1.1',
-		helpfulCount: 0,
 		createdAt: NOW,
+		updatedAt: null,
 		phrases: [],
 		recommended: false,
 		reply: null,
@@ -55,24 +54,23 @@ function review(id: string, o: Partial<ReviewSeed>): ReviewSeed {
 
 const REVIEWS: ReviewSeed[] = [
 	review('r1', {
-		helpfulCount: 41,
 		createdAt: NOW - 10 * DAY,
+		updatedAt: NOW - 8 * DAY,
 		playMinutes: 66,
 		phrases: ['짧고 굵음', '힌트가 친절해요'],
 		recommended: true,
-		reply: { body: '고마워요!', note: 'v1.2 에서 고침', createdAt: NOW - 9 * DAY }
+		reply: { body: '고마워요!', note: 'v1.2 에서 수정', createdAt: NOW - 9 * DAY }
 	}),
-	review('r2', { authorId: 'p2', helpfulCount: 17, createdAt: NOW - 12 * DAY, playMinutes: 66 }),
-	review('r3', { helpfulCount: 9, createdAt: NOW - 20 * DAY, playMinutes: 300 }),
-	review('r4', { authorId: 'p3', helpfulCount: 2, createdAt: NOW - 5 * DAY }),
+	review('r2', { authorId: 'p2', createdAt: NOW - 12 * DAY, playMinutes: 66 }),
+	review('r3', { createdAt: NOW - 20 * DAY, playMinutes: 300 }),
+	review('r4', { authorId: 'p3', createdAt: NOW - 5 * DAY }),
 	review('r5', {
 		authorId: 'p3',
-		helpfulCount: 17,
 		createdAt: NOW - 3 * DAY,
 		playMinutes: 30,
 		phrases: ['짧고 굵음']
 	}),
-	review('r6', { gameId: 'g2', helpfulCount: 99 })
+	review('r6', { gameId: 'g2' })
 ];
 
 export function runGameDetailsContract(
@@ -97,9 +95,8 @@ export function runGameDetailsContract(
 			makerSlug: 'maker-1',
 			makerGameCount: 4,
 			devices: ['pc', 'phone'],
-			controls: ['keyboard', 'touch'],
+			online: true,
 			languages: ['ko', 'en'],
-			cautions: ['flashing'],
 			minSpec: null,
 			tags: ['퍼즐', '액션'],
 			playersMin: 1
@@ -124,11 +121,10 @@ export function runGameDetailsContract(
 
 	it('리뷰는 그 게임 것만, 정렬마다 정해진 순서(같으면 최신 → id)', async () => {
 		const { reviews } = await make();
-		expect(await ids(reviews, 'helpful')).toEqual(['r1', 'r5', 'r2', 'r3', 'r4']);
 		expect(await ids(reviews, 'recent')).toEqual(['r5', 'r4', 'r1', 'r2', 'r3']);
 		// 플레이 기록이 없는 리뷰는 '오래 한 사람' 순에서 맨 뒤
 		expect(await ids(reviews, 'played')).toEqual(['r3', 'r1', 'r2', 'r5', 'r4']);
-		expect(await ids(reviews, 'helpful', '짧고 굵음')).toEqual(['r1', 'r5']);
+		expect(await ids(reviews, 'recent', '짧고 굵음')).toEqual(['r5', 'r1']);
 	});
 
 	it('커서로 이어 불러오면 겹치지도 빠지지도 않는다', async () => {
@@ -148,11 +144,11 @@ export function runGameDetailsContract(
 		}
 	});
 
-	it('리뷰 한 개에 글쓴이 · 추천함 · 고른 말 · 답글을 담는다', async () => {
+	it('리뷰 한 개에 글쓴이 · 추천함 · 키워드 · 수정 시각 · 답글을 담는다', async () => {
 		const { reviews } = await make();
 		const { items } = await reviews.listReviews(
 			'g1',
-			{ sort: 'helpful', phrase: null },
+			{ sort: 'recent', phrase: '힌트가 친절해요' },
 			{ cursor: null, limit: 1 }
 		);
 		expect(items[0]).toEqual({
@@ -163,10 +159,10 @@ export function runGameDetailsContract(
 			playMinutes: 66,
 			version: 'v1.1',
 			createdAt: NOW - 10 * DAY,
+			updatedAt: NOW - 8 * DAY,
 			phrases: ['짧고 굵음', '힌트가 친절해요'],
 			body: '리뷰 r1',
-			helpfulCount: 41,
-			reply: { body: '고마워요!', note: 'v1.2 에서 고침', createdAt: NOW - 9 * DAY }
+			reply: { body: '고마워요!', note: 'v1.2 에서 수정', createdAt: NOW - 9 * DAY }
 		});
 	});
 

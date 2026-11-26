@@ -48,6 +48,8 @@ export const games = sqliteTable(
 		cautions: text('cautions').notNull().default(''),
 		/** 최소 사양(설치형만) */
 		minSpec: text('min_spec'),
+		/** 온라인 — 다른 사람과 인터넷으로 함께함(멀티플레이 · 순위). false = 오프라인 */
+		online: integer('online', { mode: 'boolean' }).notNull().default(false),
 		playersMin: integer('players_min').notNull(),
 		playersMax: integer('players_max').notNull(),
 		scanPassed: integer('scan_passed', { mode: 'boolean' }).notNull(),
@@ -156,9 +158,11 @@ export const reviews = sqliteTable(
 		playMinutes: integer('play_minutes'),
 		/** 쓸 때 버전 */
 		version: text('version'),
-		/** 도움이 됐어요 수 캐시 */
+		/** 쓰지 않음(도움이 됐어요를 없앰, 2026-11-28) — 이관은 더하기만이라 다음 정리 때 지운다 */
 		helpfulCount: integer('helpful_count').notNull().default(0),
-		createdAt: integer('created_at').notNull()
+		createdAt: integer('created_at').notNull(),
+		/** 고쳐 쓴 시각 — 있으면 '수정' */
+		updatedAt: integer('updated_at')
 	},
 	(t) => [
 		index('reviews_by_helpful').on(t.gameId, t.helpfulCount, t.createdAt, t.id),

@@ -19,9 +19,8 @@ export function sampleGameDetail(slug: string, now: number = STORY_NOW): GameDet
 		makerSlug: g.maker.slug,
 		makerGameCount: games.filter((x) => x.maker.id === g.maker.id).length,
 		devices: g.detail?.devices ?? ['pc'],
-		controls: g.detail?.controls ?? [],
+		online: g.detail?.online ?? false,
 		languages: g.detail?.languages ?? [],
-		cautions: g.detail?.cautions ?? [],
 		minSpec: g.detail?.minSpec ?? null,
 		playersMin: g.playersMin
 	};
@@ -38,12 +37,12 @@ export function sampleSimilar(slug: string, limit = 8, now: number = STORY_NOW):
 		.slice(0, limit);
 }
 
-/** 그 게임의 가짜 리뷰를 도움 많은 순으로 */
+/** 그 게임의 가짜 리뷰를 최신 순으로 */
 export function sampleReviewData(slug: string, now: number = STORY_NOW): ReviewData[] {
 	const all = sampleReviews(now);
 	return all
 		.filter((r) => r.gameId === `sample-${slug}`)
-		.toSorted((a, b) => b.helpfulCount - a.helpfulCount || b.createdAt - a.createdAt)
+		.toSorted((a, b) => b.createdAt - a.createdAt)
 		.map((r) => {
 			const p = SAMPLE_PROFILES.find((x) => x.id === r.authorId);
 			return {
@@ -58,9 +57,9 @@ export function sampleReviewData(slug: string, now: number = STORY_NOW): ReviewD
 				playMinutes: r.playMinutes,
 				version: r.version,
 				createdAt: r.createdAt,
+				updatedAt: r.updatedAt,
 				phrases: r.phrases,
 				body: r.body,
-				helpfulCount: r.helpfulCount,
 				reply: r.reply
 			};
 		});

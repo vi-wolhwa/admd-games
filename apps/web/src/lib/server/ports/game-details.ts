@@ -36,8 +36,8 @@ export interface ReviewSeed {
 	body: string;
 	playMinutes: number | null;
 	version: string | null;
-	helpfulCount: number;
 	createdAt: number;
+	updatedAt: number | null;
 	phrases: string[];
 	/** 글쓴이가 이 게임을 추천했나(recommendations 에 넣음) */
 	recommended: boolean;

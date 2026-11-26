@@ -11,7 +11,6 @@ import { profiles, reviewPhrases, reviewReplies, reviews } from './schema';
 const played = sql<number>`COALESCE(${reviews.playMinutes}, -1)`;
 
 const ORDER: Record<ReviewSort, SQL[]> = {
-	helpful: [desc(reviews.helpfulCount), desc(reviews.createdAt), desc(reviews.id)],
 	recent: [desc(reviews.createdAt), desc(reviews.id)],
 	played: [desc(played), desc(reviews.createdAt), desc(reviews.id)]
 };
@@ -20,12 +19,6 @@ const ORDER: Record<ReviewSort, SQL[]> = {
 function after(c: Cursor<ReviewSort>): SQL | undefined {
 	const [a = 0, b = 0] = c.values;
 	switch (c.sort) {
-		case 'helpful':
-			return or(
-				lt(reviews.helpfulCount, a),
-				and(eq(reviews.helpfulCount, a), lt(reviews.createdAt, b)),
-				and(eq(reviews.helpfulCount, a), eq(reviews.createdAt, b), lt(reviews.id, c.id))
-			);
 		case 'recent':
 			return or(lt(reviews.createdAt, a), and(eq(reviews.createdAt, a), lt(reviews.id, c.id)));
 		case 'played':
@@ -66,8 +59,8 @@ export function createD1Reviews(db: D1Client): Reviews {
 					body: reviews.body,
 					playMinutes: reviews.playMinutes,
 					version: reviews.version,
-					helpfulCount: reviews.helpfulCount,
 					createdAt: reviews.createdAt,
+					updatedAt: reviews.updatedAt,
 					name: profiles.displayName,
 					faceChar: profiles.faceChar,
 					faceColor: profiles.faceColor,
@@ -128,9 +121,9 @@ export function createD1Reviews(db: D1Client): Reviews {
 				playMinutes: r.playMinutes,
 				version: r.version,
 				createdAt: r.createdAt,
+				updatedAt: r.updatedAt,
 				phrases: phrases.get(r.id) ?? [],
 				body: r.body,
-				helpfulCount: r.helpfulCount,
 				reply:
 					r.replyBody === null || r.replyAt === null
 						? null
@@ -141,7 +134,6 @@ export function createD1Reviews(db: D1Client): Reviews {
 			let nextCursor: string | null = null;
 			if (hasMore && last) {
 				const values = {
-					helpful: [last.helpfulCount, last.createdAt],
 					recent: [last.createdAt],
 					played: [last.playMinutes ?? -1, last.createdAt]
 				}[query.sort];

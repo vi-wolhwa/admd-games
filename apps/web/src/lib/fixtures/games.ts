@@ -56,6 +56,8 @@ const ROWS: Row[] = [
 	['forest-library', '깊은 숲 도서관', '노을공방', ['이야기'], 5, 'download', [1, 1], 162, 40, 65, '숲속 도서관에서 잃어버린 책을 찾는다'],
 	['planet-gardener', '행성 정원사', '물방울', ['경영', '탐험'], 4, 'web', [1, 1], 58, 8, 25, '작은 행성에 정원을 가꾼다'],
 	['lightning-delivery', '번개 배달', '잿빛토끼', ['아케이드', '액션'], 1, 'web phone', [1, 1], 410, 52, 18, '번개보다 빨리 배달한다'],
+	// 예외 확인용: 제목 · 메이커 이름이 아주 길고, 태그 하나, 리뷰 없음, 오늘 공개
+	['cloud-post-office', '구름 위 작은 우체국에서 일하는 고양이와 비 오는 날의 긴 편지', '새벽세시에만문을여는작은게임공방', ['이야기'], 3, 'web', [1, 1], 3, 0, 0, '구름 사이를 건너며 편지를 나르는 고양이의 하루, 서두르지 않아도 되는 느린 배달 이야기'],
 ];
 
 const MAKER_SLUG: Record<string, string> = {
@@ -68,7 +70,8 @@ const MAKER_SLUG: Record<string, string> = {
 	물방울: 'droplet',
 	벡터공방: 'vector-studio',
 	레몬게임즈: 'lemon-games',
-	귤껍질스튜디오: 'tangerine-studio'
+	귤껍질스튜디오: 'tangerine-studio',
+	새벽세시에만문을여는작은게임공방: 'three-am-studio'
 };
 
 /** 가짜 게임 전부(공개 상태). now 기준으로 며칠 전 공개됐는지 정한다 */

@@ -11,12 +11,12 @@
 	import { type ReviewQuery, reviewSearchParams } from '#lib/domain/review.ts';
 	import GameCard from '#lib/ui/entities/game/GameCard.svelte';
 	import PlatIcons from '#lib/ui/entities/game/PlatIcons.svelte';
+	import LoginRequiredDialog from '#lib/ui/features/auth/LoginRequiredDialog.svelte';
 	import PlayAction from '#lib/ui/features/play/PlayAction.svelte';
 	import CountLine from '#lib/ui/patterns/CountLine.svelte';
 	import KeyFacts from '#lib/ui/patterns/KeyFacts.svelte';
 	import MediaViewer from '#lib/ui/patterns/MediaViewer.svelte';
 	import Rail from '#lib/ui/patterns/Rail.svelte';
-	import Icon from '#lib/ui/primitives/Icon.svelte';
 	import Tabs from '#lib/ui/primitives/Tabs.svelte';
 	import Tag from '#lib/ui/primitives/Tag.svelte';
 	import { goto } from '$app/navigation';
@@ -45,7 +45,11 @@
 		{ label: '한 판', value: LENGTH_LABEL[game.length] },
 		{ label: '인원', value: playersLabel(game.playersMin, game.playersMax) }
 	]);
-	const firstTag = $derived(game.tags[0]);
+	/** 로그인이 필요한 행동을 눌렀을 때 띄울 안내(무엇을 하려 했는지) */
+	let loginReason = $state<string | null>(null);
+	function needLogin(reason: string) {
+		loginReason = reason;
+	}
 
 	/** 탭 · 리뷰 거르기는 주소에 — 새로 고침 · 공유 · 뒤로 가기에 그대로 */
 	function navigate(params: URLSearchParams) {
@@ -83,48 +87,52 @@
 	<meta name="description" content={game.summary} />
 </svelte:head>
 
-<main class="mx-auto w-(--page-width) pt-6">
-	<nav aria-label="위치" class="flex items-center gap-1.5 text-meta font-medium text-ink-3">
-		<a href={resolve('/(play)/play/games')} class="hover:text-ink-1">게임</a>
-		{#if firstTag}
-			<Icon name="chevron" size={12} />
-			<!-- eslint-disable svelte/no-navigation-without-resolve -- 경로는 resolve(), 뒤는 질의 문자열 -->
-			<a
-				href={`${resolve('/(play)/play/games')}?tag=${encodeURIComponent(tagSlug(firstTag))}`}
-				class="hover:text-ink-1"
-			>
-				{firstTag}
-			</a>
-			<!-- eslint-enable svelte/no-navigation-without-resolve -->
-		{/if}
-	</nav>
-
-	<div class="mt-5 grid grid-cols-[minmax(0,1fr)_392px] items-start gap-9">
+<main class="mx-auto w-(--page-width) pt-8">
+	<div class="grid grid-cols-[minmax(0,1fr)_392px] items-start gap-9">
 		<MediaViewer items={viewerItems} label={`${game.title} 미리보기`}>
 			{#snippet topRight()}<PlatIcons {game} />{/snippet}
 		</MediaViewer>
 
-		<aside aria-label="게임 요약과 플레이" class="flex flex-col gap-4.5">
-			<div>
-				<h1 class="text-heading-lg font-heavy text-ink-1">
+		<!-- 높이 = 왼쪽 큰 미리보기(16:9)와 같게. 위 = 제목 · 소개 · 태그, 아래 = 핵심 칸 · 버튼 · 추천/리뷰(사용자 피드백) -->
+		<aside
+			aria-label="게임 요약과 플레이"
+			class="flex h-[calc((var(--page-width)-392px-36px)*9/16)] flex-col justify-between gap-4"
+		>
+			<div class="min-h-0">
+				<h1 class="line-clamp-2 text-heading-lg font-heavy break-words text-ink-1">
 					{game.title}
 				</h1>
-				<p class="mt-2 text-lead leading-[1.6] text-ink-2">{game.summary}</p>
-			</div>
-			{#if game.tags.length > 0}
-				<p class="flex flex-wrap gap-2">
-					{#each game.tags as tag (tag)}<Tag>{tag}</Tag>{/each}
+				<p class="mt-4 line-clamp-3 text-lead leading-[1.6] break-words text-ink-2">
+					{game.summary}
 				</p>
-			{/if}
-			<KeyFacts items={facts} />
-			<PlayAction {action} scanPassed={game.scanPassed} />
-			<div class="border-t border-line pt-4">
-				<CountLine
-					items={[
-						{ icon: 'thumb', label: '추천', value: game.recommendCount },
-						{ icon: 'comment', label: '리뷰', value: game.reviewCount }
-					]}
-				/>
+				{#if game.tags.length > 0}
+					<ul class="mt-4 flex flex-wrap gap-x-2 gap-y-1" aria-label="태그 — 누르면 이 태그의 게임">
+						{#each game.tags as tag (tag)}
+							<li>
+								<!-- eslint-disable svelte/no-navigation-without-resolve -- 경로는 resolve(), 뒤는 질의 문자열 -->
+								<a
+									href={`${resolve('/(play)/play/games')}?tag=${encodeURIComponent(tagSlug(tag))}`}
+									class="rounded-xs hover:underline hover:underline-offset-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+								>
+									<Tag>{tag}</Tag>
+								</a>
+								<!-- eslint-enable svelte/no-navigation-without-resolve -->
+							</li>
+						{/each}
+					</ul>
+				{/if}
+			</div>
+			<div class="flex flex-col gap-4">
+				<KeyFacts items={facts} />
+				<PlayAction {action} scanPassed={game.scanPassed} />
+				<div class="border-t border-line pt-3.5">
+					<CountLine
+						items={[
+							{ icon: 'thumb', label: '추천', value: game.recommendCount },
+							{ icon: 'comment', label: '리뷰', value: game.reviewCount }
+						]}
+					/>
+				</div>
 			</div>
 		</aside>
 	</div>
@@ -165,9 +173,10 @@
 				phrases={data.phrases}
 				now={data.now}
 				onquery={setReviewQuery}
+				onneedlogin={needLogin}
 			/>
 		{:else}
-			<AboutTab {game} />
+			<AboutTab {game} onneedlogin={needLogin} />
 		{/if}
 	</section>
 
@@ -181,3 +190,5 @@
 		</div>
 	{/if}
 </div>
+
+<LoginRequiredDialog reason={loginReason} onclose={() => (loginReason = null)} />

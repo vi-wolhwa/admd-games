@@ -59,10 +59,17 @@
 		};
 	});
 
-	// 지금 항목의 썸네일이 줄 안에 보이게
+	// 지금 항목의 썸네일이 줄 안에 보이게 — 썸네일 줄만 가로로 움직인다.
+	// (scrollIntoView 는 페이지 전체까지 세로로 움직여, 넘길 때마다 화면이 위로 튀었음)
 	$effect(() => {
 		const el = strip?.children[index] as HTMLElement | undefined;
-		el?.scrollIntoView({ block: 'nearest', inline: 'nearest', behavior: 'smooth' });
+		if (!strip || !el) return;
+		const left = el.offsetLeft;
+		const right = left + el.offsetWidth;
+		const view = strip.scrollLeft;
+		if (left < view || right > view + strip.clientWidth) {
+			strip.scrollTo({ left: left - 3, behavior: reduced ? 'auto' : 'smooth' });
+		}
 	});
 
 	function videoEnded() {
@@ -125,7 +132,7 @@
 		<div class="relative mt-2.5">
 			<div
 				bind:this={strip}
-				class="-m-0.75 flex snap-x snap-mandatory [scrollbar-width:none] gap-2 overflow-x-auto p-0.75"
+				class="relative -m-0.75 flex snap-x snap-mandatory [scrollbar-width:none] gap-2 overflow-x-auto p-0.75"
 			>
 				{#each items as item, i (item.url)}
 					<button

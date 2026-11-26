@@ -18,10 +18,10 @@ describe('리뷰 질의', () => {
 	});
 
 	it('커서는 정렬마다 값 개수가 맞아야 한다', () => {
-		const c = encodeCursor({ sort: 'helpful', values: [41, 1700], id: 'r1' });
-		expect(decodeReviewCursor(c, 'helpful')).toEqual({
-			sort: 'helpful',
-			values: [41, 1700],
+		const c = encodeCursor({ sort: 'played', values: [66, 1700], id: 'r1' });
+		expect(decodeReviewCursor(c, 'played')).toEqual({
+			sort: 'played',
+			values: [66, 1700],
 			id: 'r1'
 		});
 		expect(decodeReviewCursor(c, 'recent')).toBeNull();

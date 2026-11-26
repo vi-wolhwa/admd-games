@@ -7,11 +7,6 @@ export function formatPlayTime(minutes: number): string {
 	return `${hours.toLocaleString('ko-KR')}시간`;
 }
 
-const SAME_YEAR = new Intl.DateTimeFormat('ko-KR', {
-	month: 'long',
-	day: 'numeric',
-	timeZone: 'Asia/Seoul'
-});
 const FULL = new Intl.DateTimeFormat('ko-KR', {
 	year: 'numeric',
 	month: 'long',
@@ -20,12 +15,25 @@ const FULL = new Intl.DateTimeFormat('ko-KR', {
 });
 
 /** 날짜 — 올해면 '11월 21일', 아니면 '2025년 11월 21일' */
-export function formatDate(at: number, now: number): string {
-	const y = (t: number) => new Date(t + 9 * 3_600_000).getUTCFullYear();
-	return (y(at) === y(now) ? SAME_YEAR : FULL).format(at);
-}
 
 /** 날짜 — 늘 연도까지('2026년 10월 2일'). 공개일처럼 기준이 되는 날짜에 */
 export function formatFullDate(at: number): string {
 	return FULL.format(at);
+}
+
+const MINUTE = 60_000;
+const HOUR = 60 * MINUTE;
+const DAY = 24 * HOUR;
+
+/**
+ * 지난 시간 — '3분' · '5시간' · '12일' · '2개월' · '1년'(뒤에 '전'은 부르는 쪽이 붙인다).
+ * 1분 안쪽은 '1분'. 달은 30일, 해는 365일로 센다(대략이면 충분 — 정확한 날짜는 함께 보이는 전체 날짜로).
+ */
+export function formatAgo(at: number, now: number): string {
+	const d = Math.max(0, now - at);
+	if (d < HOUR) return `${String(Math.max(1, Math.floor(d / MINUTE)))}분`;
+	if (d < DAY) return `${String(Math.floor(d / HOUR))}시간`;
+	if (d < 30 * DAY) return `${String(Math.floor(d / DAY))}일`;
+	if (d < 365 * DAY) return `${String(Math.floor(d / (30 * DAY)))}개월`;
+	return `${String(Math.floor(d / (365 * DAY)))}년`;
 }

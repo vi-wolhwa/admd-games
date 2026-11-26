@@ -2,29 +2,32 @@
  * 가짜 게임 상세 · 리뷰 — 이야기(갤러리) · 테스트 · 미리보기/로컬 D1 시드 전용(운영 코드에서 import 금지).
  * 사람 · 글은 모두 지어낸 것.
  */
-import type { Caution, Control, Device } from '#lib/domain/game.ts';
+import type { Device } from '#lib/domain/game.ts';
 import type { ProfileSeed, ReviewSeed } from '#lib/server/ports/game-details.ts';
 
 interface Detail {
 	description: string;
 	devices: Device[];
-	controls: Control[];
+	online: boolean;
 	languages: string[];
-	cautions: Caution[];
 	minSpec: string | null;
 }
 
+/** 온라인 — 다른 사람과 인터넷으로 함께하거나 순위를 보는 게임(나머지는 오프라인) */
+const ONLINE = new Set(['ashfall-runner', 'loop-debugger', 'lightning-delivery', 'shadow-tag']);
+
+// 조작 · 이용 주의는 화면에서 뺐다(사용자 결정 2026-11-28) — 표에서는 조작 칸을 그대로 두어 읽기 쉽게
 const D = (
 	description: string,
 	devices: Device[],
-	controls: Control[],
+	_controls: string[],
 	languages: string[] = ['ko'],
-	cautions: Caution[] = [],
+	_cautions: string[] = [],
 	minSpec: string | null = null
-): Detail => ({ description, devices, controls, languages, cautions, minSpec });
+): Omit<Detail, 'online'> => ({ description, devices, languages, minSpec });
 
 /** slug → 상세. 휴대폰 · 패드만 되는 게임(박자 정원)은 PC 에서 '이 기기 불가' 를 보여 주려고 */
-export const SAMPLE_DETAILS: Record<string, Detail> = {
+const DETAILS: Record<string, Omit<Detail, 'online'>> = {
 	'ashfall-runner': D(
 		'재가 내리는 도시를 끝없이 달리는 러너. 건물이 무너지는 소리를 듣고 길을 고르세요.\n\n한 판은 짧지만 기록을 깨려면 길을 외워야 해요.\n\n- 손가락 하나로 하는 점프와 미끄러지기\n- 매일 바뀌는 도시 지도\n- 친구 기록과 나란히 보이는 유령 달리기',
 		['pc', 'phone'],
@@ -161,6 +164,11 @@ export const SAMPLE_DETAILS: Record<string, Detail> = {
 		['pc'],
 		['mouse']
 	),
+	'cloud-post-office': D(
+		'구름 위 작은 우체국에서 비 오는 날마다 편지를 나르는 고양이의 하루를 따라가는 느린 이야기 게임이에요. 편지를 받을 사람을 찾아 구름 사이를 건너고, 길을 잃으면 바람에게 길을 물어요.\n\n- 편지 하나하나가 짧은 이야기\n- 서두를 필요 없는 느린 하루',
+		['pc'],
+		['mouse']
+	),
 	'lightning-delivery': D(
 		'번개보다 빨리 배달하는 아케이드. 길을 외우면 빨라져요.\n\n- 1분 한 판\n- 하루 한 번 바뀌는 배달지',
 		['pc', 'phone'],
@@ -168,6 +176,10 @@ export const SAMPLE_DETAILS: Record<string, Detail> = {
 		['ko', 'en']
 	)
 };
+
+export const SAMPLE_DETAILS: Record<string, Detail> = Object.fromEntries(
+	Object.entries(DETAILS).map(([slug, d]) => [slug, { ...d, online: ONLINE.has(slug) }])
+);
 
 export const SAMPLE_PROFILES: ProfileSeed[] = [
 	['새벽배송', 'ㅅ', 'hong'],
@@ -191,18 +203,19 @@ export const SAMPLE_PROFILES: ProfileSeed[] = [
 
 const DAY = 86_400_000;
 
-// [게임 slug, 사람 번호(1~12), 쓸 때 플레이(분, 모르면 null), 버전, 며칠 전, 도움 수, 추천함, 고른 말, 본문, 메이커 답글]
+// [게임 slug, 사람 번호(1~12), 쓸 때 플레이(분, 모르면 null), 버전, 며칠 전, (안 씀), 추천함, 키워드, 본문, 메이커 답글, 며칠 뒤 수정]
 type Row = [
 	slug: string,
 	person: number,
 	minutes: number | null,
 	version: string,
 	daysAgo: number,
-	helpful: number,
+	_unused: number,
 	recommended: boolean,
 	phrases: string[],
 	body: string,
-	reply?: [body: string, note: string | null, daysAfter: number]
+	reply?: [body: string, note: string | null, daysAfter: number] | null,
+	editedAfter?: number
 ];
 
 // 한 줄 = 리뷰 하나(표처럼 읽기)
@@ -210,40 +223,56 @@ type Row = [
 const ROWS: Row[] = [
 	['paper-vector', 1, 340, 'v1.3', 4, 58, true, ['같이 하면 더 좋아요', '짧고 굵음'], '주말마다 넷이 모여서 해요. 한 판이 5분이라 진 사람이 바로 다음 판을 외치게 돼요. 바람 방향이 판마다 바뀌어서 같은 전략이 잘 안 통하는 게 좋아요.'],
 	['paper-vector', 2, 95, 'v1.3', 9, 31, true, ['같이 하면 더 좋아요'], '혼자 하는 모드도 있긴 한데, 이 게임은 같이 해야 진짜예요. 게임패드 두 개랑 키보드 하나로 셋이 했는데 문제없었어요.'],
-	['paper-vector', 5, 22, 'v1.2', 30, 12, false, ['어려워요'], '처음엔 비행기가 너무 빨리 접혀서 뭐가 뭔지 몰랐어요. 연습 모드가 있으면 좋겠어요.', ['연습 모드를 넣었어요. 메뉴 맨 아래에 있어요!', 'v1.3 에서 고침', 2]],
+	['paper-vector', 5, 22, 'v1.2', 30, 12, false, ['오래 붙잡게 돼요'], '처음엔 비행기가 너무 빨리 접혀서 뭐가 뭔지 몰랐어요. 연습 모드가 있으면 좋겠어요. (수정: 업데이트 후 연습 모드가 생겼어요!)', ['연습 모드를 넣었어요. 메뉴 맨 아래에 있어요!', 'v1.3 에서 수정', 2], 5],
 	['paper-vector', 9, 610, 'v1.3', 2, 9, true, ['음악이 좋아요'], '배경 음악이 바람 소리랑 섞여서 신기하게 잘 어울려요. 10시간 넘게 했는데 아직 안 질려요.'],
-	['paper-vector', 11, 48, 'v1.3', 1, 0, true, [], '친구 집에서 처음 해 봤는데 바로 받았어요.'],
-	['paper-vector', 6, 130, 'v1.1', 60, 4, false, ['버그가 있어요'], '네 명일 때 가끔 화면이 멈췄어요. 업데이트 후엔 괜찮은지 다시 해 볼게요.', ['네 명 화면 멈춤은 v1.2 에서 고쳤어요. 알려 줘서 고마워요.', 'v1.2 에서 고침', 3]],
+	['paper-vector', 11, 48, 'v1.3', 1, 0, true, ['같이 하면 더 좋아요'], '친구 집에서 처음 해 봤는데 바로 받았어요.'],
+	['paper-vector', 6, 130, 'v1.1', 60, 4, false, ['같이 하면 더 좋아요'], '네 명일 때 가끔 화면이 멈췄어요. 업데이트 후엔 괜찮은지 다시 해 볼게요.', ['네 명 화면 멈춤은 v1.2 에서 고쳤어요. 알려 줘서 고마워요.', 'v1.2 에서 수정', 3]],
 	['ashfall-runner', 3, 420, 'v2.0', 3, 44, true, ['짧고 굵음', '한 손으로'], '출근길 지하철에서 한 손으로 해요. 무너지는 소리를 듣고 길을 고르는 게 처음엔 어려운데, 익숙해지면 소리만 듣고도 뛰어요.'],
 	['ashfall-runner', 7, 75, 'v2.0', 12, 21, true, ['음악이 좋아요'], '소리가 정말 좋아요. 이어폰 끼고 하세요.'],
-	['ashfall-runner', 4, 15, 'v1.9', 40, 8, false, ['어려워요'], '세 번째 구간부터 너무 어려워져요. 조금만 천천히 올라가면 좋겠어요.', ['세 번째 구간 속도를 낮췄어요. 다시 한 번 달려 봐 주세요!', 'v2.0 에서 고침', 5]],
-	['ashfall-runner', 10, null, 'v2.0', 6, 3, true, [], '기록 깨려고 계속 하게 돼요.'],
+	['ashfall-runner', 4, 15, 'v1.9', 40, 8, false, ['오래 붙잡게 돼요'], '세 번째 구간부터 너무 어려워져요. 조금만 천천히 올라가면 좋겠어요.', ['세 번째 구간 속도를 낮췄어요. 다시 한 번 달려 봐 주세요!', 'v2.0 에서 수정', 5]],
+	['ashfall-runner', 10, null, 'v2.0', 6, 3, true, ['오래 붙잡게 돼요'], '기록 깨려고 계속 하게 돼요.'],
 	['ashfall-runner', 12, 260, 'v2.0', 1, 1, true, ['한 손으로'], '유령 달리기로 친구 기록이랑 같이 뛰는 게 은근히 승부욕을 자극해요. 매일 지도가 바뀌어서 외운 길이 소용없을 때가 있는데, 그게 또 재미예요.'],
 	['cat-mail', 5, 190, 'v1.1', 5, 37, true, ['이야기가 좋아요', '힌트가 친절해요'], '편지 하나하나에 동네 사람들 사연이 있어서 퍼즐보다 이야기가 더 기억에 남아요. 마지막 편지는 좀 울었어요.'],
 	['cat-mail', 8, 66, 'v1.1', 14, 15, true, ['이야기가 좋아요'], '고양이를 쓰다듬을 수 있다는 것만으로 별 다섯 개예요. 아, 별점은 없지.'],
-	['cat-mail', 2, 30, 'v1.0', 50, 6, false, ['튜토리얼이 길어요'], '처음 편지 다섯 통이 다 튜토리얼이라 좀 길어요.', ['튜토리얼을 편지 두 통으로 줄였어요.', 'v1.1 에서 고침', 4]],
-	['cat-mail', 11, 12, 'v1.1', 2, 0, false, [], '휴대폰에서는 글씨가 조금 작아요.'],
+	['cat-mail', 2, 30, 'v1.0', 50, 6, false, ['그림이 예뻐요'], '처음 편지 다섯 통이 다 튜토리얼이라 좀 길어요.', ['튜토리얼을 편지 두 통으로 줄였어요.', 'v1.1 에서 수정', 4]],
+	['cat-mail', 7, 420, 'v1.1', 20, 0, true, ['이야기가 좋아요', '그림이 예뻐요', '오래 붙잡게 돼요'], '처음에는 고양이가 편지를 나른다는 설정만 보고 귀여운 퍼즐이겠거니 했어요. 그런데 편지를 하나씩 읽다 보니 동네 사람들 이야기가 서로 이어져 있다는 걸 알게 됐어요. 빵집 아주머니가 보낸 편지가 세탁소 할아버지 편지랑 연결되고, 그게 또 학교 앞 문방구 이야기로 이어지는 식이에요. 퍼즐 자체는 어렵지 않은데, 받는 사람을 찾으려면 편지 내용을 꼼꼼히 읽어야 해서 자연스럽게 이야기에 빠져들게 돼요. 마지막 편지를 배달할 때쯤에는 동네 지도를 거의 외웠어요. 그림도 손으로 그린 느낌이라 따뜻하고, 비 오는 날 장면은 배경 소리까지 좋아서 한참 멈춰서 듣기도 했어요. 휴대폰에서는 글씨가 조금 작은 것 말고는 아쉬운 점이 없어요. 다음 작품도 꼭 해 볼게요.'],
+	['cat-mail', 11, 12, 'v1.1', 2, 0, false, ['이야기가 좋아요'], '휴대폰에서는 글씨가 조금 작아요.'],
 	['lighthouse-night', 9, 35, 'v1.0', 7, 26, true, ['이야기가 좋아요', '짧고 굵음'], '30분이면 끝나는데 여운이 길어요. 두 번째 판에서 다른 말을 골랐더니 아침이 완전히 달라졌어요.'],
 	['lighthouse-night', 3, 28, 'v1.0', 18, 11, true, ['이야기가 좋아요'], '조용한 밤에 하기 좋아요. 배경 그림이 정말 예뻐요.'],
-	['lighthouse-night', 6, 20, 'v1.0', 3, 2, false, [], '조금 더 길었으면 좋겠어요.'],
+	['lighthouse-night', 6, 20, 'v1.0', 3, 2, false, ['이야기가 좋아요'], '조금 더 길었으면 좋겠어요.'],
 	['beat-garden', 4, 150, 'v1.4', 6, 19, true, ['음악이 좋아요', '한 손으로'], '틀려도 꽃이 피는 게 너무 좋아요. 리듬 게임 못하는 사람도 끝까지 할 수 있어요.'],
 	['beat-garden', 10, 45, 'v1.4', 11, 7, true, ['음악이 좋아요'], '패드로 하니까 화면이 넓어서 더 좋아요.'],
 	['beat-garden', 1, 8, 'v1.3', 25, 1, false, ['조작이 편해요'], '판정이 조금 후해요. 어려움 모드가 있으면 좋겠어요.'],
-	['loop-debugger', 1, 66, 'v1.1', 8, 41, true, ['짧고 굵음', '힌트가 친절해요'], '회사에서 하는 일이랑 너무 똑같아서 웃겼어요. 그런데 이건 고치면 칭찬을 해 주네요. 15스테이지부터 난이도가 확 오르는데, 힌트가 세 단계라 답을 보지 않고도 풀 수 있게 잡아 줘요.', ['15스테이지 구간에 연습 스테이지를 하나 더 넣었어요. 고마워요!', 'v1.2 에서 고침', 1]],
-	['loop-debugger', 2, 66, 'v1.1', 9, 17, false, ['튜토리얼이 길어요'], '튜토리얼이 너무 길어요. 처음 세 스테이지는 이미 아는 내용이라 건너뛰기가 있으면 좋겠어요.', ['튜토리얼을 한 스테이지로 줄였어요. 다시 한 번 봐 주세요!', 'v1.2 에서 고침', 2]],
+	['loop-debugger', 1, 66, 'v1.1', 8, 41, true, ['짧고 굵음', '힌트가 친절해요'], '회사에서 하는 일이랑 너무 똑같아서 웃겼어요. 그런데 이건 고치면 칭찬을 해 주네요. 15스테이지부터 난이도가 확 오르는데, 힌트가 세 단계라 답을 보지 않고도 풀 수 있게 잡아 줘요.', ['15스테이지 구간에 연습 스테이지를 하나 더 넣었어요. 고마워요!', 'v1.2 에서 수정', 1]],
+	['loop-debugger', 2, 66, 'v1.1', 9, 17, false, ['그림이 예뻐요'], '튜토리얼이 너무 길어요. 처음 세 스테이지는 이미 아는 내용이라 건너뛰기가 있으면 좋겠어요.', ['튜토리얼을 한 스테이지로 줄였어요. 다시 한 번 봐 주세요!', 'v1.2 에서 수정', 2]],
 	['loop-debugger', 3, 300, 'v1.2', 3, 9, true, ['짧고 굵음'], '마지막까지 다 해 봤어요. 후반 다섯 개는 정말 머리가 아팠지만, 힌트 두 번째 단계에서 딱 풀리게 돼 있어서 억지스럽지 않았어요. 편집기로 만든 문제를 친구한테 보냈더니 밤새 풀더라고요. 공유 링크 덕분에 같이 노는 맛이 생겼어요. 아쉬운 점을 하나 꼽자면 편집기에서 만든 문제를 저장해 두는 칸이 세 개뿐이라 자꾸 지우게 된다는 거예요. 다음 업데이트에서 칸이 늘어나면 좋겠어요. 그래도 올해 해 본 퍼즐 중에 제일 오래 붙잡고 있었던 게임이에요.'],
 	['lightning-delivery', 7, 90, 'v1.0', 4, 13, true, ['짧고 굵음', '조작이 편해요'], '1분이라 부담이 없어요. 하루 한 번 바뀌는 배달지 때문에 매일 들어와요.'],
-	['lightning-delivery', 12, 15, 'v1.0', 9, 2, false, [], '길이 조금 헷갈려요.'],
+	['lightning-delivery', 12, 15, 'v1.0', 9, 2, false, ['짧고 굵음'], '길이 조금 헷갈려요.'],
 	['tessellate', 8, 55, 'v1.0', 2, 6, true, ['힌트가 친절해요'], '조각 하나만 알려 주는 힌트가 정말 좋아요. 답을 다 알려 주지 않아서 끝까지 내가 푼 느낌이 나요.'],
-	['tessellate', 11, 20, 'v1.0', 1, 0, true, [], '그림이 손으로 그린 거라 따뜻해요.'],
-	['tilt-theory', 5, null, 'v2.1', 20, 10, true, ['어려워요'], '설치형이라 플레이 시간은 안 남지만 열 시간은 넘게 한 것 같아요. 5초 되돌리기가 없었으면 진작 그만뒀을 거예요.'],
-	['null-pointer', 6, null, 'v0.9', 15, 5, true, [], '죽을 때마다 지도가 바뀌어서 저녁이 사라져요.']
+	['tessellate', 11, 20, 'v1.0', 1, 0, true, ['그림이 예뻐요'], '그림이 손으로 그린 거라 따뜻해요.'],
+	['tilt-theory', 5, null, 'v2.1', 20, 10, true, ['오래 붙잡게 돼요'], '설치형이라 플레이 시간은 안 남지만 열 시간은 넘게 한 것 같아요. 5초 되돌리기가 없었으면 진작 그만뒀을 거예요.'],
+	['null-pointer', 6, null, 'v0.9', 15, 5, true, ['오래 붙잡게 돼요'], '죽을 때마다 지도가 바뀌어서 저녁이 사라져요.']
 ];
 
 /** 가짜 리뷰 전부. now 기준으로 며칠 전에 썼는지 정한다 */
 export function sampleReviews(now: number): ReviewSeed[] {
 	return ROWS.map(
-		([slug, person, minutes, version, daysAgo, helpful, recommended, phrases, body, reply], i) => {
+		(
+			[
+				slug,
+				person,
+				minutes,
+				version,
+				daysAgo,
+				_unused,
+				recommended,
+				phrases,
+				body,
+				reply,
+				editedAfter
+			],
+			i
+		) => {
 			const createdAt = now - daysAgo * DAY - i * 60_000;
 			return {
 				id: `sample-review-${String(i + 1)}`,
@@ -252,8 +281,8 @@ export function sampleReviews(now: number): ReviewSeed[] {
 				body,
 				playMinutes: minutes,
 				version,
-				helpfulCount: helpful,
 				createdAt,
+				updatedAt: editedAfter === undefined ? null : createdAt + editedAfter * DAY,
 				phrases,
 				recommended,
 				reply: reply
