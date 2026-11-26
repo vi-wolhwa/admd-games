@@ -1,3 +1,4 @@
+import 'pretendard/dist/web/variable/pretendardvariable-dynamic-subset.css';
 import '../src/routes/layout.css';
 
 import type { Preview } from '@storybook/sveltekit';
@@ -31,7 +32,9 @@ const preview: Preview = {
 			}
 		}
 	},
-	initialGlobals: { theme: 'light', ground: 'play' },
+	// 화면 크기 'pc' — 이야기 테스트도 이 크기로 찍는다(addon-vitest 가 viewport 전역값을 따름).
+	// 높이를 넉넉히: 화면 밖은 캡처에 안 찍혀서 페이지 이야기가 잘린다
+	initialGlobals: { theme: 'light', ground: 'play', viewport: { value: 'pc', isRotated: false } },
 	decorators: [
 		(story, context) => {
 			const root = document.documentElement;
@@ -43,6 +46,11 @@ const preview: Preview = {
 	],
 	parameters: {
 		layout: 'padded',
+		viewport: {
+			options: {
+				pc: { name: 'PC 1440', styles: { width: '1440px', height: '1800px' }, type: 'desktop' }
+			}
+		},
 		// 접근성(axe) 위반은 테스트 실패로 (setup-agenda 4-1)
 		a11y: { test: 'error' },
 		controls: { expanded: true }

@@ -1,7 +1,7 @@
 # STATUS
 
-- 마지막 업데이트: 2026-11-28 (Asia/Seoul) — 개발 환경 세팅 0~6단계 완료, Cloudflare 연결 · PR 미리보기 동작 확인
-- 현재 Phase: **3. 개발 시작 직전** — 디자인 원본은 이제 코드(ADR 0012). 다음: 첫 페이지 **PG03 전체 게임**([docs/dev/page-order.md](dev/page-order.md))
+- 마지막 업데이트: 2026-11-28 (Asia/Seoul) — PG03 전체 게임 구현(#22), 사용자 확인 대기
+- 현재 Phase: **4. 페이지 구현** — 디자인 원본은 코드(ADR 0012). 진행: **PG03 전체 게임**(#22, 사용자 확인 대기) → 다음 PG05([docs/dev/page-order.md](dev/page-order.md))
 - 저장소: **공개** `vi-wolhwa/admd-games`, 기본 브랜치 `develop`, 운영 = `main` 병합 시 자동 배포(ADR 0013, [operations.md](operations.md))
 - 개발 환경 결정: [docs/dev/setup-agenda.md](dev/setup-agenda.md) · 실행 계획: [setup-plan.md](dev/setup-plan.md) · 컴포넌트 구조: [component-architecture.md](dev/component-architecture.md)
 - 디자인 캔버스(아직 코드로 옮기지 않은 페이지의 기획 시안): https://claude.ai/code/artifact/57ed3789-695b-4f2c-8ae6-b210fafc167d — 페이지 목록 [docs/design/canvas/README.md](design/canvas/README.md)
@@ -45,7 +45,7 @@
 
 ## 다음 할 일
 
-1. **PG03 전체 게임** 구현(이슈 · PR 하나) — 헤더 · 기본 부품 · 게임 카드 · 게임 목록 데이터 · 무한 스크롤. 갤러리 아티팩트 첫 게시
+1. **PG03 전체 게임** — 구현 완료, PR 미리보기에서 사용자 피드백 반영 후 병합(#22). 카드 상세 링크는 PG05 에서 열림
 2. 이후 page-order.md 순서: PG05 → SH01 → PG06 → PG07 → PG14 → PG01
 - 운영 첫 배포는 출시할 만큼 갖춰졌을 때(사용자 승인). 그 전까지 중간 결과는 develop 고정 주소 https://admd-games-preview.vi-wolhwa.workers.dev
 

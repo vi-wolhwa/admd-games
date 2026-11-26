@@ -44,3 +44,13 @@
 | 2026-11-28 | 위 2026-11-27 `chain` 결정을 대체: 자체 `chain` 을 걷고 SvelteKit `sequence` 로 복귀. 개발 서버 SSR 사전 번들에서 `@sveltejs/kit` 제외 · drizzle-orm 미리 포함(vite.config `environments.ssr.optimizeDeps`) | #14 원인은 SSR 사전 번들이 kit 를 따로 복사한 것(앱 코드와 개발 서버 런타임의 kit 인스턴스 분리). 설정으로 해결돼 자체 구현을 둘 이유가 없음 |
 | 2026-11-28 | Cloudflare 계정 하위 주소 = `vi-wolhwa`(사용자 결정) → 운영 `admd-games.vi-wolhwa.workers.dev`, Worker 이름은 그대로 | 하위 주소는 계정 전체 공용이라 프로젝트 이름(`admd-games`)보다 개인 이름이 다른 앱과 겹치지 않음. 아무것도 올리기 전이라 변경 비용 0. 한 단계 주소(`admd-games.workers.dev`)는 workers.dev 구조상 불가, `games` 는 이미 사용 중 |
 | 2026-11-28 | 운영 배포는 출시할 만큼 갖춰졌을 때만(사용자 결정). 중간 결과는 develop 고정 주소 `admd-games-preview.vi-wolhwa.workers.dev` — develop 병합마다 갱신, PR 은 별칭 주소 | 미완성 화면을 운영에 올리지 않음. 확인용 Worker · D1 은 이미 있는 미리보기 것을 재사용해 추가 비용 · 자원 없음 |
+| 2026-11-28 | PG03 정렬은 플랫폼이 아는 것만: 추천 많은(기본) · 새로 나온 · 짧은 순. '많이 하는'은 PG06 플레이 기록 뒤 추가하고 그때 기본값(사용자 결정) | ADR 0011 '플랫폼이 아는 것만 약속' — 기록 없이 '많이 하는'을 보이면 근거 없는 순서 |
+| 2026-11-28 | 헤더 · 바닥글은 만든 페이지만 보인다(사용자 결정) — 지금은 로고 · 게임 · 테마 전환. 검색(PG04) · 로그인(SH01) · 홈 등은 그 페이지와 함께 | 누르면 막히는 링크 · 버튼을 두지 않음 |
+| 2026-11-28 | 가짜 게임 그림 = 코드로 만든 추상 그림 `static/sample/`(사용자 결정), 생성기 `apps/web/scripts/sample-art.ts` | 저작권 · 다운로드 없음, 캡처 비교가 늘 같은 그림 |
+| 2026-11-28 | 글꼴 자체 호스팅(사용자 결정): Pretendard(npm `pretendard`, 글자 범위별 조각). Gasoek One 은 처음 쓰는 페이지(PG01)에서 설치 | 외부 요청 없음(CSP · 개인정보), 안 쓰는 의존성은 knip 이 막음 |
+| 2026-11-28 | PG03 주소 `/play/games`, 상세 `/play/games/<slug>`. `/play` 는 홈(PG01) 전까지 `/play/games` 로 307 | 홈은 마지막에 만든다(page-order.md) |
+| 2026-11-28 | '신작' 배지 = 공개 후 14일 안쪽(`isNewGame`). 시안의 '왕좌'(랭킹 1위) 배지 · '광고 없이 무료' 문구는 근거(랭킹 · 정책 결정)가 생길 때까지 뺌 | 데이터 출처가 있는 표시만 |
+| 2026-11-28 | 게임 목록 포트 `Catalog` 는 D1 어댑터 하나 + 계약 테스트를 로컬 D1(wrangler getPlatformProxy, 메모리)에서 돌린다. 메모리 어댑터는 만들지 않음, DB 바인딩이 없으면 오류로 드러냄 | 같은 필터 · 커서 로직을 두 번 구현하지 않음. 실제 이관 SQL 로 검증 |
+| 2026-11-28 | 헤드리스 부품 Bits UI 2.x 도입 — `primitives/Select` · `primitives/Tooltip` 안에서만 | component-architecture 6절. PG03 화면 JS 는 gzip 43KB(대부분 Bits UI · floating-ui) |
+| 2026-11-28 | 이야기 테스트 화면 = 'pc' 1440×1800(.storybook/preview.ts viewport 전역값) · 캡처 전 `document.fonts.ready` | addon-vitest 가 기본 1200×900 으로 고정해 페이지 이야기가 잘렸음, 글꼴 조각이 덜 받아진 채 찍히면 그림이 흔들림 |
+| 2026-11-28 | 미리보기 D1 에 배포마다 가짜 데이터 시드(`scripts/seed.ts`, 운영 DB 는 거부) | 미리보기 · develop 주소에서 실제 화면 확인. 쓰기 약 230행/회 — 무료 10만 행/일 안 |

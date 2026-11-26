@@ -42,3 +42,5 @@ storybook-static
 # 화면 캡처 기준 그림은 CI(리눅스)에서 만든 것만 저장소에 둔다
 **/__screenshots__/**/*-win32.png
 **/__screenshots__/**/*-darwin.png
+# 캡처 비교가 실패할 때 남는 실제 그림(로컬 확인용)
+.vitest-attachments/

@@ -9,6 +9,8 @@ import { page } from 'vitest/browser';
 
 afterEach(async (context) => {
 	if (context.task.result?.state === 'fail') return;
+	// 글꼴 조각(Pretendard 글자 범위별)이 다 받아진 뒤에 찍는다 — 덜 받아진 채 찍히면 그림이 흔들린다
+	await document.fonts.ready;
 	const root = document.querySelector('#storybook-root') ?? document.body;
 	const locator = page.elementLocator(root);
 	for (const theme of ['light', 'dark'] as const) {

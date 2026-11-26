@@ -48,6 +48,10 @@ jobs:
         if: steps.gate.outputs.go == 'true'
         working-directory: apps/web
         run: npx wrangler d1 migrations apply DB --env preview --remote
+      - name: 미리보기 D1 가짜 데이터
+        if: steps.gate.outputs.go == 'true'
+        working-directory: apps/web
+        run: node scripts/seed.ts --env preview --remote
       - name: develop 고정 주소 갱신
         if: steps.gate.outputs.go == 'true' && github.event_name == 'push'
         working-directory: apps/web
