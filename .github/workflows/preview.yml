@@ -1,0 +1,59 @@
+# PR 미리보기 배포(setup-agenda 6-4): 앱 코드가 바뀐 PR 만, 별도 Worker(admd-games-preview) + 별도 D1 로.
+# 주소는 PR 댓글 하나에 계속 갱신. Cloudflare 시크릿이나 D1 ID 가 아직 없으면 조용히 건너뜀.
+name: preview
+
+on:
+  pull_request:
+    branches: [develop]
+
+concurrency:
+  group: preview-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+  pull-requests: write
+
+jobs:
+  preview:
+    if: github.actor != 'dependabot[bot]'
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      CLOUDFLARE_API_TOKEN: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+      CLOUDFLARE_ACCOUNT_ID: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
+      PR: ${{ github.event.pull_request.number }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          fetch-depth: 0
+      - name: 배포할지 판단
+        id: gate
+        run: node scripts/deploy-gate.mjs preview
+      - uses: actions/setup-node@v7
+        if: steps.gate.outputs.go == 'true'
+        with:
+          node-version-file: .nvmrc
+          cache: npm
+      - if: steps.gate.outputs.go == 'true'
+        run: npm ci
+      - name: 빌드
+        if: steps.gate.outputs.go == 'true'
+        run: npm run build
+      - name: 미리보기 D1 이관
+        if: steps.gate.outputs.go == 'true'
+        working-directory: apps/web
+        run: npx wrangler d1 migrations apply DB --env preview --remote
+      - name: 미리보기 버전 올리기
+        id: upload
+        if: steps.gate.outputs.go == 'true'
+        working-directory: apps/web
+        run: |
+          npx wrangler versions upload --env preview --preview-alias "pr-$PR" | tee upload.log
+          echo "url=$(grep -oE 'https://pr-[^ ]+\.workers\.dev' upload.log | head -1)" >> "$GITHUB_OUTPUT"
+      - name: PR 에 주소 남기기
+        if: steps.gate.outputs.go == 'true' && steps.upload.outputs.url != ''
+        env:
+          GH_TOKEN: ${{ github.token }}
+          URL: ${{ steps.upload.outputs.url }}
+        run: node scripts/preview-comment.mjs

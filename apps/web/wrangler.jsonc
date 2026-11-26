@@ -15,9 +15,26 @@
 			"binding": "DB",
 			"database_name": "admd-games",
 			// 로컬 개발은 이 값과 무관하게 .wrangler/ 아래 SQLite 파일을 쓴다.
-			// 배포 전 `npx wrangler d1 create admd-games` 로 만든 실제 ID로 교체한다.
+			// 실제 ID 는 Actions 의 'cloudflare-bootstrap' 을 한 번 실행해 받아 넣는다(docs/operations.md).
 			"database_id": "00000000-0000-0000-0000-000000000000",
 			"migrations_dir": "migrations"
 		}
-	]
+	],
+	"env": {
+		// PR 미리보기 전용 — 운영 Worker · 운영 D1 과 완전히 분리(setup-agenda 6-4).
+		// 같은 Worker 의 미리보기 주소는 운영 D1 에 연결되는 함정이 있어 Worker 자체를 나눈다.
+		"preview": {
+			"name": "admd-games-preview",
+			"workers_dev": true,
+			"preview_urls": true,
+			"d1_databases": [
+				{
+					"binding": "DB",
+					"database_name": "admd-games-preview",
+					"database_id": "00000000-0000-0000-0000-000000000000",
+					"migrations_dir": "migrations"
+				}
+			]
+		}
+	}
 }

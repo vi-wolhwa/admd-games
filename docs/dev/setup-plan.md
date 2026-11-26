@@ -1,4 +1,4 @@
-# 개발 환경 세팅 실행 계획 (2026-11-27)
+# 개발 환경 세팅 실행 계획 (2026-11-27) — 진행 상황은 docs/STATUS.md
 
 결정은 [setup-agenda.md](setup-agenda.md) · ADR 0012 · 0013. 단계마다 GitHub 이슈 하나 + PR 하나(→ `develop`). 각 PR 은 사용자 확인 후 병합하고 브랜치는 지운다.
 
