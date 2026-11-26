@@ -1,0 +1,185 @@
+import {
+	and,
+	asc,
+	count,
+	desc,
+	eq,
+	exists,
+	gt,
+	gte,
+	inArray,
+	isNull,
+	lt,
+	lte,
+	or,
+	type SQL,
+	sql
+} from 'drizzle-orm';
+
+import { type CatalogQuery, type Cursor, decodeCursor, encodeCursor } from '#lib/domain/catalog.ts';
+import type { GameCardData, GameMedia, Launch, LengthBucket } from '#lib/domain/game.ts';
+
+import type { Catalog, CatalogPage } from '../../ports/catalog';
+import type { D1Client } from './client';
+import { gameMedia, games, gameTags, makers, tags } from './schema';
+
+/**
+ * D1 게임 목록. 읽기 비용(무료 5백만 행/일)을 아끼는 규칙:
+ * - OFFSET 대신 커서(정렬 값 + id), 정렬마다 (status, 정렬 열…, id) 색인
+ * - 개수는 첫 묶음에서만 센다, 태그 개수는 캐시 열(game_count)
+ * - 카드의 태그 · 미디어는 그 묶음의 id 로 한 번에(batch)
+ */
+export function createD1Catalog(db: D1Client): Catalog {
+	return {
+		async listGames(query, page): Promise<CatalogPage> {
+			const cursor = page.cursor ? decodeCursor(page.cursor, query.sort) : null;
+			if (page.cursor && !cursor) return { items: [], nextCursor: null, total: null };
+
+			const filter = filters(db, query);
+			const where = cursor ? and(filter, after(cursor)) : filter;
+			const list = db
+				.select({
+					id: games.id,
+					slug: games.slug,
+					title: games.title,
+					makerName: makers.name,
+					length: games.length,
+					launch: games.launch,
+					phone: games.phone,
+					playersMax: games.playersMax,
+					scanPassed: games.scanPassed,
+					cover: games.coverUrl,
+					recommendCount: games.recommendCount,
+					reviewCount: games.reviewCount,
+					publishedAt: games.publishedAt
+				})
+				.from(games)
+				.innerJoin(makers, eq(makers.id, games.makerId))
+				.where(where)
+				.orderBy(...ORDER[query.sort])
+				.limit(page.limit + 1);
+
+			let rows;
+			let total: number | null = null;
+			if (cursor) {
+				rows = await list;
+			} else {
+				const [r, c] = await db.batch([list, db.select({ n: count() }).from(games).where(filter)]);
+				rows = r;
+				total = c[0]?.n ?? 0;
+			}
+
+			const hasMore = rows.length > page.limit;
+			const pageRows = hasMore ? rows.slice(0, page.limit) : rows;
+			const ids = pageRows.map((r) => r.id);
+			const tagsByGame = new Map<string, string[]>();
+			const mediaByGame = new Map<string, GameMedia[]>();
+			if (ids.length > 0) {
+				const [tagRows, mediaRows] = await db.batch([
+					db
+						.select({ gameId: gameTags.gameId, name: tags.name })
+						.from(gameTags)
+						.innerJoin(tags, eq(tags.id, gameTags.tagId))
+						.where(inArray(gameTags.gameId, ids))
+						.orderBy(asc(gameTags.gameId), asc(gameTags.position)),
+					db
+						.select({ gameId: gameMedia.gameId, kind: gameMedia.kind, url: gameMedia.url })
+						.from(gameMedia)
+						.where(inArray(gameMedia.gameId, ids))
+						.orderBy(asc(gameMedia.gameId), asc(gameMedia.position))
+				]);
+				for (const t of tagRows) push(tagsByGame, t.gameId, t.name);
+				for (const m of mediaRows) {
+					push(mediaByGame, m.gameId, { kind: m.kind === 'video' ? 'video' : 'image', url: m.url });
+				}
+			}
+
+			const items: GameCardData[] = pageRows.map((r) => ({
+				...r,
+				length: r.length as LengthBucket,
+				launch: r.launch as Launch,
+				publishedAt: r.publishedAt ?? 0,
+				tags: tagsByGame.get(r.id) ?? [],
+				media: mediaByGame.get(r.id) ?? []
+			}));
+			const last = pageRows.at(-1);
+			return {
+				items,
+				nextCursor: hasMore && last ? encodeCursor(cursorOf(query, last)) : null,
+				total
+			};
+		},
+
+		async listTags() {
+			const rows = await db
+				.select({ slug: tags.slug, name: tags.name, count: tags.gameCount })
+				.from(tags)
+				.where(and(isNull(tags.aliasOf), gt(tags.gameCount, 0)))
+				.orderBy(desc(tags.gameCount), asc(tags.name));
+			return rows;
+		}
+	};
+}
+
+function push<T>(map: Map<string, T[]>, key: string, value: T) {
+	const list = map.get(key);
+	if (list) list.push(value);
+	else map.set(key, [value]);
+}
+
+function filters(db: D1Client, q: CatalogQuery): SQL | undefined {
+	const parts: (SQL | undefined)[] = [eq(games.status, 'published')];
+	if (q.tags.length > 0) {
+		parts.push(
+			exists(
+				db
+					.select({ one: sql`1` })
+					.from(gameTags)
+					.innerJoin(tags, eq(tags.id, gameTags.tagId))
+					.where(and(eq(gameTags.gameId, games.id), inArray(tags.slug, q.tags)))
+			)
+		);
+	}
+	if (q.length) parts.push(q.length === 5 ? eq(games.length, 5) : lte(games.length, q.length));
+	if (q.launch) parts.push(eq(games.launch, q.launch));
+	if (q.players === 'solo') parts.push(eq(games.playersMin, 1));
+	if (q.players === 'group') parts.push(gte(games.playersMax, 2));
+	return and(...parts);
+}
+
+const ORDER = {
+	recommended: [desc(games.recommendCount), desc(games.id)],
+	new: [desc(games.publishedAt), desc(games.id)],
+	short: [asc(games.length), desc(games.recommendCount), desc(games.id)]
+} satisfies Record<CatalogQuery['sort'], SQL[]>;
+
+/** 커서 다음 항목들 — ORDER 와 같은 방향의 사전순 비교 */
+function after(c: Cursor): SQL | undefined {
+	const [a = 0, b = 0] = c.values;
+	switch (c.sort) {
+		case 'recommended':
+			return or(lt(games.recommendCount, a), and(eq(games.recommendCount, a), lt(games.id, c.id)));
+		case 'new':
+			return or(lt(games.publishedAt, a), and(eq(games.publishedAt, a), lt(games.id, c.id)));
+		case 'short':
+			return or(
+				gt(games.length, a),
+				and(eq(games.length, a), lt(games.recommendCount, b)),
+				and(eq(games.length, a), eq(games.recommendCount, b), lt(games.id, c.id))
+			);
+	}
+}
+
+function cursorOf(
+	q: CatalogQuery,
+	r: { id: string; recommendCount: number; publishedAt: number | null; length: number }
+): Cursor {
+	switch (q.sort) {
+		case 'recommended':
+			return { sort: q.sort, values: [r.recommendCount], id: r.id };
+		case 'new':
+			return { sort: q.sort, values: [r.publishedAt ?? 0], id: r.id };
+		case 'short':
+			return { sort: q.sort, values: [r.length, r.recommendCount], id: r.id };
+	}
+}

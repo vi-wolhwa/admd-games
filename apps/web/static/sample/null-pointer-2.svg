@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="480" height="270" viewBox="0 0 480 270">
+<defs><linearGradient id="g" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="hsl(304 55% 26%)"/><stop offset="1" stop-color="hsl(18 60% 52%)"/></linearGradient></defs>
+<rect width="480" height="270" fill="url(#g)"/>
+<rect x="0" y="152" width="480" height="118" fill="hsl(284 45% 18%)" opacity="0.55"/>
+<circle cx="339.2" cy="60.1" r="42.6" fill="hsl(344 85% 70%)" opacity="0.9"/>
+<rect x="325.8" y="120" width="100.3" height="37" rx="8.3" fill="hsl(104 55% 60%)" transform="rotate(6.6 376 138.5)"/>
+<rect x="3.7" y="122.5" width="95" height="70.3" rx="5.6" fill="hsl(129 55% 55%)" transform="rotate(-13.1 51.2 157.6)"/>
+<rect x="122.5" y="106" width="81.6" height="63.4" rx="10.5" fill="hsl(154 55% 58%)" transform="rotate(-5 163.3 137.7)"/>
+<rect x="271" y="108.4" width="67.5" height="51.7" rx="5.4" fill="hsl(179 55% 51%)" transform="rotate(-0.3 304.8 134.2)"/>
+<rect x="176.1" y="118.8" width="110.5" height="59.1" rx="4.3" fill="hsl(204 55% 61%)" transform="rotate(13 231.4 148.3)"/>
+<circle cx="5.6" cy="75.2" r="1.9" fill="hsl(4 90% 92%)" opacity="0.5"/>
+<circle cx="94.8" cy="90.4" r="1.4" fill="hsl(4 90% 92%)" opacity="0.7"/>
+<circle cx="440.5" cy="64.2" r="2.3" fill="hsl(4 90% 92%)" opacity="0.9"/>
+<circle cx="55.4" cy="0.2" r="2.2" fill="hsl(4 90% 92%)" opacity="0.5"/>
+<circle cx="83.2" cy="30.6" r="1.9" fill="hsl(4 90% 92%)" opacity="0.9"/>
+<circle cx="388.6" cy="51.9" r="2.9" fill="hsl(4 90% 92%)" opacity="0.7"/>
+<circle cx="92.5" cy="150.1" r="1.1" fill="hsl(4 90% 92%)" opacity="0.4"/>
+<circle cx="133.3" cy="108.6" r="1.5" fill="hsl(4 90% 92%)" opacity="0.5"/>
+<circle cx="140.7" cy="110.2" r="3.4" fill="hsl(4 90% 92%)" opacity="0.7"/>
+<circle cx="334.8" cy="53.8" r="3" fill="hsl(4 90% 92%)" opacity="0.7"/>
+<circle cx="343.3" cy="120.1" r="2.2" fill="hsl(4 90% 92%)" opacity="1"/>
+<circle cx="376.6" cy="118.8" r="1.8" fill="hsl(4 90% 92%)" opacity="0.5"/>
+<circle cx="237.5" cy="18.8" r="3" fill="hsl(4 90% 92%)" opacity="0.5"/>
+</svg>
