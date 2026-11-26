@@ -6,14 +6,16 @@
 
 ```
 feat/… ─PR─▶ develop ─'내보내기' PR─▶ main ──(자동)──▶ 운영
-  │            (PR 마다 미리보기 주소)          출처 확인 → D1 이관 → 배포 → 점검 → 실패 시 되돌리기
+  │            │                                출처 확인 → D1 이관 → 배포 → 점검 → 실패 시 되돌리기
+  │            └ 병합마다 develop 고정 주소 갱신(중간 결과 확인)
+  └ PR 마다 pr-<번호> 주소
 ```
 
 | 워크플로 | 언제 | 하는 일 |
 | --- | --- | --- |
 | `ci.yml` | 모든 PR | `verify`(필수 검사) — 바뀐 것 관련만 |
 | `main-source.yml` | main 으로의 PR | develop 에서 온 PR 인지(필수 검사) |
-| `preview.yml` | develop 으로의 PR(앱 코드 바뀜) | 별도 Worker `admd-games-preview` + 별도 D1 로 `pr-<번호>` 미리보기, 주소를 PR 댓글에 |
+| `preview.yml` | develop 으로의 PR · develop 병합(앱 코드 바뀜) | 별도 Worker `admd-games-preview` + 별도 D1. PR → `pr-<번호>` 별칭 주소를 PR 댓글에 / 병합 → 고정 주소를 develop 최신으로 |
 | `deploy.yml` | main 에 커밋이 들어옴 | develop → main PR 병합인지 확인(아니면 거부 + 이슈) → 운영 D1 이관 → `wrangler deploy` → `/api/health` · `/play` 점검 → 실패 시 `wrangler rollback` + 이슈 |
 | `update-screenshots.yml` | 수동 | 화면 캡처 기준 그림(리눅스) 갱신 커밋 |
 | `cloudflare-bootstrap.yml` | 수동, 한 번 | 운영 · 미리보기 D1 만들고 ID 표시 |
@@ -24,7 +26,7 @@ Cloudflare 시크릿이나 D1 ID 가 없으면 미리보기 · 배포는 **건�
 
 | 항목 | 값 · 방법 |
 | --- | --- |
-| 주소 | 운영 `https://admd-games.vi-wolhwa.workers.dev` · 미리보기 `https://pr-<번호>-admd-games-preview.vi-wolhwa.workers.dev` |
+| 주소 | **develop 최신(중간 결과 확인)** `https://admd-games-preview.vi-wolhwa.workers.dev` · PR `https://pr-<번호>-admd-games-preview.vi-wolhwa.workers.dev` · 운영 `https://admd-games.vi-wolhwa.workers.dev`(첫 배포 전) |
 | 계정 하위 주소 | `vi-wolhwa.workers.dev` — 계정 전체 공용(이 계정의 다른 앱도 `<이름>.vi-wolhwa.workers.dev`). 바꾸면 모든 앱 주소가 끊김 |
 | API 토큰 | 이름 `admd-games GitHub Actions`. "Cloudflare Workers 편집" 템플릿 + 계정 정책에 **D1 편집** 추가, 영역(Zone) 정책은 제거(도메인 없음). 만료 없음 |
 | GitHub 시크릿 | `CLOUDFLARE_API_TOKEN`(사용자가 붙여 넣음) · `CLOUDFLARE_ACCOUNT_ID` |
@@ -32,6 +34,10 @@ Cloudflare 시크릿이나 D1 ID 가 없으면 미리보기 · 배포는 **건�
 | 미리보기 Worker | 처음 PR 에서 `wrangler deploy --env preview` 로 자동 생성(없을 때만), 이후 PR 은 버전 + 별칭만 올림 |
 
 토큰을 다시 만들 때도 위 권한 그대로. 시크릿 값은 저장소 · 대화 어디에도 남기지 않는다.
+
+## 운영 배포 시점
+
+운영(main)은 **출시할 만큼 갖춰졌을 때** 사용자 승인으로 '내보내기' PR 을 만든다. 그 전까지 중간 결과는 develop 고정 주소에서 확인한다.
 
 ## DB 이관 규칙
 

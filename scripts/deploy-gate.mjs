@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 // 배포 관문 — 배포할지 판단해 GITHUB_OUTPUT 에 go=true|false 를 남긴다.
-//   preview    : 앱 코드가 바뀐 PR + Cloudflare 시크릿 + D1 ID 가 있을 때만
+//   preview    : 앱 코드가 바뀐 PR · develop 병합 + Cloudflare 시크릿 + D1 ID 가 있을 때만
 //   production : main 커밋이 develop → main PR 병합으로 들어왔는지 확인(아니면 실패 + 이슈 — ADR 0013),
 //                그다음 시크릿 · D1 ID 가 있을 때만
 import { execFileSync } from 'node:child_process';
@@ -26,7 +26,10 @@ function cloudflareReady() {
 }
 
 if (mode === 'preview') {
-	const scope = execFileSync('node', [path.join(ROOT, 'scripts/ci-scope.mjs')], { encoding: 'utf8', env: { ...process.env, GITHUB_OUTPUT: '' } });
+	// PR: develop 과 갈라진 뒤 바뀐 파일 / develop 에 병합(push): 이번 커밋에서 바뀐 파일
+	const scopeEnv = { ...process.env, GITHUB_OUTPUT: '', GITHUB_STEP_SUMMARY: '' };
+	if (process.env.GITHUB_EVENT_NAME === 'push') scopeEnv.CI_SCOPE_BASE = 'HEAD^';
+	const scope = execFileSync('node', [path.join(ROOT, 'scripts/ci-scope.mjs')], { encoding: 'utf8', env: scopeEnv });
 	const app = scope.includes('앱 검사 실행');
 	if (!app) notice('앱 코드가 바뀌지 않아 미리보기를 건너뜁니다.');
 	out('go', String(app && cloudflareReady()));
