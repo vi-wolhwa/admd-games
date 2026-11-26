@@ -10,6 +10,8 @@
 | `canvas/pages/MakersGround 홈 A · 홈 B` | 메이커 홈 비교 시안 | M1 결정으로 홈 C(`MG01`) 채택 — [`../07-community.md`](../07-community.md) |
 | `canvas/pages/게임 상세 B` | 게임 상세 "무대" 안 | P1 결정으로 A(`PG05`) 채택 |
 | `canvas/components/` · `canvas/docs/` | Claude Design 원본 컴포넌트 · 검토 문서 | 디자인 시스템(`../system/`)으로 대체 |
-| `canvas/designsystem/` · `canvas/uploads/` | 원본 Svelte 타이포그래피 소스 · 붙여 넣은 참고 그림 | 같음 |
+| `canvas/designsystem/` | 원본 Svelte 타이포그래피 소스 | 같음 |
+
+`canvas/uploads/`(붙여 넣은 참고 그림 · 원본 Svelte 조각 — 타사 게임 화면 캡처 포함)는 저장소 공개 전에 **이력에서 완전히 제거**했다(ADR 0013, 2026-11-27). 원본은 캔버스 버전 41 이전 기록에만 있다.
 
 캔버스의 `screenshots/`(이전 작업 확인용 캡처 60여 장)는 보관하지 않았다 — 필요하면 캔버스 버전 기록에서 꺼낸다.
