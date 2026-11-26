@@ -21,10 +21,17 @@
 		"db:generate": "drizzle-kit generate",
 		"db:migrate:local": "wrangler d1 migrations apply DB --local",
 		"db:migrate:remote": "wrangler d1 migrations apply DB --remote",
-		"deploy": "npm run build && wrangler deploy"
+		"deploy": "npm run build && wrangler deploy",
+		"storybook": "storybook dev -p 6006 --no-open",
+		"design:build": "storybook build -o storybook-static --quiet"
 	},
 	"devDependencies": {
 		"@eslint/js": "^10.0.1",
+		"@storybook/addon-a11y": "^10.6.7",
+		"@storybook/addon-svelte-csf": "^5.1.6",
+		"@storybook/addon-vitest": "^10.6.7",
+		"@storybook/svelte": "^10.6.7",
+		"@storybook/sveltekit": "^10.6.7",
 		"@sveltejs/adapter-cloudflare": "^8.0.0",
 		"@sveltejs/kit": "^3.4.0",
 		"@sveltejs/vite-plugin-svelte": "^7.2.0",
@@ -43,6 +50,7 @@
 		"prettier": "^3.8.3",
 		"prettier-plugin-svelte": "^4.1.0",
 		"prettier-plugin-tailwindcss": "^0.8.0",
+		"storybook": "^10.6.7",
 		"svelte": "^5.57.2",
 		"svelte-check": "^4.6.0",
 		"tailwindcss": "^4.3.0",
