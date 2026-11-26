@@ -1,3 +1,6 @@
+import path from 'node:path';
+
+import { storybookTest } from '@storybook/addon-vitest/vitest-plugin';
 import adapter from '@sveltejs/adapter-cloudflare';
 import { sveltekit } from '@sveltejs/kit/vite';
 import tailwindcss from '@tailwindcss/vite';
@@ -62,6 +65,21 @@ export default defineConfig({
 				}
 			},
 
+			{
+				// 갤러리 이야기 = 테스트(렌더 · 상호작용 · 접근성). setup-agenda 4-1
+				extends: true,
+				plugins: [storybookTest({ configDir: path.join(import.meta.dirname, '.storybook') })],
+				test: {
+					name: 'storybook',
+					browser: {
+						enabled: true,
+						provider: playwright(),
+						headless: true,
+						instances: [{ browser: 'chromium' }]
+					},
+					setupFiles: ['.storybook/vitest.visual.ts']
+				}
+			},
 			{
 				extends: './vite.config.ts',
 				test: {
