@@ -47,6 +47,7 @@ jobs:
         if: steps.gate.outputs.go == 'true'
         working-directory: apps/web
         run: |
+          set -o pipefail
           npx wrangler deploy | tee deploy.log
           echo "url=$(grep -oE 'https://[a-z0-9.-]+\.workers\.dev' deploy.log | head -1)" >> "$GITHUB_OUTPUT"
       - name: 자동 점검

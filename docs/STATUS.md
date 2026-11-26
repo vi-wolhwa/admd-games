@@ -1,6 +1,6 @@
 # STATUS
 
-- 마지막 업데이트: 2026-11-27 (Asia/Seoul) — 개발 환경 세팅 0~6단계(배포는 Cloudflare 토큰 대기)
+- 마지막 업데이트: 2026-11-28 (Asia/Seoul) — 개발 환경 세팅 0~6단계 완료, Cloudflare 연결 · PR 미리보기 동작 확인
 - 현재 Phase: **3. 개발 시작 직전** — 디자인 원본은 이제 코드(ADR 0012). 다음: 첫 페이지 **PG03 전체 게임**([docs/dev/page-order.md](dev/page-order.md))
 - 저장소: **공개** `vi-wolhwa/admd-games`, 기본 브랜치 `develop`, 운영 = `main` 병합 시 자동 배포(ADR 0013, [operations.md](operations.md))
 - 개발 환경 결정: [docs/dev/setup-agenda.md](dev/setup-agenda.md) · 실행 계획: [setup-plan.md](dev/setup-plan.md) · 컴포넌트 구조: [component-architecture.md](dev/component-architecture.md)
@@ -15,7 +15,7 @@
 | 2 품질 장치 · 바뀐 것만 도는 CI | 완료 (#3 · #12) |
 | 3 앱 뼈대(/play · /makers · 토큰 · 테마 · 보안 헤더 · 로그) | 완료 (#4 · #15) |
 | 4 갤러리(Storybook · 이야기 테스트 · 접근성 · 캡처 비교) | 완료 (#5 · #17) |
-| 5 배포 파이프라인(미리보기 · 운영 자동 배포 · 되돌리기) | 코드 완료, **사용자: Cloudflare API 토큰 · 계정 ID 를 GitHub 시크릿에** → Claude 가 D1 생성 · ID 반영 (#6) |
+| 5 배포 파이프라인(미리보기 · 운영 자동 배포 · 되돌리기) | 완료 — 시크릿 · D1 · 미리보기 확인(#20). 운영 첫 배포는 첫 '내보내기' PR 때 (#6) |
 | 6 문서(CLAUDE.md · operations · STATUS) | 완료 (#7) |
 | 버그: 개발 서버에서 redirect · sequence 실패 | 해결 (#16) |
 
@@ -45,9 +45,9 @@
 
 ## 다음 할 일
 
-1. **사용자**: Cloudflare API 토큰 · 계정 ID 를 GitHub 시크릿에(docs/operations.md '처음 한 번') → Claude 가 `cloudflare-bootstrap` 실행 · D1 ID 반영
-2. **PG03 전체 게임** 구현(이슈 · PR 하나) — 헤더 · 기본 부품 · 게임 카드 · 게임 목록 데이터 · 무한 스크롤. 갤러리 아티팩트 첫 게시
-3. 이후 page-order.md 순서: PG05 → SH01 → PG06 → PG07 → PG14 → PG01
+1. **PG03 전체 게임** 구현(이슈 · PR 하나) — 헤더 · 기본 부품 · 게임 카드 · 게임 목록 데이터 · 무한 스크롤. 갤러리 아티팩트 첫 게시
+2. 이후 page-order.md 순서: PG05 → SH01 → PG06 → PG07 → PG14 → PG01
+3. 첫 '내보내기' PR(develop → main)로 운영 첫 배포 · 자동 점검 확인 — 운영 배포라 사용자 승인 후
 
 ## 열린 질문 (A등급 — `feedback-queue.md` §1)
 

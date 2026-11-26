@@ -20,15 +20,18 @@ feat/… ─PR─▶ develop ─'내보내기' PR─▶ main ──(자동)─�
 
 Cloudflare 시크릿이나 D1 ID 가 없으면 미리보기 · 배포는 **건너뛴다**(실패하지 않음).
 
-## 처음 한 번 — 사용자가 할 일
+## 처음 한 번 — 완료(2026-11-28)
 
-1. Cloudflare 계정(무료)에서 **API 토큰** 만들기: My Profile → API Tokens → Create Token → "Edit Cloudflare Workers" 템플릿 + 권한에 **Account · D1 · Edit** 추가.
-2. GitHub 저장소 → Settings → Secrets and variables → Actions → 새 시크릿 두 개:
-   - `CLOUDFLARE_API_TOKEN` = 위 토큰
-   - `CLOUDFLARE_ACCOUNT_ID` = Cloudflare 대시보드 오른쪽의 Account ID
-3. 끝. 그다음은 Claude 가 Actions 의 `cloudflare-bootstrap` 을 실행해 D1 두 개를 만들고, 나온 ID 를 `apps/web/wrangler.jsonc` 에 넣는 PR 을 병합한다.
+| 항목 | 값 · 방법 |
+| --- | --- |
+| 주소 | 운영 `https://admd-games.vi-wolhwa.workers.dev` · 미리보기 `https://pr-<번호>-admd-games-preview.vi-wolhwa.workers.dev` |
+| 계정 하위 주소 | `vi-wolhwa.workers.dev` — 계정 전체 공용(이 계정의 다른 앱도 `<이름>.vi-wolhwa.workers.dev`). 바꾸면 모든 앱 주소가 끊김 |
+| API 토큰 | 이름 `admd-games GitHub Actions`. "Cloudflare Workers 편집" 템플릿 + 계정 정책에 **D1 편집** 추가, 영역(Zone) 정책은 제거(도메인 없음). 만료 없음 |
+| GitHub 시크릿 | `CLOUDFLARE_API_TOKEN`(사용자가 붙여 넣음) · `CLOUDFLARE_ACCOUNT_ID` |
+| D1 | `cloudflare-bootstrap` 으로 생성, ID 는 `apps/web/wrangler.jsonc` |
+| 미리보기 Worker | 처음 PR 에서 `wrangler deploy --env preview` 로 자동 생성(없을 때만), 이후 PR 은 버전 + 별칭만 올림 |
 
-시크릿 값은 저장소 · 대화 어디에도 남기지 않는다.
+토큰을 다시 만들 때도 위 권한 그대로. 시크릿 값은 저장소 · 대화 어디에도 남기지 않는다.
 
 ## DB 이관 규칙
 

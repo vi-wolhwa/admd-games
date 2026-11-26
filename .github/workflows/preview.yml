@@ -49,6 +49,11 @@ jobs:
         if: steps.gate.outputs.go == 'true'
         working-directory: apps/web
         run: |
+          set -o pipefail
+          # 미리보기 Worker 가 아직 없으면 버전을 올릴 수 없어서, 처음 한 번은 배포로 만든다.
+          if ! npx wrangler deployments list --env preview > /dev/null 2>&1; then
+            npx wrangler deploy --env preview
+          fi
           npx wrangler versions upload --env preview --preview-alias "pr-$PR" | tee upload.log
           echo "url=$(grep -oE 'https://pr-[^ ]+\.workers\.dev' upload.log | head -1)" >> "$GITHUB_OUTPUT"
       - name: PR 에 주소 남기기
