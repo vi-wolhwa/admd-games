@@ -117,7 +117,7 @@ export function check(files) {
 }
 
 if (import.meta.url === `file://${process.argv[1].split(path.sep).join('/')}` || process.argv[1]?.endsWith('check-boundaries.mjs')) {
-	const args = process.argv.slice(2).map((a) => path.resolve(a)).filter((a) => /\.(ts|js|svelte)$/.test(a));
+	const args = process.argv.slice(2).map((a) => path.resolve(a)).filter((a) => /\.(ts|js|svelte)$/.test(a) && !a.endsWith('.d.ts')); // 타입 선언 파일은 검사하지 않음(전체 검사와 같게)
 	const files = args.length ? args : [...walk(SRC)];
 	const errors = check(files);
 	if (errors.length) {

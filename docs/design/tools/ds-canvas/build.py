@@ -8,7 +8,7 @@ REPO = os.path.abspath(os.path.join(HERE, "..", "..", "..", ".."))
 OUT = sys.argv[1] if len(sys.argv) > 1 else os.path.join(REPO, "docs", "design", "canvas")
 
 def canvas_tokens():
-    s = open(os.path.join(REPO, "docs", "design", "system", "tokens.css"), encoding="utf-8").read()
+    s = open(os.path.join(REPO, "apps", "web", "src", "lib", "styles", "tokens.css"), encoding="utf-8").read()
     s = re.sub(r"/\*.*?\*/", "", s, flags=re.S)
     s = re.sub(r"@theme inline\s*\{.*?\n\}", "", s, flags=re.S)
     # @media (prefers-color-scheme: dark) { ... } 블록 제거(캔버스는 Tweaks 로 명시 전환)

@@ -7,9 +7,8 @@
  *   3. 컴포넌트          :root 변수     — 크기·모양 같은 컴포넌트 고유 값.
  *   의미 토큰은 @theme inline 으로 Tailwind 유틸리티(bg-sunken, text-ink-3, bg-accent …)에 연결한다.
  *
- * 구현 때 apps/web/src/lib/styles/tokens.css 로 옮기고 routes/layout.css 에서
- *   @import 'tailwindcss';  @import '#lib/styles/tokens.css';
- * 순서로 불러온다. 색 계산 근거: docs/design/tools/*.py, 규칙: docs/design/system/01-foundations.md
+ * 디자인의 원본(ADR 0012). routes/layout.css 에서 tailwindcss 다음에 불러온다.
+ * 색 계산 근거: docs/design/tools/*.py, 규칙: docs/design/system/01-foundations.md
  */
 
 /* ───────────── 1. 원시 토큰 ───────────── */
@@ -226,8 +225,16 @@
 	   --dark 는 테마가 정하는 0/1 스위치 */
 	--accent: var(--g-500); /* 채움 · 흰 글자 5.1:1 — 테마와 무관 */
 	--accent-strong: var(--g-600); /* 채움 호버 · 옅은 바탕 위 글자 */
-	--accent-text: color-mix(in srgb, var(--g-400) calc(var(--dark) * 100%), var(--g-500)); /* 글자로 쓰는 강조색: 라이트 500 · 다크 400 */
-	--accent-tint: color-mix(in srgb, var(--g-900) calc(var(--dark) * 100%), var(--g-50)); /* 랭킹 띠: 라이트 50 · 다크 900 */
+	--accent-text: color-mix(
+		in srgb,
+		var(--g-400) calc(var(--dark) * 100%),
+		var(--g-500)
+	); /* 글자로 쓰는 강조색: 라이트 500 · 다크 400 */
+	--accent-tint: color-mix(
+		in srgb,
+		var(--g-900) calc(var(--dark) * 100%),
+		var(--g-50)
+	); /* 랭킹 띠: 라이트 50 · 다크 900 */
 	--accent-tint-2: color-mix(in srgb, var(--g-850) calc(var(--dark) * 100%), var(--g-100));
 	--on-accent: var(--color-white);
 }
@@ -301,6 +308,7 @@
 	--color-sunken: var(--sunken);
 	--color-sunken-hover: var(--sunken-hover);
 	--color-line: var(--line);
+	--color-line-strong: var(--line-strong);
 	--color-ink-1: var(--ink-1);
 	--color-ink-2: var(--ink-2);
 	--color-ink-3: var(--ink-3);
