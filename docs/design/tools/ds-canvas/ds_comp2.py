@@ -49,8 +49,8 @@ def todo1():
 def build():
     # 11.1 상태 · 진행
     chips = " ".join([status("live", "공개"), status("wait", "검사 중"), status("fix", "보완 요청"), status("draft", "작성 중"), status("no", "반려")])
-    vsteps = f'''<div class="vsteps"><div class="vs done"><i>{ic("check","ic ic12")}</i><span><b>작성</b><span class="m">11/24 제출</span></span></div><div class="vs done"><i>{ic("check","ic ic12")}</i><span><b>자동 검사 통과</b></span></div><div class="vs now"><i></i><span><b>심사 — 보완 요청</b><div class="fixbox"><b>{ic("alert")}고칠 것 1개</b>스크린샷을 3장 이상 올려 주세요.</div></span></div><div class="vs"><i></i><span><b style="color:var(--ink-3)">공개</b></span></div></div>'''
-    kpis = '<div class="kpis" style="margin:0;grid-template-columns:1fr 1fr"><div class="kp"><span>최근 7일 플레이</span><b>1,204</b><small>▲ 12% 지난주보다</small></div><div class="kp"><span>추천</span><b>92%</b><small class="dn">리뷰 38</small></div></div>'
+    vsteps = f'''<div class="vsteps"><div class="vs done"><i>{ic("check","ic ic12")}</i><span><b>작성</b><span class="m">11/24 제출</span></span></div><div class="vs done"><i>{ic("check","ic ic12")}</i><span><b>자동 검사 통과</b></span></div><div class="vs now"><i></i><span><b>심사 — 보완 요청</b><div class="fixbox"><b>{ic("alert")}고칠 것 1개</b>이미지 · 영상을 5개 이상 올려 주세요.</div></span></div><div class="vs"><i></i><span><b style="color:var(--ink-3)">공개</b></span></div></div>'''
+    kpis = '<div class="kpis" style="margin:0;grid-template-columns:1fr 1fr"><div class="kp"><span>최근 7일 플레이</span><b>1,204</b><small>▲ 12% 지난주보다</small></div><div class="kp"><span>추천</span><b>214</b><small class="dn">리뷰 38</small></div></div>'
     vals = [22, 30, 28, 35, 31, 40, 38, 44, 41, 60, 92, 110, 96, 88]; mx = max(vals)
     chart = '<div class="chart">' + "".join(f'<i class="{"on" if i == len(vals)-1 else ""}{" ev" if i == 10 else ""}" style="height:{round(v/mx*100)}%"></i>' for i, v in enumerate(vals)) + '<span class="axis"><span>11/13</span><span>오늘</span></span></div>'
     dist = '<div class="dist">' + "".join(f'<div><span>{k}</span><span class="b"><i class="{"on" if v == 46 else ""}" style="width:{v*2}%"></i></span><span class="n">{v}%</span></div>' for k, v in [("3분 이하", 18), ("3~10분", 46), ("10~30분", 27)]) + "</div>"
@@ -96,7 +96,7 @@ def build():
     def frow(label, items, on):
         return f'<div class="frow"><b>{label}</b><div class="chips">' + "".join(f'<button class="chip"{" aria-pressed=\"true\"" if x in on else ""}>{x}</button>' for x in items) + "</div></div>"
     fbox = '<div class="filters" style="margin:0">' + frow("장르", ["전체", "퍼즐", "액션", "탐험"], ["퍼즐"]) + frow("한 판", ["상관없음", "3분 이하", "15분 이하"], ["15분 이하"]) + "</div>"
-    applied = '<div class="applied" style="margin:0"><span class="x">퍼즐 ✕</span><span class="x">15분 이하 ✕</span><a class="link" href="#" style="font-size:13.5px">초기화</a><span class="sort"><span class="on">추천순</span><span>최신순</span></span></div>'
+    applied = '<div class="applied" style="margin:0"><span class="x">퍼즐 ✕</span><span class="x">15분 이하 ✕</span><a class="link" href="#" style="font-size:13.5px">초기화</a><span class="sort"><span class="on">많이 하는</span><span>추천 많은</span><span>새로 나온</span></span></div>'
     relax = '<div class="relax" style="margin:0"><b>조건을 조금 넓혀 볼까요?</b><div class="chips"><button class="chip">‘같이’ 빼면 +30</button></div></div>'
     sw = '<span class="switch on" style="display:inline-block;width:40px;height:24px;border-radius:999px;background:var(--accent);position:relative"></span>'
     srow = f'''<div class="srow" style="border:0"><span><b>지금 하는 게임 · 최근 플레이</b><span class="m">친구에게만 보여요</span></span><span class="switch on"></span></div>
@@ -124,7 +124,7 @@ def build():
     body = f'''<div class="dspage"><header><h1>컴포넌트 2 — 시안에서 생긴 것</h1><p>페이지 시안을 만들며 생긴 컴포넌트를 정식으로 등록한 견본. 각 시안의 실제 마크업 · CSS 를 그대로 가져와 그렸다. 명세: <b>docs/design/system/03-components.md §11</b>. ‘후보’ 는 비교 시안에서만 쓰였고 해당 페이지를 그릴 때 다시 검토.</p></header>
 {g1}{g2}{g3}{g4}{g5}{g6}{g7}</div>'''
     memo = "시안 27개에서 나온 컴포넌트 40여 개를 7묶음으로(상태 · 커뮤니티 · 메이커 도구 · 신뢰 · 탐색/알림/설정 · 플레이 · 모바일). Tweaks 의 theme 으로 다크 확인."
-    css = mc.CSS + mc.M_CSS2 + p2.CSS + p3.CSS + p4.CSS + p5.CSS + pl.CSS + mm.M_CSS + pm.CSS + PAGE_CSS
+    css = mc.CSS + mc.M_CSS2 + p2.CSS + p3.CSS + p4.CSS + p5.CSS + p5.GAL_CSS + pl.CSS + mm.M_CSS + pm.CSS + PAGE_CSS
     html = dt.page("디자인 시스템 · 컴포넌트 2", body, 4200, memo)
     return html.replace("</style>", css + "\n</style>", 1)
 

@@ -437,6 +437,18 @@ body{margin:0;background:#FFFFFF;-webkit-font-smoothing:antialiased}
 .a-null{background:linear-gradient(45deg,transparent 46%,#7CFF6B 46% 54%,transparent 54%) 50% 50%/18% 18% no-repeat,repeating-linear-gradient(0deg,#FFFFFF08 0 2px,transparent 2px 6px),#0B0D10}
 .a-bazaar{background:repeating-linear-gradient(90deg,#D94F30 0 10%,#F6EAD4 10% 20%) 0 0/100% 30% no-repeat,linear-gradient(0deg,#4A3B2C 0 40%,transparent 40%),#F6EAD4}
 
+/* ── 2026-11-27 카드 규칙 ── 추천 · 리뷰는 개수를 아이콘 + 글자로(싫어요 없음) */
+.cnts{display:inline-flex;align-items:center;gap:12px;font-size:13px;color:var(--ink-3)}
+.cnts > span{display:inline-flex;align-items:center;gap:4px}
+.cnts .ic{width:13px;height:13px;color:var(--ink-4)}
+.cnts b{color:var(--ink-1);font-weight:700}
+/* 호버 미리보기: 등록한 이미지(5개 이상)를 2.5초마다 바꿔 보여 줌 · 영상이면 영상 1개 반복 */
+.gc .shots{background:inherit}
+.gc .shots::before{content:"";position:absolute;inset:0;background:inherit;opacity:0}
+.gc:hover .shots::before{animation:hovshots 12.5s .3s steps(1,end) infinite}
+@keyframes hovshots{0%{opacity:0;transform:none}20%{opacity:1;transform:scale(1.25) translate(-6%,4%);filter:saturate(1.2)}40%{opacity:1;transform:scale(1.5) translate(10%,-6%);filter:brightness(1.08)}60%{opacity:1;transform:scale(1.35) translate(8%,8%) rotate(-2deg);filter:hue-rotate(-12deg)}80%{opacity:1;transform:scale(1.8) translate(-12%,-4%);filter:contrast(1.1)}100%{opacity:0;transform:none}}
+@media (prefers-reduced-motion:reduce){.gc:hover .shots::before{animation:none}}
+
 
 .theme-btn .t-sun{display:none}
 [data-theme="dark"] .theme-btn .t-sun{display:block}
@@ -616,7 +628,8 @@ footer.ft .links{display:flex;gap:18px;color:var(--ink-2);font-weight:600}
 .cond b{font-weight:700}
 .cond .okt{color:var(--ok-text);font-weight:700}
 .rate-line{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--ink-2)}
-.rate-line b{font-size:22px;font-weight:800;color:var(--ink-1)}
+.rate-line b{display:inline-flex;align-items:center;gap:6px;font-size:22px;font-weight:800;color:var(--ink-1)}
+.rate-line b .ic{color:var(--accent-text)}
 .mk-mini{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding-top:16px;border-top:1px solid var(--line)}
 .mk-mini b{display:block;font-size:15px}
 .mk-mini .m{display:block}
@@ -735,14 +748,6 @@ footer.ft .links{display:flex;gap:18px;color:var(--ink-2);font-weight:600}
 .cgrid .gc:hover .qplay,.cgrid .gc:first-child .qplay{opacity:1;transform:none}
 .cgrid .gc:first-child .art{transform:var(--card-lift);box-shadow:var(--shadow-lift)}
 .more{display:flex;justify-content:center;margin-top:36px}
-.few{display:grid;grid-template-columns:1fr 1fr;gap:28px}
-.fewc{display:grid;grid-template-columns:260px minmax(0,1fr);gap:20px;align-items:center}
-.fewc .art{border-radius:var(--radius-lg)}
-.fewc b{font-size:19px;font-weight:800}
-.fewc p{margin:6px 0 10px;font-size:14.5px;line-height:1.6;color:var(--ink-2)}
-.relax{margin-top:24px;padding:20px 22px;border-radius:var(--radius-lg);box-shadow:inset 0 0 0 1px var(--line);display:flex;align-items:center;gap:18px}
-.relax b{font-size:15px}
-.relax .chips .chip{height:34px;font-size:13.5px}
 /* 프로필 */
 .pf-hero{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:28px;align-items:center;margin-top:36px}
 .pf-hero .jf{width:120px;height:120px;font-size:44px}
@@ -896,6 +901,7 @@ footer.ft .links{display:flex;gap:18px;color:var(--ink-2);font-weight:600}
 <symbol id="i-moon" viewBox="0 0 16 16"><path d="M12.8 10.4A5.6 5.6 0 0 1 5.6 3.2a5.6 5.6 0 1 0 7.2 7.2z" fill="currentColor"></path></symbol>
 <symbol id="i-cmt" viewBox="0 0 16 16"><path d="M2.5 3.5h11v7.5H7l-3 2.5V11H2.5z"></path></symbol>
 <symbol id="i-up" viewBox="0 0 16 16"><path d="M8 13V3M4 7l4-4 4 4"></path></symbol>
+<symbol id="i-thumb" viewBox="0 0 16 16"><path d="M5 7.2v6.3H2.6V7.2z"></path><path d="M5 7.2 7.7 2.6c.9 0 1.6.8 1.4 1.7l-.4 2.5h3.6c1 0 1.7.9 1.5 1.8l-.9 4c-.2.6-.7.9-1.3.9H5"></path></symbol>
 <symbol id="i-bm" viewBox="0 0 16 16"><path d="M4 2h8v12l-4-3-4 3z"></path></symbol>
 <symbol id="i-bmf" viewBox="0 0 16 16"><path d="M4 2h8v12l-4-3-4 3z" fill="currentColor"></path></symbol>
 </svg>
@@ -924,7 +930,7 @@ footer.ft .links{display:flex;gap:18px;color:var(--ink-2);font-weight:600}
 <div class="right"><div class="ground"><a class="play" href="#" aria-current="true">플레이</a><a class="make" href="#">메이커스</a></div><div class="search"><svg class="ic"><use href="#i-search"></use></svg>게임, 메이커 검색</div><button class="icon-btn theme-btn" aria-label="다크 모드 전환" onClick="{{ toggleTheme }}"><svg class="ic ic20 t-moon"><use href="#i-moon"></use></svg><svg class="ic ic20 t-sun"><use href="#i-sun"></use></svg></button><button class="icon-btn" aria-label="알림"><svg class="ic ic20"><use href="#i-bell"></use></svg></button><span class="jf md" style="--f:var(--color-face-olive)"><b class="jfg">ㅇ<i>ㅅ</i>ㅇ</b></span></div></div></header><main class="wrap">
 <div class="pg-title"><h1>지난 PICK</h1><span class="m">매주 월요일, 네 개씩</span></div>
 <section class="sec" style="margin-top:28px"><div class="sh"><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg><h2>컬렉션</h2><span class="sub">주제로 묶은 목록</span><div class="r"><a class="link" href="#">전체 컬렉션</a></div></div><div class="colls"><div class="coll"><div class="stack"><span class="art a-loop"></span><span class="art a-refac"></span><span class="art a-tilt"></span></div><b>퇴근길 한 손 게임</b><span class="m">휴대폰 가로 · 한 판 5분 안쪽 · 12개</span></div><div class="coll"><div class="stack"><span class="art a-solvent"></span><span class="art a-null"></span><span class="art a-grid"></span></div><b>친구랑 같이</b><span class="m">2~4명 · 같은 방에서 · 8개</span></div><div class="coll"><div class="stack"><span class="art a-halcyon"></span><span class="art a-ash"></span><span class="art a-paper"></span></div><b>이야기가 있는 게임</b><span class="m">30분 이상 · 엔딩 있음 · 9개</span></div></div></section>
-<section class="sec"><div class="sh"><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg><h2>주간 PICK 보관함</h2><div class="r"><div class="chips"><button class="chip" aria-pressed="true">2026</button><button class="chip">2025</button></div></div></div><div class="issues"><div class="iss"><div class="wk"><b>11월 넷째 주</b><span>11.24 – 11.30</span><p>짧고 단단한 퍼즐 넷.</p></div><div class="row4"><div class="gc"><span class="art a-loop"><span class="shots"></span><span class="jf maker" style="--f:var(--color-face-jjok)"><b class="jfg">ㅍ<i>ㅅ</i>ㅍ</b></span></span><span class="t"><a href="#">루프 디버거</a></span><span class="meta">픽셀상점</span><span class="why">이번 주 플레이 수 · 완주율 1위</span></div><div class="gc"><span class="art a-refac"><span class="shots"></span><span class="jf maker" style="--f:var(--color-face-gyul)"><b class="jfg">ㄹ<i>ㅅ</i>ㄹ</b></span></span><span class="t"><a href="#">리팩터 러시</a></span><span class="meta">리팩터클럽</span><span class="why">3분이면 끝나는 아케이드</span></div><div class="gc"><span class="art a-tilt"><span class="shots"></span><span class="jf maker" style="--f:var(--color-face-hwang)"><b class="jfg">ㄱ<i>ㅅ</i>ㄱ</b></span></span><span class="t"><a href="#">틸트 이론</a></span><span class="meta">기울기연구소</span><span class="why">추천 90% · 리뷰 30</span></div><div class="gc"><span class="art a-bazaar"><span class="shots"></span><span class="jf maker" style="--f:var(--color-face-bora)"><b class="jfg">ㅂ<i>ㅅ</i>ㅂ</b></span></span><span class="t"><a href="#">바이트 바자</a></span><span class="meta">바이트마켓</span><span class="why">점심시간에 딱 맞는 길이</span></div></div></div><div class="iss"><div class="wk"><b>11월 셋째 주</b><span>11.17 – 11.23</span><p>잼에서 태어난 게임들.</p></div><div class="row4"><div class="gc"><span class="art a-grid"><span class="shots"></span><span class="jf maker" style="--f:var(--color-face-bora)"><b class="jfg">ㅂ<i>ㅅ</i>ㅂ</b></span></span><span class="t"><a href="#">그리드 러너</a></span><span class="meta">보라네</span><span class="why">여름 잼 3위작의 정식판</span></div><div class="gc"><span class="art a-paper"><span class="shots"></span><span class="jf maker" style="--f:var(--color-face-cheongnok)"><b class="jfg">ㅊ<i>ㅅ</i>ㅊ</b></span></span><span class="t"><a href="#">종이 배</a></span><span class="meta">청록상회</span><span class="why">완주율 1위 · 20분</span></div><div class="gc"><span class="art a-tess"><span class="shots"></span><span class="jf maker" style="--f:var(--color-face-haneul)"><b class="jfg">ㄴ<i>ㅅ</i>ㄴ</b></span></span><span class="t"><a href="#">테셀레이트</a></span><span class="meta">노을공방</span><span class="why">규칙 하나 · 문제 40개</span></div><div class="gc"><span class="art a-demon"><span class="shots"></span><span class="jf maker" style="--f:var(--color-face-pul)"><b class="jfg">ㅍ<i>ㅅ</i>ㅍ</b></span></span><span class="t"><a href="#">들판의 악마</a></span><span class="meta">풀잎</span><span class="why">16색으로 그린 전략</span></div></div></div></div>
+<section class="sec"><div class="sh"><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg><h2>주간 PICK 보관함</h2><div class="r"><div class="chips"><button class="chip" aria-pressed="true">2026</button><button class="chip">2025</button></div></div></div><div class="issues"><div class="iss"><div class="wk"><b>11월 넷째 주</b><span>11.24 – 11.30</span><p>짧고 단단한 퍼즐 넷.</p></div><div class="row4"><div class="gc"><span class="art a-loop"><span class="shots"></span><span class="jf maker" style="--f:var(--color-face-jjok)"><b class="jfg">ㅍ<i>ㅅ</i>ㅍ</b></span></span><span class="t"><a href="#">루프 디버거</a></span><span class="meta">픽셀상점</span><span class="why">이번 주 플레이 수 · 완주율 1위</span></div><div class="gc"><span class="art a-refac"><span class="shots"></span><span class="jf maker" style="--f:var(--color-face-gyul)"><b class="jfg">ㄹ<i>ㅅ</i>ㄹ</b></span></span><span class="t"><a href="#">리팩터 러시</a></span><span class="meta">리팩터클럽</span><span class="why">3분이면 끝나는 아케이드</span></div><div class="gc"><span class="art a-tilt"><span class="shots"></span><span class="jf maker" style="--f:var(--color-face-hwang)"><b class="jfg">ㄱ<i>ㅅ</i>ㄱ</b></span></span><span class="t"><a href="#">틸트 이론</a></span><span class="meta">기울기연구소</span><span class="why">추천 386 · 리뷰 30</span></div><div class="gc"><span class="art a-bazaar"><span class="shots"></span><span class="jf maker" style="--f:var(--color-face-bora)"><b class="jfg">ㅂ<i>ㅅ</i>ㅂ</b></span></span><span class="t"><a href="#">바이트 바자</a></span><span class="meta">바이트마켓</span><span class="why">점심시간에 딱 맞는 길이</span></div></div></div><div class="iss"><div class="wk"><b>11월 셋째 주</b><span>11.17 – 11.23</span><p>잼에서 태어난 게임들.</p></div><div class="row4"><div class="gc"><span class="art a-grid"><span class="shots"></span><span class="jf maker" style="--f:var(--color-face-bora)"><b class="jfg">ㅂ<i>ㅅ</i>ㅂ</b></span></span><span class="t"><a href="#">그리드 러너</a></span><span class="meta">보라네</span><span class="why">여름 잼 3위작의 정식판</span></div><div class="gc"><span class="art a-paper"><span class="shots"></span><span class="jf maker" style="--f:var(--color-face-cheongnok)"><b class="jfg">ㅊ<i>ㅅ</i>ㅊ</b></span></span><span class="t"><a href="#">종이 배</a></span><span class="meta">청록상회</span><span class="why">완주율 1위 · 20분</span></div><div class="gc"><span class="art a-tess"><span class="shots"></span><span class="jf maker" style="--f:var(--color-face-haneul)"><b class="jfg">ㄴ<i>ㅅ</i>ㄴ</b></span></span><span class="t"><a href="#">테셀레이트</a></span><span class="meta">노을공방</span><span class="why">규칙 하나 · 문제 40개</span></div><div class="gc"><span class="art a-demon"><span class="shots"></span><span class="jf maker" style="--f:var(--color-face-pul)"><b class="jfg">ㅍ<i>ㅅ</i>ㅍ</b></span></span><span class="t"><a href="#">들판의 악마</a></span><span class="meta">풀잎</span><span class="why">16색으로 그린 전략</span></div></div></div></div>
 <div class="more"><span class="btn btn-secondary">이전 주 더 보기</span></div></section>
 </main><footer class="ft"><div class="wrap" style="display:flex;flex-direction:column;gap:14px">
 <div class="links"><a href="#">이용약관</a><a href="#"><b>개인정보처리방침</b></a><a href="#">운영정책</a><a href="#">저작권 신고</a><a href="#">고객센터</a><a href="#" style="color:var(--make-strong)">게임 올리기</a></div>

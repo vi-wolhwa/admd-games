@@ -40,14 +40,6 @@ CSS = r'''
 .cgrid .gc:hover .qplay,.cgrid .gc:first-child .qplay{opacity:1;transform:none}
 .cgrid .gc:first-child .art{transform:var(--card-lift);box-shadow:var(--shadow-lift)}
 .more{display:flex;justify-content:center;margin-top:36px}
-.few{display:grid;grid-template-columns:1fr 1fr;gap:28px}
-.fewc{display:grid;grid-template-columns:260px minmax(0,1fr);gap:20px;align-items:center}
-.fewc .art{border-radius:var(--radius-lg)}
-.fewc b{font-size:19px;font-weight:800}
-.fewc p{margin:6px 0 10px;font-size:14.5px;line-height:1.6;color:var(--ink-2)}
-.relax{margin-top:24px;padding:20px 22px;border-radius:var(--radius-lg);box-shadow:inset 0 0 0 1px var(--line);display:flex;align-items:center;gap:18px}
-.relax b{font-size:15px}
-.relax .chips .chip{height:34px;font-size:13.5px}
 /* 프로필 */
 .pf-hero{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:28px;align-items:center;margin-top:36px}
 .pf-hero .jf{width:120px;height:120px;font-size:44px}
@@ -111,36 +103,124 @@ CSS = r'''
 .danger-zone{margin-top:12px;padding:18px 20px;border-radius:var(--radius-lg);box-shadow:inset 0 0 0 1px var(--danger-tint);background:color-mix(in srgb,var(--danger-tint) 40%,transparent)}
 '''
 
-CAT = [("a-loop", "루프 디버거", "픽셀상점", "ㅍ", "jjok", "퍼즐 · 5분", "web", "추천 92% · 38"), ("a-tess", "테셀레이트", "노을공방", "ㄴ", "haneul", "퍼즐 · 10분", "web", "추천 89% · 54"),
-       ("a-grid", "그리드 러너", "보라네", "ㅂ", "bora", "액션 · 3분", "web", "아직 리뷰 6개"), ("a-paper", "종이 배", "청록상회", "ㅊ", "cheongnok", "탐험 · 20분", "web", "추천 95% · 21"),
-       ("a-refac", "리팩터 러시", "리팩터클럽", "ㄹ", "gyul", "퍼즐 · 3분", "web", "추천 84% · 13"), ("a-tilt", "틸트 이론", "기울기연구소", "ㄱ", "hwang", "퍼즐 · 8분", "web", "추천 90% · 30"),
-       ("a-solvent", "솔벤트", "물방울", "ㅁ", "bichwi", "퍼즐 · 12분", "web", "추천 88% · 17"), ("a-null", "널 포인터", "레몬게임즈", "ㄹ", "olive", "퍼즐 · 15분", "dl", "추천 81% · 11")]
+# ── PG03 전체 게임 · 갤러리형 (2026-11-27 개편: 화면을 가득 채우는 큰 그림 격자) ──
+GAL_CSS = r"""
+.cat-bar{position:sticky;top:68px;z-index:20;background:color-mix(in srgb,var(--bg) 94%,transparent);backdrop-filter:blur(12px);border-bottom:1px solid var(--line)}
+.cat-in{padding:0 40px;display:flex;align-items:center;gap:28px;height:64px}
+.cat-in h1{margin:0;font-size:22px;font-weight:800;letter-spacing:-.02em;white-space:nowrap}
+.cat-in h1 span{margin-left:6px;font-size:15px;font-weight:700;color:var(--ink-3)}
+.gtabs{display:flex;gap:2px;height:100%}
+.gtabs a{display:flex;align-items:center;height:100%;padding:0 12px;font-size:15px;font-weight:700;color:var(--ink-3);box-shadow:inset 0 -2px 0 transparent}
+.gtabs a:hover{color:var(--ink-1)}
+.gtabs a[aria-current]{color:var(--ink-1);box-shadow:inset 0 -2px 0 var(--ink-1)}
+.cat-in .r{margin-left:auto;display:flex;align-items:center;gap:8px}
+.dd{position:relative;display:inline-flex;align-items:center;gap:6px;height:36px;padding:0 12px 0 14px;border-radius:999px;background:var(--sunken);font-size:13.5px;font-weight:700;color:var(--ink-3);white-space:nowrap}
+.dd b{color:var(--ink-1)}
+.dd.on{background:var(--accent-tint);color:var(--accent-text)}
+.dd.on b{color:var(--accent-text)}
+.dd .ic{width:12px;height:12px}
+.dd .dn{transform:rotate(90deg)}
+.dd-pop{position:absolute;left:0;top:calc(100% + 8px);z-index:30;width:200px;padding:6px;border-radius:var(--radius-lg);background:var(--bg);box-shadow:var(--shadow-pop),0 0 0 1px var(--line);display:flex;flex-direction:column}
+[data-theme="dark"] .dd-pop{background:var(--raised)}
+.dd-pop span{display:flex;align-items:center;justify-content:space-between;height:38px;padding:0 10px;border-radius:8px;font-size:14px;font-weight:600;color:var(--ink-1)}
+.dd-pop span.on{background:var(--sunken);font-weight:800}
+.dd-pop span em{font-style:normal;font-size:12.5px;color:var(--ink-3);font-weight:600}
+.gal{padding:28px 40px 0;display:grid;grid-template-columns:repeat(5,minmax(0,1fr));gap:30px 16px}
+.gal .gc{position:relative}
+.gal .gc:hover,.gal .gc:focus-within{z-index:6}
+.gal .gc .art{border-radius:10px;margin-bottom:10px;top:0;transition:top var(--dur-fast) var(--ease-soft),box-shadow var(--dur-fast) var(--ease-soft)}
+.gal .gc:hover .art{top:-3px;box-shadow:var(--shadow-lift)}
+.gal .gc .t{font-size:16px;font-weight:800;line-height:1.35;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.gal .gc .t a::after{content:"";position:absolute;inset:0;z-index:1}
+.gal .gc:hover .t{color:var(--accent-text)}
+.gal .gc .meta{font-size:13.5px;margin-top:1px}
+.gal .gc .cnts{margin-top:5px}
+.gal .plat,.gal .qplay,.gal .badge{z-index:3}
+.gal .plat{cursor:help}
+.gal .tip{opacity:0;visibility:hidden;transform:translateY(-4px);transition:opacity var(--dur-fast) var(--ease-soft),transform var(--dur-fast) var(--ease-soft),visibility 0s linear var(--dur-fast);pointer-events:none}
+.gal .plat:hover .tip,.gal .plat:focus-visible .tip{opacity:1;visibility:visible;transform:none;transition-delay:120ms,120ms,0s}
+.gal .qplay{opacity:0;transform:translateY(6px) scale(.9);transition:opacity var(--dur-fast) var(--ease-soft),transform var(--dur-fast) var(--ease-soft)}
+.gal .gc:hover .qplay{opacity:1;transform:none}
+.gal .gc.demo .qplay{opacity:1;transform:none}
+.gal .gc.demo .art{top:-3px;box-shadow:var(--shadow-lift)}
+.gal .gc.demo .shots::before{animation:hovshots 12.5s .3s steps(1,end) infinite}
+.gmore{display:flex;flex-direction:column;align-items:center;gap:8px;margin:44px 0 0}
+.state-box{margin:72px 40px 0;padding:28px 32px 32px;border-radius:var(--radius-xl);box-shadow:inset 0 0 0 1px var(--line)}
+.state-box > .sub{display:block;margin:0 0 18px;font-size:13px;font-weight:800;color:var(--ink-3)}
+.few{display:grid;grid-template-columns:1fr 1fr;gap:28px}
+.fewc{display:grid;grid-template-columns:300px minmax(0,1fr);gap:20px;align-items:center}
+.fewc .art{border-radius:var(--radius-lg)}
+.fewc b{font-size:19px;font-weight:800}
+.fewc p{margin:6px 0 10px;font-size:14.5px;line-height:1.6;color:var(--ink-2)}
+.relax{margin-top:24px;padding:18px 20px;border-radius:var(--radius-lg);background:var(--sunken);display:flex;align-items:center;gap:18px}
+.relax b{font-size:15px}
+.relax .chips .chip{height:34px;font-size:13.5px;background:var(--bg)}
+"""
 
-def cat_card(c):
-    art, t, who, ch, col, meta, plat, rate = c
-    pl = ic("web", "ic ic12") if plat == "web" else ic("dl", "ic ic12") + '<svg class="ic ic12 ok"><use href="#i-shield"></use></svg>'
-    return f'''<div class="gc"><span class="art {art}"><span class="shots"></span><span class="plat">{pl}</span><span class="jf md maker" style="background:var(--color-face-{col})">{ch}<i>ㅅ</i>{ch}</span><span class="qplay">{ic("play","ic ic16")}</span></span><span class="t"><a href="#">{t}</a></span><span class="meta">{who} · {meta}</span><span class="rate">{rate}</span></div>'''
+TIPS = {"web": ("web", "브라우저에서 바로 플레이"), "dl": ("dl", "설치형 · 다운로드"), "pc": ("pc", "PC (Windows)"), "phone": ("phone", "휴대폰에서도 가능"), "duo": ("duo", "여럿이 같이"), "shield": ("shield", "보안 검사 통과")}
+# (아트, 제목, 메이커, 장르 · 한 판, 실행 방식, 추천, 리뷰, 배지)
+CAT = [
+    ("a-loop", "루프 디버거", "픽셀상점", "퍼즐 · 5분", "web phone", 214, 38, ""),
+    ("a-ash", "애쉬폴 러너", "잿빛토끼", "스피드런 · 6분", "web", 2031, 296, "왕좌"),
+    ("a-paper", "페이퍼 벡터", "벡터공방", "대전 · 5분", "web duo", 1442, 216, ""),
+    ("a-tess", "테셀레이트", "노을공방", "퍼즐 · 10분", "web", 342, 54, "신작"),
+    ("a-null", "널 포인터", "레몬게임즈", "로그라이크 · 저녁", "dl pc shield", 96, 11, ""),
+    ("a-halcyon", "할시온 뎁스", "심해상회", "탐험 · 30분", "web dl", 902, 142, ""),
+    ("a-grid", "그리드 러너", "보라네", "액션 · 3분", "web phone", 61, 6, "신작"),
+    ("a-bazaar", "바이트 바자", "바이트마켓", "경영 · 4분", "web", 358, 57, ""),
+    ("a-tilt", "틸트 이론", "기울기연구소", "퍼즐 · 40분", "dl pc shield", 284, 41, ""),
+    ("a-demon", "데몬 가든", "정원사K", "이야기 · 저녁", "web", 817, 123, ""),
+    ("a-refac", "리팩터 러시", "리팩터클럽", "아케이드 · 3분", "web phone", 18, 3, "신작"),
+    ("a-solvent", "솔벤트", "물방울", "협동 퍼즐 · 12분", "web duo", 112, 17, ""),
+    ("a-paper", "종이 배", "청록상회", "탐험 · 20분", "web", 147, 21, ""),
+    ("a-loop", "루프 디버거 2", "픽셀상점", "퍼즐 · 8분", "web", 73, 9, "신작"),
+    ("a-ash", "재의 도시", "잿빛토끼", "생존 · 40분", "dl pc shield", 233, 35, ""),
+    ("a-grid", "블록 우체국", "보라네", "퍼즐 · 10분", "web phone", 188, 26, ""),
+    ("a-demon", "들판의 악마", "풀잎", "전략 · 30분", "dl pc shield", 129, 19, ""),
+    ("a-halcyon", "할시온 바다", "하늘섬", "탐험 · 20분", "web", 405, 63, ""),
+    ("a-bazaar", "야시장 타이쿤", "바이트마켓", "경영 · 15분", "web", 97, 14, ""),
+    ("a-tess", "타일 리듬", "노을공방", "리듬 · 4분", "web phone", 266, 44, ""),
+]
+CHEVD = '<svg class="ic dn"><use href="#i-chev"></use></svg>'
+
+def cat_card(c, demo=False):
+    art, t, who, meta, plat, rec, rv, badge = c
+    keys = plat.split()
+    icons = "".join(ic(k, "ic ic12" + (" ok" if k == "shield" else "")) for k in keys)
+    tip = "".join(f'<span{" class=\"ok\"" if k == "shield" else ""}>{ic(TIPS[k][0])}{TIPS[k][1]}</span>' for k in keys)
+    instant = "web" in keys
+    qp = f'<span class="qplay" aria-hidden="true">{ic("play" if instant else "dl", "ic ic16")}</span>'
+    bd = f'<span class="badge">{ic("spark" if badge == "신작" else "crown", "ic ic12")}{badge}</span>' if badge else ""
+    label = " · ".join(TIPS[k][1] for k in keys)
+    return (f'<div class="gc{" demo" if demo else ""}"><span class="art {art}"><span class="shots"></span>{bd}'
+            f'<span class="plat" tabindex="0" aria-label="{label}">{icons}<span class="tip" role="tooltip">{tip}</span></span>{qp}</span>'
+            f'<span class="t"><a href="#">{t}</a></span><span class="meta">{who} · {meta}</span>{mg.counts(rec, rv)}</div>')
 
 def catalog_page():
-    def frow(label, items, on):
-        return f'<div class="frow"><b>{label}</b><div class="chips">' + "".join(f'<button class="chip"{" aria-pressed=\"true\"" if x in on else ""}>{x}</button>' for x in items) + "</div></div>"
-    filters = '<div class="filters">' + frow("장르", ["전체", "퍼즐", "액션", "탐험", "전략", "생존", "이야기", "리듬"], ["퍼즐"]) + frow("한 판", ["상관없음", "3분 이하", "15분 이하", "30분 이하", "길게"], ["15분 이하"]) + frow("실행", ["전부", "브라우저에서 바로", "설치형", "휴대폰 가능"], ["브라우저에서 바로"]) + frow("인원", ["전부", "혼자", "같이"], ["전부"]) + "</div>"
-    grid = "".join(cat_card(c) for c in CAT)
-    few = [("a-solvent", "솔벤트", "물방울 · 퍼즐 · 12분 · 같이(2명)", "물이 되어 친구와 번갈아 길을 여는 협동 퍼즐. 한 사람은 얼음, 한 사람은 증기."), ("a-null", "널 포인터", "레몬게임즈 · 퍼즐 · 15분 · 같이(2~4명) · 설치형", "서로의 코드를 고쳐 주는 파티 퍼즐. 화면 공유 없이 같은 방에서.")]
-    fewh = "".join(f'<div class="fewc"><span class="art {a}"></span><span><b>{t}</b><span class="m" style="display:block;margin-top:4px">{m}</span><p>{d}</p><span class="btn btn-primary btn-sm">{ic("play")}플레이</span></span></div>' for a, t, m, d in few)
-    body = pgh("게임") + f'''<main class="wrap">
-<div class="pg-title"><h1>전체 게임</h1><span class="m">128개</span><div class="r"><div class="search" style="width:280px">{ic("search")}전체 게임에서 찾기</div></div></div>
-{filters}
-<div class="applied"><span>32개</span><span class="x">퍼즐 ✕</span><span class="x">15분 이하 ✕</span><span class="x">브라우저에서 바로 ✕</span><a class="link" href="#" style="font-size:13.5px">초기화</a><span class="sort"><span class="on">추천순</span><span>최신순</span><span>평가 높은</span><span>짧은 순</span></span></div>
-<div class="cgrid">{grid}</div>
-<div class="more"><span class="btn btn-secondary">더 보기 · 24개 남음</span></div>
-<section class="sec"><p class="sub" style="font-size:14px;font-weight:800;color:var(--ink-2);margin:0 0 14px">결과가 적을 때 (R-DISC-04) — 예: 퍼즐 · 같이 · 2개</p>
+    genres = ["전체", "퍼즐", "액션", "탐험", "전략", "생존", "이야기", "리듬", "경영"]
+    tabs = '<nav class="gtabs" aria-label="장르">' + "".join(f'<a href="#"{" aria-current=\"page\"" if g == "전체" else ""}>{g}</a>' for g in genres) + "</nav>"
+    pop = '<span class="dd-pop" role="listbox" aria-label="한 판 시간">' + "".join(f'<span{" class=\"on\"" if o == "전체" else ""}>{o}<em>{n}</em></span>' for o, n in [("전체", "128"), ("3분 이하", "31"), ("15분 이하", "52"), ("30분 이하", "27"), ("길게", "18")]) + "</span>"
+    dds = (f'<span class="dd"><span>한 판</span><b>전체</b>{CHEVD}{pop}</span>'
+           f'<span class="dd"><span>실행</span><b>전체</b>{CHEVD}</span>'
+           f'<span class="dd"><span>인원</span><b>전체</b>{CHEVD}</span>'
+           f'<span class="dd"><span>정렬</span><b>많이 하는</b>{CHEVD}</span>'
+           f'<span class="search" style="width:200px;height:36px">{ic("search")}전체 게임에서 찾기</span>')
+    bar = f'<div class="cat-bar"><div class="cat-in"><h1>전체 게임<span>128</span></h1>{tabs}<div class="r">{dds}</div></div></div>'
+    grid = "".join(cat_card(c, demo=(i == 6)) for i, c in enumerate(CAT))
+    few = [("a-solvent", "솔벤트", "물방울 · 협동 퍼즐 · 12분 · 같이(2명)", "물이 되어 친구와 번갈아 길을 여는 협동 퍼즐. 한 사람은 얼음, 한 사람은 증기.", 112, 17),
+           ("a-null", "널 포인터", "레몬게임즈 · 퍼즐 · 15분 · 같이(2~4명) · 설치형", "서로의 코드를 고쳐 주는 파티 퍼즐. 화면 공유 없이 같은 방에서.", 96, 11)]
+    fewh = "".join(f'<div class="fewc"><span class="art {a}"></span><span><b>{t}</b><span class="m" style="display:block;margin-top:4px">{m}</span><p>{d}</p>{mg.counts(r1, r2)}<span style="display:flex;margin-top:12px"><span class="btn btn-primary btn-sm">{ic("play")}플레이</span></span></span></div>' for a, t, m, d, r1, r2 in few)
+    body = pgh("게임") + f"""{bar}
+<main>
+<div class="gal">{grid}</div>
+<div class="gmore"><span class="btn btn-secondary">더 보기</span><span class="m">20 / 128</span></div>
+<section class="state-box"><span class="sub">상태 예시 — 결과가 적을 때 (퍼즐 · 같이 · 2개) R-DISC-04</span>
 <div class="few">{fewh}</div>
 <div class="relax"><b>조건을 조금 넓혀 볼까요?</b><div class="chips"><button class="chip">‘같이’ 빼면 +30</button><button class="chip">설치형도 보기 +4</button><button class="chip">이번 주 PICK 보기</button></div></div></section>
-</main>''' + dt.footer()
-    memo = "PG-CAT. 사이드바 대신 위쪽 필터 상자(장르 · 한 판 · 실행 · 인원 — 칩, 여러 개 선택) → 적용된 조건 칩(✕) · 정렬 → 4열 카드(추천률 표시는 리뷰 10개 이상) → ‘더 보기’ 버튼(무한 스크롤 없음). 결과가 적으면 큰 가로 카드 + 조건 넓히기 제안."
-    html = dt.page("전체 게임", body, 2300, memo)
-    return html.replace("</style>", CSS + "\n</style>", 1)
+</main>""" + dt.footer()
+    memo = "PG-CAT 갤러리형(11/27 개편). 화면 폭을 가득 채우는 5열 큰 그림 격자 · 글자는 제목 한 줄 + 메이커 · 장르 · 한 판 + 추천 수 · 리뷰 수. 위쪽 띠(스크롤해도 붙음): 장르 탭(첫 칸 ‘전체’) + 드롭다운(한 판 · 실행 · 인원 · 정렬, 모두 첫 항목 ‘전체’, 펼친 예시 = 한 판) + 검색. 조건을 고르면 그 드롭다운이 쪽빛으로 바뀌고 ✕ 로 지움. 카드 호버 = 등록 영상 반복 또는 이미지 2.5초 순환 + 오른쪽 아래 플레이/다운로드 버튼(7번째 카드가 호버 상태 예시). 실행 칩에 마우스를 올리면 툴팁."
+    html = dt.page("전체 게임", body, 2350, memo)
+    return html.replace("</style>", CSS + GAL_CSS + "\n</style>", 1)
 
 def profile_page():
     rvs = [("a-loop", "루프 디버거", True, "출퇴근길에 한 판씩 하기 딱 좋아요. 휴대폰 가로 모드에서도 블록이 안 작아서 좋았어요.", "48분"), ("a-tess", "테셀레이트", True, "규칙 하나로 이렇게 다양한 문제를 만들 수 있다니. 30번대 스테이지가 백미예요.", "3.1시간")]
@@ -209,7 +289,7 @@ def settings_page():
 <div class="srow"><span><b>리뷰</b><span class="m">리뷰는 게임 페이지에 항상 공개돼요</span></span><span class="vis-tag">항상 공개</span></div></section>
 <section class="sset"><h2>화면</h2><p>처음엔 라이트로 시작해요. 헤더의 달 버튼으로도 바꿀 수 있어요.</p>
 <div class="srow"><span><b>테마</b></span><span class="seg"><span class="on">{ic("sun")}라이트</span><span>{ic("moon")}다크</span><span>기기 설정 따름</span></span></div>
-<div class="srow"><span><b>움직임 줄이기</b><span class="m">고양이 표정 · 카드 움직임 · 스크린샷 순환을 멈춰요</span></span>{sw(False)}</div></section>
+<div class="srow"><span><b>움직임 줄이기</b><span class="m">고양이 표정 · 카드 움직임 · 호버 미리보기(영상 · 이미지 순환)를 멈춰요</span></span>{sw(False)}</div></section>
 <section class="sset"><h2>데이터</h2><p>내 기록은 언제든 가져가거나 지울 수 있어요.</p>
 <div class="srow"><span><b>내 데이터 내려받기</b><span class="m">플레이 기록 · 리뷰 · 글을 JSON 파일로</span></span><span class="btn btn-secondary btn-sm">요청하기</span></div>
 <div class="danger-zone"><div class="srow" style="border:0;padding:0;min-height:0"><span><b style="color:var(--danger-text)">탈퇴하기</b><span class="m">기록이 모두 지워지고 되돌릴 수 없어요. 내가 만든 게임이 있으면 먼저 비공개로 바꿔 주세요.</span></span><span class="btn btn-secondary btn-sm" style="color:var(--danger-text)">탈퇴</span></div></div></section>

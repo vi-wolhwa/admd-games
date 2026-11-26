@@ -39,7 +39,8 @@ CSS = r'''
 .cond b{font-weight:700}
 .cond .okt{color:var(--ok-text);font-weight:700}
 .rate-line{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--ink-2)}
-.rate-line b{font-size:22px;font-weight:800;color:var(--ink-1)}
+.rate-line b{display:inline-flex;align-items:center;gap:6px;font-size:22px;font-weight:800;color:var(--ink-1)}
+.rate-line b .ic{color:var(--accent-text)}
 .mk-mini{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding-top:16px;border-top:1px solid var(--line)}
 .mk-mini b{display:block;font-size:15px}
 .mk-mini .m{display:block}
@@ -168,7 +169,7 @@ def panel():
     conds = sif("isWebOk", cond(COND_WEB), True) + sif("isDl", cond(COND_DL)) + sif("sNo", cond(COND_NO))
     return f'''<aside class="panel" aria-label="플레이 정보">{states}
 {conds}
-<div class="rate-line"><b>추천 92%</b><span>리뷰 38개 · <a class="link" href="#reviews" style="font-size:14px">리뷰 보기</a></span></div>
+<div class="rate-line"><b>{ic("thumb","ic ic20")}214</b><span style="white-space:nowrap">명이 추천 · <a class="link" href="#reviews" style="font-size:14px">리뷰 38개</a></span><span class="btn btn-secondary btn-sm" style="margin-left:auto">{ic("thumb","ic ic16")}추천하기</span></div>
 <div class="mk-mini">{face("ㅍ","jjok","md")}<span><b>픽셀상점</b><span class="m">퍼즐만 만드는 1인 메이커 · 게임 4개</span></span><span class="btn btn-secondary btn-sm">팔로우</span></div></aside>'''
 
 def tabs(active=0):
@@ -193,12 +194,12 @@ REVIEWS = [
 def reviews():
     cards = ""
     for ch, col, who, yes, time, text, reply in REVIEWS:
-        verdict = f'<span class="yes">{ic("up","ic ic12")}추천</span>' if yes else f'<span class="no"><svg class="ic ic12" style="transform:rotate(180deg)"><use href="#i-up"></use></svg>비추천</span>'
+        verdict = f'<span class="yes">{ic("thumb","ic ic12")}추천함</span>' if yes else ""
         rep = f'<div class="reply">{face("ㅍ","jjok","xs")}<span><b>픽셀상점 · 메이커 답글</b>{reply}</span></div>' if reply else ""
         cards += f'<article class="rv"><div class="hd">{face(ch,col,"xs")}<b>{who}</b>{verdict}<span>· 플레이 {time}</span></div><p>{text}</p>{rep}<div class="foot"><span>11/2{len(who)}</span><span>도움이 됐어요 12</span><span>신고</span></div></article>'
     tags = "".join(f'<button class="chip">{t} <span class="c">{n}</span></button>' for t, n in [("짧고 굵음", 21), ("퍼즐 좋아하면", 18), ("한 손으로", 9), ("힌트가 친절해요", 8), ("튜토리얼이 길어요", 4)])
     return f'''<section class="sec wrap" id="reviews"><div class="sh">{EAR}<h2>리뷰</h2><span class="sub">플레이한 사람만 쓸 수 있어요</span><div class="r"><span class="btn btn-secondary btn-sm">{ic("pen")}리뷰 쓰기</span></div></div>
-<div class="rv-top"><div class="rv-score"><span class="disp">92%</span><b>38명 중 35명이 추천</b><span class="bar2"><i style="width:92%"></i></span></div>
+<div class="rv-top"><div class="rv-score"><span class="disp">214</span><b>명이 추천했어요 · 리뷰 38개</b><span class="m" style="display:block;margin-top:6px">싫어요는 없어요. 아쉬운 점은 리뷰로 남겨 주세요</span></div>
 <div><p class="m" style="margin:0 0 10px">자주 고른 말</p><div class="rv-tags">{tags}</div></div></div>
 <div class="rvs">{cards}</div></section>'''
 
@@ -289,7 +290,7 @@ def page_b():
 <h1>루프 디버거</h1>
 <p class="lede">모든 방이 하나의 함수인 프로그래밍 퍼즐. 루프를 고쳐 갇힌 로봇을 꺼내 주세요.</p>
 <div class="by">{face("ㅍ","jjok","md")}<span>픽셀상점 <span class="m">· 1인 메이커 · 게임 4</span></span><span class="btn btn-glass btn-sm" style="margin-left:6px">팔로우</span></div>
-<div class="chips2"><span>{ic("web","ic ic12")}브라우저에서 바로</span><span>{ic("pc","ic ic12")}PC · 휴대폰</span><span>{ic("clock","ic ic12")}한 판 5분</span><span>{ic("duo","ic ic12")}혼자</span><span>추천 92% · 38</span></div>
+<div class="chips2"><span>{ic("web","ic ic12")}브라우저에서 바로</span><span>{ic("pc","ic ic12")}PC · 휴대폰</span><span>{ic("clock","ic ic12")}한 판 5분</span><span>{ic("duo","ic ic12")}혼자</span><span>{ic("thumb","ic ic12")}추천 214 · 리뷰 38</span></div>
 <div class="acts"><span class="btn btn-on-color big" data-play>{ic("play","ic ic16")}지금 플레이</span><span class="btn btn-glass big" style="padding:0 18px">{ic("bm","ic ic16")}</span><span class="btn btn-glass big" style="padding:0 20px;font-size:15px">친구에게 도전장</span></div>
 </div>
 <div class="media"><span class="art main a-loop"><span class="shots"></span><span class="frames"><b></b><b></b><b></b><b></b><b></b><b></b></span></span><div class="thumbs">{"".join(f'<span class="art {a}{" on" if i==0 else ""}"></span>' for i,a in enumerate(("a-loop","a-tess","a-grid","a-halcyon","a-paper","a-demon")))}</div></div>

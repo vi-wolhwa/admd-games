@@ -129,17 +129,17 @@ def games_page():
     return mypage("내 게임", body, 1300, memo, make=True)
 
 def feedback_page():
-    rv = f'''<div class="rvi new">{face("ㅁ","bora","md")}<span><span class="hd"><b>모래시계</b><span style="color:var(--ink-2);font-weight:800">비추천</span>· 플레이 1.1시간 · 2시간 전 <span class="st st-fix st-sm" style="margin-left:6px">답글 없음</span></span><p>튜토리얼이 너무 길어요. 처음 세 스테이지는 건너뛰기가 있으면 좋겠어요.</p>
+    rv = f'''<div class="rvi new">{face("ㅁ","bora","md")}<span><span class="hd"><b>모래시계</b><span>플레이 1.1시간 · 2시간 전 <span class="st st-fix st-sm" style="margin-left:6px">답글 없음</span></span><p>튜토리얼이 너무 길어요. 처음 세 스테이지는 건너뛰기가 있으면 좋겠어요.</p>
 <div class="reply-ed"><span class="ta">v1.2 에서 튜토리얼을 한 스테이지로 줄였어요. 다시 한 번 봐 주세요!<span class="caret" style="display:inline-block;width:2px;height:1.1em;background:var(--accent);vertical-align:-3px"></span></span><div class="row"><span class="m">답글은 모두에게 보이고, 리뷰 쓴 사람에게 알림이 가요</span><span class="btn btn-secondary btn-sm">취소</span><span class="btn btn-primary btn-sm">답글 달기</span></div></div></span></div>
-<div class="rvi">{face("ㄱ","gyul","md")}<span><span class="hd"><b>귤껍질</b><span style="color:var(--accent-text);font-weight:800">추천</span>· 플레이 48분 · 어제</span><p>출퇴근길에 한 판씩 하기 딱 좋아요.</p><span class="btn btn-secondary btn-sm">답글 달기</span></span></div>
-<div class="rvi">{face("ㅅ","hong","md")}<span><span class="hd"><b>새벽코딩</b><span style="color:var(--accent-text);font-weight:800">추천</span>· 3.2시간 · 3일 전 <span class="st st-live st-sm" style="margin-left:6px">{ic("check")}답글 함</span></span><p>15스테이지 이후로 난이도가 확 오르는데 힌트가 잘 잡아줘요.</p></span></div>'''
+<div class="rvi">{face("ㄱ","gyul","md")}<span><span class="hd"><b>귤껍질</b><span style="color:var(--accent-text);font-weight:800;display:inline-flex;gap:4px;align-items:center">{ic("thumb","ic ic12")}추천함</span>· 플레이 48분 · 어제</span><p>출퇴근길에 한 판씩 하기 딱 좋아요.</p><span class="btn btn-secondary btn-sm">답글 달기</span></span></div>
+<div class="rvi">{face("ㅅ","hong","md")}<span><span class="hd"><b>새벽코딩</b><span style="color:var(--accent-text);font-weight:800;display:inline-flex;gap:4px;align-items:center">{ic("thumb","ic ic12")}추천함</span>· 3.2시간 · 3일 전 <span class="st st-live st-sm" style="margin-left:6px">{ic("check")}답글 함</span></span><p>15스테이지 이후로 난이도가 확 오르는데 힌트가 잘 잡아줘요.</p></span></div>'''
     bugs = f'''<div class="bug"><b>3단계에서 소리가 안 나요</b><span class="seg" style="justify-self:end"><span class="on">새로</span><span>확인 중</span><span>고침</span></span><span class="env">Windows 11 · Chrome 131 · 1920×1080 · v1.2 · 오류 없음</span></div>
 <div class="bug"><b>세로 모드에서 블록이 잘려요</b><span class="seg" style="justify-self:end"><span>새로</span><span>확인 중</span><span class="on">고침</span></span><span class="env">iOS 18 · Safari · 390×844 · v1.1</span></div>'''
     body = mg.header2(True, "내 게임") + f'''<main class="wrap">
 <div class="crumb2"><a href="#">내 게임</a>{ic("chev")}<a href="#">루프 디버거</a></div>
 <div class="pg-title" style="margin-top:10px"><h1>리뷰 · 피드백</h1></div>
 <nav class="utabs" style="margin-top:16px"><a href="#" aria-current="page">리뷰 38 <span class="cnt" style="height:18px;min-width:18px;font-size:11px;padding:0 5px">2</span></a><a href="#">버그 제보 3</a><a href="#">응원 · 출시 후</a></nav>
-<div class="split3" style="margin-top:18px"><div><div class="chips" style="margin-bottom:6px"><button class="chip" aria-pressed="true">답글 안 단 것 2</button><button class="chip">비추천 3</button><button class="chip">최신순</button></div>{rv}</div>
+<div class="split3" style="margin-top:18px"><div><div class="chips" style="margin-bottom:6px"><button class="chip" aria-pressed="true">답글 안 단 것 2</button><button class="chip">개선 요청 3</button><button class="chip">최신순</button></div>{rv}</div>
 <aside class="panel2"><h3>버그 제보</h3>{bugs}<a class="link" href="#" style="font-size:14px">전체 3개 ›</a></aside></div>
 </main>''' + mg.footer()
     memo = "MG-FEEDBACK. 리뷰(답글 안 단 것 먼저 · 그 자리에서 답글 편집 · 답글은 공개되고 알림) + 버그 제보(환경 정보 · 새로/확인 중/고침 상태 — 바꾸면 제보한 사람에게 알림). 응원함은 출시 후(L2)."
@@ -162,19 +162,19 @@ def newmaker_page():
     return mypage("메이커 프로필 만들기", body, 1300, memo, make=True).replace(".pick-grid{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:6px}", ".pick-grid{display:grid;grid-template-columns:repeat(14,minmax(0,1fr));gap:6px}")
 
 def reviews_page():
-    revs = "".join(f'<article class="rv"><div class="hd">{face(ch,col,"xs")}<b>{who}</b><span class="{"yes" if yes else "no"}">{"추천" if yes else "비추천"}</span><span>· 플레이 {tm} · {d}</span></div><p>{t}</p>{rep}<div class="foot"><span>도움이 됐어요 {h}</span><span>신고</span></div></article>' for ch, col, who, yes, tm, d, t, rep, h in [
+    revs = "".join(f'<article class="rv"><div class="hd">{face(ch,col,"xs")}<b>{who}</b>{f'<span class="yes">{ic("thumb","ic ic12")}추천함</span>' if yes else ""}<span>· 플레이 {tm} · {d}</span></div><p>{t}</p>{rep}<div class="foot"><span>도움이 됐어요 {h}</span><span>신고</span></div></article>' for ch, col, who, yes, tm, d, t, rep, h in [
         ("ㅅ", "hong", "새벽코딩", True, "3.2시간", "11/24", "회사에서 하는 일이랑 너무 똑같아서 웃겼어요. 그런데 이건 고치면 칭찬을 해 주네요.", f'<div class="reply">{face("ㅍ","jjok","xs")}<span><b>픽셀상점 · 메이커 답글</b>다음 업데이트에서 단계를 하나 더 넣을게요!</span></div>', 12),
         ("ㄱ", "gyul", "귤껍질", True, "48분", "11/23", "출퇴근길에 한 판씩 하기 딱 좋아요. 휴대폰 가로 모드에서도 블록이 안 작아서 좋았어요.", "", 8),
         ("ㅁ", "bora", "모래시계", False, "1.1시간", "11/22", "튜토리얼이 너무 길어요. 처음 세 스테이지는 건너뛰기가 있으면 좋겠어요.", f'<div class="reply">{face("ㅍ","jjok","xs")}<span><b>픽셀상점 · 메이커 답글</b>v1.2 에서 튜토리얼을 한 스테이지로 줄였어요.</span></div>', 21)])
     tags = "".join(f'<button class="chip">{t} <span class="c">{n}</span></button>' for t, n in [("짧고 굵음", 21), ("퍼즐 좋아하면", 18), ("한 손으로", 9), ("튜토리얼이 길어요", 4)])
     body = p5.pgh("게임") + f'''<main class="wrap" style="width:900px">
 <div class="crumb2"><a href="#">게임</a>{ic("chev")}<a href="#">루프 디버거</a></div>
-<div class="rv-head"><span class="art a-loop"></span><span><h1>루프 디버거 리뷰</h1><span class="m">추천 92% · 38개 · 플레이한 사람만 쓸 수 있어요</span></span></div>
-<section class="sec" style="margin-top:28px"><div class="compose"><b style="font-size:16px">내 리뷰 쓰기 <span class="m" style="font-weight:600">· 플레이 48분</span></b><div class="yn2"><span class="on">{ic("up","ic ic16")}추천</span><span><svg class="ic ic16" style="transform:rotate(180deg)"><use href="#i-up"></use></svg>별로</span></div><div class="chips"><button class="chip" aria-pressed="true">짧고 굵음</button><button class="chip">퍼즐 좋아하면</button><button class="chip">한 손으로</button><button class="chip">어려워요</button></div><div class="inp ta"><span class="ph">한 줄이면 충분해요 (선택)</span></div><div class="acts2"><span class="btn btn-primary btn-sm">올리기</span></div></div></section>
-<section class="sec" style="margin-top:36px"><div class="sh">{EAR}<h2>38개</h2><div class="r"><span class="sort cm-sort"><span class="on">도움 많은</span><span>최신</span><span>추천만</span><span>비추천만</span></span></div></div><div class="chips" style="margin-bottom:14px">{tags}</div><div class="rvlist">{revs}</div>
+<div class="rv-head"><span class="art a-loop"></span><span><h1>루프 디버거 리뷰</h1><span class="m">추천 214 · 리뷰 38개 · 플레이한 사람만 쓸 수 있어요</span></span></div>
+<section class="sec" style="margin-top:28px"><div class="compose"><b style="font-size:16px">내 리뷰 쓰기 <span class="m" style="font-weight:600">· 플레이 48분</span></b><div class="yn2"><span class="on">{ic("thumb","ic ic16")}추천했어요</span></div><div class="chips"><button class="chip" aria-pressed="true">짧고 굵음</button><button class="chip">퍼즐 좋아하면</button><button class="chip">한 손으로</button><button class="chip">어려워요</button></div><div class="inp ta"><span class="ph">한 줄이면 충분해요 (선택)</span></div><div class="acts2"><span class="btn btn-primary btn-sm">올리기</span></div></div></section>
+<section class="sec" style="margin-top:36px"><div class="sh">{EAR}<h2>38개</h2><div class="r"><span class="sort cm-sort"><span class="on">도움 많은</span><span>최신</span><span>추천한 사람</span></span></div></div><div class="chips" style="margin-bottom:14px">{tags}</div><div class="rvlist">{revs}</div>
 <div class="pager2"><span>‹</span><span class="on">1</span><span>2</span><span>3</span><span>›</span></div></section>
 </main>''' + dt.footer()
-    memo = "PG-REVIEWS. 위에 내 리뷰 쓰기(플레이 기록 있을 때만: 추천/별로 한 번 + 태그 + 한 줄 선택). 정렬(도움 많은 · 최신 · 추천만 · 비추천만), 태그로 거르기, 리뷰마다 플레이 시간 · 메이커 답글 · 신고."
+    memo = "PG-REVIEWS. 위에 내 리뷰 쓰기(플레이 기록 있을 때만: 추천하기(누르면 추천, 다시 누르면 취소 · 싫어요 없음) + 태그 + 한 줄 선택). 정렬(도움 많은 · 최신 · 추천한 사람), 태그로 거르기, 리뷰마다 플레이 시간 · 메이커 답글 · 신고."
     return mypage("리뷰 전체", body, 1700, memo)
 
 def report_page():

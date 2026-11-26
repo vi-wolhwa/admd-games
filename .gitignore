@@ -32,3 +32,6 @@ worker-configuration.d.ts
 
 # 디자인 미리보기 산출물
 docs/design/tools/ds-canvas/preview/
+
+# Python
+__pycache__/

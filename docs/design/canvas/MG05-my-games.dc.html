@@ -437,6 +437,18 @@ body{margin:0;background:#FFFFFF;-webkit-font-smoothing:antialiased}
 .a-null{background:linear-gradient(45deg,transparent 46%,#7CFF6B 46% 54%,transparent 54%) 50% 50%/18% 18% no-repeat,repeating-linear-gradient(0deg,#FFFFFF08 0 2px,transparent 2px 6px),#0B0D10}
 .a-bazaar{background:repeating-linear-gradient(90deg,#D94F30 0 10%,#F6EAD4 10% 20%) 0 0/100% 30% no-repeat,linear-gradient(0deg,#4A3B2C 0 40%,transparent 40%),#F6EAD4}
 
+/* ── 2026-11-27 카드 규칙 ── 추천 · 리뷰는 개수를 아이콘 + 글자로(싫어요 없음) */
+.cnts{display:inline-flex;align-items:center;gap:12px;font-size:13px;color:var(--ink-3)}
+.cnts > span{display:inline-flex;align-items:center;gap:4px}
+.cnts .ic{width:13px;height:13px;color:var(--ink-4)}
+.cnts b{color:var(--ink-1);font-weight:700}
+/* 호버 미리보기: 등록한 이미지(5개 이상)를 2.5초마다 바꿔 보여 줌 · 영상이면 영상 1개 반복 */
+.gc .shots{background:inherit}
+.gc .shots::before{content:"";position:absolute;inset:0;background:inherit;opacity:0}
+.gc:hover .shots::before{animation:hovshots 12.5s .3s steps(1,end) infinite}
+@keyframes hovshots{0%{opacity:0;transform:none}20%{opacity:1;transform:scale(1.25) translate(-6%,4%);filter:saturate(1.2)}40%{opacity:1;transform:scale(1.5) translate(10%,-6%);filter:brightness(1.08)}60%{opacity:1;transform:scale(1.35) translate(8%,8%) rotate(-2deg);filter:hue-rotate(-12deg)}80%{opacity:1;transform:scale(1.8) translate(-12%,-4%);filter:contrast(1.1)}100%{opacity:0;transform:none}}
+@media (prefers-reduced-motion:reduce){.gc:hover .shots::before{animation:none}}
+
 
 .theme-btn .t-sun{display:none}
 [data-theme="dark"] .theme-btn .t-sun{display:block}
@@ -917,14 +929,6 @@ footer.ft .links{display:flex;gap:18px;color:var(--ink-2);font-weight:600}
 .cgrid .gc:hover .qplay,.cgrid .gc:first-child .qplay{opacity:1;transform:none}
 .cgrid .gc:first-child .art{transform:var(--card-lift);box-shadow:var(--shadow-lift)}
 .more{display:flex;justify-content:center;margin-top:36px}
-.few{display:grid;grid-template-columns:1fr 1fr;gap:28px}
-.fewc{display:grid;grid-template-columns:260px minmax(0,1fr);gap:20px;align-items:center}
-.fewc .art{border-radius:var(--radius-lg)}
-.fewc b{font-size:19px;font-weight:800}
-.fewc p{margin:6px 0 10px;font-size:14.5px;line-height:1.6;color:var(--ink-2)}
-.relax{margin-top:24px;padding:20px 22px;border-radius:var(--radius-lg);box-shadow:inset 0 0 0 1px var(--line);display:flex;align-items:center;gap:18px}
-.relax b{font-size:15px}
-.relax .chips .chip{height:34px;font-size:13.5px}
 /* 프로필 */
 .pf-hero{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:28px;align-items:center;margin-top:36px}
 .pf-hero .jf{width:120px;height:120px;font-size:44px}
@@ -1101,6 +1105,7 @@ footer.ft .links{display:flex;gap:18px;color:var(--ink-2);font-weight:600}
 <symbol id="i-moon" viewBox="0 0 16 16"><path d="M12.8 10.4A5.6 5.6 0 0 1 5.6 3.2a5.6 5.6 0 1 0 7.2 7.2z" fill="currentColor"></path></symbol>
 <symbol id="i-cmt" viewBox="0 0 16 16"><path d="M2.5 3.5h11v7.5H7l-3 2.5V11H2.5z"></path></symbol>
 <symbol id="i-up" viewBox="0 0 16 16"><path d="M8 13V3M4 7l4-4 4 4"></path></symbol>
+<symbol id="i-thumb" viewBox="0 0 16 16"><path d="M5 7.2v6.3H2.6V7.2z"></path><path d="M5 7.2 7.7 2.6c.9 0 1.6.8 1.4 1.7l-.4 2.5h3.6c1 0 1.7.9 1.5 1.8l-.9 4c-.2.6-.7.9-1.3.9H5"></path></symbol>
 <symbol id="i-bm" viewBox="0 0 16 16"><path d="M4 2h8v12l-4-3-4 3z"></path></symbol>
 <symbol id="i-bmf" viewBox="0 0 16 16"><path d="M4 2h8v12l-4-3-4 3z" fill="currentColor"></path></symbol>
 </svg>
@@ -1132,12 +1137,12 @@ footer.ft .links{display:flex;gap:18px;color:var(--ink-2);font-weight:600}
 <span class="jf md" style="--f:var(--color-face-jjok)"><b class="jfg">ㅍ<i>ㅅ</i>ㅍ</b></span></div>
 </div></header><main class="wrap">
 <div class="pg-title"><h1>내 게임</h1><span class="m">픽셀상점 · 4개</span><div class="r"><span class="btn btn-secondary"><svg class="ic ic16"><use href="#i-pen"></use></svg>메이커 페이지 고치기</span><span class="btn btn-primary"><svg class="ic ic16"><use href="#i-up2"></use></svg>새 게임 올리기</span></div></div>
-<aside class="panel2" style="margin-top:24px"><h3>처리할 일 <span class="cnt">3</span></h3><div class="todo"><div class="td"><span class="ico acc"><svg class="ic ic16"><use href="#i-alert"></use></svg></span><span><b>‘종이 배 2’ 보완 요청이 왔어요</b><span class="m">스크린샷을 3장 이상 올려 주세요 · 심사 담당 · 2시간 전</span></span><span class="btn btn-primary btn-sm">고치기</span></div><div class="td"><span class="ico"><svg class="ic ic16"><use href="#i-cmt"></use></svg></span><span><b>‘루프 디버거’ 새 리뷰 2개</b><span class="m">답글을 달면 리뷰 쓴 사람에게 알림이 가요</span></span><span class="btn btn-secondary btn-sm">답글 달기</span></div><div class="td"><span class="ico"><svg class="ic ic16"><use href="#i-bug"></use></svg></span><span><b>‘루프 디버거’ 버그 제보 1개</b><span class="m">Windows · Chrome 131 · 3단계에서 소리가 안 나요</span></span><span class="btn btn-secondary btn-sm">보기</span></div></div></aside>
+<aside class="panel2" style="margin-top:24px"><h3>처리할 일 <span class="cnt">3</span></h3><div class="todo"><div class="td"><span class="ico acc"><svg class="ic ic16"><use href="#i-alert"></use></svg></span><span><b>‘종이 배 2’ 보완 요청이 왔어요</b><span class="m">이미지 · 영상을 5개 이상 올려 주세요 · 심사 담당 · 2시간 전</span></span><span class="btn btn-primary btn-sm">고치기</span></div><div class="td"><span class="ico"><svg class="ic ic16"><use href="#i-cmt"></use></svg></span><span><b>‘루프 디버거’ 새 리뷰 2개</b><span class="m">답글을 달면 리뷰 쓴 사람에게 알림이 가요</span></span><span class="btn btn-secondary btn-sm">답글 달기</span></div><div class="td"><span class="ico"><svg class="ic ic16"><use href="#i-bug"></use></svg></span><span><b>‘루프 디버거’ 버그 제보 1개</b><span class="m">Windows · Chrome 131 · 3단계에서 소리가 안 나요</span></span><span class="btn btn-secondary btn-sm">보기</span></div></div></aside>
 <nav class="utabs" style="margin-top:28px"><a href="#" aria-current="page">전체 4</a><a href="#">공개 1</a><a href="#">심사 중 1</a><a href="#">보완 요청 1</a><a href="#">작성 중 1</a></nav>
 <div class="mg-rows" style="margin-top:14px"><div class="mr"><span class="art a-loop"><span class="shots"></span></span>
 <span class="ttl"><b>루프 디버거</b><span class="row"><span class="st st-live"><svg class="ic"><use href="#i-check"></use></svg>공개</span><span class="note">v1.2 · 3일 전 업데이트</span></span></span>
-<span style="display:flex;align-items:center;gap:22px"><span class="kpi">최근 7일 플레이<b>1,204</b><span class="up">▲ 12%</span></span><span class="spark" aria-hidden="true"><i style="height:12px"></i><i style="height:17px"></i><i style="height:15px"></i><i style="height:22px"></i><i style="height:19px"></i><i style="height:24px"></i><i style="height:28px"></i></span></span><span class="kpi">추천 92% · 리뷰 38<span style="display:flex;gap:6px;align-items:center;margin-top:4px"><span class="st st-fix" style="height:22px">새 리뷰 2</span><span class="st st-wait" style="height:22px"><svg class="ic"><use href="#i-bug"></use></svg>제보 1</span></span></span><span class="act"><span class="btn btn-secondary btn-sm">답글 달기</span></span></div><div class="mr"><span class="art a-paper"><span class="shots"></span></span>
-<span class="ttl"><b>종이 배 2</b><span class="row"><span class="st st-fix"><svg class="ic"><use href="#i-alert"></use></svg>보완 요청</span><span class="note acc">스크린샷이 3장보다 적어요</span></span></span>
+<span style="display:flex;align-items:center;gap:22px"><span class="kpi">최근 7일 플레이<b>1,204</b><span class="up">▲ 12%</span></span><span class="spark" aria-hidden="true"><i style="height:12px"></i><i style="height:17px"></i><i style="height:15px"></i><i style="height:22px"></i><i style="height:19px"></i><i style="height:24px"></i><i style="height:28px"></i></span></span><span class="kpi">추천 214 · 리뷰 38<span style="display:flex;gap:6px;align-items:center;margin-top:4px"><span class="st st-fix" style="height:22px">새 리뷰 2</span><span class="st st-wait" style="height:22px"><svg class="ic"><use href="#i-bug"></use></svg>제보 1</span></span></span><span class="act"><span class="btn btn-secondary btn-sm">답글 달기</span></span></div><div class="mr"><span class="art a-paper"><span class="shots"></span></span>
+<span class="ttl"><b>종이 배 2</b><span class="row"><span class="st st-fix"><svg class="ic"><use href="#i-alert"></use></svg>보완 요청</span><span class="note acc">이미지 · 영상이 5개보다 적어요</span></span></span>
 <span><span class="m">아직 공개 전이라 통계가 없어요</span></span><span></span><span class="act"><span class="btn btn-primary btn-sm">고치기</span></span></div><div class="mr"><span class="art a-grid"><span class="shots"></span></span>
 <span class="ttl"><b>그리드 러너</b><span class="row"><span class="st st-wait"><span class="pulse"></span>검사 중</span><span class="note">v0.3 빌드 · 보통 10분 안에 끝나요</span></span></span>
 <span><span class="steps"><span class="done">작성</span><i></i><span class="now">검사</span><i></i><span class="">심사</span><i></i><span class="">공개</span></span></span><span></span><span class="act"><span class="btn btn-secondary btn-sm">진행 보기</span></span></div><div class="mr"><span class="art" style="display:grid;place-items:center;color:var(--ink-3);font-size:13px;font-weight:700">아트 없음</span>

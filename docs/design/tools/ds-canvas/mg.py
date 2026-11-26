@@ -15,6 +15,9 @@ SPRITE = open(os.path.join(HERE, "sprite.html"), encoding="utf-8").read()
 EAR = '<svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg>'
 def logo(m="m"): return "<span>a</span>" + dsb.cat(m)
 def ic(name, cls="ic"): return f'<svg class="{cls}"><use href="#i-{name}"></use></svg>'
+def counts(rec, rv):
+    """추천 수 · 리뷰 수 — 항상 아이콘 + 글자로 (2026-11-27)"""
+    return f'<span class="cnts"><span>{ic("thumb")}추천 <b>{rec:,}</b></span><span>{ic("cmt")}리뷰 <b>{rv:,}</b></span></span>'
 def face(ch, color, size=""): return f'<span class="jf {size}" style="background:var(--color-face-{color})">{ch}<i>ㅅ</i>{ch}</span>'
 # 추가 아이콘(16 격자, 1.7px 선)
 EXTRA_ICONS = '''<svg width="0" height="0" style="position:absolute" aria-hidden="true">
@@ -211,8 +214,8 @@ def header2(signed=True, active="홈", nav=None):
     return header(signed).replace('<nav class="gnb"><a href="#" aria-current="page">홈</a><a href="#">내 게임</a><a href="#">개발일지</a><a href="#">질문</a><a href="#">잼</a></nav>', f'<nav class="gnb">{navh}</nav>')
 
 GAMES = [  # 메이커 '픽셀상점' 의 게임
-    dict(t="루프 디버거", art="a-loop", st=("live", "공개"), note="v1.2 · 3일 전 업데이트", plays="1,204", delta="▲ 12%", rate="추천 92%", rc="38", newr="새 리뷰 2", spark=[30,42,38,55,47,61,70], act=("secondary", "답글 달기")),
-    dict(t="종이 배 2", art="a-paper", st=("fix", "보완 요청"), note="스크린샷이 3장보다 적어요", noteacc=True, plays="—", delta="", rate="", rc="", newr="", spark=None, act=("primary", "고치기")),
+    dict(t="루프 디버거", art="a-loop", st=("live", "공개"), note="v1.2 · 3일 전 업데이트", plays="1,204", delta="▲ 12%", rate="추천 214", rc="38", newr="새 리뷰 2", spark=[30,42,38,55,47,61,70], act=("secondary", "답글 달기")),
+    dict(t="종이 배 2", art="a-paper", st=("fix", "보완 요청"), note="이미지 · 영상이 5개보다 적어요", noteacc=True, plays="—", delta="", rate="", rc="", newr="", spark=None, act=("primary", "고치기")),
     dict(t="그리드 러너", art="a-grid", st=("wait", "검사 중"), note="v0.3 빌드 · 보통 10분 안에 끝나요", plays="—", delta="", rate="", rc="", newr="", spark=None, steps=1, act=("secondary", "진행 보기")),
 ]
 
@@ -252,7 +255,7 @@ def new_row():
     return f'''<div class="mr new"><span class="art">{ic("plus","ic ic20")}</span><span><b>새 게임 올리기</b><span class="m" style="display:block;margin-top:2px">웹 빌드(zip)는 브라우저에서 바로, 설치 파일은 보안 검사 후 공개돼요</span></span><span class="act"><span class="btn btn-primary btn-sm">{ic("up2")}올리기</span></span></div>'''
 
 TODOS = [
-    ("alert", True, "‘종이 배 2’ 보완 요청이 왔어요", "스크린샷을 3장 이상 올려 주세요 · 심사 담당 · 2시간 전", ("primary", "고치기")),
+    ("alert", True, "‘종이 배 2’ 보완 요청이 왔어요", "이미지 · 영상을 5개 이상 올려 주세요 · 심사 담당 · 2시간 전", ("primary", "고치기")),
     ("cmt", False, "‘루프 디버거’ 새 리뷰 2개", "답글을 달면 리뷰 쓴 사람에게 알림이 가요", ("secondary", "답글 달기")),
     ("bug", False, "‘루프 디버거’ 버그 제보 1개", "Windows · Chrome 131 · 3단계에서 소리가 안 나요", ("secondary", "보기")),
 ]

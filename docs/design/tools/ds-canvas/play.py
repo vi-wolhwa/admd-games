@@ -68,7 +68,7 @@ CSS = r'''
 .side{display:flex;flex-direction:column;gap:16px}
 .box{padding:20px;border-radius:var(--radius-lg);box-shadow:inset 0 0 0 1px var(--line)}
 .box h4{margin:0 0 12px;font-size:16px;font-weight:800;display:flex;align-items:center;gap:8px}
-.box .yn{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.box .yn{display:grid;grid-template-columns:1fr;gap:8px}
 .box .yn span{height:48px;border-radius:12px;display:flex;align-items:center;justify-content:center;gap:6px;font-weight:800;background:var(--sunken)}
 .box .yn span.on{background:var(--accent);color:#FFFFFF}
 .box .chips{margin-top:10px}
@@ -132,7 +132,7 @@ def end_page():
 <div class="acts"><span class="btn btn-on-color" data-play>{ic("play","ic ic16")}다음 스테이지</span><span class="btn btn-glass">다시 하기</span><span class="btn btn-glass">게임 정보</span></div></div>
 <section class="sec" style="margin-top:44px"><div class="sh">{EAR}<h2>다음에 해 볼 게임</h2><span class="sub">퍼즐 · 한 판 10분 안쪽</span></div><div class="g4c" style="display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:20px">{nexts}</div></section></div>
 <aside class="side">
-<div class="box"><h4>재미있었나요?</h4><div class="yn"><span class="on">{ic("up","ic ic16")}추천</span><span><svg class="ic ic16" style="transform:rotate(180deg)"><use href="#i-up"></use></svg>별로</span></div>
+<div class="box"><h4>재미있었나요?</h4><div class="yn"><span class="on">{ic("thumb","ic ic16")}추천했어요 · 214</span></div><p class="m" style="margin:8px 0 0;font-size:13px">한 번 누르면 추천, 다시 누르면 취소. 싫어요는 없어요</p>
 <div class="chips"><button class="chip" aria-pressed="true">짧고 굵음</button><button class="chip">퍼즐 좋아하면</button><button class="chip">힌트가 친절해요</button><button class="chip">어려워요</button></div>
 <span class="btn btn-secondary btn-sm" style="margin-top:12px">한 줄 더 쓰기</span></div>
 <div class="box"><h4>만든 사람에게</h4><div class="cheer">{face("ㅍ","jjok","md")}<span><b>픽셀상점</b><span class="m">새 일지 · 첫 리뷰 38개를 읽고</span></span><span class="btn btn-primary btn-sm">팔로우</span></div></div>

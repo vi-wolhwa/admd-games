@@ -283,7 +283,7 @@ def m_game2():
 <div class="vs done"><i>{ic("check", "ic ic12")}</i><span><b>작성</b><span class="m">11/24 제출</span></span></div>
 <div class="vs done"><i>{ic("check", "ic ic12")}</i><span><b>자동 검사 통과</b><span class="m">악성코드 · 용량 · 실행 확인</span></span></div>
 <div class="vs now"><i></i><span><b>심사 — 보완 요청</b><span class="m">2시간 전</span>
-<div class="fixbox"><b>{ic("alert")}고칠 것 1개</b>스크린샷을 3장 이상 올려 주세요. 지금 2장이에요.</div>
+<div class="fixbox"><b>{ic("alert")}고칠 것 1개</b>이미지 · 영상을 5개 이상 올려 주세요. 지금 3개예요.</div>
 <div class="pcnote">{ic("pc")}<span>그림 · 빌드 올리기는 PC 에서 할 수 있어요. <a class="link" href="#" style="font-size:13.5px">PC 로 링크 보내기</a></span></div></span></div>
 <div class="vs"><i></i><span><b style="color:var(--ink-3)">공개 — 운영자 승인 후</b></span></div>
 </div></div>

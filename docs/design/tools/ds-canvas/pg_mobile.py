@@ -151,7 +151,7 @@ def browse():
     grid = "".join(card(*c) for c in [("a-loop", "루프 디버거", "픽셀상점", "ㅍ", "jjok", "퍼즐 5분"), ("a-grid", "그리드 러너", "보라네", "ㅂ", "bora", "액션 3분", False), ("a-tess", "테셀레이트", "노을공방", "ㄴ", "haneul", "퍼즐 10분"), ("a-null", "널 포인터", "레몬게임즈", "ㄹ", "olive", "퍼즐 15분", False)])
     inner = f'''<div class="mtop"><span style="font-size:19px;font-weight:800">게임</span><span class="sp">{mg.THEME_BTN}<button class="icon-btn" aria-label="검색">{ic("search","ic ic20")}</button></span></div>
 <div class="devtoggle">{ic("phone","ic ic16")}<span><b>이 휴대폰에서 되는 게임만 보기</b><span class="m" style="display:block">지금은 전부 보여요 · ‘PC 에서’ 게임은 링크를 PC 로 보낼 수 있어요</span></span><span class="switch"></span></div>
-<div class="msec" style="margin-top:4px"><div class="mchips2"><button class="chip" aria-pressed="true">필터 2</button><button class="chip">퍼즐</button><button class="chip">15분 이하</button><button class="chip">추천순</button></div><div class="m2">{grid}</div></div>'''
+<div class="msec" style="margin-top:4px"><div class="mchips2"><button class="chip" aria-pressed="true">필터 2</button><button class="chip">퍼즐</button><button class="chip">15분 이하</button><button class="chip">추천 많은</button></div><div class="m2">{grid}</div></div>'''
     sheet = f'''<div class="dimmer"></div><div class="sheet"><div class="grab"></div><h3>필터</h3>
 <div class="grp"><b>장르</b><div class="chips"><button class="chip" aria-pressed="true">퍼즐</button><button class="chip">액션</button><button class="chip">탐험</button><button class="chip">전략</button></div></div>
 <div class="grp"><b>한 판</b><div class="chips"><button class="chip">5분 이하</button><button class="chip" aria-pressed="true">15분 이하</button><button class="chip">30분 이하</button></div></div>
@@ -160,12 +160,12 @@ def browse():
 
 def detail(ok=True):
     if ok:
-        chips = f'<span class="okc">{ic("phone","ic ic12")}이 휴대폰에서 돼요 · 가로</span><span>{ic("clock","ic ic12")}한 판 5분</span><span>{ic("duo","ic ic12")}혼자</span><span>추천 92% · 38</span>'
+        chips = f'<span class="okc">{ic("phone","ic ic12")}이 휴대폰에서 돼요 · 가로</span><span>{ic("clock","ic ic12")}한 판 5분</span><span>{ic("duo","ic ic12")}혼자</span><span>{ic("thumb","ic ic12")}추천 214 · 리뷰 38</span>'
         bar = f'<div class="cta-bar"><span class="sq" aria-label="저장">{ic("bm","ic ic20")}</span><span class="sq" aria-label="공유">{ic("up2","ic ic20")}</span><span class="main" data-play>{ic("play","ic ic16")}지금 플레이</span></div>'
         extra = ""
         art = "a-loop"; title = "루프 디버거"; who = ("ㅍ", "jjok", "픽셀상점")
     else:
-        chips = f'<span class="noc">{ic("pc","ic ic12")}PC 전용 · 키보드</span><span>{ic("clock","ic ic12")}한 판 3분</span><span>추천 86% · 22</span>'
+        chips = f'<span class="noc">{ic("pc","ic ic12")}PC 전용 · 키보드</span><span>{ic("clock","ic ic12")}한 판 3분</span><span>{ic("thumb","ic ic12")}추천 135 · 리뷰 22</span>'
         bar = f'<div class="cta-bar"><span class="sq" aria-label="저장">{ic("bm","ic ic20")}</span><span class="sq" aria-label="공유">{ic("up2","ic ic20")}</span><span class="main alt">{ic("pc","ic ic16")}PC 로 링크 보내기</span><span class="note">내 다른 기기 알림으로 보내요 · 로그인 필요</span></div>'
         extra = f'<div class="nodev"><b>{ic("alert")}이 휴대폰에서는 할 수 없어요</b>키보드가 필요한 게임이에요. 저장해 두면 PC 라이브러리에 바로 보여요.</div>'
         art = "a-grid"; title = "그리드 러너"; who = ("ㅂ", "bora", "보라네")

@@ -173,3 +173,15 @@ body{margin:0;background:#FFFFFF;-webkit-font-smoothing:antialiased}
 .a-solvent{background:radial-gradient(ellipse 14% 20% at 50% 54%,#5FD0E8 0 100%,transparent 100%),linear-gradient(0deg,#5FD0E8 0 18%,transparent 18%),#E7F4F6}
 .a-null{background:linear-gradient(45deg,transparent 46%,#7CFF6B 46% 54%,transparent 54%) 50% 50%/18% 18% no-repeat,repeating-linear-gradient(0deg,#FFFFFF08 0 2px,transparent 2px 6px),#0B0D10}
 .a-bazaar{background:repeating-linear-gradient(90deg,#D94F30 0 10%,#F6EAD4 10% 20%) 0 0/100% 30% no-repeat,linear-gradient(0deg,#4A3B2C 0 40%,transparent 40%),#F6EAD4}
+
+/* ── 2026-11-27 카드 규칙 ── 추천 · 리뷰는 개수를 아이콘 + 글자로(싫어요 없음) */
+.cnts{display:inline-flex;align-items:center;gap:12px;font-size:13px;color:var(--ink-3)}
+.cnts > span{display:inline-flex;align-items:center;gap:4px}
+.cnts .ic{width:13px;height:13px;color:var(--ink-4)}
+.cnts b{color:var(--ink-1);font-weight:700}
+/* 호버 미리보기: 등록한 이미지(5개 이상)를 2.5초마다 바꿔 보여 줌 · 영상이면 영상 1개 반복 */
+.gc .shots{background:inherit}
+.gc .shots::before{content:"";position:absolute;inset:0;background:inherit;opacity:0}
+.gc:hover .shots::before{animation:hovshots 12.5s .3s steps(1,end) infinite}
+@keyframes hovshots{0%{opacity:0;transform:none}20%{opacity:1;transform:scale(1.25) translate(-6%,4%);filter:saturate(1.2)}40%{opacity:1;transform:scale(1.5) translate(10%,-6%);filter:brightness(1.08)}60%{opacity:1;transform:scale(1.35) translate(8%,8%) rotate(-2deg);filter:hue-rotate(-12deg)}80%{opacity:1;transform:scale(1.8) translate(-12%,-4%);filter:contrast(1.1)}100%{opacity:0;transform:none}}
+@media (prefers-reduced-motion:reduce){.gc:hover .shots::before{animation:none}}

@@ -105,7 +105,7 @@ def start_page():
 <div class="rule ok">{ic("check")}<span><b>직접 만든 것</b> — 다른 사람 에셋은 라이선스를 지켜서</span></div>
 <div class="rule ok">{ic("check")}<span><b>대표 그림에 글자 넣지 않기</b> — 제목은 aDmD 가 붙여요</span></div>
 <div class="rule ok">{ic("check")}<span><b>콘텐츠 표시</b> — 폭력 · 공포 등은 올릴 때 체크</span></div>
-<div class="rule ok">{ic("check")}<span><b>스크린샷 3장 이상</b> — 플레이 화면 그대로</span></div>
+<div class="rule ok">{ic("check")}<span><b>이미지 · 영상 5개 이상</b> — 플레이 화면 그대로. 카드에 마우스를 올리면 돌아가며 보여요</span></div>
 <div class="rule no">{ic("alert")}<span><b>광고 · 결제 유도 금지</b> — 외부 판매 링크는 메이커 페이지 링크 칸에만</span></div>
 <div class="rule no">{ic("alert")}<span><b>개인정보 수집 금지</b> — 게임 안에서 로그인 · 연락처 요구 안 돼요</span></div></div></section>
 <section class="sec"><div class="sh">{EAR}<h2>자주 묻는 것</h2></div><div class="faq" style="max-width:860px">
@@ -134,7 +134,7 @@ def editor_page():
     return mg.page("글쓰기 · 개발일지", body, 1700, memo).replace("</style>", CSS + "\n</style>", 1)
 
 def issues_page():
-    weeks = [("11월 넷째 주", "11.24 – 11.30", "짧고 단단한 퍼즐 넷.", [("a-loop", "루프 디버거", "픽셀상점", "ㅍ", "jjok", "이번 주 플레이 수 · 완주율 1위"), ("a-refac", "리팩터 러시", "리팩터클럽", "ㄹ", "gyul", "3분이면 끝나는 아케이드"), ("a-tilt", "틸트 이론", "기울기연구소", "ㄱ", "hwang", "추천 90% · 리뷰 30"), ("a-bazaar", "바이트 바자", "바이트마켓", "ㅂ", "bora", "점심시간에 딱 맞는 길이")]),
+    weeks = [("11월 넷째 주", "11.24 – 11.30", "짧고 단단한 퍼즐 넷.", [("a-loop", "루프 디버거", "픽셀상점", "ㅍ", "jjok", "이번 주 플레이 수 · 완주율 1위"), ("a-refac", "리팩터 러시", "리팩터클럽", "ㄹ", "gyul", "3분이면 끝나는 아케이드"), ("a-tilt", "틸트 이론", "기울기연구소", "ㄱ", "hwang", "추천 386 · 리뷰 30"), ("a-bazaar", "바이트 바자", "바이트마켓", "ㅂ", "bora", "점심시간에 딱 맞는 길이")]),
              ("11월 셋째 주", "11.17 – 11.23", "잼에서 태어난 게임들.", [("a-grid", "그리드 러너", "보라네", "ㅂ", "bora", "여름 잼 3위작의 정식판"), ("a-paper", "종이 배", "청록상회", "ㅊ", "cheongnok", "완주율 1위 · 20분"), ("a-tess", "테셀레이트", "노을공방", "ㄴ", "haneul", "규칙 하나 · 문제 40개"), ("a-demon", "들판의 악마", "풀잎", "ㅍ", "pul", "16색으로 그린 전략")])]
     def card(a):
         art, t, who, ch, col, why = a

@@ -437,6 +437,18 @@ body{margin:0;background:#FFFFFF;-webkit-font-smoothing:antialiased}
 .a-null{background:linear-gradient(45deg,transparent 46%,#7CFF6B 46% 54%,transparent 54%) 50% 50%/18% 18% no-repeat,repeating-linear-gradient(0deg,#FFFFFF08 0 2px,transparent 2px 6px),#0B0D10}
 .a-bazaar{background:repeating-linear-gradient(90deg,#D94F30 0 10%,#F6EAD4 10% 20%) 0 0/100% 30% no-repeat,linear-gradient(0deg,#4A3B2C 0 40%,transparent 40%),#F6EAD4}
 
+/* ── 2026-11-27 카드 규칙 ── 추천 · 리뷰는 개수를 아이콘 + 글자로(싫어요 없음) */
+.cnts{display:inline-flex;align-items:center;gap:12px;font-size:13px;color:var(--ink-3)}
+.cnts > span{display:inline-flex;align-items:center;gap:4px}
+.cnts .ic{width:13px;height:13px;color:var(--ink-4)}
+.cnts b{color:var(--ink-1);font-weight:700}
+/* 호버 미리보기: 등록한 이미지(5개 이상)를 2.5초마다 바꿔 보여 줌 · 영상이면 영상 1개 반복 */
+.gc .shots{background:inherit}
+.gc .shots::before{content:"";position:absolute;inset:0;background:inherit;opacity:0}
+.gc:hover .shots::before{animation:hovshots 12.5s .3s steps(1,end) infinite}
+@keyframes hovshots{0%{opacity:0;transform:none}20%{opacity:1;transform:scale(1.25) translate(-6%,4%);filter:saturate(1.2)}40%{opacity:1;transform:scale(1.5) translate(10%,-6%);filter:brightness(1.08)}60%{opacity:1;transform:scale(1.35) translate(8%,8%) rotate(-2deg);filter:hue-rotate(-12deg)}80%{opacity:1;transform:scale(1.8) translate(-12%,-4%);filter:contrast(1.1)}100%{opacity:0;transform:none}}
+@media (prefers-reduced-motion:reduce){.gc:hover .shots::before{animation:none}}
+
 
 .theme-btn .t-sun{display:none}
 [data-theme="dark"] .theme-btn .t-sun{display:block}
@@ -616,7 +628,8 @@ footer.ft .links{display:flex;gap:18px;color:var(--ink-2);font-weight:600}
 .cond b{font-weight:700}
 .cond .okt{color:var(--ok-text);font-weight:700}
 .rate-line{display:flex;align-items:center;gap:10px;font-size:14px;color:var(--ink-2)}
-.rate-line b{font-size:22px;font-weight:800;color:var(--ink-1)}
+.rate-line b{display:inline-flex;align-items:center;gap:6px;font-size:22px;font-weight:800;color:var(--ink-1)}
+.rate-line b .ic{color:var(--accent-text)}
 .mk-mini{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:12px;align-items:center;padding-top:16px;border-top:1px solid var(--line)}
 .mk-mini b{display:block;font-size:15px}
 .mk-mini .m{display:block}
@@ -1033,14 +1046,6 @@ footer.ft .links{display:flex;gap:18px;color:var(--ink-2);font-weight:600}
 .cgrid .gc:hover .qplay,.cgrid .gc:first-child .qplay{opacity:1;transform:none}
 .cgrid .gc:first-child .art{transform:var(--card-lift);box-shadow:var(--shadow-lift)}
 .more{display:flex;justify-content:center;margin-top:36px}
-.few{display:grid;grid-template-columns:1fr 1fr;gap:28px}
-.fewc{display:grid;grid-template-columns:260px minmax(0,1fr);gap:20px;align-items:center}
-.fewc .art{border-radius:var(--radius-lg)}
-.fewc b{font-size:19px;font-weight:800}
-.fewc p{margin:6px 0 10px;font-size:14.5px;line-height:1.6;color:var(--ink-2)}
-.relax{margin-top:24px;padding:20px 22px;border-radius:var(--radius-lg);box-shadow:inset 0 0 0 1px var(--line);display:flex;align-items:center;gap:18px}
-.relax b{font-size:15px}
-.relax .chips .chip{height:34px;font-size:13.5px}
 /* 프로필 */
 .pf-hero{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:28px;align-items:center;margin-top:36px}
 .pf-hero .jf{width:120px;height:120px;font-size:44px}
@@ -1217,6 +1222,7 @@ footer.ft .links{display:flex;gap:18px;color:var(--ink-2);font-weight:600}
 <symbol id="i-moon" viewBox="0 0 16 16"><path d="M12.8 10.4A5.6 5.6 0 0 1 5.6 3.2a5.6 5.6 0 1 0 7.2 7.2z" fill="currentColor"></path></symbol>
 <symbol id="i-cmt" viewBox="0 0 16 16"><path d="M2.5 3.5h11v7.5H7l-3 2.5V11H2.5z"></path></symbol>
 <symbol id="i-up" viewBox="0 0 16 16"><path d="M8 13V3M4 7l4-4 4 4"></path></symbol>
+<symbol id="i-thumb" viewBox="0 0 16 16"><path d="M5 7.2v6.3H2.6V7.2z"></path><path d="M5 7.2 7.7 2.6c.9 0 1.6.8 1.4 1.7l-.4 2.5h3.6c1 0 1.7.9 1.5 1.8l-.9 4c-.2.6-.7.9-1.3.9H5"></path></symbol>
 <symbol id="i-bm" viewBox="0 0 16 16"><path d="M4 2h8v12l-4-3-4 3z"></path></symbol>
 <symbol id="i-bmf" viewBox="0 0 16 16"><path d="M4 2h8v12l-4-3-4 3z" fill="currentColor"></path></symbol>
 </svg>
@@ -1244,14 +1250,14 @@ footer.ft .links{display:flex;gap:18px;color:var(--ink-2);font-weight:600}
 <nav class="gnb"><a href="#">홈</a><a href="#" aria-current="page">게임</a><a href="#">랭킹</a><a href="#">같이</a><a href="#">잼</a></nav>
 <div class="right"><div class="ground"><a class="play" href="#" aria-current="true">플레이</a><a class="make" href="#">메이커스</a></div><div class="search"><svg class="ic"><use href="#i-search"></use></svg>게임, 메이커 검색</div><button class="icon-btn theme-btn" aria-label="다크 모드 전환" onClick="{{ toggleTheme }}"><svg class="ic ic20 t-moon"><use href="#i-moon"></use></svg><svg class="ic ic20 t-sun"><use href="#i-sun"></use></svg></button><button class="icon-btn" aria-label="알림"><svg class="ic ic20"><use href="#i-bell"></use></svg></button><span class="jf md" style="--f:var(--color-face-olive)"><b class="jfg">ㅇ<i>ㅅ</i>ㅇ</b></span></div></div></header><main class="wrap" style="width:900px">
 <div class="crumb2"><a href="#">게임</a><svg class="ic"><use href="#i-chev"></use></svg><a href="#">루프 디버거</a></div>
-<div class="rv-head"><span class="art a-loop"></span><span><h1>루프 디버거 리뷰</h1><span class="m">추천 92% · 38개 · 플레이한 사람만 쓸 수 있어요</span></span></div>
-<section class="sec" style="margin-top:28px"><div class="compose"><b style="font-size:16px">내 리뷰 쓰기 <span class="m" style="font-weight:600">· 플레이 48분</span></b><div class="yn2"><span class="on"><svg class="ic ic16"><use href="#i-up"></use></svg>추천</span><span><svg class="ic ic16" style="transform:rotate(180deg)"><use href="#i-up"></use></svg>별로</span></div><div class="chips"><button class="chip" aria-pressed="true">짧고 굵음</button><button class="chip">퍼즐 좋아하면</button><button class="chip">한 손으로</button><button class="chip">어려워요</button></div><div class="inp ta"><span class="ph">한 줄이면 충분해요 (선택)</span></div><div class="acts2"><span class="btn btn-primary btn-sm">올리기</span></div></div></section>
-<section class="sec" style="margin-top:36px"><div class="sh"><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg><h2>38개</h2><div class="r"><span class="sort cm-sort"><span class="on">도움 많은</span><span>최신</span><span>추천만</span><span>비추천만</span></span></div></div><div class="chips" style="margin-bottom:14px"><button class="chip">짧고 굵음 <span class="c">21</span></button><button class="chip">퍼즐 좋아하면 <span class="c">18</span></button><button class="chip">한 손으로 <span class="c">9</span></button><button class="chip">튜토리얼이 길어요 <span class="c">4</span></button></div><div class="rvlist"><article class="rv"><div class="hd"><span class="jf xs" style="--f:var(--color-face-hong)"><b class="jfg">ㅅ<i>ㅅ</i>ㅅ</b></span><b>새벽코딩</b><span class="yes">추천</span><span>· 플레이 3.2시간 · 11/24</span></div><p>회사에서 하는 일이랑 너무 똑같아서 웃겼어요. 그런데 이건 고치면 칭찬을 해 주네요.</p><div class="reply"><span class="jf xs" style="--f:var(--color-face-jjok)"><b class="jfg">ㅍ<i>ㅅ</i>ㅍ</b></span><span><b>픽셀상점 · 메이커 답글</b>다음 업데이트에서 단계를 하나 더 넣을게요!</span></div><div class="foot"><span>도움이 됐어요 12</span><span>신고</span></div></article><article class="rv"><div class="hd"><span class="jf xs" style="--f:var(--color-face-gyul)"><b class="jfg">ㄱ<i>ㅅ</i>ㄱ</b></span><b>귤껍질</b><span class="yes">추천</span><span>· 플레이 48분 · 11/23</span></div><p>출퇴근길에 한 판씩 하기 딱 좋아요. 휴대폰 가로 모드에서도 블록이 안 작아서 좋았어요.</p><div class="foot"><span>도움이 됐어요 8</span><span>신고</span></div></article><article class="rv"><div class="hd"><span class="jf xs" style="--f:var(--color-face-bora)"><b class="jfg">ㅁ<i>ㅅ</i>ㅁ</b></span><b>모래시계</b><span class="no">비추천</span><span>· 플레이 1.1시간 · 11/22</span></div><p>튜토리얼이 너무 길어요. 처음 세 스테이지는 건너뛰기가 있으면 좋겠어요.</p><div class="reply"><span class="jf xs" style="--f:var(--color-face-jjok)"><b class="jfg">ㅍ<i>ㅅ</i>ㅍ</b></span><span><b>픽셀상점 · 메이커 답글</b>v1.2 에서 튜토리얼을 한 스테이지로 줄였어요.</span></div><div class="foot"><span>도움이 됐어요 21</span><span>신고</span></div></article></div>
+<div class="rv-head"><span class="art a-loop"></span><span><h1>루프 디버거 리뷰</h1><span class="m">추천 214 · 리뷰 38개 · 플레이한 사람만 쓸 수 있어요</span></span></div>
+<section class="sec" style="margin-top:28px"><div class="compose"><b style="font-size:16px">내 리뷰 쓰기 <span class="m" style="font-weight:600">· 플레이 48분</span></b><div class="yn2"><span class="on"><svg class="ic ic16"><use href="#i-thumb"></use></svg>추천했어요</span></div><div class="chips"><button class="chip" aria-pressed="true">짧고 굵음</button><button class="chip">퍼즐 좋아하면</button><button class="chip">한 손으로</button><button class="chip">어려워요</button></div><div class="inp ta"><span class="ph">한 줄이면 충분해요 (선택)</span></div><div class="acts2"><span class="btn btn-primary btn-sm">올리기</span></div></div></section>
+<section class="sec" style="margin-top:36px"><div class="sh"><svg class="ear" viewBox="0 0 22 12" aria-hidden="true"><path d="M0 12 L3 0 L9 7 Z M22 12 L19 0 L13 7 Z"></path></svg><h2>38개</h2><div class="r"><span class="sort cm-sort"><span class="on">도움 많은</span><span>최신</span><span>추천한 사람</span></span></div></div><div class="chips" style="margin-bottom:14px"><button class="chip">짧고 굵음 <span class="c">21</span></button><button class="chip">퍼즐 좋아하면 <span class="c">18</span></button><button class="chip">한 손으로 <span class="c">9</span></button><button class="chip">튜토리얼이 길어요 <span class="c">4</span></button></div><div class="rvlist"><article class="rv"><div class="hd"><span class="jf xs" style="--f:var(--color-face-hong)"><b class="jfg">ㅅ<i>ㅅ</i>ㅅ</b></span><b>새벽코딩</b><span class="yes"><svg class="ic ic12"><use href="#i-thumb"></use></svg>추천함</span><span>· 플레이 3.2시간 · 11/24</span></div><p>회사에서 하는 일이랑 너무 똑같아서 웃겼어요. 그런데 이건 고치면 칭찬을 해 주네요.</p><div class="reply"><span class="jf xs" style="--f:var(--color-face-jjok)"><b class="jfg">ㅍ<i>ㅅ</i>ㅍ</b></span><span><b>픽셀상점 · 메이커 답글</b>다음 업데이트에서 단계를 하나 더 넣을게요!</span></div><div class="foot"><span>도움이 됐어요 12</span><span>신고</span></div></article><article class="rv"><div class="hd"><span class="jf xs" style="--f:var(--color-face-gyul)"><b class="jfg">ㄱ<i>ㅅ</i>ㄱ</b></span><b>귤껍질</b><span class="yes"><svg class="ic ic12"><use href="#i-thumb"></use></svg>추천함</span><span>· 플레이 48분 · 11/23</span></div><p>출퇴근길에 한 판씩 하기 딱 좋아요. 휴대폰 가로 모드에서도 블록이 안 작아서 좋았어요.</p><div class="foot"><span>도움이 됐어요 8</span><span>신고</span></div></article><article class="rv"><div class="hd"><span class="jf xs" style="--f:var(--color-face-bora)"><b class="jfg">ㅁ<i>ㅅ</i>ㅁ</b></span><b>모래시계</b><span>· 플레이 1.1시간 · 11/22</span></div><p>튜토리얼이 너무 길어요. 처음 세 스테이지는 건너뛰기가 있으면 좋겠어요.</p><div class="reply"><span class="jf xs" style="--f:var(--color-face-jjok)"><b class="jfg">ㅍ<i>ㅅ</i>ㅍ</b></span><span><b>픽셀상점 · 메이커 답글</b>v1.2 에서 튜토리얼을 한 스테이지로 줄였어요.</span></div><div class="foot"><span>도움이 됐어요 21</span><span>신고</span></div></article></div>
 <div class="pager2"><span>‹</span><span class="on">1</span><span>2</span><span>3</span><span>›</span></div></section>
 </main><footer class="ft"><div class="wrap" style="display:flex;flex-direction:column;gap:14px">
 <div class="links"><a href="#">이용약관</a><a href="#"><b>개인정보처리방침</b></a><a href="#">운영정책</a><a href="#">저작권 신고</a><a href="#">고객센터</a><a href="#" style="color:var(--make-strong)">게임 올리기</a></div>
 <div style="display:flex;align-items:flex-end;gap:10px"><span class="logo" style="font-size:18px;color:var(--ink-3);--ears:var(--ink-4)"><span>a</span><span class="cat"><svg class="ears" viewBox="0 0 64 20" preserveAspectRatio="none" aria-hidden="true"><path d="M3 19 L8 2 L20 10 Q32 6 44 10 L56 2 L61 19"></path></svg><span class="e">D</span><span class="mo">m</span><span class="e">D</span></span></span><span>aDmD Games · 광고 없는 인디 게임 플랫폼</span></div></div></footer>
-<sc-if value="{{ showMemo }}" hint-placeholder-val="{{ true }}"><aside class="memo" style="--x:0"><b style="color:#3A96FE">리뷰 전체</b>PG-REVIEWS. 위에 내 리뷰 쓰기(플레이 기록 있을 때만: 추천/별로 한 번 + 태그 + 한 줄 선택). 정렬(도움 많은 · 최신 · 추천만 · 비추천만), 태그로 거르기, 리뷰마다 플레이 시간 · 메이커 답글 · 신고.</aside></sc-if>
+<sc-if value="{{ showMemo }}" hint-placeholder-val="{{ true }}"><aside class="memo" style="--x:0"><b style="color:#3A96FE">리뷰 전체</b>PG-REVIEWS. 위에 내 리뷰 쓰기(플레이 기록 있을 때만: 추천하기(누르면 추천, 다시 누르면 취소 · 싫어요 없음) + 태그 + 한 줄 선택). 정렬(도움 많은 · 최신 · 추천한 사람), 태그로 거르기, 리뷰마다 플레이 시간 · 메이커 답글 · 신고.</aside></sc-if>
 </div>
 </x-dc>
 <script type="text/x-dc" data-dc-script data-props='{"$preview":{"width":1440,"height":1700},"state":{"editor":"enum","default":"처음","options":["처음","진행 중","완료","다운로드","이 기기 불가"],"tsType":"string"},"theme":{"editor":"enum","default":"light","options":["light","dark"],"tsType":"string"},"showMemo":{"editor":"boolean","default":true,"tsType":"boolean"}}'>

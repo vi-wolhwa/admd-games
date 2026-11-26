@@ -437,6 +437,18 @@ body{margin:0;background:#FFFFFF;-webkit-font-smoothing:antialiased}
 .a-null{background:linear-gradient(45deg,transparent 46%,#7CFF6B 46% 54%,transparent 54%) 50% 50%/18% 18% no-repeat,repeating-linear-gradient(0deg,#FFFFFF08 0 2px,transparent 2px 6px),#0B0D10}
 .a-bazaar{background:repeating-linear-gradient(90deg,#D94F30 0 10%,#F6EAD4 10% 20%) 0 0/100% 30% no-repeat,linear-gradient(0deg,#4A3B2C 0 40%,transparent 40%),#F6EAD4}
 
+/* ── 2026-11-27 카드 규칙 ── 추천 · 리뷰는 개수를 아이콘 + 글자로(싫어요 없음) */
+.cnts{display:inline-flex;align-items:center;gap:12px;font-size:13px;color:var(--ink-3)}
+.cnts > span{display:inline-flex;align-items:center;gap:4px}
+.cnts .ic{width:13px;height:13px;color:var(--ink-4)}
+.cnts b{color:var(--ink-1);font-weight:700}
+/* 호버 미리보기: 등록한 이미지(5개 이상)를 2.5초마다 바꿔 보여 줌 · 영상이면 영상 1개 반복 */
+.gc .shots{background:inherit}
+.gc .shots::before{content:"";position:absolute;inset:0;background:inherit;opacity:0}
+.gc:hover .shots::before{animation:hovshots 12.5s .3s steps(1,end) infinite}
+@keyframes hovshots{0%{opacity:0;transform:none}20%{opacity:1;transform:scale(1.25) translate(-6%,4%);filter:saturate(1.2)}40%{opacity:1;transform:scale(1.5) translate(10%,-6%);filter:brightness(1.08)}60%{opacity:1;transform:scale(1.35) translate(8%,8%) rotate(-2deg);filter:hue-rotate(-12deg)}80%{opacity:1;transform:scale(1.8) translate(-12%,-4%);filter:contrast(1.1)}100%{opacity:0;transform:none}}
+@media (prefers-reduced-motion:reduce){.gc:hover .shots::before{animation:none}}
+
 
 .theme-btn .t-sun{display:none}
 [data-theme="dark"] .theme-btn .t-sun{display:block}
@@ -917,14 +929,6 @@ footer.ft .links{display:flex;gap:18px;color:var(--ink-2);font-weight:600}
 .cgrid .gc:hover .qplay,.cgrid .gc:first-child .qplay{opacity:1;transform:none}
 .cgrid .gc:first-child .art{transform:var(--card-lift);box-shadow:var(--shadow-lift)}
 .more{display:flex;justify-content:center;margin-top:36px}
-.few{display:grid;grid-template-columns:1fr 1fr;gap:28px}
-.fewc{display:grid;grid-template-columns:260px minmax(0,1fr);gap:20px;align-items:center}
-.fewc .art{border-radius:var(--radius-lg)}
-.fewc b{font-size:19px;font-weight:800}
-.fewc p{margin:6px 0 10px;font-size:14.5px;line-height:1.6;color:var(--ink-2)}
-.relax{margin-top:24px;padding:20px 22px;border-radius:var(--radius-lg);box-shadow:inset 0 0 0 1px var(--line);display:flex;align-items:center;gap:18px}
-.relax b{font-size:15px}
-.relax .chips .chip{height:34px;font-size:13.5px}
 /* 프로필 */
 .pf-hero{display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:28px;align-items:center;margin-top:36px}
 .pf-hero .jf{width:120px;height:120px;font-size:44px}
@@ -1156,6 +1160,7 @@ footer.ft .links{display:flex;gap:18px;color:var(--ink-2);font-weight:600}
 <symbol id="i-moon" viewBox="0 0 16 16"><path d="M12.8 10.4A5.6 5.6 0 0 1 5.6 3.2a5.6 5.6 0 1 0 7.2 7.2z" fill="currentColor"></path></symbol>
 <symbol id="i-cmt" viewBox="0 0 16 16"><path d="M2.5 3.5h11v7.5H7l-3 2.5V11H2.5z"></path></symbol>
 <symbol id="i-up" viewBox="0 0 16 16"><path d="M8 13V3M4 7l4-4 4 4"></path></symbol>
+<symbol id="i-thumb" viewBox="0 0 16 16"><path d="M5 7.2v6.3H2.6V7.2z"></path><path d="M5 7.2 7.7 2.6c.9 0 1.6.8 1.4 1.7l-.4 2.5h3.6c1 0 1.7.9 1.5 1.8l-.9 4c-.2.6-.7.9-1.3.9H5"></path></symbol>
 <symbol id="i-bm" viewBox="0 0 16 16"><path d="M4 2h8v12l-4-3-4 3z"></path></symbol>
 <symbol id="i-bmf" viewBox="0 0 16 16"><path d="M4 2h8v12l-4-3-4 3z" fill="currentColor"></path></symbol>
 </svg>
@@ -1189,7 +1194,7 @@ footer.ft .links{display:flex;gap:18px;color:var(--ink-2);font-weight:600}
 <div class="cur"><div><div class="sched"><span><svg class="ic ic16"><use href="#i-clock"></use></svg></span><span><b>12월 첫째 주 PICK</b><span class="m" style="display:block">12/1(월) 00:00 자동 공개 · 3 / 4 채움</span></span><span class="btn btn-secondary btn-sm">미리보기</span><span class="btn btn-primary btn-sm" style="margin-left:0">예약</span></div>
 <div class="slot4" style="margin-top:14px"><div class="slot"><span class="grip">⋮⋮</span><span class="art a-loop"></span><span><b>루프 디버거</b><span class="m">픽셀상점</span><span class="why2">이번 주 플레이 수 · 완주율 모두 1위<span class="cnt3">22 / 30</span></span></span><span class="btn btn-secondary btn-sm">빼기</span></div><div class="slot"><span class="grip">⋮⋮</span><span class="art a-refac"></span><span><b>리팩터 러시</b><span class="m">리팩터클럽</span><span class="why2">오늘 공개된 3분짜리 아케이드<span class="cnt3">16 / 30</span></span></span><span class="btn btn-secondary btn-sm">빼기</span></div><div class="slot"><span class="grip">⋮⋮</span><span class="art a-tilt"></span><span><b>틸트 이론</b><span class="m">기울기연구소</span><span class="why2 warn">제가 제일 좋아하는 퍼즐이에요<span class="cnt3">16 / 30</span></span><span class="lint">이유는 사실로 — ‘제가’ · 감상 표현을 빼 주세요</span></span><span class="btn btn-secondary btn-sm">빼기</span></div><div class="slot empty"><span>4</span><span>오른쪽 후보에서 끌어다 놓기</span></div></div>
 <p class="m" style="margin-top:14px">이유 한 줄은 사실만(숫자 · 특징). ‘누가 골랐다’ · 1인칭 · 감상은 자동으로 표시돼요(문구 규칙).</p></div>
-<aside class="panel2"><h3>후보</h3><div class="search" style="width:100%"><svg class="ic"><use href="#i-search"></use></svg>게임 찾기</div><div class="chips"><button class="chip" aria-pressed="true">이번 주 급상승</button><button class="chip">새로 공개</button><button class="chip">아직 PICK 안 됨</button></div><div class="cands"><div class="cand2"><span class="art a-bazaar"></span><span><b>바이트 바자</b><span class="m">플레이 ▲ 140% · 완주 22% · 리뷰 9</span></span><span class="btn btn-secondary btn-sm"><svg class="ic"><use href="#i-plus"></use></svg></span></div><div class="cand2"><span class="art a-solvent"></span><span><b>솔벤트</b><span class="m">추천 88% · 리뷰 17 · 같이</span></span><span class="btn btn-secondary btn-sm"><svg class="ic"><use href="#i-plus"></use></svg></span></div><div class="cand2"><span class="art a-halcyon"></span><span><b>할시온 바다</b><span class="m">공개 5일 · 완주 31%</span></span><span class="btn btn-secondary btn-sm"><svg class="ic"><use href="#i-plus"></use></svg></span></div><div class="cand2"><span class="art a-null"></span><span><b>널 포인터</b><span class="m">설치형 · 검사 통과 · 리뷰 11</span></span><span class="btn btn-secondary btn-sm"><svg class="ic"><use href="#i-plus"></use></svg></span></div></div></aside></div></main>
+<aside class="panel2"><h3>후보</h3><div class="search" style="width:100%"><svg class="ic"><use href="#i-search"></use></svg>게임 찾기</div><div class="chips"><button class="chip" aria-pressed="true">이번 주 급상승</button><button class="chip">새로 공개</button><button class="chip">아직 PICK 안 됨</button></div><div class="cands"><div class="cand2"><span class="art a-bazaar"></span><span><b>바이트 바자</b><span class="m">플레이 ▲ 140% · 완주 22% · 리뷰 9</span></span><span class="btn btn-secondary btn-sm"><svg class="ic"><use href="#i-plus"></use></svg></span></div><div class="cand2"><span class="art a-solvent"></span><span><b>솔벤트</b><span class="m">추천 106 · 리뷰 17 · 같이</span></span><span class="btn btn-secondary btn-sm"><svg class="ic"><use href="#i-plus"></use></svg></span></div><div class="cand2"><span class="art a-halcyon"></span><span><b>할시온 바다</b><span class="m">공개 5일 · 완주 31%</span></span><span class="btn btn-secondary btn-sm"><svg class="ic"><use href="#i-plus"></use></svg></span></div><div class="cand2"><span class="art a-null"></span><span><b>널 포인터</b><span class="m">설치형 · 검사 통과 · 리뷰 11</span></span><span class="btn btn-secondary btn-sm"><svg class="ic"><use href="#i-plus"></use></svg></span></div></div></aside></div></main>
 <sc-if value="{{ showMemo }}" hint-placeholder-val="{{ true }}"><aside class="memo"><b>운영 · 큐레이션 편집</b>AD-CURATE. 이번 주 PICK 4칸(끌어서 순서 · 이유 한 줄 30자, 문구 규칙 위반은 강조색 경고) · 월요일 자동 공개 예약 · 미리보기. 오른쪽 후보(급상승 · 새로 공개 · 아직 안 됨) — 숫자로 판단. 배너 5장 · 컬렉션은 같은 틀의 다른 탭.</aside></sc-if>
 </div>
 </x-dc>
