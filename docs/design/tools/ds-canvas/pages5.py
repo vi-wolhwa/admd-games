@@ -153,17 +153,19 @@ GAL_CSS = r"""
 .gal .gc.demo .qplay{opacity:1;transform:none}
 .gal .gc.demo .art{top:-3px;box-shadow:var(--shadow-lift)}
 .gal .gc.demo .shots::before{animation:hovshots 12.5s .3s steps(1,end) infinite}
-.gmore{display:flex;flex-direction:column;align-items:center;gap:8px;margin:48px 0 0}
-.state-box{margin-top:72px;padding:28px 32px 32px;border-radius:var(--radius-xl);box-shadow:inset 0 0 0 1px var(--line)}
-.state-box > .sub{display:block;margin:0 0 18px;font-size:13px;font-weight:800;color:var(--ink-3)}
-.few{display:grid;grid-template-columns:1fr 1fr;gap:28px}
-.fewc{display:grid;grid-template-columns:260px minmax(0,1fr);gap:20px;align-items:center}
-.fewc .art{border-radius:var(--radius-lg)}
-.fewc b{font-size:19px;font-weight:800}
-.fewc p{margin:6px 0 10px;font-size:14.5px;line-height:1.6;color:var(--ink-2)}
 .relax{margin-top:24px;padding:18px 20px;border-radius:var(--radius-lg);background:var(--sunken);display:flex;align-items:center;gap:18px}
 .relax b{font-size:15px}
 .relax .chips .chip{height:34px;font-size:13.5px;background:var(--bg)}
+.gtag.more{background:transparent;box-shadow:inset 0 0 0 1px var(--line);color:var(--ink-3)}
+.gsk{display:flex;flex-direction:column;gap:8px}
+.gsk i{display:block;border-radius:6px;background:linear-gradient(90deg,var(--sunken) 0 40%,var(--sunken-hover) 50%,var(--sunken) 60% 100%) 0 0/300% 100%;animation:gsk 1.4s linear infinite}
+.gsk i:first-child{aspect-ratio:16/9;border-radius:14px;margin-bottom:4px}
+@keyframes gsk{from{background-position:100% 0}to{background-position:0 0}}
+.gload{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:28px;font-size:13.5px;color:var(--ink-3)}
+.gload .dot{width:6px;height:6px;border-radius:999px;background:var(--accent);animation:gpulse 1s ease-in-out infinite}
+@keyframes gpulse{50%{opacity:.25}}
+.totop{position:fixed;right:40px;bottom:40px;z-index:30;display:grid;place-items:center;width:48px;height:48px;border-radius:999px;background:var(--bg);box-shadow:var(--shadow-pop),0 0 0 1px var(--line);color:var(--ink-1)}
+.totop .ic{transform:rotate(-90deg)}
 """
 
 TIPS = {"web": ("web", "브라우저에서 바로 플레이"), "dl": ("dl", "설치형 · 다운로드"), "pc": ("pc", "PC (Windows)"), "phone": ("phone", "휴대폰에서도 가능"), "duo": ("duo", "여럿이 같이"), "shield": ("shield", "보안 검사 통과")}
@@ -200,28 +202,26 @@ def cat_card(c, demo=False):
             f'<span class="t"><a href="#">{t}</a></span><span class="meta">{who} · 한 판 {length}</span><span class="gt">{gt}</span>{mg.counts(rec, rv)}</div>')
 
 def catalog_page():
-    genres = [("퍼즐", 38), ("액션", 27), ("탐험", 14), ("전략", 9), ("생존", 7), ("이야기", 12), ("리듬", 5), ("경영", 6), ("아케이드", 18), ("로그라이크", 6), ("대전", 8), ("협동", 7), ("프로그래밍", 4), ("물리", 5)]
+    # 태그 줄은 공개된 게임에서 만들어진다 — 게임 0개 태그는 안 보임, 게임 수 많은 순 상위 10개 + 더 보기 (ADR 0010)
+    genres = [("퍼즐", 38), ("액션", 27), ("아케이드", 18), ("탐험", 14), ("이야기", 12), ("전략", 9), ("대전", 8), ("협동", 7), ("생존", 7), ("경영", 6)]
     tags = (f'<div class="gtags" role="group" aria-label="장르 — 여러 개 고를 수 있어요"><button class="gtag" aria-pressed="false">전체</button>'
-            + "".join(f'<button class="gtag" aria-pressed="{"true" if g in SEL else "false"}">{ic("check") if g in SEL else ""}{g} <span class="n">{n}</span></button>' for g, n in genres) + "</div>")
+            + "".join(f'<button class="gtag" aria-pressed="{"true" if g in SEL else "false"}">{ic("check") if g in SEL else ""}{g} <span class="n">{n}</span></button>' for g, n in genres) + '<button class="gtag more" aria-expanded="false">태그 14개 더 보기</button></div>')
     pop = '<span class="dd-pop" role="listbox" aria-label="정렬">' + "".join(f'<span{" class=\"on\"" if o == "많이 하는" else ""}>{o}</span>' for o in ["많이 하는", "추천 많은", "새로 나온", "짧은 순"]) + "</span>"
     tools = (f'<div class="cat-tools"><span class="sum"><b>퍼즐</b> 또는 <b>액션</b> · <b>46</b>개</span><a class="clear" href="#">모두 지우기</a>'
              f'<div class="r"><span class="dd"><span>한 판</span><b>전체</b>{CHEVD}</span><span class="dd"><span>실행</span><b>전체</b>{CHEVD}</span><span class="dd"><span>인원</span><b>전체</b>{CHEVD}</span>'
              f'<span class="dd"><span>정렬</span><b>많이 하는</b>{CHEVD}{pop}</span></div></div>')
     grid = "".join(cat_card(c, demo=(i == 1)) for i, c in enumerate(CAT))
-    few = [("a-solvent", "솔벤트", "물방울 · 협동 퍼즐 · 12분 · 같이(2명)", "물이 되어 친구와 번갈아 길을 여는 협동 퍼즐. 한 사람은 얼음, 한 사람은 증기.", 112, 17),
-           ("a-null", "널 포인터", "레몬게임즈 · 퍼즐 · 15분 · 같이(2~4명) · 설치형", "서로의 코드를 고쳐 주는 파티 퍼즐. 화면 공유 없이 같은 방에서.", 96, 11)]
-    fewh = "".join(f'<div class="fewc"><span class="art {a}"></span><span><b>{t}</b><span class="m" style="display:block;margin-top:4px">{m}</span><p>{d}</p>{mg.counts(r1, r2)}<span style="display:flex;margin-top:12px"><span class="btn btn-primary btn-sm">{ic("play")}플레이</span></span></span></div>' for a, t, m, d, r1, r2 in few)
+    skel = "".join('<div class="gsk"><i></i><i style="width:70%;height:20px"></i><i style="width:50%;height:14px"></i><i style="width:40%;height:14px"></i></div>' for _ in range(4))
     body = pgh("게임") + f"""<main class="wrap">
 <div class="cat-head"><h1>전체 게임</h1><span class="m">128개 · 모두 광고 없이 무료</span><div class="r"><div class="search" style="width:280px">{ic("search")}전체 게임에서 찾기</div></div></div>
 {tags}
 {tools}
 <div class="gal">{grid}</div>
-<div class="gmore"><span class="btn btn-secondary">더 보기</span><span class="m">12 / 46</span></div>
-<section class="state-box"><span class="sub">상태 예시 — 결과가 적을 때 (협동 · 같이 · 2개) R-DISC-04</span>
-<div class="few">{fewh}</div>
-<div class="relax"><b>조건을 조금 넓혀 볼까요?</b><div class="chips"><button class="chip">‘같이’ 빼면 +30</button><button class="chip">설치형도 보기 +4</button><button class="chip">이번 주 PICK 보기</button></div></div></section>
+<div class="gal" aria-hidden="true" style="margin-top:40px">{skel}</div>
+<div class="gload" role="status"><span class="dot"></span>12개 더 불러오는 중 · 24 / 46</div>
+<a class="totop" href="#" aria-label="맨 위로">{ic("chev")}</a>
 </main>""" + dt.footer()
-    memo = "PG-CAT 갤러리형 v2(11/27 재개편). 콘텐츠 폭(1200) 안에 4열 큰 카드. 장르는 태그 — 여러 개를 함께 고름(예: 퍼즐 + 액션 = 둘 중 하나라도 해당, ‘전체’ 를 누르면 모두 풀림). 카드에 장르 태그를 보여 주고 고른 태그는 쪽빛. 그 아래 한 판 · 실행 · 인원 드롭다운(첫 항목 ‘전체’) + 정렬(펼친 예시). 카드 호버 = 영상 반복 또는 이미지 2.5초 순환 + 오른쪽 아래 플레이/다운로드(2번째 카드가 호버 예시)."
+    memo = "PG-CAT 갤러리형 v2(11/27 재개편 · 2차: 무한 스크롤 · 태그는 게임에서 생김). 콘텐츠 폭(1200) 안에 4열 큰 카드. 장르는 태그 — 여러 개를 함께 고름(예: 퍼즐 + 액션 = 둘 중 하나라도 해당, ‘전체’ 를 누르면 모두 풀림). 카드에 장르 태그를 보여 주고 고른 태그는 쪽빛. 그 아래 한 판 · 실행 · 인원 드롭다운(첫 항목 ‘전체’) + 정렬(펼친 예시). 태그 줄 = 공개된 게임이 쓰는 태그만, 게임 수 많은 순 10개 + ‘더 보기’(게임 0개 태그는 숨김). 아래로 내리면 바닥 600px 전에 12개씩 자동으로 더 불러옴(IntersectionObserver · 커서 방식) — 불러오는 동안 같은 크기 빈 카드, 끝나면 ‘46개 모두 봤어요’, 오른쪽 아래 맨 위로. 뒤로 가기로 돌아오면 보던 위치 그대로. 카드 호버 = 영상 반복 또는 이미지 2.5초 순환 + 오른쪽 아래 플레이/다운로드(2번째 카드가 호버 예시)."
     html = dt.page("전체 게임", body, 2500, memo)
     return html.replace("</style>", CSS + GAL_CSS + "\n</style>", 1)
 

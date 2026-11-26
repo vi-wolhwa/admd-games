@@ -1256,17 +1256,19 @@ footer.ft .links{display:flex;gap:18px;color:var(--ink-2);font-weight:600}
 .gal .gc.demo .qplay{opacity:1;transform:none}
 .gal .gc.demo .art{top:-3px;box-shadow:var(--shadow-lift)}
 .gal .gc.demo .shots::before{animation:hovshots 12.5s .3s steps(1,end) infinite}
-.gmore{display:flex;flex-direction:column;align-items:center;gap:8px;margin:48px 0 0}
-.state-box{margin-top:72px;padding:28px 32px 32px;border-radius:var(--radius-xl);box-shadow:inset 0 0 0 1px var(--line)}
-.state-box > .sub{display:block;margin:0 0 18px;font-size:13px;font-weight:800;color:var(--ink-3)}
-.few{display:grid;grid-template-columns:1fr 1fr;gap:28px}
-.fewc{display:grid;grid-template-columns:260px minmax(0,1fr);gap:20px;align-items:center}
-.fewc .art{border-radius:var(--radius-lg)}
-.fewc b{font-size:19px;font-weight:800}
-.fewc p{margin:6px 0 10px;font-size:14.5px;line-height:1.6;color:var(--ink-2)}
 .relax{margin-top:24px;padding:18px 20px;border-radius:var(--radius-lg);background:var(--sunken);display:flex;align-items:center;gap:18px}
 .relax b{font-size:15px}
 .relax .chips .chip{height:34px;font-size:13.5px;background:var(--bg)}
+.gtag.more{background:transparent;box-shadow:inset 0 0 0 1px var(--line);color:var(--ink-3)}
+.gsk{display:flex;flex-direction:column;gap:8px}
+.gsk i{display:block;border-radius:6px;background:linear-gradient(90deg,var(--sunken) 0 40%,var(--sunken-hover) 50%,var(--sunken) 60% 100%) 0 0/300% 100%;animation:gsk 1.4s linear infinite}
+.gsk i:first-child{aspect-ratio:16/9;border-radius:14px;margin-bottom:4px}
+@keyframes gsk{from{background-position:100% 0}to{background-position:0 0}}
+.gload{display:flex;align-items:center;justify-content:center;gap:10px;margin-top:28px;font-size:13.5px;color:var(--ink-3)}
+.gload .dot{width:6px;height:6px;border-radius:999px;background:var(--accent);animation:gpulse 1s ease-in-out infinite}
+@keyframes gpulse{50%{opacity:.25}}
+.totop{position:fixed;right:40px;bottom:40px;z-index:30;display:grid;place-items:center;width:48px;height:48px;border-radius:999px;background:var(--bg);box-shadow:var(--shadow-pop),0 0 0 1px var(--line);color:var(--ink-1)}
+.totop .ic{transform:rotate(-90deg)}
 
 .frames-page{display:flex;flex-direction:column;gap:56px;padding:48px 0 80px;background:var(--sunken)}
 .fr{width:1200px;margin:0 auto;display:flex;flex-direction:column;gap:12px}
