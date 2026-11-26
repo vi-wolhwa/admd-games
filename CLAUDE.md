@@ -49,7 +49,7 @@
 
 ```sh
 npm run setup                  # 최초 1회: 의존성 + Playwright Chromium + 로컬 D1 마이그레이션 (+ 커밋 훅 설치)
-npm run dev                    # 개발 서버 http://localhost:5173  (redirect · sequence 개발 서버 문제: #14)
+npm run dev                    # 개발 서버 http://localhost:5173
 npm run storybook -w web       # 갤러리 http://localhost:6006
 npm run verify                 # lint(+구조 경계) → check → test → knip → build → Worker 크기 (PR 전)
 npm run design:build -w web    # 갤러리 정적 빌드 → apps/web/storybook-static (아티팩트 게시용)
@@ -85,7 +85,7 @@ docs/                            STATUS · 결정(ADR) · dev/(환경 결정 · 
 - Svelte 5: runes 만, 자식→부모는 콜백 props, slot 대신 snippet, `$effect` 는 외부 동기화만(계산은 `$derived`), 공유 상태는 `.svelte.ts` 클래스 + context(모듈 전역 상태 금지), props 는 `interface Props`.
 - 스타일: Tailwind 유틸리티 + **의미 토큰만**(`bg-accent`, `text-ink-3`). 원시 색 · 임의 색 · 없는 클래스는 린트 오류. 변형은 자체 헬퍼(외부 라이브러리 없음).
 - 앱 내부 import 는 `#lib/...` 이고 **`.ts` 확장자를 붙인다** (`#lib/server/container.ts`).
-- 훅 타입은 `@sveltejs/kit/hooks` 에서. handle 잇기는 `#lib/server/handle.ts` 의 `chain`(SvelteKit `sequence` 는 개발 서버에서 깨짐 — #14).
+- 훅 타입은 `@sveltejs/kit/hooks` 에서. handle 잇기는 SvelteKit `sequence`.
 - Cloudflare 바인딩은 `import { env } from 'cloudflare:workers'` (hooks.server.ts 에서만). 테스트 가능한 코드에는 env 를 인자로 넘긴다.
 - 무료 플랜 제약: Worker CPU 10ms/요청, 코드 3MB(gzip — 70% 경고 · 90% 실패), D1 읽기 500만 행/일 · 쓰기 10만 행/일. 비싼 연산과 풀 테이블 스캔을 피한다. 최적화 후에도 넘으면 사용자에게 플랜 검토를 올린다.
 - TS: `strict` + `noUncheckedIndexedAccess` 등. ESLint: typescript-eslint `strictTypeChecked`, import 자동 정렬. Prettier(탭, 작은따옴표, 100자).

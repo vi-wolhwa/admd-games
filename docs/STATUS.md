@@ -17,7 +17,7 @@
 | 4 갤러리(Storybook · 이야기 테스트 · 접근성 · 캡처 비교) | 완료 (#5 · #17) |
 | 5 배포 파이프라인(미리보기 · 운영 자동 배포 · 되돌리기) | 코드 완료, **사용자: Cloudflare API 토큰 · 계정 ID 를 GitHub 시크릿에** → Claude 가 D1 생성 · ID 반영 (#6) |
 | 6 문서(CLAUDE.md · operations · STATUS) | 완료 (#7) |
-| 버그: 개발 서버에서 redirect · sequence 실패 | 별도 세션에서 조사 중 (#14 · #16) |
+| 버그: 개발 서버에서 redirect · sequence 실패 | 해결 (#16) |
 
 ## 완료
 
