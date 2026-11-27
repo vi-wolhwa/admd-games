@@ -1,5 +1,5 @@
 import type { CatalogQuery } from '#lib/domain/catalog.ts';
-import type { GameCardData } from '#lib/domain/game.ts';
+import type { GameCardData, GameDetail } from '#lib/domain/game.ts';
 
 /** 전체 게임(PG03) 목록을 읽는 포트. 구현: adapters/d1/catalog.ts */
 export interface Catalog {
@@ -34,4 +34,8 @@ export interface GameSeed extends Omit<GameCardData, 'makerName' | 'publishedAt'
 	status: 'published' | 'review' | 'hidden';
 	playersMin: number;
 	publishedAt: number | null;
+	/** 상세(PG05) 정보 — 없으면 빈 값 */
+	detail?: Partial<
+		Pick<GameDetail, 'description' | 'devices' | 'online' | 'languages' | 'minSpec' | 'version'>
+	>;
 }

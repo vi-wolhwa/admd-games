@@ -65,7 +65,7 @@
 	<p class="mt-2">
 		<CountLine
 			items={[
-				{ icon: 'thumb', label: '추천', value: game.recommendCount },
+				{ icon: 'heart', label: '추천', value: game.recommendCount },
 				{ icon: 'comment', label: '리뷰', value: game.reviewCount }
 			]}
 		/>

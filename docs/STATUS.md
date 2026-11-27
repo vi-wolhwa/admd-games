@@ -1,7 +1,7 @@
 # STATUS
 
-- 마지막 업데이트: 2026-11-28 (Asia/Seoul) — PG03 전체 게임 확정 · 병합(#23)
-- 현재 Phase: **4. 페이지 구현** — 디자인 원본은 코드(ADR 0012). 완료: **PG03 전체 게임**(#23) → 다음 **PG05 게임 상세**([docs/dev/page-order.md](dev/page-order.md))
+- 마지막 업데이트: 2026-11-28 (Asia/Seoul) — PG05 게임 상세 구현(#25), 사용자 확인 대기
+- 현재 Phase: **4. 페이지 구현** — 디자인 원본은 코드(ADR 0012). 완료: **PG03 전체 게임**(#23) · 진행: **PG05 게임 상세**(#25, 사용자 확인 대기)([docs/dev/page-order.md](dev/page-order.md))
 - 저장소: **공개** `vi-wolhwa/admd-games`, 기본 브랜치 `develop`, 운영 = `main` 병합 시 자동 배포(ADR 0013, [operations.md](operations.md))
 - 개발 환경 결정: [docs/dev/setup-agenda.md](dev/setup-agenda.md) · 실행 계획: [setup-plan.md](dev/setup-plan.md) · 컴포넌트 구조: [component-architecture.md](dev/component-architecture.md)
 - 디자인 캔버스(아직 코드로 옮기지 않은 페이지의 기획 시안): https://claude.ai/code/artifact/57ed3789-695b-4f2c-8ae6-b210fafc167d — 페이지 목록 [docs/design/canvas/README.md](design/canvas/README.md)

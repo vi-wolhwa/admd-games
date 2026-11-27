@@ -17,7 +17,9 @@
 		pick('loop-debugger'),
 		pick('tessellate'),
 		pick('paper-vector'),
-		pick('null-pointer')
+		pick('null-pointer'),
+		// 예외: 아주 긴 제목 · 메이커 이름
+		pick('cloud-post-office')
 	];
 
 	const { Story } = defineMeta({ title: 'Entities/Game/GameCard', component: GameCard });

@@ -2,6 +2,7 @@
  * 전체 게임(PG03) 목록 질의 — 필터 · 정렬 · 이어 불러오기 커서.
  * 상태는 모두 주소에 남긴다(새로 고침 · 공유 · 뒤로 가기에 그대로 — ADR 0010).
  */
+import { type Cursor, decodeCursorOf } from './cursor';
 import type { Launch, LengthBucket } from './game';
 
 export type CatalogSort = 'played' | 'recommended' | 'reviews' | 'new';
@@ -110,33 +111,12 @@ export function parseLoaded(params: URLSearchParams): number {
 	return Math.min(MAX_LOADED, Math.ceil(n / PAGE_SIZE) * PAGE_SIZE);
 }
 
-/**
- * 커서 = 마지막 항목의 정렬 값 + id (OFFSET 을 쓰지 않는다 — D1 읽기 절약, ADR 0010).
- *   played: [플레이 수, 추천 수]   recommended: [추천 수]   reviews: [리뷰 수]   new: [공개 시각]
- */
-export interface Cursor {
-	sort: CatalogSort;
-	values: readonly number[];
-	id: string;
-}
-
+/** 정렬마다 커서 값: played [플레이 수, 추천 수] · recommended [추천 수] · reviews [리뷰 수] · new [공개 시각] */
 const CURSOR_ARITY: Record<CatalogSort, number> = { played: 2, recommended: 1, reviews: 1, new: 1 };
 
-export function encodeCursor(cursor: Cursor): string {
-	const json = JSON.stringify([cursor.sort, cursor.values, cursor.id]);
-	return btoa(json).replaceAll('+', '-').replaceAll('/', '_').replace(/=+$/, '');
-}
+export type { Cursor } from './cursor';
+export { encodeCursor } from './cursor';
 
-export function decodeCursor(raw: string, sort: CatalogSort): Cursor | null {
-	try {
-		const parsed: unknown = JSON.parse(atob(raw.replaceAll('-', '+').replaceAll('_', '/')));
-		if (!Array.isArray(parsed) || parsed.length !== 3) return null;
-		const [s, values, id] = parsed as unknown[];
-		if (s !== sort || typeof id !== 'string' || !Array.isArray(values)) return null;
-		if (values.length !== CURSOR_ARITY[sort]) return null;
-		if (!values.every((v): v is number => typeof v === 'number' && Number.isFinite(v))) return null;
-		return { sort, values, id };
-	} catch {
-		return null;
-	}
+export function decodeCursor(raw: string, sort: CatalogSort): Cursor<CatalogSort> | null {
+	return decodeCursorOf(raw, sort, CURSOR_ARITY[sort]);
 }

@@ -9,12 +9,21 @@
  * 변경 후: npm run db:generate → npm run db:migrate:local
  * 이관은 더하기만(docs/operations.md 'DB 이관 규칙').
  */
-import { index, integer, primaryKey, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import {
+	index,
+	integer,
+	primaryKey,
+	sqliteTable,
+	text,
+	uniqueIndex
+} from 'drizzle-orm/sqlite-core';
 
+/** 메이커(메이커스 프로필). profile_id = 이 메이커스 프로필을 가진 사람(profiles) */
 export const makers = sqliteTable('makers', {
 	id: text('id').primaryKey(),
 	slug: text('slug').notNull().unique(),
 	name: text('name').notNull(),
+	profileId: text('profile_id'),
 	createdAt: integer('created_at').notNull()
 });
 
@@ -31,11 +40,27 @@ export const games = sqliteTable(
 		status: text('status').notNull(),
 		title: text('title').notNull(),
 		summary: text('summary').notNull(),
+		/** 소개 · 특징 — 빈 줄로 문단, '- ' 줄은 특징 */
+		description: text('description').notNull().default(''),
 		/** web · download */
 		launch: text('launch').notNull(),
 		/** 한 판 길이 구간 1~5 */
 		length: integer('length').notNull(),
+		pc: integer('pc', { mode: 'boolean' }).notNull().default(true),
 		phone: integer('phone', { mode: 'boolean' }).notNull(),
+		pad: integer('pad', { mode: 'boolean' }).notNull().default(false),
+		/** 쉼표로 구분한 코드(JSON 함수에 기대지 않음): keyboard,mouse,touch,gamepad */
+		controls: text('controls').notNull().default(''),
+		/** 쉼표로 구분한 언어 코드: ko,en */
+		languages: text('languages').notNull().default(''),
+		/** 쉼표로 구분: violence,horror,flashing,loud — 빈 문자열 = 없음 */
+		cautions: text('cautions').notNull().default(''),
+		/** 최소 사양(설치형만) */
+		minSpec: text('min_spec'),
+		/** 지금 버전(메이커가 마지막으로 올린 것, 예: v1.3) — 리뷰는 버전마다 한 사람 하나 */
+		version: text('version'),
+		/** 온라인 — 다른 사람과 인터넷으로 함께함(멀티플레이 · 순위). false = 오프라인 */
+		online: integer('online', { mode: 'boolean' }).notNull().default(false),
 		playersMin: integer('players_min').notNull(),
 		playersMax: integer('players_max').notNull(),
 		scanPassed: integer('scan_passed', { mode: 'boolean' }).notNull(),
@@ -97,4 +122,110 @@ export const gameMedia = sqliteTable(
 		position: integer('position').notNull()
 	},
 	(t) => [index('game_media_by_game').on(t.gameId, t.position)]
+);
+
+/**
+ * 사람 프로필(이 앱이 가진 것). 로그인(better-auth, SH01)의 사용자와 같은 id 를 쓴다 — 인증 라이브러리를 바꿔도 남는다.
+ * 얼굴 = 자모 얼굴(글자 + 12색 중 하나).
+ */
+export const profiles = sqliteTable('profiles', {
+	id: text('id').primaryKey(),
+	/** 닉네임 — 한글 · 영문 15자, 겹치지 않음(@멘션의 기준) */
+	displayName: text('display_name').notNull().unique(),
+	faceChar: text('face_char').notNull(),
+	faceColor: text('face_color').notNull(),
+	/** 쓴 리뷰 수 캐시 */
+	reviewCount: integer('review_count').notNull().default(0),
+	createdAt: integer('created_at').notNull()
+});
+
+/** 추천 — 계정당 게임당 한 번(ADR 0009 · 0011). 개수는 games.recommend_count 캐시 */
+export const recommendations = sqliteTable(
+	'recommendations',
+	{
+		gameId: text('game_id')
+			.notNull()
+			.references(() => games.id),
+		userId: text('user_id')
+			.notNull()
+			.references(() => profiles.id),
+		createdAt: integer('created_at').notNull()
+	},
+	(t) => [primaryKey({ columns: [t.gameId, t.userId] })]
+);
+
+/** 리뷰 — 찬반 열 없음(ADR 0009). 정렬마다 (game_id, 정렬 열, created_at, id) 색인 */
+export const reviews = sqliteTable(
+	'reviews',
+	{
+		id: text('id').primaryKey(),
+		gameId: text('game_id')
+			.notNull()
+			.references(() => games.id),
+		authorId: text('author_id')
+			.notNull()
+			.references(() => profiles.id),
+		body: text('body').notNull(),
+		/** 쓸 때까지 플레이한 분 — 기록 없으면 null */
+		playMinutes: integer('play_minutes'),
+		/** 쓸 때 버전 */
+		version: text('version'),
+		/** 쓰지 않음(도움이 됐어요를 없앰, 2026-11-28) — 이관은 더하기만이라 다음 정리 때 지운다 */
+		helpfulCount: integer('helpful_count').notNull().default(0),
+		createdAt: integer('created_at').notNull(),
+		/** 고쳐 쓴 시각 — 있으면 '수정' */
+		updatedAt: integer('updated_at')
+	},
+	(t) => [
+		index('reviews_by_helpful').on(t.gameId, t.helpfulCount, t.createdAt, t.id),
+		index('reviews_by_recent').on(t.gameId, t.createdAt, t.id),
+		index('reviews_by_played').on(t.gameId, t.playMinutes, t.createdAt, t.id),
+		// 리뷰는 게임 버전마다 한 사람 하나(사용자 결정 2026-11-28) — 고칠 때는 같은 줄을 바꾼다
+		uniqueIndex('reviews_one_per_version').on(t.gameId, t.authorId, t.version)
+	]
+);
+
+/** 리뷰에 글쓴이가 고른 말 */
+export const reviewPhrases = sqliteTable(
+	'review_phrases',
+	{
+		reviewId: text('review_id')
+			.notNull()
+			.references(() => reviews.id),
+		phrase: text('phrase').notNull(),
+		position: integer('position').notNull()
+	},
+	(t) => [
+		primaryKey({ columns: [t.reviewId, t.phrase] }),
+		index('review_phrases_by_phrase').on(t.phrase, t.reviewId)
+	]
+);
+
+/** 쓰지 않음(답글을 누구나 여러 개 → replies, 2026-11-28) — 이관은 더하기만이라 다음 정리 때 지운다 */
+export const reviewReplies = sqliteTable('review_replies', {
+	reviewId: text('review_id')
+		.primaryKey()
+		.references(() => reviews.id),
+	body: text('body').notNull(),
+	/** 예: 'v1.2 에서 고침' */
+	note: text('note'),
+	createdAt: integer('created_at').notNull()
+});
+
+/** 답글 — 리뷰 아래 한 단계, 누구나(로그인 뒤). 멘션은 글 안의 @닉네임 */
+export const replies = sqliteTable(
+	'replies',
+	{
+		id: text('id').primaryKey(),
+		reviewId: text('review_id')
+			.notNull()
+			.references(() => reviews.id),
+		authorId: text('author_id')
+			.notNull()
+			.references(() => profiles.id),
+		body: text('body').notNull(),
+		createdAt: integer('created_at').notNull(),
+		updatedAt: integer('updated_at')
+	},
+	(t) => [index('replies_by_review').on(t.reviewId, t.createdAt, t.id)]
 );

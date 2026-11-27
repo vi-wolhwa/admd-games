@@ -1,6 +1,6 @@
 import { describe, expect, it } from 'vitest';
 
-import { hoverMedia, isNewGame } from './game';
+import { hoverMedia, isNewGame, playersLabel, splitDescription } from './game';
 
 const DAY = 86_400_000;
 
@@ -19,5 +19,22 @@ describe('hoverMedia', () => {
 		const video = { kind: 'video' as const, url: 'v' };
 		expect(hoverMedia([img(1), video, img(2)])).toEqual([video, img(1), img(2)]);
 		expect(hoverMedia([img(1), img(2)])).toEqual([img(1), img(2)]);
+	});
+});
+
+describe('splitDescription', () => {
+	it("빈 줄로 문단, '- ' 줄은 특징", () => {
+		expect(splitDescription('첫 문단\n이어짐\n\n- 하나\n- 둘\n\n끝')).toEqual({
+			paragraphs: ['첫 문단 이어짐', '끝'],
+			features: ['하나', '둘']
+		});
+	});
+});
+
+describe('playersLabel', () => {
+	it('혼자 · n명 · 범위', () => {
+		expect(playersLabel(1, 1)).toBe('혼자');
+		expect(playersLabel(2, 2)).toBe('2명');
+		expect(playersLabel(1, 4)).toBe('1~4명');
 	});
 });

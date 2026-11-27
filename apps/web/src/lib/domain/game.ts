@@ -73,3 +73,56 @@ export function isNewGame(publishedAt: number, now: number): boolean {
 export function hoverMedia(media: GameMedia[]): GameMedia[] {
 	return [...media.filter((m) => m.kind === 'video'), ...media.filter((m) => m.kind === 'image')];
 }
+
+/** 기기 — 메이커가 고름(브라우저 게임만 휴대폰 · 패드 가능) */
+export type Device = 'pc' | 'phone' | 'pad';
+export const DEVICE_LABEL: Record<Device, string> = { pc: 'PC', phone: '휴대폰', pad: '패드' };
+
+/** 게임 안 글자의 언어(코드 → 이름) */
+export const LANGUAGE_LABEL: Record<string, string> = {
+	ko: '한국어',
+	en: '영어',
+	ja: '일본어',
+	zh: '중국어'
+};
+
+/** 상세(PG05)에 필요한 것 — 카드 정보 + 소개 · 플레이 정보. 정의: docs/product/game-metadata.md */
+export interface GameDetail extends GameCardData {
+	summary: string;
+	/** 소개 · 특징 — 빈 줄로 문단, '- ' 로 시작하는 줄은 특징 목록 */
+	description: string;
+	makerSlug: string;
+	/** 이 메이커의 공개 게임 수 */
+	makerGameCount: number;
+	devices: Device[];
+	/** 온라인 — 다른 사람과 인터넷으로 함께하거나(멀티플레이) 순위 등을 볼 수 있음. false = 오프라인(혼자 하는 게임, 다른 사람과 상호작용 없음) */
+	online: boolean;
+	languages: string[];
+	/** 최소 사양(설치형만) */
+	minSpec: string | null;
+	/** 지금 버전(예: v1.3) — 리뷰는 버전마다 한 사람 하나 */
+	version: string | null;
+	playersMin: number;
+}
+
+/** 소개 글을 문단과 특징 목록으로 나눈다 */
+export function splitDescription(text: string): { paragraphs: string[]; features: string[] } {
+	const paragraphs: string[] = [];
+	const features: string[] = [];
+	for (const block of text.split(/\n\s*\n/)) {
+		const lines = block
+			.split('\n')
+			.map((l) => l.trim())
+			.filter(Boolean);
+		const prose = lines.filter((l) => !l.startsWith('- '));
+		features.push(...lines.filter((l) => l.startsWith('- ')).map((l) => l.slice(2).trim()));
+		if (prose.length > 0) paragraphs.push(prose.join(' '));
+	}
+	return { paragraphs, features };
+}
+
+/** 사람 수 표기 — 혼자 · 2명 · 2~4명 */
+export function playersLabel(min: number, max: number): string {
+	if (max <= 1) return '혼자';
+	return min === max ? `${String(max)}명` : `${String(min)}~${String(max)}명`;
+}

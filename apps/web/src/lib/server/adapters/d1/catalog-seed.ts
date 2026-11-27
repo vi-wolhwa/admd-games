@@ -16,13 +16,20 @@ function lit(v: SqlValue): string {
 	return `'${v.replaceAll("'", "''")}'`;
 }
 
-function insert(table: string, row: Record<string, SqlValue>): string {
+export function insert(table: string, row: Record<string, SqlValue>): string {
 	const cols = Object.keys(row);
 	return `INSERT INTO ${table} (${cols.join(', ')}) VALUES (${cols.map((c) => lit(row[c] ?? null)).join(', ')});`;
 }
 
 export function catalogSeedStatements(games: GameSeed[], now = Date.now()): string[] {
 	const out = [
+		// 게임을 가리키는 표부터 지운다(외래 키)
+		'DELETE FROM replies;',
+		'DELETE FROM review_replies;',
+		'DELETE FROM review_phrases;',
+		'DELETE FROM reviews;',
+		'DELETE FROM recommendations;',
+		'DELETE FROM profiles;',
 		'DELETE FROM game_media;',
 		'DELETE FROM game_tags;',
 		'DELETE FROM games;',
@@ -59,9 +66,16 @@ export function catalogSeedStatements(games: GameSeed[], now = Date.now()): stri
 				status: g.status,
 				title: g.title,
 				summary: g.summary,
+				description: g.detail?.description ?? '',
 				launch: g.launch,
 				length: g.length,
+				pc: (g.detail?.devices ?? ['pc']).includes('pc'),
 				phone: g.phone,
+				pad: (g.detail?.devices ?? []).includes('pad'),
+				online: g.detail?.online ?? false,
+				languages: (g.detail?.languages ?? []).join(','),
+				min_spec: g.detail?.minSpec ?? null,
+				version: g.detail?.version ?? null,
 				players_min: g.playersMin,
 				players_max: g.playersMax,
 				scan_passed: g.scanPassed,
