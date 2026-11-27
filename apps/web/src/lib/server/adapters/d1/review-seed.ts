@@ -22,6 +22,7 @@ export function reviewSeedStatements(
 				created_at: now
 			})
 		);
+		if (p.makerId) out.push(`UPDATE makers SET profile_id = '${p.id}' WHERE id = '${p.makerId}';`);
 	}
 	for (const r of reviews) {
 		out.push(
@@ -39,13 +40,15 @@ export function reviewSeedStatements(
 		r.phrases.forEach((phrase, position) => {
 			out.push(insert('review_phrases', { review_id: r.id, phrase, position }));
 		});
-		if (r.reply) {
+		for (const reply of r.replies) {
 			out.push(
-				insert('review_replies', {
+				insert('replies', {
+					id: reply.id,
 					review_id: r.id,
-					body: r.reply.body,
-					note: r.reply.note,
-					created_at: r.reply.createdAt
+					author_id: reply.authorId,
+					body: reply.body,
+					created_at: reply.createdAt,
+					updated_at: reply.updatedAt
 				})
 			);
 		}

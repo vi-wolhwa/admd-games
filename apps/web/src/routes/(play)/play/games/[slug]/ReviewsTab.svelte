@@ -1,4 +1,6 @@
 <script lang="ts">
+	import { slide } from 'svelte/transition';
+
 	import {
 		REVIEW_SORT_LABEL,
 		REVIEW_SORTS,
@@ -8,18 +10,20 @@
 		type ReviewSort
 	} from '#lib/domain/review.ts';
 	import ReviewItem from '#lib/ui/entities/review/ReviewItem.svelte';
+	import ReplyForm from '#lib/ui/features/review-write/ReplyForm.svelte';
 	import ReviewForm from '#lib/ui/features/review-write/ReviewForm.svelte';
 	import Button from '#lib/ui/primitives/Button.svelte';
 	import Chip from '#lib/ui/primitives/Chip.svelte';
+	import Icon from '#lib/ui/primitives/Icon.svelte';
 	import Segmented from '#lib/ui/primitives/Segmented.svelte';
+	import { resolve } from '$app/paths';
 
 	/**
-	 * 리뷰 탭(PG05 전용) — 왼쪽 = 리뷰 쓰기 + 한 열 목록, 오른쪽 = 요약 · 키워드로 보기 · 정렬(research/04-reviews.md).
-	 * 쓰기 · 답글 · 신고는 로그인(SH01) 뒤 — 지금은 누르면 onneedlogin(결정 2026-11-28).
+	 * 리뷰 탭(PG05 전용) — 왼쪽 = '리뷰 쓰기'(누르면 폼이 펼쳐짐) + 한 열 목록, 오른쪽 = 요약 · 키워드로 보기 · 정렬.
+	 * 리뷰 · 답글 올리기 · 신고는 로그인(SH01) 뒤 — 지금은 누르면 onneedlogin(결정 2026-11-28).
 	 */
 	interface Props {
 		gameId: string;
-		makerName: string;
 		recommendCount: number;
 		reviewCount: number;
 		query: ReviewQuery;
@@ -32,7 +36,6 @@
 
 	let {
 		gameId,
-		makerName,
 		recommendCount,
 		reviewCount,
 		query,
@@ -48,7 +51,14 @@
 	let nextCursor = $derived(first.nextCursor);
 	let loading = $state(false);
 	let failed = $state(false);
+	let writing = $state(false);
+	/** 답글을 쓰고 있는 리뷰와 답할 사람 */
+	let replyTo = $state<{ reviewId: string; name: string } | null>(null);
 	const total = $derived(first.total ?? first.items.length);
+
+	const reduced =
+		typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+	const profileHref = (slug: string) => resolve('/(makers)/makers/[slug]', { slug });
 
 	async function loadMore() {
 		if (loading || !nextCursor) return;
@@ -73,11 +83,22 @@
 
 <div class="grid grid-cols-[minmax(0,1fr)_392px] items-start gap-14">
 	<div class="flex max-w-180 min-w-0 flex-col gap-8">
-		<ReviewForm
-			onsubmit={() => {
-				onneedlogin('리뷰를 올리려면');
-			}}
-		/>
+		<div>
+			{#if writing}
+				<div transition:slide={{ duration: reduced ? 0 : 240 }}>
+					<ReviewForm
+						onsubmit={() => {
+							onneedlogin('리뷰를 올리려면');
+						}}
+						oncancel={() => (writing = false)}
+					/>
+				</div>
+			{:else}
+				<Button variant="primary" onclick={() => (writing = true)}>
+					<Icon name="pen" size={16} />리뷰 쓰기
+				</Button>
+			{/if}
+		</div>
 		<div class="flex flex-col">
 			{#if items.length === 0}
 				<p class="rounded-2xl bg-sunken px-6 py-14 text-center text-body break-words text-ink-3">
@@ -90,14 +111,13 @@
 				{#each items as review (review.id)}
 					<ReviewItem
 						{review}
-						{makerName}
 						{now}
-						onreply={() => {
-							onneedlogin('메이커로 답글을 달려면');
-						}}
+						{profileHref}
+						onreplyto={(name: string) => (replyTo = { reviewId: review.id, name })}
 						onreport={() => {
 							onneedlogin('리뷰를 신고하려면');
 						}}
+						replyForm={replyTo?.reviewId === review.id ? replyFormFor : undefined}
 					/>
 				{/each}
 				{#if nextCursor !== null || failed}
@@ -159,8 +179,19 @@
 				}}
 			/>
 		</div>
-		<p class="text-meta leading-[1.6] text-ink-3">
-			싫어요는 없어요 — 아쉬운 점은 리뷰 글로 알려 줘요.
-		</p>
 	</aside>
 </div>
+
+{#snippet replyFormFor()}
+	{#if replyTo}
+		{#key replyTo.name}
+			<ReplyForm
+				to={replyTo.name}
+				onsubmit={() => {
+					onneedlogin('답글을 달려면');
+				}}
+				oncancel={() => (replyTo = null)}
+			/>
+		{/key}
+	{/if}
+{/snippet}

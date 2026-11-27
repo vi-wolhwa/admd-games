@@ -1,28 +1,38 @@
 <script lang="ts">
-	import { faceOf } from '#lib/domain/face.ts';
+	import type { Snippet } from 'svelte';
+
 	import { formatAgo, formatFullDate, formatPlayTime } from '#lib/domain/format.ts';
-	import type { ReviewData } from '#lib/domain/review.ts';
+	import type { Person, ReviewData } from '#lib/domain/review.ts';
 	import Icon from '#lib/ui/primitives/Icon.svelte';
 	import JamoFace from '#lib/ui/primitives/JamoFace.svelte';
 	import Menu from '#lib/ui/primitives/Menu.svelte';
 
+	import MentionText from './MentionText.svelte';
+
 	/**
-	 * 리뷰 한 개 — 누가 · 어떤 맥락에서 · 무엇을 · 메이커가 어떻게 답했는지 순서(research/04-reviews.md).
-	 * 맥락 줄: 'n시간 플레이했을 때 · 3일 전에 v1.1 작성(수정)' — 정확한 날짜(연도까지)는 시간에 마우스를 올리면(사용자 피드백).
-	 * 찬반 판정 · 도움이 됐어요 없음. ⋯ 메뉴: 답글 달기(메이커) · 리뷰 신고 — 둘 다 로그인 뒤라 부르는 쪽이 처리.
+	 * 리뷰 한 개 + 답글(한 단계) — 누가 · 어떤 맥락에서 · 무엇을 · 다른 사람이 어떻게 답했는지(research/04-reviews.md).
+	 * - 맥락 줄: 'n시간 플레이했을 때 · 3일 전에(v1.1) 작성|수정' — 연도까지의 날짜는 시간에 마우스를 올리면
+	 * - 글쓴이(얼굴 · 닉네임)는 메이커스 프로필이 있으면 누르면 그리로, 없으면 이동 없음
+	 * - 답글은 누구나(로그인 뒤), 답글 안 @닉네임은 파란 글씨. 4개 이상이면 3개만 보이고 '답글 더 보기'
+	 * - 답글 쓰는 칸(replyForm)은 행동이라 부르는 쪽(features)이 넣는다
 	 */
 	interface Props {
 		review: ReviewData;
-		/** 메이커 이름(답글 머리) */
-		makerName: string;
 		now: number;
-		onreply: () => void;
+		profileHref: (slug: string) => string;
+		/** '답글' 을 눌렀을 때 — 답할 사람 닉네임 */
+		onreplyto: (name: string) => void;
 		onreport: () => void;
+		/** 열린 답글 쓰기 칸(이 리뷰에 답글을 쓰는 중일 때만) */
+		replyForm?: Snippet;
 	}
 
-	let { review, makerName, now, onreply, onreport }: Props = $props();
+	let { review, now, profileHref, onreplyto, onreport, replyForm }: Props = $props();
+
+	const REPLIES_SHOWN = 3;
 
 	let expanded = $state(false);
+	let allReplies = $state(false);
 	let body = $state<HTMLElement>();
 	/** 세 줄을 넘는지 — 글자 수가 아니라 실제로 잘렸는지 잰다(폭 · 글꼴에 따라 다름) */
 	let long = $state(false);
@@ -31,24 +41,53 @@
 		if (body && !expanded) long = body.scrollHeight > body.clientHeight + 1;
 	});
 
-	const makerFace = $derived(faceOf(makerName));
 	const bodyId = $derived(`review-${review.id}-body`);
-	const writtenAt = $derived(review.updatedAt ?? review.createdAt);
+	const shownReplies = $derived(
+		allReplies ? review.replies : review.replies.slice(0, REPLIES_SHOWN)
+	);
 </script>
 
 {#snippet when(at: number, edited: boolean, version: string | null)}
 	<time datetime={new Date(at).toISOString()} title={formatFullDate(at)}>
-		{formatAgo(at, now)} 전에{version ? ` ${version}` : ''}
+		{formatAgo(at, now)} 전에{version ? `(${version})` : ''}
 		{edited ? '수정' : '작성'}
 	</time>
 {/snippet}
 
+<!-- 얼굴 · 닉네임 — 메이커스 프로필이 있으면 링크, 없으면 그냥 글 -->
+{#snippet who(person: Person, size: 'sm' | 'md')}
+	{#if person.makerSlug}
+		<!-- eslint-disable svelte/no-navigation-without-resolve -- 부르는 쪽이 resolve() 로 만든 주소 -->
+		<a
+			href={profileHref(person.makerSlug)}
+			class="group/who flex min-w-0 items-center gap-2.5 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+		>
+			<JamoFace char={person.faceChar} color={person.faceColor} {size} />
+			<b
+				class={[
+					'truncate font-heavy text-ink-1 group-hover/who:underline group-hover/who:underline-offset-3',
+					size === 'md' ? 'text-body' : 'text-label'
+				]}
+			>
+				{person.name}
+			</b>
+		</a>
+		<!-- eslint-enable svelte/no-navigation-without-resolve -->
+	{:else}
+		<span class="flex min-w-0 items-center gap-2.5">
+			<JamoFace char={person.faceChar} color={person.faceColor} {size} />
+			<b class={['truncate font-heavy text-ink-1', size === 'md' ? 'text-body' : 'text-label']}>
+				{person.name}
+			</b>
+		</span>
+	{/if}
+{/snippet}
+
 <article class="flex flex-col gap-2.5 border-t border-line py-7 first:border-t-0 first:pt-0">
 	<header class="flex items-center gap-3">
-		<JamoFace char={review.author.faceChar} color={review.author.faceColor} size="md" />
-		<span class="min-w-0 flex-1">
-			<b class="block truncate text-body font-heavy text-ink-1">{review.author.name}</b>
-			<span class="mt-px flex items-center gap-1.5 text-meta text-ink-3">
+		<div class="min-w-0 flex-1">
+			{@render who(review.author, 'md')}
+			<span class="mt-0.5 ml-11.5 flex items-center gap-1.5 text-meta text-ink-3">
 				리뷰 {review.author.reviewCount.toLocaleString('ko-KR')}개
 				{#if review.recommended}
 					<span aria-hidden="true">·</span>
@@ -57,13 +96,10 @@
 					</span>
 				{/if}
 			</span>
-		</span>
+		</div>
 		<Menu
 			label={`${review.author.name} 리뷰 메뉴`}
-			items={[
-				{ label: '답글 달기(메이커)', onselect: onreply },
-				{ label: '리뷰 신고', onselect: onreport, danger: true }
-			]}
+			items={[{ label: '리뷰 신고', onselect: onreport, danger: true }]}
 		/>
 	</header>
 
@@ -74,7 +110,7 @@
 				: `${formatPlayTime(review.playMinutes)} 플레이했을 때`}
 		</b>
 		<span aria-hidden="true">·</span>
-		{@render when(writtenAt, review.updatedAt !== null, review.version)}
+		{@render when(review.updatedAt ?? review.createdAt, review.updatedAt !== null, review.version)}
 	</p>
 
 	{#if review.phrases.length > 0}
@@ -90,47 +126,87 @@
 	{/if}
 
 	{#if review.body}
-		<p
-			bind:this={body}
-			id={bodyId}
-			class={[
-				'text-lead leading-[1.75] break-words whitespace-pre-line text-ink-1',
-				!expanded && 'line-clamp-3'
-			]}
-		>
-			{review.body}
-		</p>
-		{#if long || expanded}
-			<button
-				type="button"
-				aria-expanded={expanded}
-				aria-controls={bodyId}
-				onclick={() => (expanded = !expanded)}
-				class="self-start text-label font-bold text-ink-2 underline underline-offset-3 hover:text-ink-1"
+		<!-- 긴 글은 세 줄로 접고, 잘린 마지막 줄의 오른쪽 끝에 '더 보기'(사용자 피드백) -->
+		<div class="relative">
+			<p
+				bind:this={body}
+				id={bodyId}
+				class={[
+					'text-lead leading-[1.75] break-words whitespace-pre-line text-ink-1',
+					!expanded && 'line-clamp-3'
+				]}
 			>
-				{expanded ? '접기' : '더 보기'}
-			</button>
-		{/if}
+				{review.body}
+			</p>
+			{#if long && !expanded}
+				<button
+					type="button"
+					aria-expanded="false"
+					aria-controls={bodyId}
+					onclick={() => (expanded = true)}
+					class="absolute right-0 bottom-0 bg-linear-to-r from-transparent via-bg via-30% to-bg pl-10 text-lead leading-[1.75] font-bold text-ink-2 underline underline-offset-3 hover:text-ink-1"
+				>
+					더 보기
+				</button>
+			{/if}
+		</div>
 	{/if}
 
-	{#if review.reply}
-		<div class="mt-1.5 ml-13 grid grid-cols-[auto_minmax(0,1fr)] gap-2.5">
-			<JamoFace char={makerFace.char} color={makerFace.color} size="sm" />
-			<div class="min-w-0">
-				<p class="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-meta text-ink-3">
-					<b class="text-label font-heavy text-ink-1">{makerName}</b>
-					<span
-						class="inline-flex h-5 items-center rounded-full bg-accent-tint px-1.75 text-caption font-heavy text-accent-text"
+	<div>
+		<button
+			type="button"
+			onclick={() => {
+				onreplyto(review.author.name);
+			}}
+			class="inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-meta font-bold text-ink-2 inset-ring inset-ring-line-strong transition-colors hover:bg-sunken hover:inset-ring-ink-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+		>
+			<Icon name="comment" size={13} />답글{review.replies.length > 0
+				? ` ${String(review.replies.length)}`
+				: ''}
+		</button>
+	</div>
+
+	{#if review.replies.length > 0 || replyForm}
+		<div class="ml-11.5 flex flex-col gap-4 border-l-2 border-line pl-4">
+			{#each shownReplies as reply (reply.id)}
+				<div class="flex flex-col gap-1">
+					<div class="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-meta text-ink-3">
+						{@render who(reply.author, 'sm')}
+						{#if reply.byGameMaker}
+							<span
+								class="inline-flex h-5 items-center rounded-full bg-accent-tint px-1.75 text-caption font-heavy text-accent-text"
+							>
+								메이커
+							</span>
+						{/if}
+						<span aria-hidden="true">·</span>
+						{@render when(reply.updatedAt ?? reply.createdAt, reply.updatedAt !== null, null)}
+					</div>
+					<p class="ml-9 text-body leading-[1.7] break-words whitespace-pre-line text-ink-1">
+						<MentionText text={reply.body} mentions={reply.mentions} {profileHref} />
+					</p>
+					<button
+						type="button"
+						onclick={() => {
+							onreplyto(reply.author.name);
+						}}
+						aria-label={`${reply.author.name}님에게 답글`}
+						class="ml-9 self-start text-meta font-bold text-ink-3 hover:text-ink-1 hover:underline hover:underline-offset-3"
 					>
-						메이커
-					</span>
-					{@render when(review.reply.createdAt, false, null)}
-					{#if review.reply.note}<span>· {review.reply.note}</span>{/if}
-				</p>
-				<p class="mt-1 text-body leading-[1.7] break-words whitespace-pre-line text-ink-1">
-					{review.reply.body}
-				</p>
-			</div>
+						답글
+					</button>
+				</div>
+			{/each}
+			{#if review.replies.length > REPLIES_SHOWN && !allReplies}
+				<button
+					type="button"
+					onclick={() => (allReplies = true)}
+					class="self-start text-meta font-bold text-accent-text hover:underline hover:underline-offset-3"
+				>
+					답글 {(review.replies.length - REPLIES_SHOWN).toLocaleString('ko-KR')}개 더 보기
+				</button>
+			{/if}
+			{#if replyForm}{@render replyForm()}{/if}
 		</div>
 	{/if}
 </article>

@@ -93,20 +93,29 @@
 			{#snippet topRight()}<PlatIcons {game} />{/snippet}
 		</MediaViewer>
 
-		<!-- 높이 = 왼쪽 큰 미리보기(16:9)와 같게. 위 = 제목 · 소개 · 태그, 아래 = 핵심 칸 · 버튼 · 추천/리뷰(사용자 피드백) -->
+		<!--
+			높이 = 왼쪽 미리보기 전체(큰 그림 16:9 + 10px + 썸네일 줄)와 같게 — 썸네일이 없으면 큰 그림까지.
+			왼쪽 폭 W = 페이지 폭 − 392 − 36, 썸네일 한 칸 = (W − 40) / 6 의 16:9.
+			위 = 제목 · 소개 · 태그, 아래 = 핵심 칸 · 버튼 · 추천/리뷰(사용자 피드백)
+		-->
 		<aside
 			aria-label="게임 요약과 플레이"
-			class="flex h-[calc((var(--page-width)-392px-36px)*9/16)] flex-col justify-between gap-4"
+			class={[
+				'flex flex-col justify-between gap-4',
+				viewerItems.length > 1
+					? 'h-[calc((var(--page-width)-428px)*9/16+10px+(var(--page-width)-468px)*9/96)]'
+					: 'h-[calc((var(--page-width)-428px)*9/16)]'
+			]}
 		>
 			<div class="min-h-0">
 				<h1 class="line-clamp-2 text-heading-lg font-heavy break-words text-ink-1">
 					{game.title}
 				</h1>
-				<p class="mt-4 line-clamp-3 text-lead leading-[1.6] break-words text-ink-2">
+				<p class="mt-6 line-clamp-3 text-lead leading-[1.6] break-words text-ink-2">
 					{game.summary}
 				</p>
 				{#if game.tags.length > 0}
-					<ul class="mt-4 flex flex-wrap gap-x-2 gap-y-1" aria-label="태그 — 누르면 이 태그의 게임">
+					<ul class="mt-5 flex flex-wrap gap-x-2 gap-y-1" aria-label="태그 — 누르면 이 태그의 게임">
 						{#each game.tags as tag (tag)}
 							<li>
 								<!-- eslint-disable svelte/no-navigation-without-resolve -- 경로는 resolve(), 뒤는 질의 문자열 -->
@@ -165,7 +174,6 @@
 		{#if data.tab === 'reviews' && data.reviewPage && data.phrases}
 			<ReviewsTab
 				gameId={game.id}
-				makerName={game.makerName}
 				recommendCount={game.recommendCount}
 				reviewCount={game.reviewCount}
 				query={data.reviewQuery}

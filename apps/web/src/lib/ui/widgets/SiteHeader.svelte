@@ -9,11 +9,13 @@
 	 */
 	interface Props {
 		theme: Theme;
+		/** 어느 그라운드의 헤더인지(글자 로고) */
+		ground?: 'play' | 'make';
 		/** 지금 페이지가 속한 메뉴 */
 		current?: 'games';
 	}
 
-	let { theme, current }: Props = $props();
+	let { theme, ground = 'play', current }: Props = $props();
 
 	const NAV = [{ id: 'games', label: '게임', href: resolve('/(play)/play/games') }] as const;
 </script>
@@ -25,7 +27,9 @@
 			class="flex items-end gap-1.75 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-accent"
 		>
 			<span class="text-heading leading-none font-heavy tracking-tight text-ink-1">aDmD</span>
-			<span class="text-label font-heavy text-ink-2">PlayGround</span>
+			<span class="text-label font-heavy text-ink-2">
+				{ground === 'make' ? 'MakersGround' : 'PlayGround'}
+			</span>
 		</a>
 		<nav aria-label="주 메뉴" class="flex gap-0.5">
 			{#each NAV as item (item.id)}

@@ -1,11 +1,21 @@
 import { and, asc, count, desc, eq, exists, inArray, lt, or, type SQL, sql } from 'drizzle-orm';
+import { alias } from 'drizzle-orm/sqlite-core';
 
 import { type Cursor, encodeCursor } from '#lib/domain/cursor.ts';
-import { decodeReviewCursor, type ReviewData, type ReviewSort } from '#lib/domain/review.ts';
+import { mentionCandidates, splitMentions } from '#lib/domain/profile.ts';
+import {
+	decodeReviewCursor,
+	type ReplyData,
+	type ReviewData,
+	type ReviewSort
+} from '#lib/domain/review.ts';
 
 import type { Reviews } from '../../ports/game-details';
 import type { D1Client } from './client';
-import { profiles, reviewPhrases, reviewReplies, reviews } from './schema';
+import { makers, profiles, replies, reviewPhrases, reviews } from './schema';
+
+/** 글쓴이가 가진 메이커스 프로필(makers.profile_id = 글쓴이) */
+const authorMaker = alias(makers, 'author_maker');
 
 /** '오래 한 사람' 순에서 기록 없음(null)을 맨 뒤로 */
 const played = sql<number>`COALESCE(${reviews.playMinutes}, -1)`;
@@ -65,15 +75,13 @@ export function createD1Reviews(db: D1Client): Reviews {
 					faceChar: profiles.faceChar,
 					faceColor: profiles.faceColor,
 					reviewCount: profiles.reviewCount,
-					recommended: sql<number>`EXISTS (SELECT 1 FROM recommendations AS rc WHERE rc.game_id = ${reviews.gameId} AND rc.user_id = ${reviews.authorId})`,
-					// 묶음(batch) 결과는 열 이름으로 오므로 reviews 와 겹치는 이름(body · created_at)에는 별칭
-					replyBody: sql<string | null>`${reviewReplies.body}`.as('reply_body'),
-					replyNote: sql<string | null>`${reviewReplies.note}`.as('reply_note'),
-					replyAt: sql<number | null>`${reviewReplies.createdAt}`.as('reply_at')
+					// 글쓴이의 메이커스 프로필 주소(없으면 null) — 묶음(batch) 결과는 열 이름으로 오므로 별칭
+					makerSlug: sql<string | null>`${authorMaker.slug}`.as('author_maker_slug'),
+					recommended: sql<number>`EXISTS (SELECT 1 FROM recommendations AS rc WHERE rc.game_id = ${reviews.gameId} AND rc.user_id = ${reviews.authorId})`
 				})
 				.from(reviews)
 				.innerJoin(profiles, eq(profiles.id, reviews.authorId))
-				.leftJoin(reviewReplies, eq(reviewReplies.reviewId, reviews.id))
+				.leftJoin(authorMaker, eq(authorMaker.profileId, reviews.authorId))
 				.where(cursor ? and(filter, after(cursor)) : filter)
 				.orderBy(...ORDER[query.sort])
 				.limit(page.limit + 1);
@@ -109,12 +117,19 @@ export function createD1Reviews(db: D1Client): Reviews {
 				}
 			}
 
+			const repliesByReview = await loadReplies(
+				db,
+				gameId,
+				pageRows.map((r) => r.id)
+			);
+
 			const items: ReviewData[] = pageRows.map((r) => ({
 				id: r.id,
 				author: {
 					name: r.name,
 					faceChar: r.faceChar,
 					faceColor: r.faceColor,
+					makerSlug: r.makerSlug,
 					reviewCount: r.reviewCount
 				},
 				recommended: Boolean(r.recommended),
@@ -124,10 +139,7 @@ export function createD1Reviews(db: D1Client): Reviews {
 				updatedAt: r.updatedAt,
 				phrases: phrases.get(r.id) ?? [],
 				body: r.body,
-				reply:
-					r.replyBody === null || r.replyAt === null
-						? null
-						: { body: r.replyBody, note: r.replyNote, createdAt: r.replyAt }
+				replies: repliesByReview.get(r.id) ?? []
 			}));
 
 			const last = pageRows.at(-1);
@@ -154,4 +166,70 @@ export function createD1Reviews(db: D1Client): Reviews {
 				.limit(limit);
 		}
 	};
+}
+
+/**
+ * 그 묶음의 답글(오래된 순) + 글에 나온 멘션의 프로필 주소.
+ * 답글 쓴 사람의 메이커스 프로필 · 그 게임의 메이커인지(byGameMaker)도 함께. 쿼리 두 번(답글, 멘션 닉네임).
+ */
+async function loadReplies(
+	db: D1Client,
+	gameId: string,
+	reviewIds: string[]
+): Promise<Map<string, ReplyData[]>> {
+	const out = new Map<string, ReplyData[]>();
+	if (reviewIds.length === 0) return out;
+	const rows = await db
+		.select({
+			id: replies.id,
+			reviewId: replies.reviewId,
+			body: replies.body,
+			createdAt: replies.createdAt,
+			updatedAt: replies.updatedAt,
+			name: profiles.displayName,
+			faceChar: profiles.faceChar,
+			faceColor: profiles.faceColor,
+			makerSlug: sql<string | null>`${authorMaker.slug}`.as('author_maker_slug'),
+			byGameMaker: sql<number>`(${authorMaker.id} IS NOT NULL AND ${authorMaker.id} = (SELECT g.maker_id FROM games AS g WHERE g.id = ${gameId}))`
+		})
+		.from(replies)
+		.innerJoin(profiles, eq(profiles.id, replies.authorId))
+		.leftJoin(authorMaker, eq(authorMaker.profileId, replies.authorId))
+		.where(inArray(replies.reviewId, reviewIds))
+		.orderBy(asc(replies.reviewId), asc(replies.createdAt), asc(replies.id));
+
+	// 멘션 후보 닉네임을 한 번에 찾는다(아는 닉네임 → 메이커스 프로필 주소)
+	const candidates = [...new Set(rows.flatMap((r) => mentionCandidates(r.body)))];
+	const known = new Map<string, string | null>();
+	if (candidates.length > 0) {
+		const people = await db
+			.select({ name: profiles.displayName, slug: makers.slug })
+			.from(profiles)
+			.leftJoin(makers, eq(makers.profileId, profiles.id))
+			.where(inArray(profiles.displayName, candidates));
+		for (const p of people) known.set(p.name, p.slug);
+	}
+
+	for (const r of rows) {
+		const mentions: Record<string, string | null> = {};
+		for (const part of splitMentions(r.body, (n) => known.has(n))) {
+			if ('mention' in part) mentions[part.mention] = known.get(part.mention) ?? null;
+		}
+		const reply: ReplyData = {
+			id: r.id,
+			author: {
+				name: r.name,
+				faceChar: r.faceChar,
+				faceColor: r.faceColor,
+				makerSlug: r.makerSlug
+			},
+			byGameMaker: Boolean(r.byGameMaker),
+			body: r.body,
+			createdAt: r.createdAt,
+			updatedAt: r.updatedAt,
+			mentions
+		};
+		out.set(r.reviewId, [...(out.get(r.reviewId) ?? []), reply]);
+	}
+	return out;
 }

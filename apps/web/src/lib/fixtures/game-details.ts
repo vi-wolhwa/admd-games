@@ -3,7 +3,7 @@
  * 사람 · 글은 모두 지어낸 것.
  */
 import type { Device } from '#lib/domain/game.ts';
-import type { ProfileSeed, ReviewSeed } from '#lib/server/ports/game-details.ts';
+import type { ProfileSeed } from '#lib/server/ports/game-details.ts';
 
 interface Detail {
 	description: string;
@@ -201,10 +201,8 @@ export const SAMPLE_PROFILES: ProfileSeed[] = [
 	faceColor
 }));
 
-const DAY = 86_400_000;
-
 // [게임 slug, 사람 번호(1~12), 쓸 때 플레이(분, 모르면 null), 버전, 며칠 전, (안 씀), 추천함, 키워드, 본문, 메이커 답글, 며칠 뒤 수정]
-type Row = [
+export type ReviewRow = [
 	slug: string,
 	person: number,
 	minutes: number | null,
@@ -220,7 +218,7 @@ type Row = [
 
 // 한 줄 = 리뷰 하나(표처럼 읽기)
 // prettier-ignore
-const ROWS: Row[] = [
+export const REVIEW_ROWS: ReviewRow[] = [
 	['paper-vector', 1, 340, 'v1.3', 4, 58, true, ['같이 하면 더 좋아요', '짧고 굵음'], '주말마다 넷이 모여서 해요. 한 판이 5분이라 진 사람이 바로 다음 판을 외치게 돼요. 바람 방향이 판마다 바뀌어서 같은 전략이 잘 안 통하는 게 좋아요.'],
 	['paper-vector', 2, 95, 'v1.3', 9, 31, true, ['같이 하면 더 좋아요'], '혼자 하는 모드도 있긴 한데, 이 게임은 같이 해야 진짜예요. 게임패드 두 개랑 키보드 하나로 셋이 했는데 문제없었어요.'],
 	['paper-vector', 5, 22, 'v1.2', 30, 12, false, ['오래 붙잡게 돼요'], '처음엔 비행기가 너무 빨리 접혀서 뭐가 뭔지 몰랐어요. 연습 모드가 있으면 좋겠어요. (수정: 업데이트 후 연습 모드가 생겼어요!)', ['연습 모드를 넣었어요. 메뉴 맨 아래에 있어요!', 'v1.3 에서 수정', 2], 5],
@@ -254,46 +252,7 @@ const ROWS: Row[] = [
 	['null-pointer', 6, null, 'v0.9', 15, 5, true, ['오래 붙잡게 돼요'], '죽을 때마다 지도가 바뀌어서 저녁이 사라져요.']
 ];
 
-/** 가짜 리뷰 전부. now 기준으로 며칠 전에 썼는지 정한다 */
-export function sampleReviews(now: number): ReviewSeed[] {
-	return ROWS.map(
-		(
-			[
-				slug,
-				person,
-				minutes,
-				version,
-				daysAgo,
-				_unused,
-				recommended,
-				phrases,
-				body,
-				reply,
-				editedAfter
-			],
-			i
-		) => {
-			const createdAt = now - daysAgo * DAY - i * 60_000;
-			return {
-				id: `sample-review-${String(i + 1)}`,
-				gameId: `sample-${slug}`,
-				authorId: `sample-person-${String(person)}`,
-				body,
-				playMinutes: minutes,
-				version,
-				createdAt,
-				updatedAt: editedAfter === undefined ? null : createdAt + editedAfter * DAY,
-				phrases,
-				recommended,
-				reply: reply
-					? { body: reply[0], note: reply[1], createdAt: createdAt + reply[2] * DAY }
-					: null
-			};
-		}
-	);
-}
-
 /** 게임별 가짜 리뷰 수 — 카드 · 탭의 리뷰 수를 목록과 맞춘다 */
 export function sampleReviewCount(slug: string): number {
-	return ROWS.filter((r) => r[0] === slug).length;
+	return REVIEW_ROWS.filter((r) => r[0] === slug).length;
 }

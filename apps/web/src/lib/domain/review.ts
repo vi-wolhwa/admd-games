@@ -27,15 +27,37 @@ export const REVIEW_KEYWORDS = [
 	'힌트가 친절해요',
 	'한 손으로'
 ] as const;
-export const REVIEW_BODY_MAX = 1000;
+/** 리뷰 · 답글 글자 수 한도(사용자 결정 2026-11-28) */
+export const REVIEW_BODY_MAX = 500;
+export const REPLY_BODY_MAX = 500;
 export const REVIEW_PAGE_SIZE = 10;
 
-export interface ReviewAuthor {
+/** 글쓴이(리뷰 · 답글). makerSlug = 메이커스 프로필 주소 — 없으면 눌러도 이동하지 않음 */
+export interface Person {
 	name: string;
 	/** 자모 얼굴 글자 · 색 이름(tokens.css --color-face-*) */
 	faceChar: string;
 	faceColor: string;
+	makerSlug: string | null;
+}
+
+export interface ReviewAuthor extends Person {
 	reviewCount: number;
+}
+
+/**
+ * 답글 — 누구나 단다(로그인 뒤), 한 단계만(답글에 답할 때는 @닉네임). 리뷰에서는 멘션 불가(사용자 결정 2026-11-28).
+ * mentions = 이 글에 나온 아는 닉네임 → 메이커스 프로필 주소(없으면 null: 파란 글씨지만 이동 없음)
+ */
+export interface ReplyData {
+	id: string;
+	author: Person;
+	/** 이 게임의 메이커가 단 답글 */
+	byGameMaker: boolean;
+	body: string;
+	createdAt: number;
+	updatedAt: number | null;
+	mentions: Record<string, string | null>;
 }
 
 export interface ReviewData {
@@ -53,7 +75,8 @@ export interface ReviewData {
 	/** 글쓴이가 고른 키워드 */
 	phrases: string[];
 	body: string;
-	reply: { body: string; createdAt: number; note: string | null } | null;
+	/** 오래된 순 */
+	replies: ReplyData[];
 }
 
 export interface ReviewQuery {

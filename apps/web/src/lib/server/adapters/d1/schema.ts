@@ -11,10 +11,12 @@
  */
 import { index, integer, primaryKey, sqliteTable, text } from 'drizzle-orm/sqlite-core';
 
+/** 메이커(메이커스 프로필). profile_id = 이 메이커스 프로필을 가진 사람(profiles) */
 export const makers = sqliteTable('makers', {
 	id: text('id').primaryKey(),
 	slug: text('slug').notNull().unique(),
 	name: text('name').notNull(),
+	profileId: text('profile_id'),
 	createdAt: integer('created_at').notNull()
 });
 
@@ -119,7 +121,8 @@ export const gameMedia = sqliteTable(
  */
 export const profiles = sqliteTable('profiles', {
 	id: text('id').primaryKey(),
-	displayName: text('display_name').notNull(),
+	/** 닉네임 — 한글 · 영문 15자, 겹치지 않음(@멘션의 기준) */
+	displayName: text('display_name').notNull().unique(),
 	faceChar: text('face_char').notNull(),
 	faceColor: text('face_color').notNull(),
 	/** 쓴 리뷰 수 캐시 */
@@ -187,7 +190,7 @@ export const reviewPhrases = sqliteTable(
 	]
 );
 
-/** 메이커 답글 — 리뷰 하나에 하나 */
+/** 쓰지 않음(답글을 누구나 여러 개 → replies, 2026-11-28) — 이관은 더하기만이라 다음 정리 때 지운다 */
 export const reviewReplies = sqliteTable('review_replies', {
 	reviewId: text('review_id')
 		.primaryKey()
@@ -197,3 +200,21 @@ export const reviewReplies = sqliteTable('review_replies', {
 	note: text('note'),
 	createdAt: integer('created_at').notNull()
 });
+
+/** 답글 — 리뷰 아래 한 단계, 누구나(로그인 뒤). 멘션은 글 안의 @닉네임 */
+export const replies = sqliteTable(
+	'replies',
+	{
+		id: text('id').primaryKey(),
+		reviewId: text('review_id')
+			.notNull()
+			.references(() => reviews.id),
+		authorId: text('author_id')
+			.notNull()
+			.references(() => profiles.id),
+		body: text('body').notNull(),
+		createdAt: integer('created_at').notNull(),
+		updatedAt: integer('updated_at')
+	},
+	(t) => [index('replies_by_review').on(t.reviewId, t.createdAt, t.id)]
+);

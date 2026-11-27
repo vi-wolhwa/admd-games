@@ -33,7 +33,7 @@ export function createServices(env: Partial<Env> | undefined): Services {
 	return {
 		health: createMemoryHealthProbe(),
 		catalog: missingDatabase,
-		gameDetails: { getGame: noDb, similarGames: noDb },
+		gameDetails: { getGame: noDb, similarGames: noDb, makerProfile: noDb },
 		reviews: { listReviews: noDb, topPhrases: noDb }
 	};
 }

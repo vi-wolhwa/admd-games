@@ -16,7 +16,7 @@
 
 	/**
 	 * 소개 탭(PG05 전용 — 다른 곳에서 쓰이면 그때 내림). 왼쪽 = 메이커가 쓴 소개 · 특징,
-	 * 오른쪽 = 메이커 카드(누르면 이 메이커의 게임, 팔로우) → 게임 정보 → 문제 알리기.
+	 * 오른쪽 = 메이커 카드(누르면 메이커스 프로필, 팔로우) → 게임 정보 → 문제 알리기.
 	 * 정보는 머리글 없이 바로(사용자 피드백): 실행(기기 포함) · 한 판 · 인원 · 온라인/오프라인 · 언어 · 사양 · 보안 검사 · 공개.
 	 */
 	interface Props {
@@ -46,9 +46,7 @@
 			: []),
 		{ label: '공개', value: formatFullDate(game.publishedAt) }
 	]);
-	const makerHref = $derived(
-		`${resolve('/(play)/play/games')}?q=${encodeURIComponent(game.makerName)}`
-	);
+	const makerHref = $derived(resolve('/(makers)/makers/[slug]', { slug: game.makerSlug }));
 </script>
 
 {#snippet scanned()}<span class="font-heavy text-ok-text">통과</span>{/snippet}

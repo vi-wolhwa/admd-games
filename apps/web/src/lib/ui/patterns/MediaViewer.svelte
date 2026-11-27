@@ -7,7 +7,7 @@
 	 * 큰 미리보기 + 아래 썸네일 줄(게임 상세 — ADR 0009 #9 · #10).
 	 * 순서는 부르는 쪽이 정한다(대표 → 영상 → 이미지). 자동으로 넘긴다: 이미지 4초, 영상은 소리 끈 채 끝까지 본 뒤.
 	 * 마우스를 올리면 멈춤, 썸네일을 누르면 그 항목으로 가고 자동 넘김은 끝(주도권을 사용자에게).
-	 * 움직임 줄이기면 자동 넘김 없음. 썸네일이 6개보다 많으면 줄을 가로로 넘긴다.
+	 * 움직임 줄이기면 자동 넘김 없음. 썸네일이 6개보다 많으면 줄을 가로로 넘긴다(휠 · 끌기 · 지금 항목 따라가기).
 	 */
 	interface Item {
 		kind: 'image' | 'video';
@@ -72,12 +72,38 @@
 		}
 	});
 
-	function videoEnded() {
-		if (auto && items.length > 1) go(index + 1);
+	/**
+	 * 영상은 코드로 재생을 시작한다 — autoplay 속성으로 시작한 소리 없는 영상은 Chrome 이 화면 밖으로 나가면 멈춘다(절전).
+	 * 화면에 가려져도 계속 돌아야 다음 차례로 넘어간다(사용자 피드백).
+	 */
+	function startPlaying(video: HTMLVideoElement) {
+		if (!reduced) void video.play().catch(() => undefined);
 	}
 
-	function scrollStrip() {
-		strip?.scrollBy({ left: strip.clientWidth, behavior: reduced ? 'auto' : 'smooth' });
+	/** 브라우저가 멈춰도(끝난 게 아니면) 다시 튼다. 움직임 줄이기면 사용자가 조절 */
+	function keepPlaying(e: Event) {
+		const video = e.currentTarget as HTMLVideoElement;
+		if (!reduced && !video.ended && !document.hidden) void video.play().catch(() => undefined);
+	}
+
+	/**
+	 * 썸네일 줄은 세로 휠로도 가로로 넘긴다(넘칠 때만) — 화살표 단추 없이(사용자 피드백).
+	 * Svelte 의 onwheel 은 passive 라 막을 수 없어 직접 단다.
+	 */
+	function wheelStrip(node: HTMLElement) {
+		const onwheel = (e: WheelEvent) => {
+			if (node.scrollWidth <= node.clientWidth || Math.abs(e.deltaY) <= Math.abs(e.deltaX)) return;
+			e.preventDefault();
+			node.scrollLeft += e.deltaY;
+		};
+		node.addEventListener('wheel', onwheel, { passive: false });
+		return () => {
+			node.removeEventListener('wheel', onwheel);
+		};
+	}
+
+	function videoEnded() {
+		if (auto && items.length > 1) go(index + 1);
 	}
 </script>
 
@@ -95,10 +121,11 @@
 					class="size-full object-cover"
 					{muted}
 					playsinline
-					autoplay={!reduced}
+					{@attach startPlaying}
 					controls={reduced}
 					loop={!auto || items.length === 1}
 					onended={videoEnded}
+					onpause={keepPlaying}
 				></video>
 			{/key}
 			<span
@@ -132,6 +159,7 @@
 		<div class="relative mt-2.5">
 			<div
 				bind:this={strip}
+				{@attach wheelStrip}
 				class="relative -m-0.75 flex snap-x snap-mandatory [scrollbar-width:none] gap-2 overflow-x-auto p-0.75"
 			>
 				{#each items as item, i (item.url)}
@@ -163,16 +191,6 @@
 					</button>
 				{/each}
 			</div>
-			{#if items.length > 6}
-				<button
-					type="button"
-					aria-label="썸네일 더 보기"
-					onclick={scrollStrip}
-					class="absolute top-1/2 right-0 grid size-8 -translate-y-1/2 place-items-center rounded-full bg-bg text-ink-1 shadow-pop ring-1 ring-line-strong hover:bg-sunken-hover focus-visible:outline-2 focus-visible:outline-accent"
-				>
-					<Icon name="chevron" size={14} />
-				</button>
-			{/if}
 		</div>
 	{/if}
 </div>

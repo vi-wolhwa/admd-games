@@ -6,7 +6,7 @@
 	import JamoFace from '#lib/ui/primitives/JamoFace.svelte';
 
 	/**
-	 * 메이커 카드 — 카드 전체가 링크(메이커 페이지 PG13 이 생기기 전까지는 이 메이커의 게임 목록).
+	 * 메이커 카드 — 카드 전체가 메이커스 프로필 링크.
 	 * 오른쪽 자리(action)에 팔로우 같은 행동을 넣는다(행동은 features 층이 맡음).
 	 */
 	interface Props {

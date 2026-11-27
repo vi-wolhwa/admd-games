@@ -7,6 +7,8 @@ export interface GameDetails {
 	getGame(slug: string): Promise<GameDetail | null>;
 	/** 태그가 많이 겹치는 공개 게임 순(같으면 추천 많은 순), 자기 자신 제외 */
 	similarGames(gameId: string, limit: number): Promise<GameCardData[]>;
+	/** 메이커스 프로필(최소) — 이름 · 공개 게임(추천 많은 순). 없으면 null */
+	makerProfile(slug: string): Promise<{ slug: string; name: string; games: GameCardData[] } | null>;
 }
 
 /** 리뷰 읽기. 쓰기 · 도움이 됐어요는 로그인(SH01) 뒤 */
@@ -27,6 +29,8 @@ export interface ProfileSeed {
 	displayName: string;
 	faceChar: string;
 	faceColor: string;
+	/** 이 사람이 가진 메이커스 프로필(makers.id) — 없으면 null */
+	makerId?: string | null;
 }
 
 export interface ReviewSeed {
@@ -41,5 +45,11 @@ export interface ReviewSeed {
 	phrases: string[];
 	/** 글쓴이가 이 게임을 추천했나(recommendations 에 넣음) */
 	recommended: boolean;
-	reply: { body: string; note: string | null; createdAt: number } | null;
+	replies: {
+		id: string;
+		authorId: string;
+		body: string;
+		createdAt: number;
+		updatedAt: number | null;
+	}[];
 }

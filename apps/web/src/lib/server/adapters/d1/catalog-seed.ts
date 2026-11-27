@@ -24,6 +24,7 @@ export function insert(table: string, row: Record<string, SqlValue>): string {
 export function catalogSeedStatements(games: GameSeed[], now = Date.now()): string[] {
 	const out = [
 		// 게임을 가리키는 표부터 지운다(외래 키)
+		'DELETE FROM replies;',
 		'DELETE FROM review_replies;',
 		'DELETE FROM review_phrases;',
 		'DELETE FROM reviews;',

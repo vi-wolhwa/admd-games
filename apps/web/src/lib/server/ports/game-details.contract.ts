@@ -32,7 +32,9 @@ const GAMES: GameSeed[] = CONTRACT_GAMES.map((g) =>
 const PROFILES: ProfileSeed[] = [
 	{ id: 'p1', displayName: '새벽코딩', faceChar: 'ㅅ', faceColor: 'hong' },
 	{ id: 'p2', displayName: '모래시계', faceChar: 'ㅁ', faceColor: 'bora' },
-	{ id: 'p3', displayName: '귤껍질', faceChar: 'ㄱ', faceColor: 'gyul' }
+	{ id: 'p3', displayName: '귤껍질', faceChar: 'ㄱ', faceColor: 'gyul' },
+	// 메이커스 프로필(m1 = 노을공방)을 가진 사람
+	{ id: 'pm1', displayName: '노을공방', faceChar: 'ㄴ', faceColor: 'olive', makerId: 'm1' }
 ];
 
 function review(id: string, o: Partial<ReviewSeed>): ReviewSeed {
@@ -47,7 +49,7 @@ function review(id: string, o: Partial<ReviewSeed>): ReviewSeed {
 		updatedAt: null,
 		phrases: [],
 		recommended: false,
-		reply: null,
+		replies: [],
 		...o
 	};
 }
@@ -59,7 +61,22 @@ const REVIEWS: ReviewSeed[] = [
 		playMinutes: 66,
 		phrases: ['짧고 굵음', '힌트가 친절해요'],
 		recommended: true,
-		reply: { body: '고마워요!', note: 'v1.2 에서 수정', createdAt: NOW - 9 * DAY }
+		replies: [
+			{
+				id: 'x1',
+				authorId: 'pm1',
+				body: '@새벽코딩님 고마워요!',
+				createdAt: NOW - 9 * DAY,
+				updatedAt: null
+			},
+			{
+				id: 'x2',
+				authorId: 'p2',
+				body: '@노을공방 저도 기다려요 @없는사람',
+				createdAt: NOW - 8 * DAY,
+				updatedAt: NOW - 7 * DAY
+			}
+		]
 	}),
 	review('r2', { authorId: 'p2', createdAt: NOW - 12 * DAY, playMinutes: 66 }),
 	review('r3', { createdAt: NOW - 20 * DAY, playMinutes: 300 }),
@@ -154,7 +171,13 @@ export function runGameDetailsContract(
 		expect(items[0]).toEqual({
 			id: 'r1',
 			// 리뷰 수는 이 사람이 쓴 전체(g2 의 r6 포함)
-			author: { name: '새벽코딩', faceChar: 'ㅅ', faceColor: 'hong', reviewCount: 3 },
+			author: {
+				name: '새벽코딩',
+				faceChar: 'ㅅ',
+				faceColor: 'hong',
+				makerSlug: null,
+				reviewCount: 3
+			},
 			recommended: true,
 			playMinutes: 66,
 			version: 'v1.1',
@@ -162,8 +185,38 @@ export function runGameDetailsContract(
 			updatedAt: NOW - 8 * DAY,
 			phrases: ['짧고 굵음', '힌트가 친절해요'],
 			body: '리뷰 r1',
-			reply: { body: '고마워요!', note: 'v1.2 에서 수정', createdAt: NOW - 9 * DAY }
+			replies: [
+				{
+					id: 'x1',
+					// 이 게임 메이커의 답글 — 프로필 주소 있음
+					author: { name: '노을공방', faceChar: 'ㄴ', faceColor: 'olive', makerSlug: 'maker-1' },
+					byGameMaker: true,
+					body: '@새벽코딩님 고마워요!',
+					createdAt: NOW - 9 * DAY,
+					updatedAt: null,
+					// 아는 닉네임이지만 메이커스 프로필이 없음 → null(이동 없음)
+					mentions: { 새벽코딩: null }
+				},
+				{
+					id: 'x2',
+					author: { name: '모래시계', faceChar: 'ㅁ', faceColor: 'bora', makerSlug: null },
+					byGameMaker: false,
+					body: '@노을공방 저도 기다려요 @없는사람',
+					createdAt: NOW - 8 * DAY,
+					updatedAt: NOW - 7 * DAY,
+					// 모르는 이름(@없는사람)은 멘션이 아님
+					mentions: { 노을공방: 'maker-1' }
+				}
+			]
 		});
+	});
+
+	it('메이커스 프로필 = 이름 + 공개 게임(추천 많은 순), 없으면 null', async () => {
+		const { details } = await make();
+		const p = await details.makerProfile('maker-1');
+		expect(p?.name).toBe('노을공방');
+		expect(p?.games.map((g) => g.id)).toEqual(['g2', 'g1', 'g3', 'g6']);
+		expect(await details.makerProfile('없는-메이커')).toBeNull();
 	});
 
 	it('자주 고른 말은 많은 순', async () => {

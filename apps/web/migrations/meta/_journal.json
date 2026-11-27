@@ -29,6 +29,13 @@
       "when": 1795735761793,
       "tag": "0003_online_and_review_edits",
       "breakpoints": true
+    },
+    {
+      "idx": 4,
+      "version": "6",
+      "when": 1795739053212,
+      "tag": "0004_replies_and_maker_profiles",
+      "breakpoints": true
     }
   ]
 }

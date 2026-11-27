@@ -9,8 +9,8 @@ import { mkdirSync, writeFileSync } from 'node:fs';
 import { createRequire } from 'node:module';
 import path from 'node:path';
 
-import { SAMPLE_PROFILES, sampleReviews } from '#lib/fixtures/game-details.ts';
 import { sampleGames } from '#lib/fixtures/games.ts';
+import { sampleProfiles, sampleReviews } from '#lib/fixtures/reviews.ts';
 import { catalogSeedStatements } from '#lib/server/adapters/d1/catalog-seed.ts';
 import { reviewSeedStatements } from '#lib/server/adapters/d1/review-seed.ts';
 
@@ -27,7 +27,7 @@ const file = path.join(import.meta.dirname, '../.wrangler/seed.sql');
 mkdirSync(path.dirname(file), { recursive: true });
 const statements = [
 	...catalogSeedStatements(sampleGames(now), now),
-	...reviewSeedStatements(SAMPLE_PROFILES, sampleReviews(now), now)
+	...reviewSeedStatements(sampleProfiles(), sampleReviews(now), now)
 ];
 writeFileSync(file, statements.join('\n') + '\n');
 

@@ -71,6 +71,22 @@ export function createD1GameDetails(db: D1Client): GameDetails {
 				.orderBy(desc(count()), desc(games.recommendCount), desc(games.id))
 				.limit(limit);
 			return toCards(db, rows);
+		},
+
+		async makerProfile(slug) {
+			const [maker] = await db
+				.select({ id: makers.id, slug: makers.slug, name: makers.name })
+				.from(makers)
+				.where(eq(makers.slug, slug))
+				.limit(1);
+			if (!maker) return null;
+			const rows = await db
+				.select(cardColumns)
+				.from(games)
+				.innerJoin(makers, eq(makers.id, games.makerId))
+				.where(and(eq(games.makerId, maker.id), eq(games.status, 'published')))
+				.orderBy(desc(games.recommendCount), desc(games.id));
+			return { slug: maker.slug, name: maker.name, games: await toCards(db, rows) };
 		}
 	};
 }
