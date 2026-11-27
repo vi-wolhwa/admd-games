@@ -1,6 +1,6 @@
 <script module lang="ts">
 	import { defineMeta } from '@storybook/addon-svelte-csf';
-	import { expect, fn } from 'storybook/test';
+	import { expect, fn, waitFor } from 'storybook/test';
 
 	import ReviewForm from './ReviewForm.svelte';
 
@@ -18,7 +18,8 @@
 		await userEvent.click(canvas.getByRole('button', { name: /어떤 점이 좋았나요/ }));
 		const send = await canvas.findByRole('button', { name: '리뷰 올리기' });
 		await expect(send).toBeDisabled();
-		await expect(canvas.getByText('키워드를 1개 이상 골라 주세요')).toBeVisible();
+		// 펼치는 움직임이 끝날 때까지 기다린다(느린 CI 에서는 도중에 보이지 않음)
+		await waitFor(() => expect(canvas.getByText('키워드를 1개 이상 골라 주세요')).toBeVisible());
 		await userEvent.click(canvas.getByRole('button', { name: '짧고 굵음' }));
 		await expect(send).toBeDisabled();
 		await expect(canvas.getByText('리뷰를 작성해 주세요')).toBeVisible();
