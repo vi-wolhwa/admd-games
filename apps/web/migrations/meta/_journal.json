@@ -43,6 +43,13 @@
       "when": 1795751870483,
       "tag": "0005_game_version_one_review",
       "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1795765356108,
+      "tag": "0006_length_buckets_daily",
+      "breakpoints": true
     }
   ]
 }

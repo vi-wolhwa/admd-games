@@ -2,23 +2,27 @@
 	import {
 		type CatalogQuery,
 		DEFAULT_QUERY,
+		type LengthFilter,
+		PLAYERS,
 		type Players,
 		PLAYERS_LABEL,
 		SORT_LABEL,
 		SORTS
 	} from '#lib/domain/catalog.ts';
 	import {
+		DAILY_LABEL,
 		type Launch,
+		LAUNCH_LABEL,
 		LENGTH_BUCKETS,
-		LENGTH_LABEL,
-		type LengthBucket
+		LENGTH_LABEL
 	} from '#lib/domain/game.ts';
 	import Button from '#lib/ui/primitives/Button.svelte';
 	import Chip from '#lib/ui/primitives/Chip.svelte';
 	import Select from '#lib/ui/primitives/Select.svelte';
 
 	/**
-	 * 전체 게임 필터 띠(PG03): 태그 칩 줄 + 요약 · 한 판 · 실행 · 인원 · 정렬.
+	 * 전체 게임 필터 띠(PG03): 태그 칩 줄 + 요약 · 한 판에 · 실행 · 인원 · 정렬.
+	 * 한 판에 = 시간 구간 하나 또는 매일 이어서(구간은 겹치지 않음 — 사용자 결정 2026-11-28).
 	 * 태그는 공개 게임이 있는 것만 게임 수 순(ADR 0010), 여러 개 고르면 '하나라도 해당'.
 	 */
 	interface Props {
@@ -50,19 +54,14 @@
 	const ALL = { value: '', label: '전체' };
 	const lengthItems = [
 		ALL,
-		...LENGTH_BUCKETS.map((b) => ({ value: String(b), label: LENGTH_LABEL[b] }))
+		...LENGTH_BUCKETS.map((b) => ({ value: String(b), label: LENGTH_LABEL[b] })),
+		{ value: 'daily', label: DAILY_LABEL }
 	];
 	const launchItems = [
 		ALL,
-		...(['web', 'download'] as const).map((v) => ({
-			value: v,
-			label: v === 'web' ? '바로 플레이' : '설치형'
-		}))
+		...(['web', 'download'] as const).map((v) => ({ value: v, label: LAUNCH_LABEL[v] }))
 	];
-	const playerItems = [
-		ALL,
-		...(['solo', 'group'] as const).map((v) => ({ value: v, label: PLAYERS_LABEL[v] }))
-	];
+	const playerItems = [ALL, ...PLAYERS.map((v) => ({ value: v, label: PLAYERS_LABEL[v] }))];
 	const sortItems = SORTS.map((v) => ({
 		value: v,
 		label: SORT_LABEL[v]
@@ -107,11 +106,11 @@
 	{/if}
 	<div class="ml-auto flex items-center gap-2">
 		<Select
-			label="한 판"
+			label="한 판에"
 			value={query.length ? String(query.length) : ''}
 			items={lengthItems}
 			onchange={(v) => {
-				set({ length: v ? (Number(v) as LengthBucket) : null });
+				set({ length: v === 'daily' ? 'daily' : v ? (Number(v) as LengthFilter) : null });
 			}}
 		/>
 		<Select

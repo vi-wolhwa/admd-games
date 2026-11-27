@@ -10,7 +10,6 @@ import {
 	inArray,
 	isNull,
 	lt,
-	lte,
 	or,
 	type SQL,
 	sql
@@ -118,10 +117,12 @@ function filters(db: D1Client, q: CatalogQuery): SQL | undefined {
 			)
 		);
 	}
-	if (q.length) parts.push(q.length === 5 ? eq(games.length, 5) : lte(games.length, q.length));
+	if (q.length === 'daily') parts.push(eq(games.daily, true));
+	else if (q.length) parts.push(eq(games.length, q.length));
 	if (q.launch) parts.push(eq(games.launch, q.launch));
 	if (q.players === 'solo') parts.push(eq(games.playersMin, 1));
-	if (q.players === 'group') parts.push(gte(games.playersMax, 2));
+	if (q.players === 'duo') parts.push(gte(games.playersMax, 2));
+	if (q.players === 'online') parts.push(eq(games.online, true));
 	return and(...parts);
 }
 

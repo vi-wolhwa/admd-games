@@ -6,15 +6,18 @@ import { type Cursor, decodeCursorOf } from './cursor';
 import type { Launch, LengthBucket } from './game';
 
 export type CatalogSort = 'played' | 'recommended' | 'reviews' | 'new';
-export type Players = 'solo' | 'group';
+/** 혼자서(혼자 할 수 있음) · 둘이서(같은 기기 2명 이상) · 온라인(인터넷으로 같이) — 사용자 결정 2026-11-28 */
+export type Players = 'solo' | 'duo' | 'online';
+/** 한 판에 필터 — 시간 구간 하나, 또는 매일 이어서 */
+export type LengthFilter = LengthBucket | 'daily';
 
 export interface CatalogQuery {
 	/** 검색어 — 제목 · 메이커 이름에 들어 있으면 해당(빈 문자열 = 검색 안 함) */
 	q: string;
 	/** 태그 slug — 여러 개면 '하나라도 해당' */
 	tags: string[];
-	/** 이 구간 이하(5 = 1시간 넘게만) */
-	length: LengthBucket | null;
+	/** 이 구간만(구간은 겹치지 않음), 'daily' = 매일 이어서 하는 게임 */
+	length: LengthFilter | null;
 	launch: Launch | null;
 	players: Players | null;
 	sort: CatalogSort;
@@ -30,36 +33,39 @@ export const DEFAULT_QUERY: CatalogQuery = {
 };
 
 /**
- * 정렬(사용자 결정 2026-11-28). '많이 플레이한'은 게임별 플레이 수 캐시(games.play_count) —
+ * 정렬(사용자 결정 2026-11-28). '플레이 많은'은 게임별 플레이 수 캐시(games.play_count) —
  * PG06 플레이 기록이 생기기 전에는 모두 0이라 추천 수로 순서가 정해진다.
  */
 export const SORT_LABEL: Record<CatalogSort, string> = {
-	played: '많이 플레이한',
+	played: '플레이 많은',
 	recommended: '추천 많은',
 	reviews: '리뷰 많은',
 	new: '새로 나온'
 };
 
-export const PLAYERS_LABEL: Record<Players, string> = { solo: '혼자', group: '같이' };
+export const PLAYERS_LABEL: Record<Players, string> = {
+	solo: '혼자서',
+	duo: '둘이서',
+	online: '온라인'
+};
 
 export const PAGE_SIZE = 12;
 export const MAX_LOADED = 96;
 const MAX_TAGS = 10;
 export const MAX_SEARCH = 40;
 
-/** 주소에 쓰는 한 판 길이 값 */
+/** 주소에 쓰는 한 판에 값 */
 const LENGTH_PARAM: Record<LengthBucket, string> = {
-	1: '5m',
-	2: '15m',
-	3: '30m',
-	4: '1h',
-	5: 'long'
+	1: '10m',
+	2: '30m',
+	3: 'long'
 };
-const LENGTH_FROM_PARAM = new Map(
-	Object.entries(LENGTH_PARAM).map(([k, v]) => [v, Number(k) as LengthBucket])
-);
+const LENGTH_FROM_PARAM = new Map<string, LengthFilter>([
+	...Object.entries(LENGTH_PARAM).map(([k, v]) => [v, Number(k) as LengthBucket] as const),
+	['daily', 'daily']
+]);
 const LAUNCHES: readonly Launch[] = ['web', 'download'];
-const PLAYERS: readonly Players[] = ['solo', 'group'];
+export const PLAYERS: readonly Players[] = ['solo', 'duo', 'online'];
 export const SORTS: readonly CatalogSort[] = ['played', 'recommended', 'reviews', 'new'];
 
 function oneOf<T extends string>(list: readonly T[], value: string | null): T | null {
@@ -85,7 +91,9 @@ export function catalogSearchParams(query: CatalogQuery, loaded = PAGE_SIZE): UR
 	const p = new URLSearchParams();
 	if (query.q) p.set('q', query.q);
 	for (const t of query.tags) p.append('tag', t);
-	if (query.length) p.set('len', LENGTH_PARAM[query.length]);
+	if (query.length) {
+		p.set('len', query.length === 'daily' ? 'daily' : LENGTH_PARAM[query.length]);
+	}
 	if (query.launch) p.set('run', query.launch);
 	if (query.players) p.set('ppl', query.players);
 	if (query.sort !== DEFAULT_QUERY.sort) p.set('sort', query.sort);

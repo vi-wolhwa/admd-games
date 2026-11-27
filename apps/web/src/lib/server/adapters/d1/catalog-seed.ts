@@ -69,6 +69,7 @@ export function catalogSeedStatements(games: GameSeed[], now = Date.now()): stri
 				description: g.detail?.description ?? '',
 				launch: g.launch,
 				length: g.length,
+				daily: g.daily,
 				pc: (g.detail?.devices ?? ['pc']).includes('pc'),
 				phone: g.phone,
 				pad: (g.detail?.devices ?? []).includes('pad'),

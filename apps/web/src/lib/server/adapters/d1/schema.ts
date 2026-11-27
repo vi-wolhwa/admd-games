@@ -44,8 +44,10 @@ export const games = sqliteTable(
 		description: text('description').notNull().default(''),
 		/** web · download */
 		launch: text('launch').notNull(),
-		/** 한 판 길이 구간 1~5 */
+		/** 한 판에 걸리는 시간 구간 1~3(10분 안쪽 · 10~30분 · 30분 이상) */
 		length: integer('length').notNull(),
+		/** 매일 이어서 — 진행이 저장돼 날마다 이어 하는 게임(메이커가 체크) */
+		daily: integer('daily', { mode: 'boolean' }).notNull().default(false),
 		pc: integer('pc', { mode: 'boolean' }).notNull().default(true),
 		phone: integer('phone', { mode: 'boolean' }).notNull(),
 		pad: integer('pad', { mode: 'boolean' }).notNull().default(false),
@@ -59,8 +61,9 @@ export const games = sqliteTable(
 		minSpec: text('min_spec'),
 		/** 지금 버전(메이커가 마지막으로 올린 것, 예: v1.3) — 리뷰는 버전마다 한 사람 하나 */
 		version: text('version'),
-		/** 온라인 — 다른 사람과 인터넷으로 함께함(멀티플레이 · 순위). false = 오프라인 */
+		/** 온라인 — 인터넷으로 다른 사람과 같이 플레이(순위만 있는 게임은 false) */
 		online: integer('online', { mode: 'boolean' }).notNull().default(false),
+		/** 같은 기기에서 함께하는 인원 — 1 이면 혼자 할 수 있음 */
 		playersMin: integer('players_min').notNull(),
 		playersMax: integer('players_max').notNull(),
 		scanPassed: integer('scan_passed', { mode: 'boolean' }).notNull(),

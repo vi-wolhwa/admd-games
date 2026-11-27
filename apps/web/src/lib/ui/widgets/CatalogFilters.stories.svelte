@@ -1,6 +1,6 @@
 <script module lang="ts">
 	import { defineMeta } from '@storybook/addon-svelte-csf';
-	import { expect, fn } from 'storybook/test';
+	import { expect, fn, screen } from 'storybook/test';
 
 	import { DEFAULT_QUERY } from '#lib/domain/catalog.ts';
 
@@ -27,6 +27,18 @@
 		await expect(onchange).toHaveBeenLastCalledWith(
 			expect.objectContaining({ tags: ['액션'], length: 1 })
 		);
+		// 한 판에 = 겹치지 않는 시간 구간 셋 + 매일 이어서
+		await userEvent.click(canvas.getByRole('combobox', { name: '한 판에: 10분 안쪽' }));
+		const options = await screen.findAllByRole('option');
+		await expect(options.map((o) => o.textContent.trim())).toEqual([
+			'전체',
+			'10분 안쪽',
+			'10~30분',
+			'30분 이상',
+			'매일 이어서'
+		]);
+		await userEvent.click(await screen.findByRole('option', { name: '매일 이어서' }));
+		await expect(onchange).toHaveBeenLastCalledWith(expect.objectContaining({ length: 'daily' }));
 	}}
 >
 	<div class="w-300">

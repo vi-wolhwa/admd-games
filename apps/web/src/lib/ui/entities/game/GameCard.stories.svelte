@@ -12,7 +12,7 @@
 		if (!c) throw new Error(slug);
 		return c;
 	};
-	// 바로 플레이 + 휴대폰 · 신작 · 여럿이 · 설치형
+	// 브라우저 + 휴대폰 · 신작 · 둘이서 · 다운로드
 	const shown = [
 		pick('loop-debugger'),
 		pick('tessellate'),
@@ -30,9 +30,9 @@
 	asChild
 	play={async ({ canvas }) => {
 		// 실행 칩에 키보드 포커스가 오면 뜻을 펼친다. 설치형은 다운로드 아이콘만(보안 검사는 상세에서)
-		const chip = canvas.getByRole('button', { name: '설치형 · 다운로드' });
+		const chip = canvas.getByRole('button', { name: '다운로드해서 설치' });
 		chip.focus();
-		await expect(await screen.findByText('설치형 · 다운로드', { selector: 'span' })).toBeVisible();
+		await expect(await screen.findByText('다운로드해서 설치', { selector: 'span' })).toBeVisible();
 		// 포커스를 풀어 캡처는 늘 같은 모습으로(켜진 카드는 미리보기가 돌아 찍는 순간마다 달라짐)
 		chip.blur();
 	}}

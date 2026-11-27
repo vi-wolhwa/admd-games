@@ -24,6 +24,7 @@ function game(
 		status: 'published',
 		launch: 'web',
 		phone: false,
+		daily: false,
 		playersMin: 1,
 		playersMax: 1,
 		scanPassed: false,
@@ -65,14 +66,15 @@ export const CONTRACT_GAMES: GameSeed[] = [
 		length: 3,
 		publishedAt: 30 * DAY,
 		launch: 'download',
-		scanPassed: true
+		scanPassed: true,
+		detail: { online: true }
 	}),
 	game('g4', {
 		tags: ['이야기'],
 		recommendCount: 5,
 		reviewCount: 1,
 		playCount: 7,
-		length: 5,
+		length: 3,
 		publishedAt: 40 * DAY,
 		launch: 'download',
 		maker: { id: 'm2', slug: 'maker-2', name: '픽셀상점' }
@@ -89,6 +91,7 @@ export const CONTRACT_GAMES: GameSeed[] = [
 		recommendCount: 0,
 		length: 1,
 		publishedAt: 5 * DAY,
+		daily: true,
 		playersMin: 2,
 		playersMax: 2
 	})
@@ -121,11 +124,14 @@ export function runCatalogContract(makeCatalog: (games: GameSeed[]) => Promise<C
 		const catalog = await makeCatalog(CONTRACT_GAMES);
 		expect(await ids(catalog, { tags: ['액션', '이야기'] })).toEqual(['g1', 'g3', 'g4']);
 		expect(await ids(catalog, { tags: ['퍼즐'], length: 1 })).toEqual(['g1', 'g6']);
-		expect(await ids(catalog, { length: 2 })).toEqual(['g2', 'g1', 'g6']);
-		expect(await ids(catalog, { length: 5 })).toEqual(['g4']);
+		// 구간은 겹치지 않는다 — 그 구간만
+		expect(await ids(catalog, { length: 2 })).toEqual(['g2']);
+		expect(await ids(catalog, { length: 3 })).toEqual(['g3', 'g4']);
+		expect(await ids(catalog, { length: 'daily' })).toEqual(['g6']);
 		expect(await ids(catalog, { launch: 'download' })).toEqual(['g3', 'g4']);
 		expect(await ids(catalog, { players: 'solo' })).toEqual(['g2', 'g1', 'g3', 'g4']);
-		expect(await ids(catalog, { players: 'group' })).toEqual(['g2', 'g6']);
+		expect(await ids(catalog, { players: 'duo' })).toEqual(['g2', 'g6']);
+		expect(await ids(catalog, { players: 'online' })).toEqual(['g3']);
 		expect(await ids(catalog, { tags: ['없는태그'] })).toEqual([]);
 	});
 
@@ -176,7 +182,8 @@ export function runCatalogContract(makeCatalog: (games: GameSeed[]) => Promise<C
 			title: '게임 g4',
 			makerName: '픽셀상점',
 			tags: ['이야기'],
-			length: 5,
+			length: 3,
+			daily: false,
 			launch: 'download',
 			phone: false,
 			playersMax: 1,
