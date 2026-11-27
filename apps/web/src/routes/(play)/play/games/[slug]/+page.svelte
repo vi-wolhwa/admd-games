@@ -13,6 +13,7 @@
 	import PlatIcons from '#lib/ui/entities/game/PlatIcons.svelte';
 	import LoginRequiredDialog from '#lib/ui/features/auth/LoginRequiredDialog.svelte';
 	import PlayAction from '#lib/ui/features/play/PlayAction.svelte';
+	import RecommendButton from '#lib/ui/features/recommend/RecommendButton.svelte';
 	import CountLine from '#lib/ui/patterns/CountLine.svelte';
 	import KeyFacts from '#lib/ui/patterns/KeyFacts.svelte';
 	import MediaViewer from '#lib/ui/patterns/MediaViewer.svelte';
@@ -111,11 +112,11 @@
 				<h1 class="line-clamp-2 text-heading-lg font-heavy break-words text-ink-1">
 					{game.title}
 				</h1>
-				<p class="mt-6 line-clamp-3 text-lead leading-[1.6] break-words text-ink-2">
+				<p class="mt-8 line-clamp-3 text-lead leading-[1.6] break-words text-ink-2">
 					{game.summary}
 				</p>
 				{#if game.tags.length > 0}
-					<ul class="mt-5 flex flex-wrap gap-x-2 gap-y-1" aria-label="태그 — 누르면 이 태그의 게임">
+					<ul class="mt-4 flex flex-wrap gap-x-2 gap-y-1" aria-label="태그 — 누르면 이 태그의 게임">
 						{#each game.tags as tag (tag)}
 							<li>
 								<!-- eslint-disable svelte/no-navigation-without-resolve -- 경로는 resolve(), 뒤는 질의 문자열 -->
@@ -133,11 +134,19 @@
 			</div>
 			<div class="flex flex-col gap-4">
 				<KeyFacts items={facts} />
-				<PlayAction {action} scanPassed={game.scanPassed} />
+				<PlayAction {action} scanPassed={game.scanPassed}>
+					{#snippet side()}
+						<RecommendButton
+							onclick={() => {
+								needLogin('게임을 추천하려면');
+							}}
+						/>
+					{/snippet}
+				</PlayAction>
 				<div class="border-t border-line pt-3.5">
 					<CountLine
 						items={[
-							{ icon: 'thumb', label: '추천', value: game.recommendCount },
+							{ icon: 'heart', label: '추천', value: game.recommendCount },
 							{ icon: 'comment', label: '리뷰', value: game.reviewCount }
 						]}
 					/>

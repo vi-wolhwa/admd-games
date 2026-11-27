@@ -13,20 +13,35 @@ export const REVIEW_SORT_LABEL: Record<ReviewSort, string> = {
 };
 
 /**
- * 리뷰 키워드 — 쓸 때 이 목록에서 1개 이상 고른다(네이버 방식, 사용자 결정 2026-11-28).
+ * 리뷰 키워드 — 쓸 때 이 목록에서 1~5개 고른다(네이버 방식, 사용자 결정 2026-11-28).
+ * 성격에 따라 묶음으로 나눠 보여 준다(네이버처럼 — 키워드가 30~60개로 늘어도 찾기 쉽게).
  * 좋은 점만 — 아쉬운 점은 리뷰 글로(싫어요 없음 원칙, ADR 0009).
  */
-export const REVIEW_KEYWORDS = [
-	'짧고 굵음',
-	'오래 붙잡게 돼요',
-	'같이 하면 더 좋아요',
-	'이야기가 좋아요',
-	'음악이 좋아요',
-	'그림이 예뻐요',
-	'조작이 편해요',
-	'힌트가 친절해요',
-	'한 손으로'
+export const REVIEW_KEYWORD_GROUPS = [
+	{ label: '플레이', keywords: ['짧고 굵음', '오래 붙잡게 돼요', '같이 하면 더 좋아요'] },
+	{
+		label: '그림 · 소리 · 이야기',
+		keywords: ['그림이 예뻐요', '음악이 좋아요', '이야기가 좋아요']
+	},
+	{ label: '조작 · 편의', keywords: ['조작이 편해요', '힌트가 친절해요', '한 손으로'] }
 ] as const;
+export const REVIEW_KEYWORDS = REVIEW_KEYWORD_GROUPS.flatMap((g) => g.keywords);
+/** 리뷰 하나에 고를 수 있는 키워드 수(네이버와 같은 5개 — 가장 두드러진 점만 남게, 사용자 결정 2026-11-28) */
+export const REVIEW_KEYWORDS_MAX = 5;
+
+/** 키워드 누르기 — 고른 것은 빼고, 아니면 더한다. 이미 최대면 그대로 */
+export function toggleKeyword(picked: readonly string[], keyword: string): string[] {
+	if (picked.includes(keyword)) return picked.filter((k) => k !== keyword);
+	if (picked.length >= REVIEW_KEYWORDS_MAX) return [...picked];
+	return [...picked, keyword];
+}
+
+/** 올리기 전 안내 — 차례로 키워드 → 글. 둘 다 채우면 null(올릴 수 있음) */
+export function reviewHint(picked: readonly string[], body: string): string | null {
+	if (picked.length === 0) return '키워드를 1개 이상 골라 주세요';
+	if (body.trim() === '') return '리뷰를 작성해 주세요';
+	return null;
+}
 /** 리뷰 · 답글 글자 수 한도(사용자 결정 2026-11-28) */
 export const REVIEW_BODY_MAX = 500;
 export const REPLY_BODY_MAX = 500;

@@ -17,7 +17,7 @@
 		...paper.filter((r) => r.body.length < 30).slice(0, 1)
 	];
 
-	// 답글 4개(3개만 보이고 '더 보기') · 메이커 답글 · 프로필 있는 멘션(링크) · 없는 멘션(파란 글씨만)
+	// 답글 4개(접힘 → 펼침, 시간 순) · 메이커 답글 · 프로필 있는 멘션(링크) · 없는 멘션(파란 글씨만)
 	const threads = [
 		...sampleReviewData('loop-debugger').filter((r) => r.replies.length > 3),
 		...paper.filter((r) => Object.values(r.replies.at(-1)?.mentions ?? {}).some(Boolean))
@@ -55,9 +55,11 @@
 	name="답글 · 멘션"
 	asChild
 	play={async ({ canvas, userEvent }) => {
-		// 답글이 넷 이상이면 셋만 보이고 나머지는 '답글 n개 더 보기'
-		await userEvent.click(await canvas.findByRole('button', { name: '답글 1개 더 보기' }));
-		await expect(canvas.queryByRole('button', { name: /개 더 보기/ })).toBeNull();
+		// 답글은 접혀 있다가 '답글 n개'로 펼침 — 시간 순서 그대로, 메이커가 답했으면 접힌 상태에서도 꼬리표
+		await expect(canvas.queryByText('@새벽배송')).toBeNull();
+		const toggles = canvas.getAllByRole('button', { name: /^답글 \d+개/ });
+		for (const t of toggles) await userEvent.click(t);
+		await expect(toggles[0]).toHaveAttribute('aria-expanded', 'true');
 		await expect(canvas.getAllByText('메이커').length).toBeGreaterThan(0);
 		// 메이커스 프로필이 있는 멘션만 링크
 		await expect(canvas.getByRole('link', { name: '@벡터공방' })).toHaveAttribute(

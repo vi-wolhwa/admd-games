@@ -8,20 +8,24 @@
 	interface Props {
 		pressed: boolean;
 		count?: number;
+		/** 더 고를 수 없을 때(예: 최대 개수) — 고른 칩은 끄지 않는다 */
+		disabled?: boolean;
 		onclick: () => void;
 		children: Snippet;
 	}
 
-	let { pressed, count, onclick, children }: Props = $props();
+	let { pressed, count, disabled = false, onclick, children }: Props = $props();
 </script>
 
 <button
 	type="button"
 	aria-pressed={pressed}
+	{disabled}
 	{onclick}
 	class={[
 		'inline-flex h-(--chip-h) cursor-pointer items-center gap-1.5 rounded-full px-3.5 text-label font-bold transition-colors duration-(--dur-instant) ease-soft',
 		'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
+		'disabled:cursor-not-allowed disabled:opacity-45 disabled:hover:bg-bg disabled:hover:inset-ring-line-strong',
 		pressed
 			? 'bg-ink-1 text-bg hover:bg-ink-2'
 			: 'bg-bg text-ink-2 inset-ring inset-ring-line-strong hover:bg-sunken hover:inset-ring-ink-4'

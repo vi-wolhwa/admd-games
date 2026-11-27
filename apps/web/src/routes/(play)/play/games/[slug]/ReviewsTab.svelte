@@ -1,6 +1,4 @@
 <script lang="ts">
-	import { slide } from 'svelte/transition';
-
 	import {
 		REVIEW_SORT_LABEL,
 		REVIEW_SORTS,
@@ -14,7 +12,6 @@
 	import ReviewForm from '#lib/ui/features/review-write/ReviewForm.svelte';
 	import Button from '#lib/ui/primitives/Button.svelte';
 	import Chip from '#lib/ui/primitives/Chip.svelte';
-	import Icon from '#lib/ui/primitives/Icon.svelte';
 	import Segmented from '#lib/ui/primitives/Segmented.svelte';
 	import { resolve } from '$app/paths';
 
@@ -51,13 +48,10 @@
 	let nextCursor = $derived(first.nextCursor);
 	let loading = $state(false);
 	let failed = $state(false);
-	let writing = $state(false);
 	/** 답글을 쓰고 있는 리뷰와 답할 사람 */
 	let replyTo = $state<{ reviewId: string; name: string } | null>(null);
 	const total = $derived(first.total ?? first.items.length);
 
-	const reduced =
-		typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 	const profileHref = (slug: string) => resolve('/(makers)/makers/[slug]', { slug });
 
 	async function loadMore() {
@@ -83,22 +77,11 @@
 
 <div class="grid grid-cols-[minmax(0,1fr)_392px] items-start gap-14">
 	<div class="flex max-w-180 min-w-0 flex-col gap-8">
-		<div>
-			{#if writing}
-				<div transition:slide={{ duration: reduced ? 0 : 240 }}>
-					<ReviewForm
-						onsubmit={() => {
-							onneedlogin('리뷰를 올리려면');
-						}}
-						oncancel={() => (writing = false)}
-					/>
-				</div>
-			{:else}
-				<Button variant="primary" onclick={() => (writing = true)}>
-					<Icon name="pen" size={16} />리뷰 쓰기
-				</Button>
-			{/if}
-		</div>
+		<ReviewForm
+			onsubmit={() => {
+				onneedlogin('리뷰를 올리려면');
+			}}
+		/>
 		<div class="flex flex-col">
 			{#if items.length === 0}
 				<p class="rounded-2xl bg-sunken px-6 py-14 text-center text-body break-words text-ink-3">

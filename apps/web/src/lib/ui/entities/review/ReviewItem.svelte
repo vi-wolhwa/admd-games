@@ -1,5 +1,6 @@
 <script lang="ts">
 	import type { Snippet } from 'svelte';
+	import { slide } from 'svelte/transition';
 
 	import { formatAgo, formatFullDate, formatPlayTime } from '#lib/domain/format.ts';
 	import type { Person, ReviewData } from '#lib/domain/review.ts';
@@ -13,7 +14,9 @@
 	 * 리뷰 한 개 + 답글(한 단계) — 누가 · 어떤 맥락에서 · 무엇을 · 다른 사람이 어떻게 답했는지(research/04-reviews.md).
 	 * - 맥락 줄: 'n시간 플레이했을 때 · 3일 전에(v1.1) 작성|수정' — 연도까지의 날짜는 시간에 마우스를 올리면
 	 * - 글쓴이(얼굴 · 닉네임)는 메이커스 프로필이 있으면 누르면 그리로, 없으면 이동 없음
-	 * - 답글은 누구나(로그인 뒤), 답글 안 @닉네임은 파란 글씨. 4개 이상이면 3개만 보이고 '답글 더 보기'
+	 * - 행동은 본문 아래 글자 버튼 한 줄: '답글 달기' · '답글 n개'(접혀 있다가 펼침 — YouTube · TapTap 선례)
+	 * - 답글은 시간 순서 그대로(메이커 답글도 고정하지 않음 — 대화 맥락, 사용자 결정 2026-11-28).
+	 *   메이커가 답했으면 접힌 상태에서도 '메이커' 꼬리표로 알린다. 답글 안 @닉네임은 파란 글씨
 	 * - 답글 쓰는 칸(replyForm)은 행동이라 부르는 쪽(features)이 넣는다
 	 */
 	interface Props {
@@ -29,10 +32,8 @@
 
 	let { review, now, profileHref, onreplyto, onreport, replyForm }: Props = $props();
 
-	const REPLIES_SHOWN = 3;
-
 	let expanded = $state(false);
-	let allReplies = $state(false);
+	let showReplies = $state(false);
 	let body = $state<HTMLElement>();
 	/** 세 줄을 넘는지 — 글자 수가 아니라 실제로 잘렸는지 잰다(폭 · 글꼴에 따라 다름) */
 	let long = $state(false);
@@ -42,9 +43,16 @@
 	});
 
 	const bodyId = $derived(`review-${review.id}-body`);
-	const shownReplies = $derived(
-		allReplies ? review.replies : review.replies.slice(0, REPLIES_SHOWN)
-	);
+	const repliesId = $derived(`review-${review.id}-replies`);
+	const makerReplied = $derived(review.replies.some((r) => r.byGameMaker));
+	const reduced =
+		typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+	/** 답글 달기 — 답글을 펼치고 맨 아래 쓰는 칸을 연다(@닉네임 은 부르는 쪽이 채움) */
+	function replyTo(name: string) {
+		showReplies = true;
+		onreplyto(name);
+	}
 </script>
 
 {#snippet when(at: number, edited: boolean, version: string | null)}
@@ -83,35 +91,39 @@
 	{/if}
 {/snippet}
 
-<article class="flex flex-col gap-2.5 border-t border-line py-7 first:border-t-0 first:pt-0">
-	<header class="flex items-center gap-3">
+<article class="flex flex-col gap-3 border-t border-line py-7 first:border-t-0 first:pt-0">
+	<header class="flex items-start gap-3">
 		<div class="min-w-0 flex-1">
-			{@render who(review.author, 'md')}
-			<span class="mt-0.5 ml-11.5 flex items-center gap-1.5 text-meta text-ink-3">
-				리뷰 {review.author.reviewCount.toLocaleString('ko-KR')}개
-				{#if review.recommended}
-					<span aria-hidden="true">·</span>
-					<span class="inline-flex items-center gap-1 font-heavy text-accent-text">
-						<Icon name="thumb" size={12} />추천함
-					</span>
-				{/if}
-			</span>
+			<div class="flex min-w-0 items-center gap-2">
+				{@render who(review.author, 'md')}
+				<span class="shrink-0 text-meta text-ink-3">
+					리뷰 {review.author.reviewCount.toLocaleString('ko-KR')}개
+				</span>
+			</div>
+			<p class="mt-0.5 ml-11.5 flex flex-wrap gap-x-1.5 text-meta text-ink-3">
+				<b class="font-bold text-ink-2">
+					{review.playMinutes === null
+						? '플레이 기록 없음'
+						: `${formatPlayTime(review.playMinutes)} 플레이했을 때`}
+				</b>
+				<span aria-hidden="true">·</span>
+				{@render when(
+					review.updatedAt ?? review.createdAt,
+					review.updatedAt !== null,
+					review.version
+				)}
+			</p>
 		</div>
+		{#if review.recommended}
+			<span class="mt-1.5 inline-flex shrink-0 items-center gap-1 text-meta font-heavy text-heart">
+				<Icon name="heart-fill" size={12} />추천
+			</span>
+		{/if}
 		<Menu
 			label={`${review.author.name} 리뷰 메뉴`}
 			items={[{ label: '리뷰 신고', onselect: onreport, danger: true }]}
 		/>
 	</header>
-
-	<p class="flex flex-wrap gap-x-1.5 gap-y-1 text-meta text-ink-3">
-		<b class="font-bold text-ink-2">
-			{review.playMinutes === null
-				? '플레이 기록 없음'
-				: `${formatPlayTime(review.playMinutes)} 플레이했을 때`}
-		</b>
-		<span aria-hidden="true">·</span>
-		{@render when(review.updatedAt ?? review.createdAt, review.updatedAt !== null, review.version)}
-	</p>
 
 	{#if review.phrases.length > 0}
 		<ul class="flex flex-wrap gap-1.5" aria-label="키워드">
@@ -152,59 +164,78 @@
 		</div>
 	{/if}
 
-	<div>
+	<!-- 행동 한 줄(글자 버튼) — 답글 달기 · 답글 n개 펼치기 -->
+	<div class="-ml-2 flex items-center gap-1">
 		<button
 			type="button"
 			onclick={() => {
-				onreplyto(review.author.name);
+				replyTo(review.author.name);
 			}}
-			class="inline-flex h-8 items-center gap-1.5 rounded-full px-3 text-meta font-bold text-ink-2 inset-ring inset-ring-line-strong transition-colors hover:bg-sunken hover:inset-ring-ink-4 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+			class="inline-flex h-8 items-center gap-1.5 rounded-full px-2 text-meta font-bold text-ink-2 transition-colors hover:bg-sunken hover:text-ink-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
 		>
-			<Icon name="comment" size={13} />답글{review.replies.length > 0
-				? ` ${String(review.replies.length)}`
-				: ''}
+			<Icon name="comment" size={13} />답글 달기
 		</button>
+		{#if review.replies.length > 0}
+			<button
+				type="button"
+				aria-expanded={showReplies}
+				aria-controls={repliesId}
+				onclick={() => (showReplies = !showReplies)}
+				class="inline-flex h-8 items-center gap-1.5 rounded-full px-2 text-meta font-bold text-accent-text transition-colors hover:bg-accent-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+			>
+				<Icon
+					name="chevron"
+					size={12}
+					class={showReplies ? '-rotate-90 transition-transform' : 'rotate-90 transition-transform'}
+				/>
+				답글 {review.replies.length.toLocaleString('ko-KR')}개
+				{#if makerReplied}
+					<span
+						class="inline-flex h-5 items-center rounded-full bg-accent-tint px-1.75 text-caption font-heavy text-accent-text"
+					>
+						메이커 답글
+					</span>
+				{/if}
+			</button>
+		{/if}
 	</div>
 
-	{#if review.replies.length > 0 || replyForm}
-		<div class="ml-11.5 flex flex-col gap-4 border-l-2 border-line pl-4">
-			{#each shownReplies as reply (reply.id)}
-				<div class="flex flex-col gap-1">
-					<div class="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-meta text-ink-3">
-						{@render who(reply.author, 'sm')}
-						{#if reply.byGameMaker}
-							<span
-								class="inline-flex h-5 items-center rounded-full bg-accent-tint px-1.75 text-caption font-heavy text-accent-text"
-							>
-								메이커
-							</span>
-						{/if}
-						<span aria-hidden="true">·</span>
-						{@render when(reply.updatedAt ?? reply.createdAt, reply.updatedAt !== null, null)}
+	{#if (showReplies && review.replies.length > 0) || replyForm}
+		<div
+			id={repliesId}
+			transition:slide={{ duration: reduced ? 0 : 200 }}
+			class="ml-11.5 flex flex-col gap-5"
+		>
+			{#if showReplies}
+				{#each review.replies as reply (reply.id)}
+					<div class="flex flex-col gap-1">
+						<div class="flex flex-wrap items-center gap-x-1.5 gap-y-0.5 text-meta text-ink-3">
+							{@render who(reply.author, 'sm')}
+							{#if reply.byGameMaker}
+								<span
+									class="inline-flex h-5 items-center rounded-full bg-accent-tint px-1.75 text-caption font-heavy text-accent-text"
+								>
+									메이커
+								</span>
+							{/if}
+							<span aria-hidden="true">·</span>
+							{@render when(reply.updatedAt ?? reply.createdAt, reply.updatedAt !== null, null)}
+						</div>
+						<p class="ml-9 text-body leading-[1.7] break-words whitespace-pre-line text-ink-1">
+							<MentionText text={reply.body} mentions={reply.mentions} {profileHref} />
+						</p>
+						<button
+							type="button"
+							onclick={() => {
+								replyTo(reply.author.name);
+							}}
+							aria-label={`${reply.author.name}님에게 답글`}
+							class="ml-7.5 self-start rounded-full px-1.5 py-0.5 text-meta font-bold text-ink-3 hover:bg-sunken hover:text-ink-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+						>
+							답글
+						</button>
 					</div>
-					<p class="ml-9 text-body leading-[1.7] break-words whitespace-pre-line text-ink-1">
-						<MentionText text={reply.body} mentions={reply.mentions} {profileHref} />
-					</p>
-					<button
-						type="button"
-						onclick={() => {
-							onreplyto(reply.author.name);
-						}}
-						aria-label={`${reply.author.name}님에게 답글`}
-						class="ml-9 self-start text-meta font-bold text-ink-3 hover:text-ink-1 hover:underline hover:underline-offset-3"
-					>
-						답글
-					</button>
-				</div>
-			{/each}
-			{#if review.replies.length > REPLIES_SHOWN && !allReplies}
-				<button
-					type="button"
-					onclick={() => (allReplies = true)}
-					class="self-start text-meta font-bold text-accent-text hover:underline hover:underline-offset-3"
-				>
-					답글 {(review.replies.length - REPLIES_SHOWN).toLocaleString('ko-KR')}개 더 보기
-				</button>
+				{/each}
 			{/if}
 			{#if replyForm}{@render replyForm()}{/if}
 		</div>
