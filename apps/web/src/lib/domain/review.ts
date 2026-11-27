@@ -27,7 +27,7 @@ export const REVIEW_KEYWORD_GROUPS = [
 			'시간 가는 줄 몰라요',
 			'할 때마다 새로워요',
 			'아이디어가 참신해요',
-			'손맛이 짜릿해요',
+			'손맛이 좋아요',
 			'긴장감이 넘쳐요',
 			'웃음이 터져요'
 		]
@@ -37,11 +37,8 @@ export const REVIEW_KEYWORD_GROUPS = [
 		keywords: [
 			'도전할 맛이 나요',
 			'깨고 나면 뿌듯해요',
-			'실력이 느는 게 느껴져요',
 			'머리 쓰는 재미가 있어요',
-			'조합 짜는 재미가 있어요',
-			'점점 강해지는 맛이 있어요',
-			'보스전이 짜릿해요'
+			'성장하는 재미가 있어요'
 		]
 	},
 	{
@@ -50,11 +47,8 @@ export const REVIEW_KEYWORD_GROUPS = [
 			'이야기가 좋아요',
 			'여운이 오래 남아요',
 			'캐릭터가 매력 있어요',
-			'반전이 놀라워요',
 			'세계에 푹 빠져요',
-			'탐험하는 재미가 있어요',
-			'선택이 결과를 바꿔요',
-			'오싹해서 좋아요'
+			'탐험하는 재미가 있어요'
 		]
 	},
 	{
@@ -62,10 +56,9 @@ export const REVIEW_KEYWORD_GROUPS = [
 		keywords: [
 			'그림이 예뻐요',
 			'음악이 좋아요',
-			'아기자기하고 귀여워요',
-			'연출이 멋져요',
 			'효과음이 생생해요',
-			'박자 맞추는 맛이 있어요'
+			'연출이 멋져요',
+			'아기자기하고 귀여워요'
 		]
 	},
 	{
@@ -74,8 +67,6 @@ export const REVIEW_KEYWORD_GROUPS = [
 			'조작이 편해요',
 			'금방 익힐 수 있어요',
 			'안내가 친절해요',
-			'난이도를 고를 수 있어요',
-			'화면이 한눈에 들어와요',
 			'가볍고 쾌적해요',
 			'완성도가 높아요'
 		]
@@ -84,10 +75,9 @@ export const REVIEW_KEYWORD_GROUPS = [
 		label: '함께하기',
 		keywords: [
 			'같이 하면 더 재밌어요',
-			'호흡 맞추는 재미가 있어요',
+			'겨루는 재미가 있어요',
 			'다 같이 웃고 떠들어요',
-			'가족과 함께하기 좋아요',
-			'기록 경쟁이 재밌어요'
+			'가족과 함께하기 좋아요'
 		]
 	},
 	{
@@ -97,8 +87,7 @@ export const REVIEW_KEYWORD_GROUPS = [
 			'짧고 굵어요',
 			'틈틈이 하기 좋아요',
 			'즐길 거리가 많아요',
-			'내 마음대로 즐겨요',
-			'한 손으로도 할 수 있어요'
+			'내 마음대로 즐겨요'
 		]
 	}
 ] as const;
@@ -121,7 +110,27 @@ export function reviewHint(picked: readonly string[], body: string): string | nu
 }
 /** 리뷰 · 답글 글자 수 한도(사용자 결정 2026-11-28) */
 export const REVIEW_BODY_MAX = 500;
-export const REPLY_BODY_MAX = 500;
+/** 답글은 짧게 — 200자(사용자 결정 2026-11-28) */
+export const REPLY_BODY_MAX = 200;
+/** 도배 방지: 답글은 1분에 하나(사용자 결정 2026-11-28). 실제로 막는 곳은 서버(SH01 저장 때) */
+export const REPLY_COOLDOWN_MS = 60_000;
+
+/** 다음 답글까지 남은 초 — 0 이면 바로 올릴 수 있음 */
+export function replyWaitSeconds(lastReplyAt: number | null, now: number): number {
+	if (lastReplyAt === null) return 0;
+	return Math.max(0, Math.ceil((lastReplyAt + REPLY_COOLDOWN_MS - now) / 1000));
+}
+
+/**
+ * 리뷰는 **게임 버전마다 하나**(사용자 결정 2026-11-28) — 지금 버전에 쓴 내 리뷰가 있으면 새로 못 쓰고 그것을 고친다.
+ * 새 버전이 나오면 다시 쓸 수 있다. 답글은 개수 제한 없음(1분에 하나만).
+ */
+export function myReviewForVersion<T extends { version: string | null }>(
+	mine: readonly T[],
+	currentVersion: string | null
+): T | null {
+	return mine.find((r) => r.version === currentVersion) ?? null;
+}
 export const REVIEW_PAGE_SIZE = 10;
 
 /** 글쓴이(리뷰 · 답글). makerSlug = 메이커스 프로필 주소 — 없으면 눌러도 이동하지 않음 */

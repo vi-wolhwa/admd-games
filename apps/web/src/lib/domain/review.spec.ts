@@ -6,7 +6,10 @@ import { encodeCursor } from './cursor';
 import {
 	decodeReviewCursor,
 	DEFAULT_REVIEW_QUERY,
+	myReviewForVersion,
 	parseReviewQuery,
+	REPLY_BODY_MAX,
+	replyWaitSeconds,
 	REVIEW_KEYWORDS,
 	REVIEW_KEYWORDS_MAX,
 	reviewHint,
@@ -65,5 +68,29 @@ describe('리뷰 쓰기', () => {
 		expect(reviewHint([], '좋아요')).toBe('키워드를 1개 이상 골라 주세요');
 		expect(reviewHint(['짧고 굵어요'], '  ')).toBe('리뷰를 작성해 주세요');
 		expect(reviewHint(['짧고 굵어요'], '좋아요')).toBeNull();
+	});
+});
+
+describe('리뷰 · 답글 제한', () => {
+	it('리뷰는 버전마다 하나 — 지금 버전에 쓴 내 리뷰만 찾는다', () => {
+		const mine = [
+			{ id: 'a', version: 'v1.2' },
+			{ id: 'b', version: 'v1.3' }
+		];
+		expect(myReviewForVersion(mine, 'v1.3')?.id).toBe('b');
+		expect(myReviewForVersion(mine, 'v1.4')).toBeNull();
+	});
+
+	it('답글은 1분에 하나 — 남은 초를 올림으로', () => {
+		expect(replyWaitSeconds(null, 1000)).toBe(0);
+		expect(replyWaitSeconds(0, 59_001)).toBe(1);
+		expect(replyWaitSeconds(0, 60_000)).toBe(0);
+	});
+
+	it('가짜 답글도 200자 안', () => {
+		for (const row of REVIEW_ROWS) {
+			const reply = row[9];
+			if (reply) expect(reply[0].length).toBeLessThanOrEqual(REPLY_BODY_MAX);
+		}
 	});
 });

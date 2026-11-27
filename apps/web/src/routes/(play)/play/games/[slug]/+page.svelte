@@ -188,6 +188,8 @@
 				query={data.reviewQuery}
 				first={data.reviewPage}
 				phrases={data.phrases}
+				version={game.version}
+				mine={data.mine}
 				now={data.now}
 				onquery={setReviewQuery}
 				onneedlogin={needLogin}

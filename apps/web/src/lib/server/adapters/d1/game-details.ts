@@ -26,6 +26,7 @@ export function createD1GameDetails(db: D1Client): GameDetails {
 					online: games.online,
 					languages: games.languages,
 					minSpec: games.minSpec,
+					version: games.version,
 					playersMin: games.playersMin
 				})
 				.from(games)
@@ -49,6 +50,7 @@ export function createD1GameDetails(db: D1Client): GameDetails {
 				online: row.online,
 				languages: list<string>(row.languages),
 				minSpec: row.minSpec,
+				version: row.version,
 				playersMin: row.playersMin
 			};
 			return detail;

@@ -1,7 +1,7 @@
 import { error } from '@sveltejs/kit';
 
 import { deviceFromUserAgent } from '#lib/domain/play-action.ts';
-import { parseReviewQuery, REVIEW_PAGE_SIZE } from '#lib/domain/review.ts';
+import { parseReviewQuery, REVIEW_PAGE_SIZE, type ReviewData } from '#lib/domain/review.ts';
 
 import type { PageServerLoad } from './$types';
 
@@ -36,6 +36,8 @@ export const load: PageServerLoad = async ({ params, url, locals, request }) => 
 		reviewQuery,
 		reviewPage,
 		phrases,
+		// 내가 쓴 리뷰(버전마다 하나 — 지금 버전 것이 있으면 쓰기 대신 맨 위에). 로그인(SH01) 전에는 없음
+		mine: [] as ReviewData[],
 		device: deviceFromUserAgent(request.headers.get('user-agent')),
 		now: Date.now()
 	};

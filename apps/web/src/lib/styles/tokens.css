@@ -394,6 +394,7 @@
 	--face-xs: 20px;
 	--face-sm: 26px;
 	--face-md: 32px;
+	--face-two-line: 44px; /* 리뷰 글쓴이 — 닉네임 · 리뷰 정보 두 줄 높이(나중에 고양이 얼굴의 표정이 보이게) */
 	--face-lg: 54px;
 
 	/* 모션 */

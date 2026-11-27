@@ -100,6 +100,8 @@ export interface GameDetail extends GameCardData {
 	languages: string[];
 	/** 최소 사양(설치형만) */
 	minSpec: string | null;
+	/** 지금 버전(예: v1.3) — 리뷰는 버전마다 한 사람 하나 */
+	version: string | null;
 	playersMin: number;
 }
 

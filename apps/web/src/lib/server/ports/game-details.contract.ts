@@ -79,8 +79,9 @@ const REVIEWS: ReviewSeed[] = [
 		]
 	}),
 	review('r2', { authorId: 'p2', createdAt: NOW - 12 * DAY, playMinutes: 66 }),
-	review('r3', { createdAt: NOW - 20 * DAY, playMinutes: 300 }),
-	review('r4', { authorId: 'p3', createdAt: NOW - 5 * DAY }),
+	// 같은 사람이 같은 게임에 쓴 리뷰는 버전이 달라야 함(버전마다 하나)
+	review('r3', { createdAt: NOW - 20 * DAY, playMinutes: 300, version: 'v1.0' }),
+	review('r4', { authorId: 'p3', createdAt: NOW - 5 * DAY, version: 'v1.0' }),
 	review('r5', {
 		authorId: 'p3',
 		createdAt: NOW - 3 * DAY,

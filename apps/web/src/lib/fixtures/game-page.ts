@@ -23,6 +23,7 @@ export function sampleGameDetail(slug: string, now: number = STORY_NOW): GameDet
 		online: g.detail?.online ?? false,
 		languages: g.detail?.languages ?? [],
 		minSpec: g.detail?.minSpec ?? null,
+		version: g.detail?.version ?? null,
 		playersMin: g.playersMin
 	};
 }

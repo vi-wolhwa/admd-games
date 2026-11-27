@@ -1,5 +1,6 @@
 <script lang="ts">
 	import {
+		myReviewForVersion,
 		REVIEW_SORT_LABEL,
 		REVIEW_SORTS,
 		type ReviewData,
@@ -26,6 +27,10 @@
 		query: ReviewQuery;
 		first: { items: ReviewData[]; nextCursor: string | null; total: number | null };
 		phrases: { phrase: string; count: number }[];
+		/** 이 게임의 지금 버전 — 리뷰는 버전마다 한 사람 하나 */
+		version: string | null;
+		/** 내가 이 게임에 쓴 리뷰들(로그인 뒤 — SH01 전에는 빈 목록) */
+		mine: ReviewData[];
 		now: number;
 		onquery: (query: ReviewQuery) => void;
 		onneedlogin: (reason: string) => void;
@@ -38,13 +43,18 @@
 		query,
 		first,
 		phrases,
+		version,
+		mine,
 		now,
 		onquery,
 		onneedlogin
 	}: Props = $props();
 
 	// 거르기 · 정렬이 바뀌면(first 가 새로 오면) 처음 묶음으로 — 쓰기 가능한 $derived
-	let items = $derived(first.items);
+	/** 지금 버전에 쓴 내 리뷰 — 있으면 '리뷰 쓰기' 대신 맨 위에(사용자 결정 2026-11-28) */
+	const myReview = $derived(myReviewForVersion(mine, version));
+	let editingMine = $state(false);
+	let items = $derived(first.items.filter((r) => r.id !== myReview?.id));
 	let nextCursor = $derived(first.nextCursor);
 	let loading = $state(false);
 	let failed = $state(false);
@@ -77,11 +87,44 @@
 
 <div class="grid grid-cols-[minmax(0,1fr)_392px] items-start gap-14">
 	<div class="flex max-w-180 min-w-0 flex-col gap-8">
-		<ReviewForm
-			onsubmit={() => {
-				onneedlogin('리뷰를 올리려면');
-			}}
-		/>
+		{#if myReview && editingMine}
+			<ReviewForm
+				editing={{ keywords: myReview.phrases, body: myReview.body }}
+				onsubmit={() => {
+					onneedlogin('리뷰를 고치려면');
+				}}
+				oncancel={() => (editingMine = false)}
+			/>
+		{:else if myReview}
+			<!-- 버전마다 하나 — 이미 쓴 사람에게는 쓰기 대신 내 리뷰를 먼저, 가볍게 이유를 알림 -->
+			<section aria-label="내 리뷰" class="rounded-xl p-5 inset-ring inset-ring-line-strong">
+				<p class="mb-5 flex flex-wrap items-center gap-2 text-meta text-ink-3">
+					<span
+						class="inline-flex h-5 items-center rounded-full bg-accent-tint px-2 text-caption font-heavy text-accent-text"
+					>
+						내 리뷰{version ? ` · ${version}` : ''}
+					</span>
+					리뷰는 버전마다 하나씩 남길 수 있어요. 새 버전이 나오면 또 들려주세요!
+				</p>
+				<ReviewItem
+					review={myReview}
+					{now}
+					{profileHref}
+					onreplyto={(name: string) => (replyTo = { reviewId: myReview.id, name })}
+					onedit={() => (editingMine = true)}
+					onreplyclose={() => {
+						if (replyTo?.reviewId === myReview.id) replyTo = null;
+					}}
+					replyForm={replyTo?.reviewId === myReview.id ? replyFormFor : undefined}
+				/>
+			</section>
+		{:else}
+			<ReviewForm
+				onsubmit={() => {
+					onneedlogin('리뷰를 올리려면');
+				}}
+			/>
+		{/if}
 		<div class="flex flex-col">
 			{#if items.length === 0}
 				<p class="rounded-2xl bg-sunken px-6 py-14 text-center text-body break-words text-ink-3">
@@ -99,6 +142,9 @@
 						onreplyto={(name: string) => (replyTo = { reviewId: review.id, name })}
 						onreport={() => {
 							onneedlogin('리뷰를 신고하려면');
+						}}
+						onreplyclose={() => {
+							if (replyTo?.reviewId === review.id) replyTo = null;
 						}}
 						replyForm={replyTo?.reviewId === review.id ? replyFormFor : undefined}
 					/>
@@ -170,6 +216,7 @@
 		{#key replyTo.name}
 			<ReplyForm
 				to={replyTo.name}
+				me={null}
 				onsubmit={() => {
 					onneedlogin('답글을 달려면');
 				}}

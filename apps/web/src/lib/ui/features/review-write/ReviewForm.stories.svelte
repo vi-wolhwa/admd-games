@@ -46,13 +46,13 @@
 			'시간 가는 줄 몰라요',
 			'그림이 예뻐요',
 			'음악이 좋아요',
-			'한 손으로도 할 수 있어요'
+			'틈틈이 하기 좋아요'
 		]) {
 			await userEvent.click(canvas.getByRole('button', { name: k }));
 		}
 		await expect(canvas.getByText('5 / 5개')).toBeVisible();
 		await expect(canvas.getByRole('button', { name: '조작이 편해요' })).toBeDisabled();
-		const last = canvas.getByRole('button', { name: '한 손으로도 할 수 있어요' });
+		const last = canvas.getByRole('button', { name: '틈틈이 하기 좋아요' });
 		await expect(last).toBeEnabled();
 		last.blur();
 	}}

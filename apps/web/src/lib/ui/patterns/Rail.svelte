@@ -21,10 +21,12 @@
 	let atStart = $state(true);
 	let atEnd = $state(false);
 
+	// 그림자 여백(px-1)만큼 붙어도 끝으로 본다 — 붙는 위치가 4px 어긋나 '이전'이 켜져 있던 문제(사용자 피드백)
+	const EDGE = 5;
 	function update() {
 		if (!track) return;
-		atStart = track.scrollLeft <= 1;
-		atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - 1;
+		atStart = track.scrollLeft <= EDGE;
+		atEnd = track.scrollLeft + track.clientWidth >= track.scrollWidth - EDGE;
 	}
 
 	function move(dir: 1 | -1) {
@@ -71,7 +73,7 @@
 	<ul
 		bind:this={track}
 		onscroll={update}
-		class="-mx-1 -my-2 flex snap-x snap-mandatory [scrollbar-width:none] gap-6 overflow-x-auto px-1 py-2"
+		class="-mx-1 -my-2 flex snap-x snap-mandatory scroll-px-1 [scrollbar-width:none] gap-6 overflow-x-auto px-1 py-2"
 	>
 		{#each items as it (key(it))}
 			<li

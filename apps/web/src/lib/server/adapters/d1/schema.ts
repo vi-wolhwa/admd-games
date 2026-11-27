@@ -9,7 +9,14 @@
  * 변경 후: npm run db:generate → npm run db:migrate:local
  * 이관은 더하기만(docs/operations.md 'DB 이관 규칙').
  */
-import { index, integer, primaryKey, sqliteTable, text } from 'drizzle-orm/sqlite-core';
+import {
+	index,
+	integer,
+	primaryKey,
+	sqliteTable,
+	text,
+	uniqueIndex
+} from 'drizzle-orm/sqlite-core';
 
 /** 메이커(메이커스 프로필). profile_id = 이 메이커스 프로필을 가진 사람(profiles) */
 export const makers = sqliteTable('makers', {
@@ -50,6 +57,8 @@ export const games = sqliteTable(
 		cautions: text('cautions').notNull().default(''),
 		/** 최소 사양(설치형만) */
 		minSpec: text('min_spec'),
+		/** 지금 버전(메이커가 마지막으로 올린 것, 예: v1.3) — 리뷰는 버전마다 한 사람 하나 */
+		version: text('version'),
 		/** 온라인 — 다른 사람과 인터넷으로 함께함(멀티플레이 · 순위). false = 오프라인 */
 		online: integer('online', { mode: 'boolean' }).notNull().default(false),
 		playersMin: integer('players_min').notNull(),
@@ -170,7 +179,9 @@ export const reviews = sqliteTable(
 	(t) => [
 		index('reviews_by_helpful').on(t.gameId, t.helpfulCount, t.createdAt, t.id),
 		index('reviews_by_recent').on(t.gameId, t.createdAt, t.id),
-		index('reviews_by_played').on(t.gameId, t.playMinutes, t.createdAt, t.id)
+		index('reviews_by_played').on(t.gameId, t.playMinutes, t.createdAt, t.id),
+		// 리뷰는 게임 버전마다 한 사람 하나(사용자 결정 2026-11-28) — 고칠 때는 같은 줄을 바꾼다
+		uniqueIndex('reviews_one_per_version').on(t.gameId, t.authorId, t.version)
 	]
 );
 

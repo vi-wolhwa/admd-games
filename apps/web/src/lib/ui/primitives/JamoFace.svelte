@@ -7,7 +7,8 @@
 		char: string;
 		/** hong · ju · gyul · hwang · olive · pul · bichwi · cheongnok · haneul · jjok · bora · jadu */
 		color: string;
-		size?: 'sm' | 'md' | 'lg';
+		/** two-line = 이름 · 정보 두 줄 옆(리뷰 글쓴이) */
+		size?: 'sm' | 'md' | 'two-line' | 'lg';
 	}
 
 	let { char, color, size = 'md' }: Props = $props();
@@ -31,12 +32,13 @@
 
 <span
 	aria-hidden="true"
-	style:font-size={{ sm: '10px', md: '12px', lg: '20px' }[size]}
+	style:font-size={{ sm: '10px', md: '12px', 'two-line': '16px', lg: '20px' }[size]}
 	class={[
 		'inline-flex shrink-0 items-center justify-center leading-none font-heavy tracking-[-0.06em] whitespace-nowrap text-on-ink',
 		BG[color] ?? BG.jjok,
 		size === 'sm' && 'size-(--face-sm) rounded-[7px]',
 		size === 'md' && 'size-(--face-md) rounded-[9px]',
+		size === 'two-line' && 'size-(--face-two-line) rounded-[12px]',
 		size === 'lg' && 'size-(--face-lg) rounded-[14px]'
 	]}
 >

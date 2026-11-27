@@ -75,6 +75,7 @@ export function catalogSeedStatements(games: GameSeed[], now = Date.now()): stri
 				online: g.detail?.online ?? false,
 				languages: (g.detail?.languages ?? []).join(','),
 				min_spec: g.detail?.minSpec ?? null,
+				version: g.detail?.version ?? null,
 				players_min: g.playersMin,
 				players_max: g.playersMax,
 				scan_passed: g.scanPassed,

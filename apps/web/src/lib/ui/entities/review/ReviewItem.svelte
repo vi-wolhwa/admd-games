@@ -13,7 +13,7 @@
 
 	/**
 	 * 리뷰 한 개 + 답글(한 단계) — 누가 · 어떤 맥락에서 · 무엇을 · 다른 사람이 어떻게 답했는지(research/04-reviews.md).
-	 * - 맥락 줄: 'n시간 플레이했을 때 · 3일 전에(v1.1) 작성|수정' — 연도까지의 날짜는 시간에 마우스를 올리면
+	 * - 맥락 줄: 'n시간 플레이했을 때 · 3일 전에 (v1.1) 작성|수정' — 연도까지의 날짜는 시간에 마우스를 올리면
 	 * - 글쓴이(얼굴 · 닉네임) · @멘션은 누구든 누르면 프로필 카드(메이커스 프로필이 있으면 카드에서 그리로)
 	 * - 행동은 본문 아래 글자 버튼 한 줄: '답글 달기' · '답글 n개'(접혀 있다가 펼침 — YouTube · TapTap 선례)
 	 * - 답글은 시간 순서 그대로(메이커 답글도 고정하지 않음 — 대화 맥락, 사용자 결정 2026-11-28).
@@ -26,12 +26,18 @@
 		profileHref: (slug: string) => string;
 		/** '답글' 을 눌렀을 때 — 답할 사람 닉네임 */
 		onreplyto: (name: string) => void;
-		onreport: () => void;
+		/** 신고(남의 리뷰) — 내 리뷰(onedit)면 없음 */
+		onreport?: () => void;
+		/** 내 리뷰면 — ⋯(신고) 대신 '수정' 버튼 */
+		onedit?: () => void;
+		/** 답글 목록을 닫았을 때 — 열려 있던 답글 쓰기 칸도 닫게(사용자 피드백) */
+		onreplyclose?: () => void;
 		/** 열린 답글 쓰기 칸(이 리뷰에 답글을 쓰는 중일 때만) */
 		replyForm?: Snippet;
 	}
 
-	let { review, now, profileHref, onreplyto, onreport, replyForm }: Props = $props();
+	let { review, now, profileHref, onreplyto, onreport, onedit, onreplyclose, replyForm }: Props =
+		$props();
 
 	let expanded = $state(false);
 	let showReplies = $state(false);
@@ -58,7 +64,7 @@
 
 {#snippet when(at: number, edited: boolean, version: string | null)}
 	<time datetime={new Date(at).toISOString()} title={formatFullDate(at)}>
-		{formatAgo(at, now)} 전에{version ? `(${version})` : ''}
+		{formatAgo(at, now)} 전에{version ? ` (${version})` : ''}
 		{edited ? '수정' : '작성'}
 	</time>
 {/snippet}
@@ -87,15 +93,39 @@
 {/snippet}
 
 <article class="flex flex-col gap-3 border-t border-line py-7 first:border-t-0 first:pt-0">
-	<header class="flex items-start gap-3">
+	<header class="flex items-center gap-3">
+		<!-- 얼굴은 이름 · 정보 두 줄 높이(사용자 피드백 — 나중에 고양이 얼굴의 표정이 잘 보이게). 같은 카드를 여는 이름 버튼이 있어 얼굴은 탭 순서에서 뺌 -->
+		<PersonPopover person={review.author} {profileHref}>
+			{#snippet trigger({ props })}
+				<button
+					{...props}
+					type="button"
+					tabindex="-1"
+					aria-hidden="true"
+					class="shrink-0 cursor-pointer"
+				>
+					<JamoFace char={review.author.faceChar} color={review.author.faceColor} size="two-line" />
+				</button>
+			{/snippet}
+		</PersonPopover>
 		<div class="min-w-0 flex-1">
 			<div class="flex min-w-0 items-center gap-2">
-				{@render who(review.author, 'md')}
+				<PersonPopover person={review.author} {profileHref}>
+					{#snippet trigger({ props })}
+						<button
+							{...props}
+							type="button"
+							class="min-w-0 cursor-pointer truncate rounded-sm text-body font-heavy text-ink-1 hover:underline hover:underline-offset-3 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+						>
+							{review.author.name}
+						</button>
+					{/snippet}
+				</PersonPopover>
 				<span class="shrink-0 text-meta text-ink-3">
 					리뷰 {review.author.reviewCount.toLocaleString('ko-KR')}개
 				</span>
 			</div>
-			<p class="mt-0.5 ml-11.5 flex flex-wrap gap-x-1.5 text-meta text-ink-3">
+			<p class="mt-0.5 flex flex-wrap gap-x-1.5 text-meta text-ink-3">
 				<b class="font-bold text-ink-2">
 					{review.playMinutes === null
 						? '플레이 기록 없음'
@@ -110,16 +140,24 @@
 			</p>
 		</div>
 		{#if review.recommended}
-			<span
-				class="mt-1.5 inline-flex shrink-0 items-center gap-1 text-meta font-heavy text-heart-text"
-			>
+			<span class="inline-flex shrink-0 items-center gap-1 text-meta font-heavy text-heart-text">
 				<Icon name="heart-fill" size={12} />추천
 			</span>
 		{/if}
-		<Menu
-			label={`${review.author.name} 리뷰 메뉴`}
-			items={[{ label: '리뷰 신고', onselect: onreport, danger: true }]}
-		/>
+		{#if onedit}
+			<button
+				type="button"
+				onclick={onedit}
+				class="inline-flex h-8 shrink-0 items-center gap-1.5 rounded-full px-3 text-meta font-bold text-ink-2 inset-ring inset-ring-line-strong transition-colors hover:bg-sunken hover:text-ink-1 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+			>
+				<Icon name="pen" size={13} />수정
+			</button>
+		{:else}
+			<Menu
+				label={`${review.author.name} 리뷰 메뉴`}
+				items={[{ label: '리뷰 신고', onselect: () => onreport?.(), danger: true }]}
+			/>
+		{/if}
 	</header>
 
 	{#if review.phrases.length > 0}
@@ -177,7 +215,10 @@
 				type="button"
 				aria-expanded={showReplies}
 				aria-controls={repliesId}
-				onclick={() => (showReplies = !showReplies)}
+				onclick={() => {
+					showReplies = !showReplies;
+					if (!showReplies) onreplyclose?.();
+				}}
 				class="inline-flex h-8 items-center gap-1.5 rounded-full px-2 text-meta font-bold text-accent-text transition-colors hover:bg-accent-tint focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
 			>
 				<Icon
@@ -201,7 +242,7 @@
 		<div
 			id={repliesId}
 			transition:slide={{ duration: reduced ? 0 : 200 }}
-			class="ml-11.5 flex flex-col gap-5"
+			class="ml-14 flex flex-col gap-5"
 		>
 			{#if showReplies}
 				{#each review.replies as reply (reply.id)}

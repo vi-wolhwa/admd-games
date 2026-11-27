@@ -36,6 +36,6 @@ export interface GameSeed extends Omit<GameCardData, 'makerName' | 'publishedAt'
 	publishedAt: number | null;
 	/** 상세(PG05) 정보 — 없으면 빈 값 */
 	detail?: Partial<
-		Pick<GameDetail, 'description' | 'devices' | 'online' | 'languages' | 'minSpec'>
+		Pick<GameDetail, 'description' | 'devices' | 'online' | 'languages' | 'minSpec' | 'version'>
 	>;
 }
