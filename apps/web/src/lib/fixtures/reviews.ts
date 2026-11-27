@@ -19,6 +19,7 @@ export function sampleProfiles(): ProfileSeed[] {
 			id: ownerId(slug),
 			displayName: name,
 			faceChar: face.char,
+			faceMouth: face.mouth,
 			faceColor: face.color,
 			makerId: `maker-${slug}`
 		};

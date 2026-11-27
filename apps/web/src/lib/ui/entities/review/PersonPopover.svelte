@@ -2,7 +2,7 @@
 	import type { Snippet } from 'svelte';
 
 	import type { Person } from '#lib/domain/review.ts';
-	import JamoFace from '#lib/ui/primitives/JamoFace.svelte';
+	import CatFace from '#lib/ui/primitives/CatFace.svelte';
 	import Popover from '#lib/ui/primitives/Popover.svelte';
 
 	/**
@@ -22,7 +22,7 @@
 <Popover {trigger}>
 	<div class="flex w-60 flex-col gap-3.5">
 		<div class="flex min-w-0 items-center gap-3">
-			<JamoFace char={person.faceChar} color={person.faceColor} size="lg" />
+			<CatFace eyes={person.faceChar} mouth={person.faceMouth} color={person.faceColor} size="lg" />
 			<div class="min-w-0">
 				<b class="block truncate text-body font-heavy text-ink-1">{person.name}</b>
 				<span class="text-meta text-ink-3">

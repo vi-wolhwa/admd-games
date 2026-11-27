@@ -50,6 +50,7 @@ export function sampleReviewData(slug: string, now: number = STORY_NOW): ReviewD
 		return {
 			name: p?.displayName ?? '?',
 			faceChar: p?.faceChar ?? '?',
+			faceMouth: p?.faceMouth ?? 'ㅅ',
 			faceColor: p?.faceColor ?? 'jjok',
 			makerSlug: (p?.makerId && slugOfMaker.get(p.makerId)) ?? null
 		};

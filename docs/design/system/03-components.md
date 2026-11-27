@@ -89,7 +89,7 @@ v10 홈에서 쓴 것 + 다음 페이지(게임 상세·플레이 화면·다운
 
 ## 6. 얼굴 · 진행
 
-**자모 얼굴 `JamoFace`** — 02-brand §2. 크기 xs20 · sm26 · md32 · lg54. 여럿 겹칠 때(팀·참가자) −6px 겹침 + 흰 테두리 2, 4명 넘으면 `+3` 칩.
+**사람 얼굴 `CatFace`**(옛 이름 자모 얼굴 · JamoFace) — 02-brand §2. 크기 xs20 · sm26 · md32 · lg54. 여럿 겹칠 때(팀·참가자) −6px 겹침 + 흰 테두리 2, 4명 넘으면 `+3` 칩.
 
 **진행 막대 `Progress`** — 높이 5, `full`, 바탕 `sunken-hover`, 채움 `accent`. 숫자는 옆에 글자로("진행 45%"). `role="progressbar"` + `aria-valuenow`.
 

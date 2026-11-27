@@ -136,8 +136,9 @@ export const REVIEW_PAGE_SIZE = 10;
 /** 글쓴이(리뷰 · 답글). makerSlug = 메이커스 프로필 주소 — 없으면 눌러도 이동하지 않음 */
 export interface Person {
 	name: string;
-	/** 자모 얼굴 글자 · 색 이름(tokens.css --color-face-*) */
+	/** 고양이 얼굴 — 눈 글자 · 입 글자 · 색 이름(tokens.css --color-face-*) */
 	faceChar: string;
+	faceMouth: string;
 	faceColor: string;
 	makerSlug: string | null;
 }

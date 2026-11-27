@@ -28,6 +28,7 @@ export interface ProfileSeed {
 	id: string;
 	displayName: string;
 	faceChar: string;
+	faceMouth: string;
 	faceColor: string;
 	/** 이 사람이 가진 메이커스 프로필(makers.id) — 없으면 null */
 	makerId?: string | null;

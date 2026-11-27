@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { type Person, REPLY_BODY_MAX } from '#lib/domain/review.ts';
 	import Button from '#lib/ui/primitives/Button.svelte';
-	import JamoFace from '#lib/ui/primitives/JamoFace.svelte';
+	import CatFace from '#lib/ui/primitives/CatFace.svelte';
 
 	/**
 	 * 답글 쓰기 — 누구나(로그인 뒤). 답할 사람의 '@닉네임 '이 앞에 자동으로 들어간다(사용자 결정 2026-11-28).
@@ -44,11 +44,10 @@
 >
 	<div class="flex items-center gap-2.5">
 		{#if me}
-			<JamoFace char={me.faceChar} color={me.faceColor} size="sm" />
+			<CatFace eyes={me.faceChar} mouth={me.faceMouth} color={me.faceColor} size="sm" />
 			<b class="truncate text-label font-heavy text-ink-1">{me.name}</b>
 		{:else}
-			<span class="size-(--face-sm) shrink-0 rounded-[7px] bg-sunken-hover" aria-hidden="true"
-			></span>
+			<CatFace eyes="" mouth="" color="blank" size="sm" />
 			<b class="text-label font-heavy text-ink-1">나</b>
 		{/if}
 	</div>

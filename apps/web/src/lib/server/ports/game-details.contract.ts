@@ -30,11 +30,18 @@ const GAMES: GameSeed[] = CONTRACT_GAMES.map((g) =>
 );
 
 const PROFILES: ProfileSeed[] = [
-	{ id: 'p1', displayName: '새벽코딩', faceChar: 'ㅅ', faceColor: 'hong' },
-	{ id: 'p2', displayName: '모래시계', faceChar: 'ㅁ', faceColor: 'bora' },
-	{ id: 'p3', displayName: '귤껍질', faceChar: 'ㄱ', faceColor: 'gyul' },
+	{ id: 'p1', displayName: '새벽코딩', faceChar: 'ㅅ', faceMouth: 'ω', faceColor: 'hong' },
+	{ id: 'p2', displayName: '모래시계', faceChar: 'ㅁ', faceMouth: 'ㅅ', faceColor: 'bora' },
+	{ id: 'p3', displayName: '귤껍질', faceChar: 'ㄱ', faceMouth: 'ㅅ', faceColor: 'gyul' },
 	// 메이커스 프로필(m1 = 노을공방)을 가진 사람
-	{ id: 'pm1', displayName: '노을공방', faceChar: 'ㄴ', faceColor: 'olive', makerId: 'm1' }
+	{
+		id: 'pm1',
+		displayName: '노을공방',
+		faceChar: 'ㄴ',
+		faceMouth: 'ㅅ',
+		faceColor: 'olive',
+		makerId: 'm1'
+	}
 ];
 
 function review(id: string, o: Partial<ReviewSeed>): ReviewSeed {
@@ -175,6 +182,7 @@ export function runGameDetailsContract(
 			author: {
 				name: '새벽코딩',
 				faceChar: 'ㅅ',
+				faceMouth: 'ω',
 				faceColor: 'hong',
 				makerSlug: null,
 				reviewCount: 3
@@ -190,26 +198,50 @@ export function runGameDetailsContract(
 				{
 					id: 'x1',
 					// 이 게임 메이커의 답글 — 프로필 주소 있음
-					author: { name: '노을공방', faceChar: 'ㄴ', faceColor: 'olive', makerSlug: 'maker-1' },
+					author: {
+						name: '노을공방',
+						faceChar: 'ㄴ',
+						faceMouth: 'ㅅ',
+						faceColor: 'olive',
+						makerSlug: 'maker-1'
+					},
 					byGameMaker: true,
 					body: '@새벽코딩님 고마워요!',
 					createdAt: NOW - 9 * DAY,
 					updatedAt: null,
 					// 아는 닉네임이면 그 사람(얼굴 · 메이커스 프로필 — 없으면 null)
 					mentions: {
-						새벽코딩: { name: '새벽코딩', faceChar: 'ㅅ', faceColor: 'hong', makerSlug: null }
+						새벽코딩: {
+							name: '새벽코딩',
+							faceChar: 'ㅅ',
+							faceMouth: 'ω',
+							faceColor: 'hong',
+							makerSlug: null
+						}
 					}
 				},
 				{
 					id: 'x2',
-					author: { name: '모래시계', faceChar: 'ㅁ', faceColor: 'bora', makerSlug: null },
+					author: {
+						name: '모래시계',
+						faceChar: 'ㅁ',
+						faceMouth: 'ㅅ',
+						faceColor: 'bora',
+						makerSlug: null
+					},
 					byGameMaker: false,
 					body: '@노을공방 저도 기다려요 @없는사람',
 					createdAt: NOW - 8 * DAY,
 					updatedAt: NOW - 7 * DAY,
 					// 모르는 이름(@없는사람)은 멘션이 아님
 					mentions: {
-						노을공방: { name: '노을공방', faceChar: 'ㄴ', faceColor: 'olive', makerSlug: 'maker-1' }
+						노을공방: {
+							name: '노을공방',
+							faceChar: 'ㄴ',
+							faceMouth: 'ㅅ',
+							faceColor: 'olive',
+							makerSlug: 'maker-1'
+						}
 					}
 				}
 			]
