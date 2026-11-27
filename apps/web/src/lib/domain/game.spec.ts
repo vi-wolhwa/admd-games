@@ -32,9 +32,10 @@ describe('splitDescription', () => {
 });
 
 describe('playersLabel', () => {
-	it('혼자 · n명 · 범위', () => {
-		expect(playersLabel(1, 1)).toBe('혼자');
+	it('혼자서 · n명 · 범위, 온라인이면 뒤에 붙인다', () => {
+		expect(playersLabel(1, 1)).toBe('혼자서');
 		expect(playersLabel(2, 2)).toBe('2명');
 		expect(playersLabel(1, 4)).toBe('1~4명');
+		expect(playersLabel(2, 4, true)).toBe('2~4명 · 온라인');
 	});
 });

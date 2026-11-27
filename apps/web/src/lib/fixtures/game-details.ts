@@ -13,8 +13,8 @@ interface Detail {
 	minSpec: string | null;
 }
 
-/** 온라인 — 다른 사람과 인터넷으로 함께하거나 순위를 보는 게임(나머지는 오프라인) */
-const ONLINE = new Set(['ashfall-runner', 'loop-debugger', 'lightning-delivery', 'shadow-tag']);
+/** 온라인 — 인터넷으로 다른 사람과 같이 플레이하는 게임(순위만 있는 게임은 해당 없음) */
+const ONLINE = new Set(['shadow-tag', 'three-walls']);
 
 // 조작 · 이용 주의는 화면에서 뺐다(사용자 결정 2026-11-28) — 표에서는 조작 칸을 그대로 두어 읽기 쉽게
 const D = (
@@ -108,7 +108,7 @@ const DETAILS: Record<string, Omit<Detail, 'online'>> = {
 		['touch']
 	),
 	'harbor-shop': D(
-		'작은 항구 가게를 키워 무역로를 여는 경영 게임.\n\n- 계절마다 바뀌는 물건값\n- 배 한 척으로 시작',
+		'작은 항구 가게를 키워 무역로를 여는 경영 게임. 가게는 저장돼 있어서 매일 들러 이어 가면 돼요.\n\n- 계절마다 바뀌는 물건값\n- 배 한 척으로 시작\n- 하루 한 번 들어오는 배',
 		['pc'],
 		['mouse']
 	),
@@ -118,7 +118,7 @@ const DETAILS: Record<string, Omit<Detail, 'online'>> = {
 		['mouse', 'touch']
 	),
 	'three-walls': D(
-		'성벽 세 개로 마을을 지키는 전략 게임. 벽은 늘어나지 않아요, 옮길 수만 있어요.\n\n- 둘이 하면 벽 하나씩 맡기',
+		'성벽 세 개로 마을을 지키는 전략 게임. 벽은 늘어나지 않아요, 옮길 수만 있어요.\n\n- 둘이 하면 벽 하나씩 맡기\n- 온라인으로 다른 사람의 마을과 겨루기',
 		['pc'],
 		['mouse']
 	),
@@ -147,7 +147,7 @@ const DETAILS: Record<string, Omit<Detail, 'online'>> = {
 		['mouse', 'touch']
 	),
 	'shadow-tag': D(
-		'그림자를 밟히면 술래가 되는 대전 게임. 해가 움직이면 그림자도 길어져요.\n\n- 같은 화면 2~4명',
+		'그림자를 밟히면 술래가 되는 대전 게임. 해가 움직이면 그림자도 길어져요.\n\n- 같은 화면 2~4명\n- 온라인으로 멀리 있는 친구와도',
 		['pc'],
 		['keyboard', 'gamepad']
 	),
@@ -160,7 +160,7 @@ const DETAILS: Record<string, Omit<Detail, 'online'>> = {
 		'Windows 10 이상 · RAM 4GB'
 	),
 	'planet-gardener': D(
-		'작은 행성에 정원을 가꾸는 경영. 행성이 돌면 그늘도 옮겨 가요.\n\n- 씨앗 30종',
+		'작은 행성에 정원을 가꾸는 경영. 행성이 돌면 그늘도 옮겨 가요.\n\n- 씨앗 30종\n- 하루 한 번 물 주고 가는 정원 — 정원은 저장돼요',
 		['pc'],
 		['mouse']
 	),

@@ -105,6 +105,24 @@
 	<SiteFooter />
 </Story>
 
+<!-- 핵심 칸이 두 줄인 경우: 매일 이어서 + 같은 기기 둘 · 온라인(좁은 칸에서 '·' 대신 줄바꿈) -->
+<Story name="매일 이어서 · 온라인" asChild>
+	<SiteHeader theme="light" current="games" />
+	<Page
+		data={{
+			...base,
+			game: { ...sampleGameDetail('harbor-shop'), playersMax: 2, online: true },
+			similar: sampleSimilar('harbor-shop'),
+			tab: 'about',
+			reviewPage: null,
+			phrases: null
+		}}
+		params={{ slug: 'harbor-shop' }}
+		form={undefined}
+	/>
+	<SiteFooter />
+</Story>
+
 <!-- 예외: 리뷰가 하나도 없는 게임의 리뷰 탭 -->
 <Story name="리뷰 없음" asChild>
 	<SiteHeader theme="light" current="games" />

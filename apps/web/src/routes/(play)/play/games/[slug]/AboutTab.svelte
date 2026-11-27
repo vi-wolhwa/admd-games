@@ -4,7 +4,8 @@
 		DEVICE_LABEL,
 		type GameDetail,
 		LANGUAGE_LABEL,
-		LENGTH_LABEL,
+		LAUNCH_LABEL,
+		lengthLabel,
 		playersLabel,
 		splitDescription
 	} from '#lib/domain/game.ts';
@@ -17,7 +18,7 @@
 	/**
 	 * 소개 탭(PG05 전용 — 다른 곳에서 쓰이면 그때 내림). 왼쪽 = 메이커가 쓴 소개 · 특징,
 	 * 오른쪽 = 메이커 카드(누르면 메이커스 프로필, 팔로우) → 게임 정보 → 문제 알리기.
-	 * 정보는 머리글 없이 바로(사용자 피드백): 실행(기기 포함) · 한 판 · 인원 · 온라인/오프라인 · 언어 · 사양 · 보안 검사 · 공개.
+	 * 정보는 머리글 없이 바로(사용자 피드백): 실행(기기 포함) · 한 판에 · 인원(온라인 포함) · 언어 · 사양 · 보안 검사 · 공개.
 	 */
 	interface Props {
 		game: GameDetail;
@@ -32,11 +33,10 @@
 	const info = $derived([
 		{
 			label: '실행',
-			value: `${game.launch === 'web' ? '브라우저에서 바로' : '내려받아 설치'} · ${devices}`
+			value: `${LAUNCH_LABEL[game.launch]} · ${devices}`
 		},
-		{ label: '한 판', value: LENGTH_LABEL[game.length] },
-		{ label: '인원', value: playersLabel(game.playersMin, game.playersMax) },
-		{ label: '방식', value: game.online ? '온라인' : '오프라인' },
+		{ label: '한 판에', value: lengthLabel(game) },
+		{ label: '인원', value: playersLabel(game.playersMin, game.playersMax, game.online) },
 		...(game.languages.length > 0
 			? [{ label: '언어', value: game.languages.map((l) => LANGUAGE_LABEL[l] ?? l).join(' · ') }]
 			: []),

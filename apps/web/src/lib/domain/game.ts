@@ -2,25 +2,35 @@
  * 게임 정보 — 화면 · 서버 공용 타입과 규칙. 필드 정의 원본: docs/product/game-metadata.md
  */
 
-/** 한 판 길이 구간(메이커가 고름). 분 단위 정확한 값은 업데이트마다 틀어져서 구간만 둔다. */
-export type LengthBucket = 1 | 2 | 3 | 4 | 5;
+/**
+ * 한 판에 걸리는 시간 구간(메이커가 고름). 분 단위 정확한 값은 업데이트마다 틀어져서 구간만 둔다.
+ * 구간은 겹치지 않는다(사용자 결정 2026-11-28 — 5구간 누적 → 3구간).
+ */
+export type LengthBucket = 1 | 2 | 3;
 
-export const LENGTH_BUCKETS: readonly LengthBucket[] = [1, 2, 3, 4, 5];
+export const LENGTH_BUCKETS: readonly LengthBucket[] = [1, 2, 3];
 
 export const LENGTH_LABEL: Record<LengthBucket, string> = {
-	1: '5분 이하',
-	2: '15분 이하',
-	3: '30분 이하',
-	4: '1시간 이하',
-	5: '1시간 넘게'
+	1: '10분 안쪽',
+	2: '10~30분',
+	3: '30분 이상'
 };
 
-/** 실행 방식 — 올린 빌드 종류로 플랫폼이 안다. */
+/** 매일 이어서 — 진행이 저장돼 날마다 들러 이어 하는 게임(메이커가 체크, 한 판 시간과 별개) */
+export const DAILY_LABEL = '매일 이어서';
+
+/** 실행 방식 — 올린 빌드 종류로 플랫폼이 안다. 이름은 둘 다 '어디서 하나'(사용자 결정 2026-11-28) */
 export type Launch = 'web' | 'download';
 
 export const LAUNCH_LABEL: Record<Launch, string> = {
-	web: '브라우저에서 바로 플레이',
-	download: '설치형 · 다운로드'
+	web: '브라우저',
+	download: '다운로드'
+};
+
+/** 실행 방식 풀이(카드 칩 설명) */
+export const LAUNCH_HINT: Record<Launch, string> = {
+	web: '브라우저에서 바로 실행',
+	download: '다운로드해서 설치'
 };
 
 export interface GameMedia {
@@ -37,6 +47,8 @@ export interface GameCardData {
 	/** 태그 이름, 메이커가 적은 순서 */
 	tags: string[];
 	length: LengthBucket;
+	/** 매일 이어서 하는 게임 */
+	daily: boolean;
 	launch: Launch;
 	/** 휴대폰에서도 됨(브라우저 게임만 고를 수 있음) */
 	phone: boolean;
@@ -95,7 +107,10 @@ export interface GameDetail extends GameCardData {
 	/** 이 메이커의 공개 게임 수 */
 	makerGameCount: number;
 	devices: Device[];
-	/** 온라인 — 다른 사람과 인터넷으로 함께하거나(멀티플레이) 순위 등을 볼 수 있음. false = 오프라인(혼자 하는 게임, 다른 사람과 상호작용 없음) */
+	/**
+	 * 온라인 — 인터넷으로 다른 사람과 같이 플레이(사용자 결정 2026-11-28 — 순위만 있는 게임은 해당 없음).
+	 * 같은 기기에서 함께하는 인원은 playersMin ~ playersMax.
+	 */
 	online: boolean;
 	languages: string[];
 	/** 최소 사양(설치형만) */
@@ -121,8 +136,17 @@ export function splitDescription(text: string): { paragraphs: string[]; features
 	return { paragraphs, features };
 }
 
-/** 사람 수 표기 — 혼자 · 2명 · 2~4명 */
-export function playersLabel(min: number, max: number): string {
-	if (max <= 1) return '혼자';
-	return min === max ? `${String(max)}명` : `${String(min)}~${String(max)}명`;
+/**
+ * 인원 표기 — 같은 기기 인원(혼자서 · 2명 · 2~4명) + 온라인.
+ * 필터(혼자서 · 둘이서 · 온라인)와 같은 말을 쓴다.
+ */
+export function playersLabel(min: number, max: number, online = false): string {
+	const local =
+		max <= 1 ? '혼자서' : min === max ? `${String(max)}명` : `${String(min)}~${String(max)}명`;
+	return online ? `${local} · 온라인` : local;
+}
+
+/** 한 판에 칸 표기 — '10분 안쪽', 매일 이어서 하면 뒤에 붙인다 */
+export function lengthLabel(game: Pick<GameCardData, 'length' | 'daily'>): string {
+	return game.daily ? `${LENGTH_LABEL[game.length]} · ${DAILY_LABEL}` : LENGTH_LABEL[game.length];
 }

@@ -16,6 +16,7 @@ export const cardColumns = {
 	title: games.title,
 	makerName: makers.name,
 	length: games.length,
+	daily: games.daily,
 	launch: games.launch,
 	phone: games.phone,
 	playersMax: games.playersMax,
@@ -32,6 +33,7 @@ export interface CardRow {
 	title: string;
 	makerName: string;
 	length: number;
+	daily: boolean;
 	launch: string;
 	phone: boolean;
 	playersMax: number;
@@ -78,6 +80,7 @@ export async function toCards(db: D1Client, rows: CardRow[]): Promise<GameCardDa
 		title: r.title,
 		makerName: r.makerName,
 		length: r.length as LengthBucket,
+		daily: r.daily,
 		launch: r.launch as Launch,
 		phone: r.phone,
 		playersMax: r.playersMax,

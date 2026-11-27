@@ -1,11 +1,11 @@
 <script lang="ts">
-	import { type GameCardData, LAUNCH_LABEL } from '#lib/domain/game.ts';
+	import { type GameCardData, LAUNCH_HINT } from '#lib/domain/game.ts';
 	import Icon from '#lib/ui/primitives/Icon.svelte';
 	import type { IconName } from '#lib/ui/primitives/icons.ts';
 	import Tooltip from '#lib/ui/primitives/Tooltip.svelte';
 
 	/**
-	 * 그림 오른쪽 위 실행 칩: 실행 방식 · 휴대폰 · 여럿이. 마우스 · 키보드 포커스로 뜻을 펼친다.
+	 * 그림 오른쪽 위 실행 칩: 실행 방식 · 휴대폰 · 둘이서(같은 기기). 마우스 · 키보드 포커스로 뜻을 펼친다.
 	 * 보안 검사는 여기 넣지 않는다 — 공개된 설치형은 모두 통과한 것이라 카드에선 정보가 아님(상세 PG05 에서 알림).
 	 */
 	interface Props {
@@ -16,11 +16,11 @@
 
 	const lines = $derived(
 		[
-			{ icon: game.launch === 'web' ? 'web' : 'download', text: LAUNCH_LABEL[game.launch] },
+			{ icon: game.launch === 'web' ? 'web' : 'download', text: LAUNCH_HINT[game.launch] },
 			game.phone && { icon: 'phone', text: '휴대폰에서도 가능' },
 			game.playersMax >= 2 && {
 				icon: 'duo',
-				text: `여럿이 같이 · 최대 ${String(game.playersMax)}명`
+				text: `둘이서 · 같은 기기 최대 ${String(game.playersMax)}명`
 			}
 		].filter((l): l is { icon: IconName; text: string } => !!l)
 	);

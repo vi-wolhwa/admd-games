@@ -1,5 +1,5 @@
 <script lang="ts">
-	import { type GameCardData, hoverMedia, isNewGame, LENGTH_LABEL } from '#lib/domain/game.ts';
+	import { type GameCardData, hoverMedia, isNewGame, lengthLabel } from '#lib/domain/game.ts';
 	import CountLine from '#lib/ui/patterns/CountLine.svelte';
 	import MediaFrame from '#lib/ui/patterns/MediaFrame.svelte';
 	import Badge from '#lib/ui/primitives/Badge.svelte';
@@ -53,7 +53,7 @@
 		<!-- eslint-enable svelte/no-navigation-without-resolve -->
 	</h3>
 	<p class="mt-0.5 truncate text-label text-ink-3">
-		{game.makerName} · 한 판 {LENGTH_LABEL[game.length]}
+		{game.makerName} · 한 판에 {lengthLabel(game)}
 	</p>
 	{#if game.tags.length > 0}
 		<p class="mt-1 flex gap-2 overflow-hidden">

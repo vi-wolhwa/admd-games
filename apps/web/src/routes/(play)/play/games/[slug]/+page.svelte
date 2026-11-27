@@ -3,7 +3,8 @@
 		DEVICE_LABEL,
 		type GameCardData,
 		hoverMedia,
-		LENGTH_LABEL,
+		LAUNCH_LABEL,
+		lengthLabel,
 		playersLabel,
 		tagSlug
 	} from '#lib/domain/game.ts';
@@ -41,10 +42,14 @@
 	]);
 	const action = $derived(playAction(game, null, data.device));
 	const facts = $derived([
-		{ label: '실행', value: game.launch === 'web' ? '바로 플레이' : '설치형' },
+		{ label: '실행', value: LAUNCH_LABEL[game.launch] },
 		{ label: '기기', value: game.devices.map((d) => DEVICE_LABEL[d]).join(' · ') },
-		{ label: '한 판', value: LENGTH_LABEL[game.length] },
-		{ label: '인원', value: playersLabel(game.playersMin, game.playersMax) }
+		// 좁은 칸 — 매일 이어서 · 온라인은 다음 줄로(끝에 '·' 만 남지 않게)
+		{ label: '한 판에', value: lengthLabel(game).replace(' · ', '\n') },
+		{
+			label: '인원',
+			value: playersLabel(game.playersMin, game.playersMax, game.online).replace(' · ', '\n')
+		}
 	]);
 	/** 로그인이 필요한 행동을 눌렀을 때 띄울 안내(무엇을 하려 했는지) */
 	let loginReason = $state<string | null>(null);
