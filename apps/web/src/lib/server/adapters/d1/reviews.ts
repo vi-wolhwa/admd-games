@@ -5,6 +5,7 @@ import { type Cursor, encodeCursor } from '#lib/domain/cursor.ts';
 import { mentionCandidates, splitMentions } from '#lib/domain/profile.ts';
 import {
 	decodeReviewCursor,
+	type Person,
 	type ReplyData,
 	type ReviewData,
 	type ReviewSort
@@ -17,7 +18,7 @@ import { makers, profiles, replies, reviewPhrases, reviews } from './schema';
 /** 글쓴이가 가진 메이커스 프로필(makers.profile_id = 글쓴이) */
 const authorMaker = alias(makers, 'author_maker');
 
-/** '오래 한 사람' 순에서 기록 없음(null)을 맨 뒤로 */
+/** '고인물 순'에서 기록 없음(null)을 맨 뒤로 */
 const played = sql<number>`COALESCE(${reviews.playMinutes}, -1)`;
 
 const ORDER: Record<ReviewSort, SQL[]> = {
@@ -198,22 +199,28 @@ async function loadReplies(
 		.where(inArray(replies.reviewId, reviewIds))
 		.orderBy(asc(replies.reviewId), asc(replies.createdAt), asc(replies.id));
 
-	// 멘션 후보 닉네임을 한 번에 찾는다(아는 닉네임 → 메이커스 프로필 주소)
+	// 멘션 후보 닉네임을 한 번에 찾는다(아는 닉네임 → 그 사람: 얼굴 · 메이커스 프로필 주소)
 	const candidates = [...new Set(rows.flatMap((r) => mentionCandidates(r.body)))];
-	const known = new Map<string, string | null>();
+	const known = new Map<string, Person>();
 	if (candidates.length > 0) {
 		const people = await db
-			.select({ name: profiles.displayName, slug: makers.slug })
+			.select({
+				name: profiles.displayName,
+				faceChar: profiles.faceChar,
+				faceColor: profiles.faceColor,
+				makerSlug: makers.slug
+			})
 			.from(profiles)
 			.leftJoin(makers, eq(makers.profileId, profiles.id))
 			.where(inArray(profiles.displayName, candidates));
-		for (const p of people) known.set(p.name, p.slug);
+		for (const p of people) known.set(p.name, p);
 	}
 
 	for (const r of rows) {
-		const mentions: Record<string, string | null> = {};
+		const mentions: Record<string, Person> = {};
 		for (const part of splitMentions(r.body, (n) => known.has(n))) {
-			if ('mention' in part) mentions[part.mention] = known.get(part.mention) ?? null;
+			const who = 'mention' in part ? known.get(part.mention) : undefined;
+			if (who) mentions[who.name] = who;
 		}
 		const reply: ReplyData = {
 			id: r.id,

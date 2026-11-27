@@ -9,11 +9,12 @@
 	import Menu from '#lib/ui/primitives/Menu.svelte';
 
 	import MentionText from './MentionText.svelte';
+	import PersonPopover from './PersonPopover.svelte';
 
 	/**
 	 * 리뷰 한 개 + 답글(한 단계) — 누가 · 어떤 맥락에서 · 무엇을 · 다른 사람이 어떻게 답했는지(research/04-reviews.md).
 	 * - 맥락 줄: 'n시간 플레이했을 때 · 3일 전에(v1.1) 작성|수정' — 연도까지의 날짜는 시간에 마우스를 올리면
-	 * - 글쓴이(얼굴 · 닉네임)는 메이커스 프로필이 있으면 누르면 그리로, 없으면 이동 없음
+	 * - 글쓴이(얼굴 · 닉네임) · @멘션은 누구든 누르면 프로필 카드(메이커스 프로필이 있으면 카드에서 그리로)
 	 * - 행동은 본문 아래 글자 버튼 한 줄: '답글 달기' · '답글 n개'(접혀 있다가 펼침 — YouTube · TapTap 선례)
 	 * - 답글은 시간 순서 그대로(메이커 답글도 고정하지 않음 — 대화 맥락, 사용자 결정 2026-11-28).
 	 *   메이커가 답했으면 접힌 상태에서도 '메이커' 꼬리표로 알린다. 답글 안 @닉네임은 파란 글씨
@@ -62,33 +63,27 @@
 	</time>
 {/snippet}
 
-<!-- 얼굴 · 닉네임 — 메이커스 프로필이 있으면 링크, 없으면 그냥 글 -->
-{#snippet who(person: Person, size: 'sm' | 'md')}
-	{#if person.makerSlug}
-		<!-- eslint-disable svelte/no-navigation-without-resolve -- 부르는 쪽이 resolve() 로 만든 주소 -->
-		<a
-			href={profileHref(person.makerSlug)}
-			class="group/who flex min-w-0 items-center gap-2.5 rounded-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
-		>
-			<JamoFace char={person.faceChar} color={person.faceColor} {size} />
-			<b
-				class={[
-					'truncate font-heavy text-ink-1 group-hover/who:underline group-hover/who:underline-offset-3',
-					size === 'md' ? 'text-body' : 'text-label'
-				]}
+<!-- 얼굴 · 닉네임 — 누구든 누르면 프로필 카드(메이커면 카드에서 메이커스 프로필로) -->
+{#snippet who(person: Person & { reviewCount?: number }, size: 'sm' | 'md')}
+	<PersonPopover {person} {profileHref}>
+		{#snippet trigger({ props })}
+			<button
+				{...props}
+				type="button"
+				class="group/who flex min-w-0 cursor-pointer items-center gap-2.5 rounded-sm text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
 			>
-				{person.name}
-			</b>
-		</a>
-		<!-- eslint-enable svelte/no-navigation-without-resolve -->
-	{:else}
-		<span class="flex min-w-0 items-center gap-2.5">
-			<JamoFace char={person.faceChar} color={person.faceColor} {size} />
-			<b class={['truncate font-heavy text-ink-1', size === 'md' ? 'text-body' : 'text-label']}>
-				{person.name}
-			</b>
-		</span>
-	{/if}
+				<JamoFace char={person.faceChar} color={person.faceColor} {size} />
+				<b
+					class={[
+						'truncate font-heavy text-ink-1 group-hover/who:underline group-hover/who:underline-offset-3',
+						size === 'md' ? 'text-body' : 'text-label'
+					]}
+				>
+					{person.name}
+				</b>
+			</button>
+		{/snippet}
+	</PersonPopover>
 {/snippet}
 
 <article class="flex flex-col gap-3 border-t border-line py-7 first:border-t-0 first:pt-0">
@@ -115,7 +110,9 @@
 			</p>
 		</div>
 		{#if review.recommended}
-			<span class="mt-1.5 inline-flex shrink-0 items-center gap-1 text-meta font-heavy text-heart">
+			<span
+				class="mt-1.5 inline-flex shrink-0 items-center gap-1 text-meta font-heavy text-heart-text"
+			>
 				<Icon name="heart-fill" size={12} />추천
 			</span>
 		{/if}

@@ -55,12 +55,13 @@
 			<h2 id="review-form-title" class="flex-1 text-title font-heavy text-ink-1">리뷰 쓰기</h2>
 		</div>
 	{:else}
+		<!-- 줄 어디를 눌러도 펼침. 테두리는 그대로, 버튼 모양 부분만 마우스를 올렸을 때 색이 바뀜(사용자 피드백) -->
 		<button
 			type="button"
 			aria-expanded="false"
 			aria-controls={formId}
 			onclick={() => (open = true)}
-			class="group flex w-full items-center gap-3 rounded-xl p-4 text-left transition-colors hover:bg-sunken focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
+			class="flex w-full cursor-pointer items-center gap-3 rounded-xl p-4 text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
 		>
 			<span class="flex size-9 items-center justify-center rounded-full bg-sunken text-ink-3">
 				<Icon name="pen" size={16} />
@@ -69,7 +70,7 @@
 				이 게임, 어떤 점이 좋았나요?
 			</span>
 			<span
-				class="inline-flex h-(--btn-h-sm) items-center rounded-full bg-accent px-4 text-label font-bold text-on-accent group-hover:bg-accent-strong"
+				class="inline-flex h-(--btn-h-sm) items-center rounded-full bg-accent px-4 text-label font-bold text-on-accent transition-colors hover:bg-accent-strong"
 			>
 				리뷰 쓰기
 			</span>

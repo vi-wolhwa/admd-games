@@ -20,14 +20,14 @@
 		await expect(send).toBeDisabled();
 		// 펼치는 움직임이 끝날 때까지 기다린다(느린 CI 에서는 도중에 보이지 않음)
 		await waitFor(() => expect(canvas.getByText('키워드를 1개 이상 골라 주세요')).toBeVisible());
-		await userEvent.click(canvas.getByRole('button', { name: '짧고 굵음' }));
+		await userEvent.click(canvas.getByRole('button', { name: '짧고 굵어요' }));
 		await expect(send).toBeDisabled();
 		await expect(canvas.getByText('리뷰를 작성해 주세요')).toBeVisible();
 		await userEvent.type(canvas.getByRole('textbox', { name: /^리뷰/ }), '  짧은데 손에 남아요  ');
 		await expect(send).toBeEnabled();
 		await userEvent.click(send);
 		await expect(onsubmit).toHaveBeenCalledWith({
-			keywords: ['짧고 굵음'],
+			keywords: ['짧고 굵어요'],
 			body: '짧은데 손에 남아요'
 		});
 		send.blur();
@@ -42,17 +42,17 @@
 	asChild
 	play={async ({ canvas, userEvent }) => {
 		for (const k of [
-			'짧고 굵음',
-			'오래 붙잡게 돼요',
+			'짧고 굵어요',
+			'시간 가는 줄 몰라요',
 			'그림이 예뻐요',
 			'음악이 좋아요',
-			'한 손으로'
+			'한 손으로도 할 수 있어요'
 		]) {
 			await userEvent.click(canvas.getByRole('button', { name: k }));
 		}
 		await expect(canvas.getByText('5 / 5개')).toBeVisible();
 		await expect(canvas.getByRole('button', { name: '조작이 편해요' })).toBeDisabled();
-		const last = canvas.getByRole('button', { name: '한 손으로' });
+		const last = canvas.getByRole('button', { name: '한 손으로도 할 수 있어요' });
 		await expect(last).toBeEnabled();
 		last.blur();
 	}}

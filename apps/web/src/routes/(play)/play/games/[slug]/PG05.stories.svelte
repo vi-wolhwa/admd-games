@@ -46,9 +46,9 @@
 			tab: 'reviews',
 			reviewPage: { items: reviews, nextCursor: null, total: reviews.length },
 			phrases: [
-				{ phrase: '짧고 굵음', count: 2 },
+				{ phrase: '짧고 굵어요', count: 2 },
 				{ phrase: '그림이 예뻐요', count: 1 },
-				{ phrase: '힌트가 친절해요', count: 1 }
+				{ phrase: '안내가 친절해요', count: 1 }
 			]
 		}}
 		params={{ slug }}

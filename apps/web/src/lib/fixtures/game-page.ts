@@ -71,10 +71,10 @@ export function sampleReviewData(slug: string, now: number = STORY_NOW): ReviewD
 			phrases: r.phrases,
 			body: r.body,
 			replies: r.replies.map((x) => {
-				const mentions: Record<string, string | null> = {};
+				const mentions: Record<string, ReturnType<typeof person>> = {};
 				for (const part of splitMentions(x.body, (n) => byName.has(n))) {
 					if ('mention' in part)
-						mentions[part.mention] = person(byName.get(part.mention)?.id ?? '').makerSlug;
+						mentions[part.mention] = person(byName.get(part.mention)?.id ?? '');
 				}
 				const author = people.find((p) => p.id === x.authorId);
 				return {

@@ -38,9 +38,9 @@
 		canvas.getByRole('tab', { name: '소개' }).focus();
 		await userEvent.keyboard('{ArrowRight}');
 		await expect(ontab).toHaveBeenCalledWith('reviews');
-		await userEvent.click(canvas.getByRole('radio', { name: '최신' }));
+		await userEvent.click(canvas.getByRole('radio', { name: '최신 순' }));
 		await expect(onsort).toHaveBeenCalledWith('recent');
-		canvas.getByRole('radio', { name: '최신' }).blur();
+		canvas.getByRole('radio', { name: '최신 순' }).blur();
 	}}
 >
 	<div class="flex w-150 flex-col gap-6">
@@ -69,8 +69,8 @@
 			value="helpful"
 			items={[
 				{ value: 'helpful', label: '도움 많은' },
-				{ value: 'recent', label: '최신' },
-				{ value: 'played', label: '오래 한 사람' }
+				{ value: 'recent', label: '최신 순' },
+				{ value: 'played', label: '고인물 순' }
 			]}
 			onchange={onsort}
 		/>

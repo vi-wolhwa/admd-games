@@ -1,6 +1,6 @@
 <script module lang="ts">
 	import { defineMeta } from '@storybook/addon-svelte-csf';
-	import { expect, fn } from 'storybook/test';
+	import { expect, fn, within } from 'storybook/test';
 
 	import { sampleReviewData } from '#lib/fixtures/game-page.ts';
 	import { STORY_NOW } from '#lib/fixtures/games.ts';
@@ -20,7 +20,7 @@
 	// 답글 4개(접힘 → 펼침, 시간 순) · 메이커 답글 · 프로필 있는 멘션(링크) · 없는 멘션(파란 글씨만)
 	const threads = [
 		...sampleReviewData('loop-debugger').filter((r) => r.replies.length > 3),
-		...paper.filter((r) => Object.values(r.replies.at(-1)?.mentions ?? {}).some(Boolean))
+		...paper.filter((r) => Object.values(r.replies.at(-1)?.mentions ?? {}).some((p) => p.makerSlug))
 	];
 
 	const { Story } = defineMeta({ title: 'Entities/Review/ReviewItem', component: ReviewItem });
@@ -61,11 +61,14 @@
 		for (const t of toggles) await userEvent.click(t);
 		await expect(toggles[0]).toHaveAttribute('aria-expanded', 'true');
 		await expect(canvas.getAllByText('메이커').length).toBeGreaterThan(0);
-		// 메이커스 프로필이 있는 멘션만 링크
-		await expect(canvas.getByRole('link', { name: '@벡터공방' })).toHaveAttribute(
+		// 멘션 · 글쓴이는 누구든 누르면 프로필 카드 — 메이커면 카드에서 메이커스 프로필로
+		await userEvent.click(canvas.getByRole('button', { name: '@벡터공방' }));
+		const body = within(document.body);
+		await expect(await body.findByRole('link', { name: '메이커스 프로필 보기' })).toHaveAttribute(
 			'href',
 			'#vector-studio'
 		);
+		await userEvent.keyboard('{Escape}');
 	}}
 >
 	<div class="w-180">

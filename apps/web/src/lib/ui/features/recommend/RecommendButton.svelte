@@ -21,10 +21,11 @@
 	title={pressed ? '추천함' : '추천'}
 	{onclick}
 	class={[
-		'inline-flex size-14 shrink-0 items-center justify-center rounded-lg text-heart transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
+		'inline-flex size-14 shrink-0 items-center justify-center rounded-lg transition-colors focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent',
+		// 누름 = 빨간 바탕 + 흰 하트(사용자 결정 2026-11-28)
 		pressed
-			? 'bg-heart-tint inset-ring inset-ring-heart'
-			: 'inset-ring inset-ring-line-strong hover:bg-heart-tint hover:inset-ring-heart'
+			? 'bg-heart text-on-heart hover:bg-heart-strong'
+			: 'text-heart inset-ring inset-ring-line-strong hover:bg-heart-tint hover:inset-ring-heart'
 	]}
 >
 	<Icon name={pressed ? 'heart-fill' : 'heart'} size={20} />

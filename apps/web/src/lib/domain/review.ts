@@ -8,22 +8,99 @@ import { type Cursor, decodeCursorOf } from './cursor';
 export type ReviewSort = 'recent' | 'played';
 export const REVIEW_SORTS: readonly ReviewSort[] = ['recent', 'played'];
 export const REVIEW_SORT_LABEL: Record<ReviewSort, string> = {
-	recent: '최신',
-	played: '오래 한 사람'
+	recent: '최신 순',
+	// 게이미틱한 이름(사용자 결정 2026-11-28) — 그 게임을 오래 플레이한 사람의 리뷰 먼저
+	played: '고인물 순'
 };
 
 /**
  * 리뷰 키워드 — 쓸 때 이 목록에서 1~5개 고른다(네이버 방식, 사용자 결정 2026-11-28).
  * 성격에 따라 묶음으로 나눠 보여 준다(네이버처럼 — 키워드가 30~60개로 늘어도 찾기 쉽게).
+ * 목록 근거: 실제 리뷰 약 7천 개(Steam 영 · 한, 한국 App Store, itch.io)의 칭찬 측면 언급률 + TapTap · Steam 태그 · 연구 —
+ * docs/product/review-keywords.md. 말투: 모두 '~요' 구어체, 한 가지 뜻, 꾸밈말 · 부정형 · 은어 없음.
  * 좋은 점만 — 아쉬운 점은 리뷰 글로(싫어요 없음 원칙, ADR 0009).
  */
 export const REVIEW_KEYWORD_GROUPS = [
-	{ label: '플레이', keywords: ['짧고 굵음', '오래 붙잡게 돼요', '같이 하면 더 좋아요'] },
 	{
-		label: '그림 · 소리 · 이야기',
-		keywords: ['그림이 예뻐요', '음악이 좋아요', '이야기가 좋아요']
+		label: '재미 · 몰입',
+		keywords: [
+			'시간 가는 줄 몰라요',
+			'할 때마다 새로워요',
+			'아이디어가 참신해요',
+			'손맛이 짜릿해요',
+			'긴장감이 넘쳐요',
+			'웃음이 터져요'
+		]
 	},
-	{ label: '조작 · 편의', keywords: ['조작이 편해요', '힌트가 친절해요', '한 손으로'] }
+	{
+		label: '도전 · 성장',
+		keywords: [
+			'도전할 맛이 나요',
+			'깨고 나면 뿌듯해요',
+			'실력이 느는 게 느껴져요',
+			'머리 쓰는 재미가 있어요',
+			'조합 짜는 재미가 있어요',
+			'점점 강해지는 맛이 있어요',
+			'보스전이 짜릿해요'
+		]
+	},
+	{
+		label: '이야기 · 세계',
+		keywords: [
+			'이야기가 좋아요',
+			'여운이 오래 남아요',
+			'캐릭터가 매력 있어요',
+			'반전이 놀라워요',
+			'세계에 푹 빠져요',
+			'탐험하는 재미가 있어요',
+			'선택이 결과를 바꿔요',
+			'오싹해서 좋아요'
+		]
+	},
+	{
+		label: '그림 · 소리',
+		keywords: [
+			'그림이 예뻐요',
+			'음악이 좋아요',
+			'아기자기하고 귀여워요',
+			'연출이 멋져요',
+			'효과음이 생생해요',
+			'박자 맞추는 맛이 있어요'
+		]
+	},
+	{
+		label: '조작 · 편의',
+		keywords: [
+			'조작이 편해요',
+			'금방 익힐 수 있어요',
+			'안내가 친절해요',
+			'난이도를 고를 수 있어요',
+			'화면이 한눈에 들어와요',
+			'가볍고 쾌적해요',
+			'완성도가 높아요'
+		]
+	},
+	{
+		label: '함께하기',
+		keywords: [
+			'같이 하면 더 재밌어요',
+			'호흡 맞추는 재미가 있어요',
+			'다 같이 웃고 떠들어요',
+			'가족과 함께하기 좋아요',
+			'기록 경쟁이 재밌어요'
+		]
+	},
+	{
+		label: '플레이 시간 · 방식',
+		keywords: [
+			'마음이 편안해져요',
+			'짧고 굵어요',
+			'틈틈이 하기 좋아요',
+			'즐길 거리가 많아요',
+			'내 마음대로 즐겨요',
+			'한 손으로도 할 수 있어요'
+		]
+	}
 ] as const;
 export const REVIEW_KEYWORDS = REVIEW_KEYWORD_GROUPS.flatMap((g) => g.keywords);
 /** 리뷰 하나에 고를 수 있는 키워드 수(네이버와 같은 5개 — 가장 두드러진 점만 남게, 사용자 결정 2026-11-28) */
@@ -62,7 +139,7 @@ export interface ReviewAuthor extends Person {
 
 /**
  * 답글 — 누구나 단다(로그인 뒤), 한 단계만(답글에 답할 때는 @닉네임). 리뷰에서는 멘션 불가(사용자 결정 2026-11-28).
- * mentions = 이 글에 나온 아는 닉네임 → 메이커스 프로필 주소(없으면 null: 파란 글씨지만 이동 없음)
+ * mentions = 이 글에 나온 아는 닉네임 → 그 사람(얼굴 · 메이커스 프로필 주소 — 누르면 프로필 카드)
  */
 export interface ReplyData {
 	id: string;
@@ -72,7 +149,7 @@ export interface ReplyData {
 	body: string;
 	createdAt: number;
 	updatedAt: number | null;
-	mentions: Record<string, string | null>;
+	mentions: Record<string, Person>;
 }
 
 export interface ReviewData {

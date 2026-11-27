@@ -74,11 +74,12 @@
 	--color-dahong-600: #b40433; /* 위험 버튼 호버 */
 	--color-dahong-900: #3d1a1c;
 
-	/* 연지 — 추천(하트). 쪽빛과 같은 밝기 · 채도에 색상만 붉게(OKLCH h20) — 새빨강보다 차분하게 */
-	--color-yeonji-50: #feefef;
-	--color-yeonji-400: #ee5f67; /* 다크 바탕 위 아이콘 · 글자 */
-	--color-yeonji-500: #bd3643; /* 기준 · 흰 바탕 5.6:1 */
-	--color-yeonji-900: #3d1a1b; /* 다크 tint */
+	/* 연지 — 추천(하트). 밝은 장미 빨강(사용자 결정 2026-11-28 — 구글 로고 빨강만큼 밝되 주황기를 빼 쪽빛과 어울리게, OKLCH h22) */
+	--color-yeonji-50: #fef0ef;
+	--color-yeonji-400: #f66c6d; /* 다크 바탕 위 글자 */
+	--color-yeonji-500: #e6424c; /* 기준 — 아이콘 · 채움(흰 하트 4.0:1) */
+	--color-yeonji-600: #c92e3b; /* 흰 바탕 위 글자 5.3:1 · 채움 호버 */
+	--color-yeonji-900: #3e1a1a; /* 다크 tint */
 
 	/* 자모 얼굴 타일 12색 — 같은 휘도 Y .155, 흰 글자 5.1:1 (tools/faces.py) */
 	--color-face-hong: #ac5255;
@@ -197,8 +198,11 @@
 	--danger-strong: var(--color-dahong-600);
 	--danger-text: var(--color-dahong-500);
 	--danger-tint: var(--color-dahong-50);
-	--heart: var(--color-yeonji-500); /* 추천 하트 — 아이콘 · 글자 */
+	--heart: var(--color-yeonji-500); /* 추천 하트 — 아이콘 · 채움(테마와 무관) */
+	--heart-strong: var(--color-yeonji-600); /* 채움 호버 */
+	--heart-text: var(--color-yeonji-600); /* 글자로 쓸 때: 라이트 600 · 다크 400 */
 	--heart-tint: var(--color-yeonji-50);
+	--on-heart: var(--color-white);
 	--rank-up: var(--color-dahong-500); /* 한국 관습: 상승 빨강 ▲ */
 	--rank-down: var(--color-jjok-600); /*           하락 파랑 ▼ */
 	--lift: 0 12px 26px -12px rgb(21 26 32 / 0.36);
@@ -275,7 +279,7 @@
 		--ok-tint: var(--color-bichwi-900);
 		--danger-text: var(--color-dahong-400);
 		--danger-tint: var(--color-dahong-900);
-		--heart: var(--color-yeonji-400);
+		--heart-text: var(--color-yeonji-400);
 		--heart-tint: var(--color-yeonji-900);
 		--rank-up: var(--color-dahong-400);
 		--rank-down: var(--color-jjok-400);
@@ -303,7 +307,7 @@
 	--ok-tint: var(--color-bichwi-900);
 	--danger-text: var(--color-dahong-400);
 	--danger-tint: var(--color-dahong-900);
-	--heart: var(--color-yeonji-400);
+	--heart-text: var(--color-yeonji-400);
 	--heart-tint: var(--color-yeonji-900);
 	--rank-up: var(--color-dahong-400);
 	--rank-down: var(--color-jjok-400);
@@ -348,7 +352,10 @@
 	--color-danger-text: var(--danger-text);
 	--color-danger-tint: var(--danger-tint);
 	--color-heart: var(--heart);
+	--color-heart-strong: var(--heart-strong);
+	--color-heart-text: var(--heart-text);
 	--color-heart-tint: var(--heart-tint);
+	--color-on-heart: var(--on-heart);
 	--color-rank-up: var(--rank-up);
 	--color-rank-down: var(--rank-down);
 }

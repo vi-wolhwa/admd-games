@@ -59,7 +59,7 @@ const REVIEWS: ReviewSeed[] = [
 		createdAt: NOW - 10 * DAY,
 		updatedAt: NOW - 8 * DAY,
 		playMinutes: 66,
-		phrases: ['짧고 굵음', '힌트가 친절해요'],
+		phrases: ['짧고 굵어요', '안내가 친절해요'],
 		recommended: true,
 		replies: [
 			{
@@ -85,7 +85,7 @@ const REVIEWS: ReviewSeed[] = [
 		authorId: 'p3',
 		createdAt: NOW - 3 * DAY,
 		playMinutes: 30,
-		phrases: ['짧고 굵음']
+		phrases: ['짧고 굵어요']
 	}),
 	review('r6', { gameId: 'g2' })
 ];
@@ -139,9 +139,9 @@ export function runGameDetailsContract(
 	it('리뷰는 그 게임 것만, 정렬마다 정해진 순서(같으면 최신 → id)', async () => {
 		const { reviews } = await make();
 		expect(await ids(reviews, 'recent')).toEqual(['r5', 'r4', 'r1', 'r2', 'r3']);
-		// 플레이 기록이 없는 리뷰는 '오래 한 사람' 순에서 맨 뒤
+		// 플레이 기록이 없는 리뷰는 '고인물 순'에서 맨 뒤
 		expect(await ids(reviews, 'played')).toEqual(['r3', 'r1', 'r2', 'r5', 'r4']);
-		expect(await ids(reviews, 'recent', '짧고 굵음')).toEqual(['r5', 'r1']);
+		expect(await ids(reviews, 'recent', '짧고 굵어요')).toEqual(['r5', 'r1']);
 	});
 
 	it('커서로 이어 불러오면 겹치지도 빠지지도 않는다', async () => {
@@ -165,7 +165,7 @@ export function runGameDetailsContract(
 		const { reviews } = await make();
 		const { items } = await reviews.listReviews(
 			'g1',
-			{ sort: 'recent', phrase: '힌트가 친절해요' },
+			{ sort: 'recent', phrase: '안내가 친절해요' },
 			{ cursor: null, limit: 1 }
 		);
 		expect(items[0]).toEqual({
@@ -183,7 +183,7 @@ export function runGameDetailsContract(
 			version: 'v1.1',
 			createdAt: NOW - 10 * DAY,
 			updatedAt: NOW - 8 * DAY,
-			phrases: ['짧고 굵음', '힌트가 친절해요'],
+			phrases: ['짧고 굵어요', '안내가 친절해요'],
 			body: '리뷰 r1',
 			replies: [
 				{
@@ -194,8 +194,10 @@ export function runGameDetailsContract(
 					body: '@새벽코딩님 고마워요!',
 					createdAt: NOW - 9 * DAY,
 					updatedAt: null,
-					// 아는 닉네임이지만 메이커스 프로필이 없음 → null(이동 없음)
-					mentions: { 새벽코딩: null }
+					// 아는 닉네임이면 그 사람(얼굴 · 메이커스 프로필 — 없으면 null)
+					mentions: {
+						새벽코딩: { name: '새벽코딩', faceChar: 'ㅅ', faceColor: 'hong', makerSlug: null }
+					}
 				},
 				{
 					id: 'x2',
@@ -205,7 +207,9 @@ export function runGameDetailsContract(
 					createdAt: NOW - 8 * DAY,
 					updatedAt: NOW - 7 * DAY,
 					// 모르는 이름(@없는사람)은 멘션이 아님
-					mentions: { 노을공방: 'maker-1' }
+					mentions: {
+						노을공방: { name: '노을공방', faceChar: 'ㄴ', faceColor: 'olive', makerSlug: 'maker-1' }
+					}
 				}
 			]
 		});
@@ -222,8 +226,8 @@ export function runGameDetailsContract(
 	it('자주 고른 말은 많은 순', async () => {
 		const { reviews } = await make();
 		expect(await reviews.topPhrases('g1', 10)).toEqual([
-			{ phrase: '짧고 굵음', count: 2 },
-			{ phrase: '힌트가 친절해요', count: 1 }
+			{ phrase: '짧고 굵어요', count: 2 },
+			{ phrase: '안내가 친절해요', count: 1 }
 		]);
 	});
 }
