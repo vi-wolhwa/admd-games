@@ -129,13 +129,15 @@ export const gameMedia = sqliteTable(
 
 /**
  * 사람 프로필(이 앱이 가진 것). 로그인(better-auth, SH01)의 사용자와 같은 id 를 쓴다 — 인증 라이브러리를 바꿔도 남는다.
- * 얼굴 = 자모 얼굴(글자 + 12색 중 하나).
+ * 얼굴 = 고양이 얼굴(눈 글자 + 입 글자 + 12색 중 하나).
  */
 export const profiles = sqliteTable('profiles', {
 	id: text('id').primaryKey(),
 	/** 닉네임 — 한글 · 영문 15자, 겹치지 않음(@멘션의 기준) */
 	displayName: text('display_name').notNull().unique(),
+	/** 고양이 얼굴 — 눈 글자 · 입 글자 · 색(사용자 결정 2026-11-28) */
 	faceChar: text('face_char').notNull(),
+	faceMouth: text('face_mouth').notNull().default('ㅅ'),
 	faceColor: text('face_color').notNull(),
 	/** 쓴 리뷰 수 캐시 */
 	reviewCount: integer('review_count').notNull().default(0),

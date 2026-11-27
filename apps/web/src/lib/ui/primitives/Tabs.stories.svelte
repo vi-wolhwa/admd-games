@@ -2,7 +2,7 @@
 	import { defineMeta } from '@storybook/addon-svelte-csf';
 	import { expect, fn } from 'storybook/test';
 
-	import JamoFace from './JamoFace.svelte';
+	import CatFace from './CatFace.svelte';
 	import Segmented from './Segmented.svelte';
 	import Tabs from './Tabs.svelte';
 
@@ -25,7 +25,7 @@
 
 	// 고르는 막대 두 가지(탭 · 정렬)와 사람 얼굴 — 모두 PG05 에서 처음 쓴다
 	const { Story } = defineMeta({
-		title: 'Primitives/Tabs · Segmented · JamoFace',
+		title: 'Primitives/Tabs · Segmented · CatFace',
 		component: Tabs
 	});
 </script>
@@ -75,9 +75,9 @@
 			onchange={onsort}
 		/>
 		<div class="flex flex-wrap items-center gap-2">
-			<JamoFace char="ㅅ" color="hong" size="lg" />
-			<JamoFace char="ㅁ" color="bora" size="md" />
-			{#each FACES as c (c)}<JamoFace char="ㅇ" color={c} size="sm" />{/each}
+			<CatFace eyes="^" mouth="ω" color="hong" size="lg" />
+			<CatFace eyes="ㅁ" mouth="ㅅ" color="bora" size="md" />
+			{#each FACES as c (c)}<CatFace eyes="ㅇ" mouth="ㅅ" color={c} size="sm" />{/each}
 		</div>
 	</div>
 </Story>

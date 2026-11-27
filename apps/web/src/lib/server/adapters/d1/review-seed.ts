@@ -17,6 +17,7 @@ export function reviewSeedStatements(
 				id: p.id,
 				display_name: p.displayName,
 				face_char: p.faceChar,
+				face_mouth: p.faceMouth,
 				face_color: p.faceColor,
 				review_count: reviews.filter((r) => r.authorId === p.id).length,
 				created_at: now

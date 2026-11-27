@@ -1,0 +1,1 @@
+ALTER TABLE `profiles` ADD `face_mouth` text DEFAULT 'ㅅ' NOT NULL;

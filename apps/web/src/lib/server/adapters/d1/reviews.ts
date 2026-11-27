@@ -74,6 +74,7 @@ export function createD1Reviews(db: D1Client): Reviews {
 					updatedAt: reviews.updatedAt,
 					name: profiles.displayName,
 					faceChar: profiles.faceChar,
+					faceMouth: profiles.faceMouth,
 					faceColor: profiles.faceColor,
 					reviewCount: profiles.reviewCount,
 					// 글쓴이의 메이커스 프로필 주소(없으면 null) — 묶음(batch) 결과는 열 이름으로 오므로 별칭
@@ -129,6 +130,7 @@ export function createD1Reviews(db: D1Client): Reviews {
 				author: {
 					name: r.name,
 					faceChar: r.faceChar,
+					faceMouth: r.faceMouth,
 					faceColor: r.faceColor,
 					makerSlug: r.makerSlug,
 					reviewCount: r.reviewCount
@@ -189,6 +191,7 @@ async function loadReplies(
 			updatedAt: replies.updatedAt,
 			name: profiles.displayName,
 			faceChar: profiles.faceChar,
+			faceMouth: profiles.faceMouth,
 			faceColor: profiles.faceColor,
 			makerSlug: sql<string | null>`${authorMaker.slug}`.as('author_maker_slug'),
 			byGameMaker: sql<number>`(${authorMaker.id} IS NOT NULL AND ${authorMaker.id} = (SELECT g.maker_id FROM games AS g WHERE g.id = ${gameId}))`
@@ -207,6 +210,7 @@ async function loadReplies(
 			.select({
 				name: profiles.displayName,
 				faceChar: profiles.faceChar,
+				faceMouth: profiles.faceMouth,
 				faceColor: profiles.faceColor,
 				makerSlug: makers.slug
 			})
@@ -227,6 +231,7 @@ async function loadReplies(
 			author: {
 				name: r.name,
 				faceChar: r.faceChar,
+				faceMouth: r.faceMouth,
 				faceColor: r.faceColor,
 				makerSlug: r.makerSlug
 			},

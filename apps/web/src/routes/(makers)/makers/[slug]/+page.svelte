@@ -1,7 +1,7 @@
 <script lang="ts">
 	import { faceOf } from '#lib/domain/face.ts';
 	import GameCard from '#lib/ui/entities/game/GameCard.svelte';
-	import JamoFace from '#lib/ui/primitives/JamoFace.svelte';
+	import CatFace from '#lib/ui/primitives/CatFace.svelte';
 
 	import type { PageProps } from './$types';
 
@@ -17,7 +17,7 @@
 
 <main class="mx-auto w-(--page-width) pt-10">
 	<header class="flex items-center gap-5">
-		<JamoFace char={face.char} color={face.color} size="lg" />
+		<CatFace eyes={face.char} mouth={face.mouth} color={face.color} size="lg" />
 		<div class="min-w-0">
 			<h1 class="truncate text-heading-lg font-heavy text-ink-1">{data.profile.name}</h1>
 			<p class="mt-1 text-label text-ink-3">

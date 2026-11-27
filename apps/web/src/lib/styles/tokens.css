@@ -81,7 +81,7 @@
 	--color-yeonji-600: #c92e3b; /* 흰 바탕 위 글자 5.3:1 · 채움 호버 */
 	--color-yeonji-900: #3e1a1a; /* 다크 tint */
 
-	/* 자모 얼굴 타일 12색 — 같은 휘도 Y .155, 흰 글자 5.1:1 (tools/faces.py) */
+	/* 사람 얼굴(고양이 얼굴) 12색 — 같은 휘도 Y .155, 흰 글자 5.1:1 (tools/faces.py) */
 	--color-face-hong: #ac5255;
 	--color-face-ju: #a85831;
 	--color-face-gyul: #a05e14;

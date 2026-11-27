@@ -4,8 +4,8 @@
 
 	import { formatAgo, formatFullDate, formatPlayTime } from '#lib/domain/format.ts';
 	import type { Person, ReviewData } from '#lib/domain/review.ts';
+	import CatFace from '#lib/ui/primitives/CatFace.svelte';
 	import Icon from '#lib/ui/primitives/Icon.svelte';
-	import JamoFace from '#lib/ui/primitives/JamoFace.svelte';
 	import Menu from '#lib/ui/primitives/Menu.svelte';
 
 	import MentionText from './MentionText.svelte';
@@ -78,7 +78,7 @@
 				type="button"
 				class="group/who flex min-w-0 cursor-pointer items-center gap-2.5 rounded-sm text-left focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-accent"
 			>
-				<JamoFace char={person.faceChar} color={person.faceColor} {size} />
+				<CatFace eyes={person.faceChar} mouth={person.faceMouth} color={person.faceColor} {size} />
 				<b
 					class={[
 						'truncate font-heavy text-ink-1 group-hover/who:underline group-hover/who:underline-offset-3',
@@ -104,7 +104,12 @@
 					aria-hidden="true"
 					class="shrink-0 cursor-pointer"
 				>
-					<JamoFace char={review.author.faceChar} color={review.author.faceColor} size="two-line" />
+					<CatFace
+						eyes={review.author.faceChar}
+						mouth={review.author.faceMouth}
+						color={review.author.faceColor}
+						size="two-line"
+					/>
 				</button>
 			{/snippet}
 		</PersonPopover>

@@ -2,8 +2,8 @@
 	import type { Snippet } from 'svelte';
 
 	import { faceOf } from '#lib/domain/face.ts';
+	import CatFace from '#lib/ui/primitives/CatFace.svelte';
 	import Icon from '#lib/ui/primitives/Icon.svelte';
-	import JamoFace from '#lib/ui/primitives/JamoFace.svelte';
 
 	/**
 	 * 메이커 카드 — 카드 전체가 메이커스 프로필 링크.
@@ -23,7 +23,7 @@
 <div
 	class="group relative grid grid-cols-[auto_minmax(0,1fr)_auto] items-center gap-3 rounded-lg bg-bg p-4 inset-ring inset-ring-line-strong transition-colors hover:bg-sunken hover:inset-ring-ink-4"
 >
-	<JamoFace char={face.char} color={face.color} size="lg" />
+	<CatFace eyes={face.char} mouth={face.mouth} color={face.color} size="lg" />
 	<span class="min-w-0">
 		<!-- eslint-disable svelte/no-navigation-without-resolve -- href 는 부르는 쪽이 resolve() 한 값 -->
 		<a

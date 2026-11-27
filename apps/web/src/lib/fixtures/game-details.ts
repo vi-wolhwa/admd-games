@@ -182,22 +182,24 @@ export const SAMPLE_DETAILS: Record<string, Detail> = Object.fromEntries(
 );
 
 export const SAMPLE_PROFILES: ProfileSeed[] = [
-	['새벽배송', 'ㅅ', 'hong'],
-	['모래시계', 'ㅁ', 'bora'],
-	['비취색', 'ㅂ', 'bichwi'],
-	['귤껍질', 'ㄱ', 'gyul'],
-	['하늘다람쥐', 'ㅎ', 'haneul'],
-	['주말게이머', 'ㅈ', 'ju'],
-	['올리브', 'ㅇ', 'olive'],
-	['풀잎', 'ㅍ', 'pul'],
-	['청록', 'ㅊ', 'cheongnok'],
-	['자두맛', 'ㅈ', 'jadu'],
-	['노랑우산', 'ㄴ', 'hwang'],
-	['쪽배', 'ㅉ', 'jjok']
-].map(([displayName = '', faceChar = '', faceColor = ''], i) => ({
+	// 직접 고른 얼굴(눈 · 입)과 건너뛰어 생긴 기본 얼굴(초성 + ㅅ)이 섞여 있다
+	['새벽배송', '^', 'ω', 'hong'],
+	['모래시계', 'ㅁ', 'ㅅ', 'bora'],
+	['비취색', 'o', '▽', 'bichwi'],
+	['귤껍질', 'ㄱ', 'ㅅ', 'gyul'],
+	['하늘다람쥐', '>', 'w', 'haneul'],
+	['주말게이머', 'ㅈ', 'ㅅ', 'ju'],
+	['올리브', 'O', 'ㅁ', 'olive'],
+	['풀잎', '-', '_', 'pul'],
+	['청록', 'ㅊ', 'ㅅ', 'cheongnok'],
+	['자두맛', '*', '3', 'jadu'],
+	['노랑우산', 'U', 'ㅇ', 'hwang'],
+	['쪽배', 'ㅉ', 'ㅅ', 'jjok']
+].map(([displayName = '', faceChar = '', faceMouth = '', faceColor = ''], i) => ({
 	id: `sample-person-${String(i + 1)}`,
 	displayName,
 	faceChar,
+	faceMouth,
 	faceColor
 }));
 
